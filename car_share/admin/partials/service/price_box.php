@@ -9,7 +9,7 @@ $options = array(
 ?>
 <select name="_service_fee_type">
     <?php foreach ($options as $key => $label): ?>
-        <option value="<?php echo $key ?>"><?php _e($label, $this->car_share) ?></option>
+        <option value="<?php echo $key ?>" <?php echo $service_fee_type == $key ? ' selected="selected" ' : '' ?>><?php _e($label, $this->car_share) ?></option>
     <?php endforeach; ?>
 </select>    
 
