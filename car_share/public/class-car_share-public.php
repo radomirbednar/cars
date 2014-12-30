@@ -51,7 +51,7 @@ class Car_share_Public {
 
 		$this->car_share = $car_share;
 		$this->version = $version;
-
+                 
 	}
 
 	/**
@@ -96,7 +96,7 @@ class Car_share_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->car_share, plugin_dir_url( __FILE__ ) . 'js/car_share-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->car_share, plugin_dir_url( __FILE__ ) . 'js/car_share-public.js', array( 'jquery' ), $this->version, true );
 
 	}
         
@@ -157,9 +157,7 @@ class Car_share_Public {
             );
 
             register_post_type('location', $args);       
-            
-            
-            //
+        
             $args = array(
                 'labels' => array(
                     'name' => __('Service', 'boilerplate'),
@@ -186,6 +184,5 @@ class Car_share_Public {
 
             register_post_type('service', $args);               
             
-        }        
-
-}
+        }         
+} 

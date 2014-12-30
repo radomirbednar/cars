@@ -105,25 +105,20 @@ class Car_share_Loader {
 			'accepted_args' => $accepted_args
 		);
 
-		return $hooks;
-
-	}
-
+		return $hooks; 
+	} 
 	/**
 	 * Register the filters and actions with WordPress.
 	 *
 	 * @since    1.0.0
 	 */
-	public function run() {
-
+	public function run() { 
 		foreach ( $this->filters as $hook ) {
 			add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
 
 		foreach ( $this->actions as $hook ) {
 			add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
-		}
-
-	}
-
-}
+		} 
+	} 
+} 

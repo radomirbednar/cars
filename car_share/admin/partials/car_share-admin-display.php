@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 /**
  * Provide a dashboard view for the plugin
  *
@@ -11,6 +10,5 @@
  * @package    Car_share
  * @subpackage Car_share/admin/partials
  */
-?>
-
+?> 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
