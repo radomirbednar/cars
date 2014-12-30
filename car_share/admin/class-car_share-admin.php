@@ -124,6 +124,13 @@ class Car_share_Admin {
                     array($this, 'locations_box'),
                     'car'
             );
+            
+            add_meta_box(
+                    'service_price_box',
+                    __('Price', $this->car_share),
+                    array($this, 'service_price_box'),
+                    'service'
+            );            
         }
 
         public function car_price_box() {
@@ -145,14 +152,14 @@ class Car_share_Admin {
             
             $special_prices = $wpdb->get_results($sql);
             
-            include 'partials/car_price_box.php';
+            include 'partials/car/price_box.php';
             wp_nonce_field(__FILE__, 'car_price_nonce');
         }
         
         public function allow_select_hours_box(){
             global $post;
             $allow_select_hours = get_post_meta($post->ID, '_allow_select_hours', true);
-            include 'partials/allow_select_hours_box.php';
+            include 'partials/car/allow_select_hours_box.php';
         }
         
         public function locations_box(){
@@ -165,8 +172,18 @@ class Car_share_Admin {
             $current_location = get_post_meta($post->ID, '_current_location', true);
             $allowed_locations = get_post_meta($post->ID, '_allowed_location', true);
             
-            include 'partials/locations_box.php';            
+            include 'partials/car/locations_box.php';            
         }
+        
+        ###################################### service ###################
+        public function service_price_box(){
+            global $post;
+            
+            include 'partials/service/price_box.php';            
+        }
+        
+        
+        
 
         public function save(){
             global $post;
