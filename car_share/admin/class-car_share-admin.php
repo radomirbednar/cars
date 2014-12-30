@@ -162,8 +162,8 @@ class Car_share_Admin {
             $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'location' AND post_status = 'publish' ORDER BY post_title ASC ";
             $locations = $wpdb->get_results($sql);
             
-            $current_location = get_post_meta($post->ID, '_current_lcation', true);
-            $allowed_locations = get_post_meta($post->ID, '_allowed_locations', true);
+            $current_location = get_post_meta($post->ID, '_current_location', true);
+            $allowed_locations = get_post_meta($post->ID, '_allowed_location', true);
             
             include 'partials/locations_box.php';            
         }
@@ -225,7 +225,7 @@ class Car_share_Admin {
                 
                 //
                 $keys = array(
-                    '_curent_location',
+                    '_current_location',
                     '_allowed_location'
                 );
                 
