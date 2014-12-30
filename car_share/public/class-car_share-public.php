@@ -184,7 +184,7 @@ class Car_share_Public {
                 'hierarchical' => false
             );
 
-            register_post_type('servuce', $args);               
+            register_post_type('service', $args);               
             
         }        
 
