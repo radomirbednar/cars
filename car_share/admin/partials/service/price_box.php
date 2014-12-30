@@ -1,8 +1,15 @@
-<?php
+<label><?php _e('Service fee:', $this->car_share) ?> <input class="small-input " type="text" value="<?php echo empty($service_fee) ? 0 : esc_attr($service_fee) ?>" name="_service_fee"></label>
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+<?php
+$options = array(
+    Car_share::ONE_TIME_FEE => 'one time fee',
+    Car_share::HOURLY_FEE => 'hourly fee',
+    Car_share::DAILY_FEE => 'daily fee',
+);
+?>
+<select name="_service_fee_type">
+    <?php foreach ($options as $key => $label): ?>
+        <option value="<?php echo $key ?>"><?php _e($label, $this->car_share) ?></option>
+    <?php endforeach; ?>
+</select>    
 
