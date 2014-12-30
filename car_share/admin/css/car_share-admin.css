@@ -1,0 +1,28 @@
+/**
+ * All of the CSS for your dashboard-specific functionality should be
+ * included in this file.
+ */
+
+.small-input {
+    width: 70px;
+}
+
+.remove-row {
+    font-weight: bold;
+    color: white;
+    background-color: #e40000;
+    border-radius: 50%;    
+}
+
+.inline-label {
+    -webkit-border-radius: 3px 3px 3px 3px;
+    border-radius: 3px 3px 3px 3px;  
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    padding: 2px 3px;
+    margin: 3px;
+    float: left;
+}
+h4 {
+    margin-bottom: 0.5em;
+}
