@@ -179,9 +179,9 @@ class Car_share_Admin {
         public function service_price_box(){
             global $post;
 
-            $service_fee = get_post_meta($post->ID, '_service_fee', true);
-            $service_fee_type = get_post_meta($post->ID, '_service_fee_type', true);
-
+            $service_fee = get_post_meta($post->ID, '_service_fee', true);            
+            $service_fee_type = get_post_meta($post->ID, '_service_fee_type', true);            
+            
             include 'partials/service/price_box.php';
             wp_nonce_field(__FILE__, 'service_fee_nonce');
         }

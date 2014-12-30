@@ -15,7 +15,7 @@
 <h4><?php _e('Allow return to:', $this->car_share) ?></h4>
     <?php foreach ($locations as $location): ?>
         <label class="inline-label">
-            <input type="checkbox" name="_allowed_location[]" value="<?php echo $location->ID ?>" <?php echo in_array($location->ID, $allowed_locations) ? ' checked="checked" ' : '' ?>>
+            <input type="checkbox" name="_allowed_location[]" value="<?php echo $location->ID ?>" <?php echo is_array($allowed_locations) && in_array($location->ID, $allowed_locations) ? ' checked="checked" ' : '' ?>>
             <?php _e($location->post_title) ?>
         </label>
     <?php endforeach; ?>
