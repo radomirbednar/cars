@@ -54,13 +54,6 @@ class Car_share_Admin {
 
         add_action('add_meta_boxes', array($this, 'add_custom_boxes'));
         add_action('save_post', array($this, 'save'));
-        
-        add_action('admin_menu', array($this, 'add_plugin_admin_menu'));
-        
-        
-        // Add an action link pointing to the options page.
-        $plugin_basename = plugin_basename(plugin_dir_path(__DIR__) . $this->car_share . '.php');
-        add_filter('plugin_action_links_' . $plugin_basename, array($this, 'add_action_links'));
        
     }
 
@@ -179,13 +172,9 @@ class Car_share_Admin {
             include 'partials/service/price_box.php';
             wp_nonce_field(__FILE__, 'service_fee_nonce');
         }
-
-
-
- 
  
 
-    public function save() {
+        public function save() {
         global $post;
         global $wpdb;
 
@@ -194,10 +183,8 @@ class Car_share_Admin {
 
             // rent prices
             $sql = "DELETE FROM car_price WHERE car_id = " . (int) $post->ID;
-            $wpdb->query($sql);
-
-            $price_by = (int) $_POST['price_by'];
-
+            $wpdb->query($sql); 
+            $price_by = (int) $_POST['price_by']; 
             // start price
             $sql = "
                     INSERT INTO
@@ -209,10 +196,8 @@ class Car_share_Admin {
                         '" . $price_by . "',
                         0
                     )
-                ";
-
-            $wpdb->query($sql);
-
+                "; 
+            $wpdb->query($sql); 
             $start_price_id = $wpdb->insert_id;
 
             if (!empty($_POST['special_price']['next_price'])) {
@@ -271,44 +256,5 @@ class Car_share_Admin {
                 delete_post_meta($post_id, $key);
             }
         }
-    }
- 
-
-      
-
-    /**
-     * Register the administration menu for this plugin into the WordPress Dashboard menu. 
-     */
-    public function add_plugin_admin_menu() {
-        /*
-         * Add a settings page for this plugin to the Settings menu.
-         * 
-         */
-        $this->plugin_screen_hook_suffix = add_options_page(
-                __('Car plugin settings', $this->car_share), __('Car plugin setting', $this->car_share), 'manage_options', $this->car_share, array($this, 'display_plugin_admin_page')
-        );
-    }
-
-    /**
-     * Render the settings page for this plugin.
-     *
-     * removed from the plugin added by me
-     */
-    public function display_plugin_admin_page() {
-        include_once( 'partials/car_share-admin-display.php' );
-    }
-
-    /**
-     * Add settings action link to the plugins page.
-     *
-     * removed from the plugin added by me
-     */
-    public function add_action_links($links) {
-        return array_merge(
-                array(
-            'settings' => '<a href="' . admin_url('options-general.php?page=' . $this->car_share) . '">' . __('Settings', $this->car_share) . '</a>'
-                ), $links
-        );
-    }
-
+    } 
 }
