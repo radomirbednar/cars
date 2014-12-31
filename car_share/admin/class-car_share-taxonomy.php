@@ -31,16 +31,16 @@ class Car_share_Taxonomy {
         $this->car_share = $car_share;
         $this->version = $version;
 
-        add_action("car-type_edit_form_fields", array($this, 'car_type_price_box'), 10);
+        add_action("car-type_edit_form_fields", array($this, 'car_type_attributes'), 10);
         add_action('edited_car-type', array($this, 'save_car_type'));
     }
 
-    public function car_type_price_box($term) {
+    public function car_type_attributes($term) {
 
         global $wpdb;
 
         $sql = "
-            SELECT * FROM car_price WHERE term_id = '" . $term->term_id . "' AND start_price_id = 0
+            SELECT * FROM car_price WHERE term_id = '" . $term->term_id . "' AND parent_price_id = 0
         ";
 
         $start_price = $wpdb->get_row($sql);
@@ -49,12 +49,12 @@ class Car_share_Taxonomy {
             SELECT *
             FROM car_price
             WHERE term_id = $term->term_id
-            AND start_price_id = " . (int) $start_price->car_price_id . "
+            AND parent_price_id = " . (int) $start_price->car_price_id . "
             ORDER BY time_from ASC";
 
         $special_prices = $wpdb->get_results($sql);
 
-        include 'partials/car-type/price_box.php';
+        include 'partials/car-type/attributes.php';
         wp_nonce_field(__FILE__, 'car-type_nonce');
     }
 

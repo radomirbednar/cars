@@ -29,7 +29,7 @@
  */
 class Car_share {
     
-        const PRICE_TYPE_AMOUNT = 1;        
+              
         
         const TIME_TYPE_DAYS = 1;
         const TIME_TYPE_HOURS = 2;

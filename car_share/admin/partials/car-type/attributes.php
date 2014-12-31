@@ -34,14 +34,22 @@
             <tfoot>
                 <tr>
                     <td colspan="2">
-                        <button id="new_price" type="button" class="button button-small"><?php _e('Add next', $this->car_share) ?></button>
+                        <button id="new_price" type="button" class="button button-primary"><?php _e('Add next', $this->car_share) ?></button>
                     </td>    
                 </tr>    
             </tfoot>
         </table>        
-
     </td>
-</tr>            
+</tr>    
+
+<tr>
+    <th scope="row">
+        <label for="minimun_driver_age"><?php _e('Minimum driver age:', $this->car_share) ?></label>
+    </th>
+    <td>
+        <input id="minimun_driver_age" class="small-input" type="number" name="_minimum_driver_age" value="<?php echo empty($minimum_driver_age) ? 18 : (int) $minimum_driver_age ?>">
+    </td>
+</tr>
 
 <script>
     jQuery(document).ready(function ($) {
