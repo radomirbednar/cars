@@ -1,7 +1,7 @@
 <?php
 
 class Car_share_Taxonomy {
-    
+
     /**
      * The ID of this plugin.
      *
@@ -30,13 +30,12 @@ class Car_share_Taxonomy {
     public function __construct($car_share, $version) {
         $this->car_share = $car_share;
         $this->version = $version;
-        
+
         add_action("car-type_edit_form_fields", array($this, 'car_type_price_box'), 10);
-    }      
-    
-    
-    
-    public function car_type_price_box($term){
+        add_action('edited_car-type', array($this, 'save_car_type'));
+    }
+
+    public function car_type_price_box($term) {
 
         global $wpdb;
 
@@ -54,9 +53,51 @@ class Car_share_Taxonomy {
             ORDER BY time_from ASC";
 
         $special_prices = $wpdb->get_results($sql);
-        
+
         include 'partials/car-type/price_box.php';
         wp_nonce_field(__FILE__, 'car-type_nonce');
     }
-}
 
+    public function save_car_type($term_id) {
+
+        if (isset($_POST['car-type_nonce']) && wp_verify_nonce($_POST['car-type_nonce'], __FILE__)) {
+            
+            global $wpdb;
+
+            // rent prices
+            $sql = "DELETE FROM car_price WHERE car_id = " . (int) $term_id;
+            $wpdb->query($sql);
+            $price_by = (int) $_POST['price_by'];
+            // start price
+            $sql = "
+                    INSERT INTO
+                        car_price (term_id, price_value, time_from)
+                    VALUES (
+                        '" . (int) $term_id . "',                        
+                        '" . esc_attr(str_replace(',', '.', $_POST['start_price'])) . "',                        
+                        0
+                    )
+                ";
+            
+            $wpdb->query($sql);
+            $parent_price_id = $wpdb->insert_id;
+
+            if (!empty($_POST['special_price']['next_price'])) {
+                foreach ($_POST['special_price']['next_price'] as $key => $val) {
+                    $sql = "
+                            INSERT INTO
+                                car_price (term_id, price_value, time_from, parent_price_id)
+                            VALUES (
+                                '" . (int) $term_id . "',                                
+                                '" . esc_attr(str_replace(',', '.', $_POST['special_price']['next_price'][$key])) . "',                                
+                                '" . esc_attr(str_replace(',', '.', $_POST['special_price']['next_time'][$key])) . "',
+                                '" . $parent_price_id . "'
+                            )
+                        ";
+                    $wpdb->query($sql);
+                }
+            }
+        }
+    }
+
+}
