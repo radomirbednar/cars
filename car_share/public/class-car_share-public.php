@@ -185,4 +185,59 @@ class Car_share_Public {
             register_post_type('service', $args);               
             
         }         
+        
+        
+        /**
+         * 
+         */
+        public function register_custom_taxonomies(){
+           
+            $args = array(
+                'hierarchical' => false,
+                'labels' => array(
+                    'name' => _x('Tags', 'taxonomy general name'),
+                    'singular_name' => _x('Tag', 'taxonomy singular name'),
+                    'search_items' => __('Find tag'),
+                    'all_items' => __('All tags'),
+                    'parent_item' => __('Parent tag'),
+                    'parent_item_colon' => __('Parent tag:'),
+                    'edit_item' => __('Edit tag'),
+                    'update_item' => __('Update tag'),
+                    'add_new_item' => __('Create new tag'),
+                    'new_item_name' => __('New tag name'),
+                    'menu_name' => __('Tags')
+                ),
+                'show_ui' => true,
+                'show_admin_column' => true,
+                'query_var' => true,
+                'rewrite' => array('slug' => 'car-tag')
+            );
+
+            register_taxonomy('car-tag', array('car'), $args);    
+            
+            
+            $args = array(
+                'hierarchical' => true,
+                'labels' => array(
+                    'name' => _x('Category', 'taxonomy general name'),
+                    'singular_name' => _x('Category', 'taxonomy singular name'),
+                    'search_items' => __('Find category'),
+                    'all_items' => __('All categories'),
+                    'parent_item' => __('Parent category'),
+                    'parent_item_colon' => __('Parent category:'),
+                    'edit_item' => __('Edit category'),
+                    'update_item' => __('Update category'),
+                    'add_new_item' => __('Create new category'),
+                    'new_item_name' => __('New Category name'),
+                    'menu_name' => __('Categories')
+                ),
+                'show_ui' => true,
+                'show_admin_column' => true,
+                'query_var' => true,
+                'rewrite' => array('slug' => 'car-type')
+            );
+
+            register_taxonomy('car-type', array('car'), $args);             
+                        
+        }
 } 
