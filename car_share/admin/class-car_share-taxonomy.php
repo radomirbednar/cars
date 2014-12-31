@@ -34,9 +34,16 @@ class Car_share_Taxonomy {
         add_action('admin_menu', array($this, 'add_plugin_admin_menu'));
  
         // Add an action link pointing to the options page.
-        $plugin_basename = plugin_basename(plugin_dir_path(__DIR__) . $this->car_share . '.php');
-        add_filter('plugin_action_links_' . $plugin_basename, array($this, 'add_action_links'));       
+        $plugin_basename = plugin_basename(plugin_dir_path(__DIR__) . $this->car_share . '.php');  
+        
+        add_action("car-type_edit_form_fields", 'car_type_form_fields', 10);
     }      
+    
+    public function car_type_form_price_box(){        
+            include 'partials/car-type/price_box.php';
+            wp_nonce_field(__FILE__, 'car-type_nonce');
+    }
+
     
         
     
