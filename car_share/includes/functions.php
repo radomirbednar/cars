@@ -1,5 +1,22 @@
 <?php
 
+function get_term_meta($term_id, $meta_key){
+    global $wpdb;
+    
+    $sql = "
+        SELECT
+            meta_value
+        FROM    
+            term_meta
+        WHERE 
+            term_id = '" . (int) $term_id . "'
+        AND
+            meta_key = '" . esc_sql($meta_key) . "'                
+        ";
+    
+    return $wpdb->get_var($sql);
+}
+
 /**
  * 
  * @global type $wpdb

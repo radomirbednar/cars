@@ -32,7 +32,7 @@ class Car_share_Taxonomy {
         $this->version = $version;
 
         add_action("car-type_edit_form_fields", array($this, 'car_type_attributes'), 10);
-        add_action('edited_car-type', array($this, 'save_car_type'));
+        add_action('edited_car-type', array($this, 'save_atts'));
     }
 
     public function car_type_attributes($term) {
@@ -40,7 +40,7 @@ class Car_share_Taxonomy {
         global $wpdb;
 
         $sql = "
-            SELECT * FROM car_price WHERE term_id = '" . $term->term_id . "' AND parent_price_id = 0
+            SELECT * FROM car_price WHERE term_id = '" . (int) $term->term_id . "' AND parent_price_id = 0
         ";
 
         $start_price = $wpdb->get_row($sql);
@@ -48,24 +48,26 @@ class Car_share_Taxonomy {
         $sql = "
             SELECT *
             FROM car_price
-            WHERE term_id = $term->term_id
+            WHERE term_id = '" . (int) $term->term_id . "'
             AND parent_price_id = " . (int) $start_price->car_price_id . "
             ORDER BY time_from ASC";
 
         $special_prices = $wpdb->get_results($sql);
+        
+        $minimum_driver_age = get_term_meta($term->term_id, '_minimum_driver_age');
 
         include 'partials/car-type/attributes.php';
         wp_nonce_field(__FILE__, 'car-type_nonce');
     }
 
-    public function save_car_type($term_id) {
+    public function save_atts($term_id) {
 
         if (isset($_POST['car-type_nonce']) && wp_verify_nonce($_POST['car-type_nonce'], __FILE__)) {
             
             global $wpdb;
 
             // rent prices
-            $sql = "DELETE FROM car_price WHERE car_id = " . (int) $term_id;
+            $sql = "DELETE FROM car_price WHERE term_id = " . (int) $term_id;
             $wpdb->query($sql);
             $price_by = (int) $_POST['price_by'];
             // start price
@@ -97,6 +99,20 @@ class Car_share_Taxonomy {
                     $wpdb->query($sql);
                 }
             }
+            
+            //
+            $keys = array(
+                '_minimum_driver_age'
+            );
+            
+            foreach($keys as $key){
+                if(isset($_POST[$key]) && "" != trim($_POST[$key])){
+                    update_term_meta($term_id, $key, $_POST[$key]);
+                } else {
+                    delete_term_meta($term_id, $key);
+                }
+            }
+            
         }
     }
 
