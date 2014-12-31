@@ -34,6 +34,10 @@ class Car_share {
         
         const TIME_TYPE_DAYS = 1;
         const TIME_TYPE_HOURS = 2;
+        
+        const ONE_TIME_FEE = 1;
+        const HOURLY_FEE = 2;        
+        const DAILY_FEE = 3;
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power

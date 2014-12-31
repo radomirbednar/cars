@@ -40,8 +40,8 @@
                             '<td><input class="small-input" type="text" name="special_price[next_price][]" value="' + next_price + '"></td>' +
                             '<td>' +
                                 '<select name="special_price[price_type][]">' +
-                                    '<option value="1"' + (1 == price_type ? ' selected="selected" ' : '' ) + '><?php _e("amount", $this->car_share) ?></option>' +
-                                    '<option value="2"' + (2 == price_type ? ' selected="selected" ' : '' ) + '><?php _e("percentage", $this->car_share) ?></option>' +
+                                    '<option value="1"' + (<?php echo Car_share::PRICE_TYPE_AMOUNT ?> == price_type ? ' selected="selected" ' : '' ) + '><?php _e("amount", $this->car_share) ?></option>' +
+                                    '<option value="2"' + (<?php echo Car_share::PRICE_TYPE_PERCENTAGE ?> == price_type ? ' selected="selected" ' : '' ) + '><?php _e("percentage", $this->car_share) ?></option>' +
                                 '</select>' +
                             '</td>' +
                             '<td><button class="remove-row" type="button"><?php _e("X", $this->car_share) ?></button></td>' +
