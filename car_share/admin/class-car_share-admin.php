@@ -54,7 +54,6 @@ class Car_share_Admin {
 
         add_action('add_meta_boxes', array($this, 'add_custom_boxes'));
         add_action('save_post', array($this, 'save'));
-       
     }
 
     /**
@@ -102,14 +101,6 @@ class Car_share_Admin {
     public function add_custom_boxes($post_id) {
 
         add_meta_box(
-                'car_price_atts', __('Price', $this->car_share), array($this, 'car_price_box'), 'car'
-        );
-
-        add_meta_box(
-                'select_hours', __('Select hours', $this->car_share), array($this, 'allow_select_hours_box'), 'car'
-        );
-
-        add_meta_box(
                 'locations_box', __('Locations', $this->car_share), array($this, 'locations_box'), 'car'
         );
 
@@ -118,125 +109,52 @@ class Car_share_Admin {
         );
     }
 
-             
 
-        public function car_price_box() {
-            global $post;
-            global $wpdb;
 
-            $sql = "
-                SELECT * FROM car_price WHERE car_id = '" . $post->ID . "' AND start_price_id = 0
-            ";
+    public function locations_box() {
+        global $post;
+        global $wpdb;
 
-            $start_price = $wpdb->get_row($sql);
+        $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'location' AND post_status = 'publish' ORDER BY post_title ASC ";
+        $locations = $wpdb->get_results($sql);
 
-            $sql = "
-                SELECT *
-                FROM car_price
-                WHERE car_id = $post->ID
-                AND start_price_id = " . (int) $start_price->car_price_id . "
-                ORDER BY time_from ASC";
+        $current_location = get_post_meta($post->ID, '_current_location', true);
+        $allowed_locations = get_post_meta($post->ID, '_allowed_location', true);
 
-            $special_prices = $wpdb->get_results($sql);
+        include 'partials/car/locations_box.php';
+        wp_nonce_field(__FILE__, 'car_nonce');
+    }
 
-            include 'partials/car/price_box.php';
-            wp_nonce_field(__FILE__, 'car_price_nonce');
-        }
+    ###################################### service ###################
 
-        public function allow_select_hours_box(){
-            global $post;
-            $allow_select_hours = get_post_meta($post->ID, '_allow_select_hours', true);
-            include 'partials/car/allow_select_hours_box.php';
-        }
+    public function service_price_box() {
+        global $post;
 
-        public function locations_box(){
-            global $post;
-            global $wpdb;
+        $service_fee = get_post_meta($post->ID, '_service_fee', true);
+        $service_fee_type = get_post_meta($post->ID, '_service_fee_type', true);
 
-            $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'location' AND post_status = 'publish' ORDER BY post_title ASC ";
-            $locations = $wpdb->get_results($sql);
+        include 'partials/service/price_box.php';
+        wp_nonce_field(__FILE__, 'service_fee_nonce');
+    }
 
-            $current_location = get_post_meta($post->ID, '_current_location', true);
-            $allowed_locations = get_post_meta($post->ID, '_allowed_location', true);
-
-            include 'partials/car/locations_box.php';
-        }
-
-        ###################################### service ###################
-        public function service_price_box(){
-            global $post;
-
-            $service_fee = get_post_meta($post->ID, '_service_fee', true);            
-            $service_fee_type = get_post_meta($post->ID, '_service_fee_type', true);            
-            
-            include 'partials/service/price_box.php';
-            wp_nonce_field(__FILE__, 'service_fee_nonce');
-        }
- 
-
-        public function save() {
+    public function save() {
         global $post;
         global $wpdb;
 
         ################ save cars attributes #########################################################
-        if (isset($_POST['car_price_nonce']) && wp_verify_nonce($_POST['car_price_nonce'], __FILE__)) {
+        if (isset($_POST['car_nonce']) && wp_verify_nonce($_POST['car_nonce'], __FILE__)) {
+            //
+            $keys = array(
+                '_current_location',
+                '_allowed_location'
+            );
+            $this->save_post_keys($post->ID, $keys);
+        }
 
-            // rent prices
-            $sql = "DELETE FROM car_price WHERE car_id = " . (int) $post->ID;
-            $wpdb->query($sql); 
-            $price_by = (int) $_POST['price_by']; 
-            // start price
-            $sql = "
-                    INSERT INTO
-                        car_price (car_id, price_type, price_value, time_type, time_from)
-                    VALUES (
-                        '" . (int) $post->ID . "',
-                        '" . Car_share::PRICE_TYPE_AMOUNT . "',
-                        '" . esc_attr(str_replace(',', '.', $_POST['start_price'])) . "',
-                        '" . $price_by . "',
-                        0
-                    )
-                "; 
-            $wpdb->query($sql); 
-            $start_price_id = $wpdb->insert_id;
+        /*
+         * saving services attributes 
+         */
 
-            if (!empty($_POST['special_price']['next_price'])) {
-                foreach ($_POST['special_price']['next_price'] as $key => $val) {
-                    $sql = "
-                            INSERT INTO
-                                car_price (car_id, price_type, price_value, time_type, time_from, start_price_id)
-                            VALUES (
-                                '" . (int) $post->ID . "',
-                                '" . $_POST['special_price']['price_type'][$key] . "',
-                                '" . esc_attr(str_replace(',', '.', $_POST['special_price']['next_price'][$key])) . "',
-                                '" . $price_by . "',
-                                '" . esc_attr(str_replace(',', '.', $_POST['special_price']['next_time'][$key])) . "',
-                                '" . $start_price_id . "'
-                            )
-                        ";
-                        $wpdb->query($sql);
-                    }
-                }
-
-                // allow to pick hours
-                if(isset($_POST['_allow_select_hours']) && 1 == $_POST['_allow_select_hours']){
-                    update_post_meta($post->ID, '_allow_select_hours', 1);
-                } else {
-                    delete_post_meta($post->ID, '_allow_select_hours');
-                }
-
-                //
-                $keys = array(
-                    '_current_location',
-                    '_allowed_location'
-                );
-                $this->save_post_keys($post->ID, $keys);
-            }
-                
-       /*
-        * saving services attributes 
-        */
-      
         if (isset($_POST['service_fee_nonce']) && wp_verify_nonce($_POST['service_fee_nonce'], __FILE__)) {
 
             $keys = array(
@@ -256,5 +174,6 @@ class Car_share_Admin {
                 delete_post_meta($post_id, $key);
             }
         }
-    } 
+    }
+
 }
