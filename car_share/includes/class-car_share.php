@@ -122,6 +122,11 @@ class Car_share {
 		 * The class responsible for defining all actions that occur in the Dashboard.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-car_share-admin.php';
+                
+                /**
+                 * Car taxonomies
+                 */
+                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-car_share-taxonomy.php';
 
                 /*
                  * 
@@ -172,6 +177,7 @@ class Car_share {
 
 		$plugin_admin = new Car_share_Admin( $this->get_car_share(), $this->get_version());  
                 $plugin_setting = new Car_share_Setting($this->get_car_share(), $this->get_version());
+                $plugin_taxonomy = new Car_share_Taxonomy($this->get_car_share(), $this->get_version());
                  
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' ); 
