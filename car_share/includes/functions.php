@@ -86,6 +86,7 @@ function update_date_meta($post_id, $meta_key, DateTime $date){
         )
     ";
     
+    return $wpdb->query($sql);
 }
 
 function delete_date_meta($post_id, $meta_key){

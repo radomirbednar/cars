@@ -55,12 +55,12 @@ class Car_share_Season {
     public function save() {
 
         //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
-        if (isset($_POST['car_nonce']) && wp_verify_nonce($_POST['car_nonce'], __FILE__)) {
+        if (isset($_POST['season_nonce']) && wp_verify_nonce($_POST['season_nonce'], __FILE__)) {
             global $post;
             //global $wpdb;
 
-            $date_from = DateTime::createFromFormat('m.d.Y', $_POST['_from']);
-            $date_to = DateTime::createFromFormat('m.d.Y', $_POST['_to']);
+            $date_from = DateTime::createFromFormat('d.m.Y', $_POST['_from']);
+            $date_to = DateTime::createFromFormat('d.m.Y', $_POST['_to']);
             
             if(!empty($date_from)){
                 update_date_meta($post->ID, '_from', $date_from);
