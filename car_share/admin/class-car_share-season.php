@@ -37,6 +37,15 @@ class Car_share_Season {
 
     public function add_custom_boxes() {
         
+        add_meta_box(
+                'date_box', __('Date interval', $this->car_share), array($this, 'date_box'), 'season'
+        );
+        
+    }
+    
+    public function date_box(){
+        include 'partials/car/date_box.php';
+        wp_nonce_field(__FILE__, 'season_nonce');        
     }
 
     public function save() {
