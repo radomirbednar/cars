@@ -66,3 +66,32 @@ function deleta_all_term_metas($term_id){
     return $wpdb->query($sql);
 }
 
+
+function get_date_meta($post_id, $meta_key){
+    
+    global $wpdb;
+    $sql = "SELECT meta_value FROM postmeta_date WHERE post_id = '" . (int) $post_id . "' AND meta_key = '" . esc_sql($meta_key) . "'";
+    return $wpdb->get_val($sql);
+    
+}
+
+function update_date_meta($post_id, $meta_key, DateTime $date){
+    
+    global $wpdb;
+    $sql = "
+        REPLACE INTO postmeta_date (post_id, meta_key, meta_value) VALUES (
+            '" . (int) $post_id . "',
+            '" . esc_sql($meta_key) . "',
+            '" . $date->format($format) . "'    
+        )
+    ";
+    
+}
+
+function delete_date_meta($post_id, $meta_key){
+    
+}
+
+function delete_all_date_metas($post_id){
+    
+}

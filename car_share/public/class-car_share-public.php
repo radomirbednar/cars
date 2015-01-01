@@ -51,7 +51,7 @@ class Car_share_Public {
 
 		$this->car_share = $car_share;
 		$this->version = $version;
-                 
+
 	}
 
 	/**
@@ -99,12 +99,13 @@ class Car_share_Public {
 		wp_enqueue_script( $this->car_share, plugin_dir_url( __FILE__ ) . 'js/car_share-public.js', array( 'jquery' ), $this->version, true );
 
 	}
-        
+
         /**
-         * 
+         *
          */
         public function register_custom_post(){
-            
+
+            // cars
             $args = array(
                 'labels' => array(
                     'name' => __('Cars', 'boilerplate'),
@@ -129,9 +130,9 @@ class Car_share_Public {
                 'hierarchical' => false
             );
 
-            register_post_type('car', $args);   
-            
-            //
+            register_post_type('car', $args);
+
+            // locations
             $args = array(
                 'labels' => array(
                     'name' => __('Location', 'boilerplate'),
@@ -156,8 +157,9 @@ class Car_share_Public {
                 'hierarchical' => false
             );
 
-            register_post_type('location', $args);       
-        
+            register_post_type('location', $args);
+
+            // service
             $args = array(
                 'labels' => array(
                     'name' => __('Service', 'boilerplate'),
@@ -182,16 +184,43 @@ class Car_share_Public {
                 'hierarchical' => false
             );
 
-            register_post_type('service', $args);               
-            
-        }         
-        
-        
+            register_post_type('service', $args);
+
+            // service
+            $args = array(
+                'labels' => array(
+                    'name' => __('Season', 'boilerplate'),
+                    'singular_name' => __('Season', 'boilerplate'),
+                    'add_new' => __('Add new season', 'boilerplate'),
+                    'add_new_item' => __('Add new season', 'boilerplate'),
+                    'edit_item' => __('Edit season', 'boilerplate'),
+                    'new_item' => __('New season', 'boilerplate'),
+                    'all_items' => __('All seasons', 'boilerplate'),
+                    'view_item' => __('View season', 'boilerplate'),
+                    'search_items' => __('Search season', 'boilerplate'),
+                    'menu_name' => __('Seasons', 'boilerplate')
+                ),
+                'public' => false,
+                'show_ui' => true,
+                'supports' => array(
+                    'thumbnail',
+                    'title',
+                    'editor',
+                    //'page-attributes'
+                ),
+                'hierarchical' => false
+            );
+
+            register_post_type('season', $args);
+
+        }
+
+
         /**
-         * 
+         *
          */
         public function register_custom_taxonomies(){
-           
+
             $args = array(
                 'hierarchical' => false,
                 'labels' => array(
@@ -213,9 +242,9 @@ class Car_share_Public {
                 'rewrite' => array('slug' => 'car-tag')
             );
 
-            register_taxonomy('car-tag', array('car'), $args);    
-            
-            
+            register_taxonomy('car-tag', array('car'), $args);
+
+
             $args = array(
                 'hierarchical' => true,
                 'labels' => array(
@@ -237,7 +266,7 @@ class Car_share_Public {
                 'rewrite' => array('slug' => 'car-type')
             );
 
-            register_taxonomy('car-type', array('car'), $args);             
-                        
+            register_taxonomy('car-type', array('car'), $args);
+
         }
-} 
+}
