@@ -36,20 +36,20 @@ class Car_share_Season {
     }
 
     public function add_custom_boxes() {
-        
+
         add_meta_box(
                 'date_box', __('Date interval', $this->car_share), array($this, 'date_box'), 'season'
         );
-        
+
     }
-    
+
     public function date_box(){
         global $post;
         $date_from = get_date_meta($post->ID, '_from');
         $date_to = get_date_meta($post->ID, '_to');
-        
+
         include 'partials/season/date_box.php';
-        wp_nonce_field(__FILE__, 'season_nonce');        
+        wp_nonce_field(__FILE__, 'season_nonce');
     }
 
     public function save() {
@@ -57,9 +57,23 @@ class Car_share_Season {
         //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
         if (isset($_POST['car_nonce']) && wp_verify_nonce($_POST['car_nonce'], __FILE__)) {
             global $post;
-            global $wpdb;
+            //global $wpdb;
+
+            $date_from = DateTime::createFromFormat('m.d.Y', $_POST['_from']);
+            $date_to = DateTime::createFromFormat('m.d.Y', $_POST['_to']);
             
+            if(!empty($date_from)){
+                update_date_meta($post->ID, '_from', $date_from);
+            } else {
+                delete_date_meta($post->ID, '_from');
+            }
             
+            if(!empty($date_to)){
+                update_date_meta($post->ID, '_to', $date_to);
+            } else {
+                delete_date_meta($post->ID, '_to');
+            }            
+
         }
     }
 

@@ -71,27 +71,31 @@ function get_date_meta($post_id, $meta_key){
     
     global $wpdb;
     $sql = "SELECT meta_value FROM postmeta_date WHERE post_id = '" . (int) $post_id . "' AND meta_key = '" . esc_sql($meta_key) . "'";
-    return $wpdb->get_var($sql);
-    
+    $date_string = $wpdb->get_var($sql);
+    return DateTime::createFromFormat('Y-m-d', $date_string);
 }
 
 function update_date_meta($post_id, $meta_key, DateTime $date){
-    
+    //$from->format('Y-m-d H:i:s')
     global $wpdb;
     $sql = "
         REPLACE INTO postmeta_date (post_id, meta_key, meta_value) VALUES (
             '" . (int) $post_id . "',
             '" . esc_sql($meta_key) . "',
-            '" . $date->format($format) . "'    
+            '" . $date->format('Y-m-d') . "'    
         )
     ";
     
 }
 
 function delete_date_meta($post_id, $meta_key){
-    
+    global $wpdb;
+    $sql = "DELETE FROM postmeta_date WHERE post_id = '" . (int) $post_id . "' AND meta_key='" . esc_sql($meta_key) . "'";
+    return $wpdb->query($sql);
 }
 
 function delete_all_date_metas($post_id){
-    
+    global $wpdb;
+    $sql = "DELETE FROM postmeta_date WHERE post_id = '" . (int) $post_id . "'";
+    return $wpdb->query($sql);    
 }
