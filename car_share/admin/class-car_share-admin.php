@@ -110,6 +110,10 @@ class Car_share_Admin {
         add_meta_box(
                 'locations_box', __('Locations', $this->car_share), array($this, 'locations_box'), 'car'
         );
+        
+        add_meta_box(
+                'unavailability_box', __('Unavailability', $this->car_share), array($this, 'unavailability_box'), 'car'
+        );        
 
         add_meta_box(
                 'service_price_box', __('Price', $this->car_share), array($this, 'service_price_box'), 'service'
@@ -131,9 +135,15 @@ class Car_share_Admin {
         include 'partials/car/locations_box.php';
         wp_nonce_field(__FILE__, 'car_nonce');
     }
-
-    ###################################### service ###################
-
+    
+    public function unavailability_box(){
+        include 'partials/car/unavailability_box.php';
+    }
+    
+    /**
+     * 
+     * @global type $post
+     */
     public function service_price_box() {
         global $post;
 

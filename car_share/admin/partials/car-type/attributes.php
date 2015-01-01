@@ -1,13 +1,4 @@
 <tr class="form-field">
-
-    <!--
-    <label> <?php _e('Define price by:', $this->car_share) ?>
-        <select name="price_by">
-            <option value="<?php echo Car_share::TIME_TYPE_DAYS ?>" <?php echo!empty($start_price) && $start_price->time_type == Car_share::TIME_TYPE_DAYS ? ' selected="selected" ' : '' ?>><?php _e('days', $this->car_share) ?></option>
-            <option value="<?php echo Car_share::TIME_TYPE_HOURS ?>" <?php echo!empty($start_price) && $start_price->time_type == Car_share::TIME_TYPE_HOURS ? ' selected="selected" ' : '' ?>><?php _e('hours', $this->car_share) ?></option>
-        </select>
-    </label>
-    -->
     <th scope="row"><?php _e('Price:', $this->car_share) ?></th>
     <td>
 
@@ -76,7 +67,7 @@ if (!empty($special_prices)):
     foreach ($special_prices as $sp):
         ?>
                 var row = htmlPriceRow('<?php echo $sp->time_from ?>', '<?php echo $sp->price_value ?>', '<?php echo $sp->time_type ?>');
-                $('#price-table').append(row);
+                $('#price-table tbody').append(row);
         <?php
     endforeach;
 endif;
@@ -84,7 +75,7 @@ endif;
 
         $('#new_price').click(function (e) {
             var row = htmlPriceRow('', '', '');
-            $('#price-table').append(row);
+            $('#price-table tbody').append(row);
         });
 
         $('#price-table').on('click', 'tbody .remove-row', function (event) {
