@@ -19,7 +19,7 @@
     <tfoot>
         <tr>
             <td colspan="2">
-                <button id="new-unavailability" type="button" class="button button-primary"><?php _e('Add next', $this->car_share) ?></button>
+                <button id="add-unavailability" type="button" class="button button-primary"><?php _e('Add unavailability', $this->car_share) ?></button>
             </td>    
         </tr>    
     </tfoot>    
@@ -58,7 +58,7 @@ if (!empty($special_prices)):
 endif;
 ?>
 
-        $('#new-unavailability').click(function (e) {
+        $('#add-unavailability').click(function (e) {
             var row = unavailabilityTableRow('', '', '');
             $('#unavailability tbody').append(row);
         });
