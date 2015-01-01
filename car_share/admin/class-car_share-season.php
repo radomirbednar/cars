@@ -44,12 +44,23 @@ class Car_share_Season {
     }
     
     public function date_box(){
-        include 'partials/car/date_box.php';
+        global $post;
+        $date_from = get_date_meta($post->ID, '_from');
+        $date_to = get_date_meta($post->ID, '_to');
+        
+        include 'partials/season/date_box.php';
         wp_nonce_field(__FILE__, 'season_nonce');        
     }
 
     public function save() {
-        
+
+        //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
+        if (isset($_POST['car_nonce']) && wp_verify_nonce($_POST['car_nonce'], __FILE__)) {
+            global $post;
+            global $wpdb;
+            
+            
+        }
     }
 
 }

@@ -71,7 +71,7 @@ function get_date_meta($post_id, $meta_key){
     
     global $wpdb;
     $sql = "SELECT meta_value FROM postmeta_date WHERE post_id = '" . (int) $post_id . "' AND meta_key = '" . esc_sql($meta_key) . "'";
-    return $wpdb->get_val($sql);
+    return $wpdb->get_var($sql);
     
 }
 

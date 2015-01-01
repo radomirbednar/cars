@@ -75,6 +75,12 @@ class Car_share_Admin {
          * class.
          */
         wp_enqueue_style($this->car_share, plugin_dir_url(__FILE__) . 'css/car_share-admin.css', array(), $this->version, 'all');
+        
+        //wp_register_style('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css');
+        //wp_enqueue_style( 'jquery-ui' );
+        
+        //wp_enqueue_style($this->car_share . 'jquery-ui', plugin_dir_url(__FILE__) . 'css/datepicker/css/datepicker.css', array(), $this->version, 'all');
+        wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
     }
 
     /**
@@ -96,6 +102,7 @@ class Car_share_Admin {
          * class.
          */
         wp_enqueue_script($this->car_share, plugin_dir_url(__FILE__) . 'js/car_share-admin.js', array('jquery'), $this->version, false);
+        wp_enqueue_script( 'jquery-ui-datepicker', false, array(jquery));        
     }
 
     public function add_custom_boxes($post_id) {
