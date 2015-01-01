@@ -130,8 +130,7 @@ class Car_share_Admin {
     public function service_price_box() {
         global $post;
 
-        $service_fee = get_post_meta($post->ID, '_service_fee', true);
-        $service_fee_type = get_post_meta($post->ID, '_service_fee_type', true);
+        $service_fee = get_post_meta($post->ID, '_service_fee', true);        
 
         include 'partials/service/price_box.php';
         wp_nonce_field(__FILE__, 'service_fee_nonce');
@@ -154,14 +153,7 @@ class Car_share_Admin {
         /*
          * saving services attributes 
          */
-
         if (isset($_POST['service_fee_nonce']) && wp_verify_nonce($_POST['service_fee_nonce'], __FILE__)) {
-
-            $keys = array(
-                '_service_fee_type'
-            );
-            $this->save_post_keys($post->ID, $keys);
-
             update_post_meta($post->ID, '_service_fee', str_replace(',', '.', $_POST['_service_fee']));
         }
     }
