@@ -155,6 +155,7 @@ class Car_share {
                  * 
                  */
                 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'class/car.php';
+                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'class/location.php';
                  
 
 		$this->loader = new Car_share_Loader();

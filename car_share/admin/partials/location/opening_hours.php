@@ -22,36 +22,38 @@ $days = array(
         </tr>
     </thead>
     <tbody>
-        <?php foreach($days as $key => $label): ?>
+        <?php foreach($days as $day_name => $day_label): 
+            $day_opening_hours = isset($opening_hours[$day_name]) ? $opening_hours[$day_name] : new stdClass();
+            ?>
         <tr>
-            <td><?php _e($label, $this->car_share) ?></td>
+            <td><?php _e($day_label, $this->car_share) ?></td>
             <td>
-                <select name="open[<?php echo $key ?>][from][hour]">
+                <select name="open[<?php echo $day_name ?>][from][hour]">
                 <?php for($i = 0; $i < 25; $i++): ?>
-                    <option value="<?php echo $i ?>"><?php echo sprintf('%02d', $i) ?></option>
+                    <option value="<?php echo $i ?>" <?php echo $i == $day_opening_hours->from_hour ? ' selected="selected" ' : '' ?>><?php echo sprintf('%02d', $i) ?></option>
                 <?php endfor; ?>
                 </select> 
                 :
-                <select name="open[<?php echo $key ?>][from][min]">
+                <select name="open[<?php echo $day_name ?>][from][min]">
                 <?php for($i = 0; $i < 60; $i++): ?>
-                    <option value="<?php echo $i ?>"><?php echo sprintf('%02d', $i) ?></option>
+                    <option value="<?php echo $i ?>" <?php echo $i == $day_opening_hours->from_min ? ' selected="selected" ' : '' ?>><?php echo sprintf('%02d', $i) ?></option>
                 <?php endfor; ?>
                 </select>
             </td>
             <td>
-                <select name="open[<?php echo $key ?>][to][hour]">
+                <select name="open[<?php echo $day_name ?>][to][hour]">
                 <?php for($i = 0; $i < 25; $i++): ?>
-                    <option value="<?php echo $i ?>"><?php echo sprintf('%02d', $i) ?></option>
+                    <option value="<?php echo $i ?>" <?php echo $i == $day_opening_hours->to_hour ? ' selected="selected" ' : '' ?>><?php echo sprintf('%02d', $i) ?></option>
                 <?php endfor; ?>
                 </select> 
                 :
-                <select name="open[<?php echo $key ?>][to][min]">
+                <select name="open[<?php echo $day_name ?>][to][min]">
                 <?php for($i = 0; $i < 60; $i++): ?>
-                    <option value="<?php echo $i ?>"><?php echo sprintf('%02d', $i) ?></option>
+                    <option value="<?php echo $i ?>" <?php echo $i == $day_opening_hours->to_min ? ' selected="selected" ' : '' ?>><?php echo sprintf('%02d', $i) ?></option>
                 <?php endfor; ?>
                 </select>            
             </td>
-            <td><input type="checkbox" name="open[<?php echo $key ?>][open]" value="1"></td>
+            <td><input type="checkbox" name="open[<?php echo $day_name ?>][open]" value="1" <?php echo 1 == $day_opening_hours->open ? ' checked="checked" ' : '' ?>></td>
         </tr>
         <?php endforeach; ?>
     </tbody>
