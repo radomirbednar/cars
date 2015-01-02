@@ -95,6 +95,12 @@ class Car_share_Public {
          * between the defined hooks and the functions defined in this
          * class.
          */
+        
+        /*
+         * WE NEED DAPICKER 
+         */
+        
+        wp_enqueue_script('jquery-ui-datepicker', array('jquery-ui-core'), $this->version, true); 
         wp_enqueue_script($this->car_share, plugin_dir_url(__FILE__) . 'js/car_share-public.js', array('jquery'), $this->version, true);
     }
 
@@ -272,10 +278,7 @@ class Car_share_Public {
      * Zpracovani informaci z datepickeru 
      */    
     
-    
-    
-    
-    
+     
     public function w4adonationshordcode($atts) {
  
         /*
@@ -283,7 +286,7 @@ class Car_share_Public {
          */
         
         ob_start();
-        include_once( 'views/public.php' );
+        include_once( 'partials/car_share-searchforacar.php' );
         return ob_get_clean();
     
         

@@ -1,0 +1,1 @@
+<input id="date" name="date" />
