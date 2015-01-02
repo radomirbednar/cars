@@ -27,17 +27,8 @@
  * @subpackage Car_share/includes
  * @author     My name <mail@example.com>
  */
-class Car_share {
-    
-        const PRICE_TYPE_AMOUNT = 1;
-        const PRICE_TYPE_PERCENTAGE = 2;
-        
-        const TIME_TYPE_DAYS = 1;
-        const TIME_TYPE_HOURS = 2;
-        
-        const ONE_TIME_FEE = 1;
-        const HOURLY_FEE = 2;        
-        const DAILY_FEE = 3;
+class Car_share {    
+
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -105,7 +96,13 @@ class Car_share {
 	 * @access   private
 	 */
 	private function load_dependencies() {
-
+            
+                /**
+                 * 
+                 */
+                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions.php';
+                
+            
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
@@ -122,6 +119,16 @@ class Car_share {
 		 * The class responsible for defining all actions that occur in the Dashboard.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-car_share-admin.php';
+                
+                /**
+                 * Car taxonomies
+                 */
+                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-car_share-taxonomy.php';
+                
+                /**
+                 * session post type
+                 */
+                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-car_share-season.php';
 
                 /*
                  * 
@@ -172,6 +179,8 @@ class Car_share {
 
 		$plugin_admin = new Car_share_Admin( $this->get_car_share(), $this->get_version());  
                 $plugin_setting = new Car_share_Setting($this->get_car_share(), $this->get_version());
+                $plugin_taxonomy = new Car_share_Taxonomy($this->get_car_share(), $this->get_version());
+                $season = new Car_share_Season($this->get_car_share(), $this->get_version());
                  
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' ); 
@@ -192,6 +201,7 @@ class Car_share {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
                 
                 $this->loader->add_action( 'init', $plugin_public, 'register_custom_post' );
+                $this->loader->add_action( 'init', $plugin_public, 'register_custom_taxonomies' );
 
 	}
 
