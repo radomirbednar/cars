@@ -47,6 +47,7 @@ class Car_share_Season {
         global $post;
         $date_from = get_date_meta($post->ID, '_from');
         $date_to = get_date_meta($post->ID, '_to');
+        $season_price = get_post_meta($post->ID, '_season_price', true);
 
         include 'partials/season/date_box.php';
         wp_nonce_field(__FILE__, 'season_nonce');
@@ -72,7 +73,13 @@ class Car_share_Season {
                 update_date_meta($post->ID, '_to', $date_to);
             } else {
                 delete_date_meta($post->ID, '_to');
-            }            
+            }    
+            
+            if("" != trim($_POST['_season_price'])){
+                update_post_meta($post->ID, '_season_price', $_POST['_season_price']);
+            } else {
+                delete_post_meta($post->ID, '_season_price');
+            }
 
         }
     }

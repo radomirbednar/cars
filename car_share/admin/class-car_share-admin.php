@@ -114,6 +114,10 @@ class Car_share_Admin {
         add_meta_box(
                 'unavailability_box', __('Unavailability', $this->car_share), array($this, 'unavailability_box'), 'car'
         );        
+        
+        add_meta_box(
+                'car_details_box', __('Details', $this->car_share), array($this, 'details_box'), 'car'
+        );        
 
         add_meta_box(
                 'service_price_box', __('Price', $this->car_share), array($this, 'service_price_box'), 'service'
@@ -139,6 +143,11 @@ class Car_share_Admin {
     
     public function unavailability_box(){
         include 'partials/car/unavailability_box.php';
+    }
+    
+    public function details_box(){
+        global $post;
+        include 'partials/car/details.php';
     }
     
     /**

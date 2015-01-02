@@ -129,6 +129,11 @@ class Car_share {
                  * session post type
                  */
                 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-car_share-season.php';
+                
+                /**
+                 * 
+                 */
+                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-car_share-location.php';
 
                 /*
                  * 
@@ -146,6 +151,10 @@ class Car_share {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-car_share-public.php';
                 
+                /**
+                 * 
+                 */
+                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'class/car.php';
                  
 
 		$this->loader = new Car_share_Loader();
@@ -181,6 +190,7 @@ class Car_share {
                 $plugin_setting = new Car_share_Setting($this->get_car_share(), $this->get_version());
                 $plugin_taxonomy = new Car_share_Taxonomy($this->get_car_share(), $this->get_version());
                 $season = new Car_share_Season($this->get_car_share(), $this->get_version());
+                $location = new Car_share_Location($this->get_car_share(), $this->get_version());
                  
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' ); 

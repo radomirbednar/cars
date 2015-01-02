@@ -1,6 +1,7 @@
 <?php
 
 class Car {
+
     
     
     public function __construct($id) {
@@ -14,6 +15,17 @@ class Car {
     public function isAvailableFromTo(DateTime $from, DateTime $to){
         
     }
+    
+    public static function getTransmissionOptions(){
+        
+        $arr = array(
+            1 => 'Manual',
+            2 => 'Automatic',
+        );
+        
+        return $arr;        
+    }
+
     
 }
 
