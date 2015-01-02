@@ -53,7 +53,7 @@ class Car_share_Public {
         $this->version = $version;
 
         //shordcode for the page Search for a car
-        add_shortcode('w4adonation', array($this, 'w4adonationshordcode'));
+        add_shortcode('searchforacar', array($this, 'car_share_searchforacar'));
     }
 
     /**
@@ -279,7 +279,7 @@ class Car_share_Public {
      */    
     
      
-    public function w4adonationshordcode($atts) {
+    public function car_share_searchforacar($atts) {
  
         /*
          * Zobrazeni datepickeru 
