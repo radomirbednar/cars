@@ -53,7 +53,7 @@ class Car_share_Taxonomy {
             ORDER BY time_from ASC";
 
         $special_prices = $wpdb->get_results($sql);
-        
+
         $minimum_driver_age = get_term_meta($term->term_id, '_minimum_driver_age');
 
         include 'partials/car-type/attributes.php';
@@ -63,7 +63,7 @@ class Car_share_Taxonomy {
     public function save_atts($term_id) {
 
         if (isset($_POST['car-type_nonce']) && wp_verify_nonce($_POST['car-type_nonce'], __FILE__)) {
-            
+
             global $wpdb;
 
             // rent prices
@@ -75,12 +75,12 @@ class Car_share_Taxonomy {
                     INSERT INTO
                         car_price (term_id, price_value, time_from)
                     VALUES (
-                        '" . (int) $term_id . "',                        
-                        '" . esc_attr(str_replace(',', '.', $_POST['start_price'])) . "',                        
+                        '" . (int) $term_id . "',
+                        '" . esc_attr(str_replace(',', '.', $_POST['start_price'])) . "',
                         0
                     )
                 ";
-            
+
             $wpdb->query($sql);
             $parent_price_id = $wpdb->insert_id;
 
@@ -90,8 +90,8 @@ class Car_share_Taxonomy {
                             INSERT INTO
                                 car_price (term_id, price_value, time_from, parent_price_id)
                             VALUES (
-                                '" . (int) $term_id . "',                                
-                                '" . esc_attr(str_replace(',', '.', $_POST['special_price']['next_price'][$key])) . "',                                
+                                '" . (int) $term_id . "',
+                                '" . esc_attr(str_replace(',', '.', $_POST['special_price']['next_price'][$key])) . "',
                                 '" . esc_attr(str_replace(',', '.', $_POST['special_price']['next_time'][$key])) . "',
                                 '" . $parent_price_id . "'
                             )
@@ -99,12 +99,12 @@ class Car_share_Taxonomy {
                     $wpdb->query($sql);
                 }
             }
-            
+
             //
             $keys = array(
                 '_minimum_driver_age'
             );
-            
+
             foreach($keys as $key){
                 if(isset($_POST[$key]) && "" != trim($_POST[$key])){
                     update_term_meta($term_id, $key, $_POST[$key]);
@@ -112,7 +112,7 @@ class Car_share_Taxonomy {
                     delete_term_meta($term_id, $key);
                 }
             }
-            
+
         }
     }
 

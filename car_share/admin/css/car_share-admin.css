@@ -2,7 +2,9 @@
  * All of the CSS for your dashboard-specific functionality should be
  * included in this file.
  */
-
+.label-inline {
+    margin-right: 10px;
+}
 .small-input, 
 .form-field input[type="text"] {
     width: 100px;
@@ -17,7 +19,9 @@
 .table-border td {
     border-bottom: 1px solid silver;
 }
-
+.overvies-table td {
+    padding-right: 20px;
+}
 .remove-row {
     font-weight: bold;
     color: white;

@@ -114,6 +114,10 @@ class Car_share_Admin {
         add_meta_box(
                 'unavailability_box', __('Unavailability', $this->car_share), array($this, 'unavailability_box'), 'car'
         );        
+        
+        add_meta_box(
+                'car_details_box', __('Details', $this->car_share), array($this, 'details_box'), 'car'
+        );        
 
         add_meta_box(
                 'service_price_box', __('Price', $this->car_share), array($this, 'service_price_box'), 'service'
@@ -130,7 +134,8 @@ class Car_share_Admin {
         $locations = $wpdb->get_results($sql);
 
         $current_location = get_post_meta($post->ID, '_current_location', true);
-        $allowed_locations = get_post_meta($post->ID, '_allowed_location', true);
+        $pickup_location = get_post_meta($post->ID, '_pickup_location', true);
+        $dropoff_location = get_post_meta($post->ID, '_dropoff_location', true);
 
         include 'partials/car/locations_box.php';
         wp_nonce_field(__FILE__, 'car_nonce');
@@ -138,6 +143,11 @@ class Car_share_Admin {
     
     public function unavailability_box(){
         include 'partials/car/unavailability_box.php';
+    }
+    
+    public function details_box(){
+        global $post;
+        include 'partials/car/details.php';
     }
     
     /**
@@ -162,7 +172,8 @@ class Car_share_Admin {
             //
             $keys = array(
                 '_current_location',
-                '_allowed_location'
+                '_pickup_location',
+                '_dropoff_location'
             );
             $this->save_post_keys($post->ID, $keys);
         }
