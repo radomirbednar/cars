@@ -47,6 +47,9 @@ class Car_share_Location {
     public function opening_hours_box(){
         global $post;
 
+        $location = new Location($post->ID);
+        $opening_hours = $location->get_opening_hours_with_day_key();
+        
         include 'partials/location/opening_hours.php';
         wp_nonce_field(__FILE__, 'location_nonce');
     }
