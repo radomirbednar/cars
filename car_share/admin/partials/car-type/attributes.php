@@ -57,7 +57,7 @@
                     '</td>' +
                     '<td>' +
                     '</td>' +
-                    '<td><button class="remove-row" type="button"><?php _e("X", $this->car_share) ?></button></td>' +
+                    '<td><button class="button button-primary button-delete" type="button"><?php _e("delete", $this->car_share) ?></button></td>' +
                     '</tr>';
             return str;
         }
@@ -71,8 +71,7 @@ if (!empty($special_prices)):
         <?php
     endforeach;
 endif;
-?>
-
+?> 
         $('#new_price').click(function (e) {
             var row = htmlPriceRow('', '', '');
             $('#price-table tbody').append(row);

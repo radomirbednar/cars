@@ -251,19 +251,22 @@ class Car_share_Public {
     /*
      * Zpracovani informaci z datepickeru 
      */    
-    
      
-    public function car_share_searchforacar($atts) {
- 
+    public function car_share_searchforacar($atts) { 
         /*
          * Zobrazeni datepickeru 
-         */
+         */ 
+        
+        
+        
+        
+        
+        
+        
+        
         
         ob_start();
         include_once( 'partials/car_share-searchforacar.php' );
-        return ob_get_clean();
-    
-        
-        
+        return ob_get_clean(); 
     } 
 }
