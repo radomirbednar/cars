@@ -38,7 +38,7 @@ class Car_share_Season {
     public function add_custom_boxes() {
 
         add_meta_box(
-                'date_box', __('Date interval', $this->car_share), array($this, 'date_box'), 'season'
+                'date_box', __('Date interval', $this->car_share), array($this, 'date_box'), 'sc-season'
         );
 
     }

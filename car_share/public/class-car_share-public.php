@@ -112,16 +112,16 @@ class Car_share_Public {
         // cars
         $args = array(
             'labels' => array(
-                'name' => __('Cars', 'boilerplate'),
-                'singular_name' => __('Car', 'boilerplate'),
-                'add_new' => __('Add new', 'boilerplate'),
-                'add_new_item' => __('Add new car', 'boilerplate'),
-                'edit_item' => __('Edit car', 'boilerplate'),
-                'new_item' => __('New car', 'boilerplate'),
-                'all_items' => __('All cars', 'boilerplate'),
-                'view_item' => __('View car', 'boilerplate'),
-                'search_items' => __('Search car', 'boilerplate'),
-                'menu_name' => __('Cars', 'boilerplate')
+                'name' => __('Cars', $this->car_share),
+                'singular_name' => __('Car', $this->car_share),
+                'add_new' => __('Add new', $this->car_share),
+                'add_new_item' => __('Add new car', $this->car_share),
+                'edit_item' => __('Edit car', $this->car_share),
+                'new_item' => __('New car', $this->car_share),
+                'all_items' => __('All cars', $this->car_share),
+                'view_item' => __('View car', $this->car_share),
+                'search_items' => __('Search car', $this->car_share),
+                'menu_name' => __('Cars', $this->car_share)
             ),
             'public' => true,
             'show_ui' => true,
@@ -134,21 +134,21 @@ class Car_share_Public {
             'hierarchical' => false
         );
 
-        register_post_type('car', $args);
+        register_post_type('sc-car', $args);
 
         // locations
         $args = array(
             'labels' => array(
-                'name' => __('Location', 'boilerplate'),
-                'singular_name' => __('Location', 'boilerplate'),
-                'add_new' => __('Add new', 'boilerplate'),
-                'add_new_item' => __('Add new location', 'boilerplate'),
-                'edit_item' => __('Edit location', 'boilerplate'),
-                'new_item' => __('New location', 'boilerplate'),
-                'all_items' => __('All locations', 'boilerplate'),
-                'view_item' => __('View location', 'boilerplate'),
-                'search_items' => __('Search locations', 'boilerplate'),
-                'menu_name' => __('Locations', 'boilerplate')
+                'name' => __('Location', $this->car_share),
+                'singular_name' => __('Location', $this->car_share),
+                'add_new' => __('Add new', $this->car_share),
+                'add_new_item' => __('Add new location', $this->car_share),
+                'edit_item' => __('Edit location', $this->car_share),
+                'new_item' => __('New location', $this->car_share),
+                'all_items' => __('All locations', $this->car_share),
+                'view_item' => __('View location', $this->car_share),
+                'search_items' => __('Search locations', $this->car_share),
+                'menu_name' => __('Locations', $this->car_share)
             ),
             'public' => true,
             'show_ui' => true,
@@ -161,21 +161,21 @@ class Car_share_Public {
             'hierarchical' => false
         );
 
-        register_post_type('location', $args);
+        register_post_type('sc-location', $args);
 
         // service
         $args = array(
             'labels' => array(
-                'name' => __('Service', 'boilerplate'),
-                'singular_name' => __('Service', 'boilerplate'),
-                'add_new' => __('Add new', 'boilerplate'),
-                'add_new_item' => __('Add new service', 'boilerplate'),
-                'edit_item' => __('Edit service', 'boilerplate'),
-                'new_item' => __('New service', 'boilerplate'),
-                'all_items' => __('All services', 'boilerplate'),
-                'view_item' => __('View service', 'boilerplate'),
-                'search_items' => __('Search services', 'boilerplate'),
-                'menu_name' => __('Services', 'boilerplate')
+                'name' => __('Service', $this->car_share),
+                'singular_name' => __('Service', $this->car_share),
+                'add_new' => __('Add new', $this->car_share),
+                'add_new_item' => __('Add new service', $this->car_share),
+                'edit_item' => __('Edit service', $this->car_share),
+                'new_item' => __('New service', $this->car_share),
+                'all_items' => __('All services', $this->car_share),
+                'view_item' => __('View service', $this->car_share),
+                'search_items' => __('Search services', $this->car_share),
+                'menu_name' => __('Services', $this->car_share)
             ),
             'public' => false,
             'show_ui' => true,
@@ -188,21 +188,21 @@ class Car_share_Public {
             'hierarchical' => false
         );
 
-        register_post_type('service', $args);
+        register_post_type('sc-service', $args);
 
-        // service
+        // season
         $args = array(
             'labels' => array(
-                'name' => __('Season', 'boilerplate'),
-                'singular_name' => __('Season', 'boilerplate'),
-                'add_new' => __('Add new season', 'boilerplate'),
-                'add_new_item' => __('Add new season', 'boilerplate'),
-                'edit_item' => __('Edit season', 'boilerplate'),
-                'new_item' => __('New season', 'boilerplate'),
-                'all_items' => __('All seasons', 'boilerplate'),
-                'view_item' => __('View season', 'boilerplate'),
-                'search_items' => __('Search season', 'boilerplate'),
-                'menu_name' => __('Seasons', 'boilerplate')
+                'name' => __('Season', $this->car_share),
+                'singular_name' => __('Season', $this->car_share),
+                'add_new' => __('Add new season', $this->car_share),
+                'add_new_item' => __('Add new season', $this->car_share),
+                'edit_item' => __('Edit season', $this->car_share),
+                'new_item' => __('New season', $this->car_share),
+                'all_items' => __('All seasons', $this->car_share),
+                'view_item' => __('View season', $this->car_share),
+                'search_items' => __('Search season', $this->car_share),
+                'menu_name' => __('Seasons', $this->car_share)
             ),
             'public' => false,
             'show_ui' => true,
@@ -215,61 +215,35 @@ class Car_share_Public {
             'hierarchical' => false
         );
 
-        register_post_type('season', $args);
-    }
-
-    /**
-     *
-     */
-    public function register_custom_taxonomies() {
-
+        register_post_type('sc-season', $args);
+        
+        // car type
         $args = array(
-            'hierarchical' => false,
             'labels' => array(
-                'name' => _x('Tags', 'taxonomy general name'),
-                'singular_name' => _x('Tag', 'taxonomy singular name'),
-                'search_items' => __('Find tag'),
-                'all_items' => __('All tags'),
-                'parent_item' => __('Parent tag'),
-                'parent_item_colon' => __('Parent tag:'),
-                'edit_item' => __('Edit tag'),
-                'update_item' => __('Update tag'),
-                'add_new_item' => __('Create new tag'),
-                'new_item_name' => __('New tag name'),
-                'menu_name' => __('Tags')
+                'name' => __('Car category', $this->car_share),
+                'singular_name' => __('Car category', $this->car_share),
+                'add_new' => __('Add car category', $this->car_share),
+                'add_new_item' => __('Add car category', $this->car_share),
+                'edit_item' => __('Edit car category', $this->car_share),
+                'new_item' => __('New car category', $this->car_share),
+                'all_items' => __('All car categories', $this->car_share),
+                'view_item' => __('View car category', $this->car_share),
+                'search_items' => __('Search car categories', $this->car_share),
+                'menu_name' => __('Car categories', $this->car_share)
             ),
+            'public' => false,
             'show_ui' => true,
-            'show_admin_column' => true,
-            'query_var' => true,
-            'rewrite' => array('slug' => 'car-tag')
+            'supports' => array(
+                'thumbnail',
+                'title',
+                'editor',
+            //'page-attributes'
+            ),
+            'hierarchical' => false
         );
 
-        register_taxonomy('car-tag', array('car'), $args);
-
-
-        $args = array(
-            'hierarchical' => true,
-            'labels' => array(
-                'name' => _x('Category', 'taxonomy general name'),
-                'singular_name' => _x('Category', 'taxonomy singular name'),
-                'search_items' => __('Find category'),
-                'all_items' => __('All categories'),
-                'parent_item' => __('Parent category'),
-                'parent_item_colon' => __('Parent category:'),
-                'edit_item' => __('Edit category'),
-                'update_item' => __('Update category'),
-                'add_new_item' => __('Create new category'),
-                'new_item_name' => __('New Category name'),
-                'menu_name' => __('Categories')
-            ),
-            'show_ui' => true,
-            'show_admin_column' => true,
-            'query_var' => true,
-            'rewrite' => array('slug' => 'car-type')
-        );
-
-        register_taxonomy('car-type', array('car'), $args);
-    }
+        register_post_type('sc-car-category', $args);        
+    } 
 
     /* shordcode for a custom pages
      */

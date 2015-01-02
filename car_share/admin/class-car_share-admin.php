@@ -108,19 +108,19 @@ class Car_share_Admin {
     public function add_custom_boxes($post_id) {
 
         add_meta_box(
-                'locations_box', __('Locations', $this->car_share), array($this, 'locations_box'), 'car'
+                'locations_box', __('Locations', $this->car_share), array($this, 'locations_box'), 'sc-car'
         );
         
         add_meta_box(
-                'unavailability_box', __('Unavailability', $this->car_share), array($this, 'unavailability_box'), 'car'
+                'unavailability_box', __('Unavailability', $this->car_share), array($this, 'unavailability_box'), 'sc-car'
         );        
         
         add_meta_box(
-                'car_details_box', __('Details', $this->car_share), array($this, 'details_box'), 'car'
+                'car_details_box', __('Details', $this->car_share), array($this, 'details_box'), 'sc-car'
         );        
 
         add_meta_box(
-                'service_price_box', __('Price', $this->car_share), array($this, 'service_price_box'), 'service'
+                'service_price_box', __('Price', $this->car_share), array($this, 'service_price_box'), 'sc-service'
         );
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-class Car_share_Location {
+class Car_share_CartCategory {
 
     /**
      * The ID of this plugin.
@@ -84,3 +84,4 @@ class Car_share_Location {
     }
 
 }
+
