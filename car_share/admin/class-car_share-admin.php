@@ -122,6 +122,13 @@ class Car_share_Admin {
         add_meta_box(
                 'service_price_box', __('Price', $this->car_share), array($this, 'service_price_box'), 'service'
         );
+     
+        add_meta_box(
+                'service_per_box', __('Price per', $this->car_share), array($this, 'service_per_box'), 'service'
+        ); 
+        add_meta_box(
+                'service_quantity_box', __('Quantity', $this->car_share), array($this, 'service_quantity_box'), 'service'
+        );    
     }
 
 
@@ -157,17 +164,49 @@ class Car_share_Admin {
     public function service_price_box() {
         global $post;
 
-        $service_fee = get_post_meta($post->ID, '_service_fee', true);        
-
+        $service_fee = get_post_meta($post->ID, '_service_fee', true);    
+          
         include 'partials/service/price_box.php';
         wp_nonce_field(__FILE__, 'service_fee_nonce');
     }
+ 
+    
+    public function service_per_box() {
+        global $post; 
+        $service_per = get_post_meta($post->ID, '_service_per', true);    
+ 
+        
+        
+        
+        
+        wp_nonce_field(__FILE__, 'service_fee_nonce');
+    }
+    
+    public function service_quantity_box() {
+        global $post;
+
+        $service_fee = get_post_meta($post->ID, '_service_fee', true);    
+        
+        $service_per = get_post_meta($post->ID, '_service_per', true);    
+        $service_quantity_box = get_post_meta($post->ID, '_$service_quantity_box', true); 
+        
+         
+        
+        wp_nonce_field(__FILE__, 'service_fee_nonce');
+    }
+  
+     
 
     public function save() {
         global $post;
         global $wpdb;
 
-        ################ save cars attributes #########################################################
+        /*
+        * 
+        * save car atributs
+        * 
+        */  
+ 
         if (isset($_POST['car_nonce']) && wp_verify_nonce($_POST['car_nonce'], __FILE__)) {
             //
             $keys = array(
@@ -176,14 +215,18 @@ class Car_share_Admin {
                 '_dropoff_location'
             );
             $this->save_post_keys($post->ID, $keys);
-        }
-
+        } 
+        
         /*
          * saving services attributes 
          */
         if (isset($_POST['service_fee_nonce']) && wp_verify_nonce($_POST['service_fee_nonce'], __FILE__)) {
-            update_post_meta($post->ID, '_service_fee', str_replace(',', '.', $_POST['_service_fee']));
+            
+            update_post_meta($post->ID, '_service_fee', str_replace(',', '.', $_POST['_service_fee'])); 
+      
         }
+         
+        
     }
 
     public function save_post_keys($post_id, $keys) {
