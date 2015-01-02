@@ -1,6 +1,6 @@
 <?php
 
-class Car_share_CartCategory {
+class Car_share_CarCategory {
 
     /**
      * The ID of this plugin.
@@ -28,7 +28,7 @@ class Car_share_CartCategory {
      * @var      string    $version    The version of this plugin.
      */
     public function __construct($car_share, $version) {
-        
+
         $this->car_share = $car_share;
         $this->version = $version;
 
@@ -39,45 +39,93 @@ class Car_share_CartCategory {
     public function add_custom_boxes() {
 
         add_meta_box(
-                'location_opening_hours', __('Opening hours', $this->car_share), array($this, 'opening_hours_box'), 'sc-location'
+                'car_category_miminum_age', __('Minimum driver age', $this->car_share), array($this, 'minimum_age_box'), 'sc-car-category'
         );
 
+        add_meta_box(
+                'car_category_price', __('Price', $this->car_share), array($this, 'price_box'), 'sc-car-category'
+        );
     }
 
-    public function opening_hours_box(){
+    public function minimum_age_box(){
         global $post;
+        $minimum_driver_age = get_post_meta($post->ID, '_minimum_driver_age');
+        include 'partials/car-category/minimum_driver_age.php';        
+    }
 
-        $location = new Location($post->ID);
-        $opening_hours = $location->get_opening_hours_with_day_key();
+    public function price_box(){
+        global $post;
+        global $wpdb;
+
+        $sql = "
+            SELECT * FROM car_price WHERE term_id = '" . (int) $post->ID . "' AND parent_price_id = 0
+        ";
+
+        $start_price = $wpdb->get_row($sql);
+
+        $sql = "
+            SELECT *
+            FROM car_price
+            WHERE term_id = '" . (int) $post->ID . "'
+            AND parent_price_id = " . (int) $start_price->car_price_id . "
+            ORDER BY time_from ASC";
+
+        $special_prices = $wpdb->get_results($sql);        
         
-        include 'partials/location/opening_hours.php';
-        wp_nonce_field(__FILE__, 'location_nonce');
+        include 'partials/car-category/price.php';
+        wp_nonce_field(__FILE__, 'car_category_nonce');        
     }
 
     public function save() {
         //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
-        if (isset($_POST['location_nonce']) && wp_verify_nonce($_POST['location_nonce'], __FILE__)) {
-            global $post;
+        if (isset($_POST['car_category_nonce']) && wp_verify_nonce($_POST['car_category_nonce'], __FILE__)) {
             global $wpdb;
-            
-            // ukladani oteviracich hodin
-            if(!empty($_POST['open'])){
-                foreach($_POST['open'] as $day_name => $value){
-                    
-                    $open = isset($value['open']) && 1 == $value['open'] ? 1 : 0;
-                    
+            global $post;
+
+            // rent prices
+            $sql = "DELETE FROM car_price WHERE post_id = " . (int) $post->ID;
+            $wpdb->query($sql);
+            $price_by = (int) $_POST['price_by'];
+            // start price
+            $sql = "
+                    INSERT INTO
+                        car_price (post_id, price_value, time_from)
+                    VALUES (
+                        '" . (int) $post->ID . "',
+                        '" . esc_attr(str_replace(',', '.', $_POST['start_price'])) . "',
+                        0
+                    )
+                ";
+
+            $wpdb->query($sql);
+            $parent_price_id = $wpdb->insert_id;
+
+            if (!empty($_POST['special_price']['next_price'])) {
+                foreach ($_POST['special_price']['next_price'] as $key => $val) {
                     $sql = "
-                        REPLACE INTO opening_hours (location_id, dayname, open_from, open_to, open) VALUES (
-                            '" . (int) $post->ID . "',
-                            '" . esc_attr($day_name) . "',
-                            '" . (int) $value['from']['hour'] . ":" . (int) $value['from']['min'] . ":00',
-                            '" . (int) $value['to']['hour'] . ":" . (int) $value['to']['min'] . ":00',
-                            '" . $open . "'    
-                        )
-                    ";
-                    
+                            INSERT INTO
+                                car_price (post_id, price_value, time_from, parent_price_id)
+                            VALUES (
+                                '" . (int) $post->ID . "',
+                                '" . esc_attr(str_replace(',', '.', $_POST['special_price']['next_price'][$key])) . "',
+                                '" . esc_attr(str_replace(',', '.', $_POST['special_price']['next_time'][$key])) . "',
+                                '" . $parent_price_id . "'
+                            )
+                        ";
                     $wpdb->query($sql);
-                    
+                }
+            }
+
+            //
+            $keys = array(
+                '_minimum_driver_age'
+            );
+
+            foreach($keys as $key){
+                if(isset($_POST[$key]) && "" != trim($_POST[$key])){
+                    update_post_meta((int) $post->ID, $key, esc_attr($_POST[$key]));
+                } else {
+                    delete_post_meta((int) $post->ID, $key);
                 }
             }
         }
