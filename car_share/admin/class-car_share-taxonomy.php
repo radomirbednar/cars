@@ -32,7 +32,7 @@ class Car_share_Taxonomy {
         $this->version = $version;
 
         add_action("car-type_edit_form_fields", array($this, 'car_type_attributes'), 10);
-        add_action('edited_car-type', array($this, 'save_atts'));
+        add_action('save_post', array($this, 'save_atts'));
     }
 
     public function car_type_attributes($term) {

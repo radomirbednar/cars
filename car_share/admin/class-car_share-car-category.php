@@ -49,7 +49,7 @@ class Car_share_CarCategory {
 
     public function minimum_age_box(){
         global $post;
-        $minimum_driver_age = get_post_meta($post->ID, '_minimum_driver_age');
+        $minimum_driver_age = get_post_meta($post->ID, '_minimum_driver_age', true);
         include 'partials/car-category/minimum_driver_age.php';        
     }
 
@@ -58,7 +58,7 @@ class Car_share_CarCategory {
         global $wpdb;
 
         $sql = "
-            SELECT * FROM car_price WHERE term_id = '" . (int) $post->ID . "' AND parent_price_id = 0
+            SELECT * FROM car_price WHERE post_id = '" . (int) $post->ID . "' AND parent_price_id = 0
         ";
 
         $start_price = $wpdb->get_row($sql);
@@ -66,7 +66,7 @@ class Car_share_CarCategory {
         $sql = "
             SELECT *
             FROM car_price
-            WHERE term_id = '" . (int) $post->ID . "'
+            WHERE post_id = '" . (int) $post->ID . "'
             AND parent_price_id = " . (int) $start_price->car_price_id . "
             ORDER BY time_from ASC";
 
@@ -85,7 +85,8 @@ class Car_share_CarCategory {
             // rent prices
             $sql = "DELETE FROM car_price WHERE post_id = " . (int) $post->ID;
             $wpdb->query($sql);
-            $price_by = (int) $_POST['price_by'];
+            //$price_by = (int) $_POST['price_by'];
+            
             // start price
             $sql = "
                     INSERT INTO
