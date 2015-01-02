@@ -130,7 +130,8 @@ class Car_share_Admin {
         $locations = $wpdb->get_results($sql);
 
         $current_location = get_post_meta($post->ID, '_current_location', true);
-        $allowed_locations = get_post_meta($post->ID, '_allowed_location', true);
+        $pickup_location = get_post_meta($post->ID, '_pickup_location', true);
+        $dropoff_location = get_post_meta($post->ID, '_dropoff_location', true);
 
         include 'partials/car/locations_box.php';
         wp_nonce_field(__FILE__, 'car_nonce');
@@ -162,7 +163,8 @@ class Car_share_Admin {
             //
             $keys = array(
                 '_current_location',
-                '_allowed_location'
+                '_pickup_location',
+                '_dropoff_location'
             );
             $this->save_post_keys($post->ID, $keys);
         }
