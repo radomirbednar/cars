@@ -55,9 +55,28 @@ class Car_share_Location {
         //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
         if (isset($_POST['location_nonce']) && wp_verify_nonce($_POST['location_nonce'], __FILE__)) {
             global $post;
+            global $wpdb;
             
-            
-
+            // ukladani oteviracich hodin
+            if(!empty($_POST['open'])){
+                foreach($_POST['open'] as $day_name => $value){
+                    
+                    $open = isset($value['open']) && 1 == $value['open'] ? 1 : 0;
+                    
+                    $sql = "
+                        REPLACE INTO opening_hours (location_id, dayname, open_from, open_to, open) VALUES (
+                            '" . (int) $post->ID . "',
+                            '" . esc_attr($day_name) . "',
+                            '" . (int) $value['from']['hour'] . ":" . (int) $value['from']['min'] . ":00',
+                            '" . (int) $value['to']['hour'] . ":" . (int) $value['to']['min'] . ":00',
+                            '" . $open . "'    
+                        )
+                    ";
+                    
+                    $wpdb->query($sql);
+                    
+                }
+            }
         }
     }
 
