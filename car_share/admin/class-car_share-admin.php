@@ -130,7 +130,7 @@ class Car_share_Admin {
         global $post;
         global $wpdb;
 
-        $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'location' AND post_status = 'publish' ORDER BY post_title ASC ";
+        $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
         $locations = $wpdb->get_results($sql);
 
         $current_location = get_post_meta($post->ID, '_current_location', true);
