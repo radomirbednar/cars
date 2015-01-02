@@ -19,7 +19,9 @@
 .table-border td {
     border-bottom: 1px solid silver;
 }
-
+.overvies-table td {
+    padding-right: 20px;
+}
 .remove-row {
     font-weight: bold;
     color: white;
