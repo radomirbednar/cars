@@ -102,7 +102,7 @@ class Car_share_Admin {
          * class.
          */
         wp_enqueue_script($this->car_share, plugin_dir_url(__FILE__) . 'js/car_share-admin.js', array('jquery'), $this->version, false);
-        wp_enqueue_script( 'jquery-ui-datepicker', false, array(jquery));        
+        wp_enqueue_script( 'jquery-ui-datepicker', false, array('jquery'));        
     }
 
     public function add_custom_boxes($post_id) {

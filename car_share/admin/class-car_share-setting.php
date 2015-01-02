@@ -51,9 +51,7 @@ class Car_share_Setting {
         $this->car_share = $car_share;
         $this->version = $version;
 
-        add_action('admin_menu', array($this, 'add_plugin_admin_menu'));
-
-
+        add_action('admin_menu', array($this, 'add_plugin_admin_menu')); 
         add_action('admin_init', array($this, 'register_settings'));
 
 
@@ -77,6 +75,9 @@ class Car_share_Setting {
         );
     }
 
+    
+    
+    
     /**
      * Render the settings page for this plugin.
      *
@@ -143,12 +144,7 @@ class Car_share_Setting {
         $options = get_option('test_plugin_additonal_settings_arraykey');
         $options['another-setting'] = trim($arr_input['another-setting']);
         return $options;
-    }
-
-    
-    
-    
-    
+    } 
     /**
      * Add settings action link to the plugins page.
      *
@@ -161,5 +157,22 @@ class Car_share_Setting {
                 ), $links
         );
     }
+    
+    
+    /*
+     * 
+     * create the page for the plugin
+     * 
+     */
+    
+    
+  public function my_plugin_install_function()
+  {
+   
+  }
+    
+    
+    
+    
 
 }
