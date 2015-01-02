@@ -124,10 +124,10 @@ class Car_share_Admin {
         );
      
         add_meta_box(
-                'service_per_box', __('Price per', $this->car_share), array($this, 'service_per_box'), 'service'
+                'service_per_box', __('Price per', $this->car_share), array($this, 'service_per_box'), 'sc-service'
         ); 
         add_meta_box(
-                'service_quantity_box', __('Quantity', $this->car_share), array($this, 'service_quantity_box'), 'service'
+                'service_quantity_box', __('Quantity', $this->car_share), array($this, 'service_quantity_box'), 'sc-service'
         );    
     }
 
