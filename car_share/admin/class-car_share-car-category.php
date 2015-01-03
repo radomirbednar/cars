@@ -68,7 +68,8 @@ class Car_share_CarCategory {
 
     public function discount_upon_duration_box(){
         global $post;
-        $car_cateogry = new sc_Category($post);
+        $discount_upon_duration = get_post_meta($post->ID, '_discount_upon_duration', true);
+        ksort($discount_upon_duration);
 
         include 'partials/car-category/discount_upon_duration.php';
         wp_nonce_field(__FILE__, 'car_category_nonce');
@@ -97,10 +98,17 @@ class Car_share_CarCategory {
                 }
             }  
             
+            
+            delete_post_meta($post->ID, '_discount_upon_duration');
+            
             if(!empty($_POST['_discount_upon_duration'])){
-                foreach($_POST['_discount_upon_duration'] as $val){
-                    
+                $arr_to_save = array();
+                foreach($_POST['_discount_upon_duration'] as $discount){
+                    $days = (int) $discount['days'];
+                    $percentage = floatval($discount['percentage']);
+                    $arr_to_save[$days] = $percentage;
                 }
+                update_post_meta($post->ID, '_discount_upon_duration', $arr_to_save);
             }
 
             //

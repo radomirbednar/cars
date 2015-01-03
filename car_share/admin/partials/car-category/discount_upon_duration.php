@@ -37,11 +37,11 @@
         }
 
 <?php
-if (!empty($special_prices)):
-    foreach ($special_prices as $key => $sp):
+if (!empty($discount_upon_duration)):
+    foreach ($discount_upon_duration as $days => $percentage):
         ?>
-                var row = htmlPriceRow('<?php echo $key ?>', '<?php echo $sp->price_value ?>', '<?php echo $sp->time_type ?>');
-                $('#price-table tbody').append(row);
+                var row = htmlPriceRow('<?php echo $days ?>', '<?php echo $days ?>', '<?php echo $percentage ?>');
+                $('#discount-table tbody').append(row);
                 row_key++;
         <?php
     endforeach;
