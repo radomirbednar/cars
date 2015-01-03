@@ -1,15 +1,5 @@
 <?php
-
-$days = array(
-    'Monday' => 'Monday',
-    'Tuesday' => 'Tuesday',
-    'Wednesday' => 'Wednesday',
-    'Thursday' => 'Thursday',
-    'Friday' => 'Friday',
-    'Saturday' => 'Saturday',
-    'Sunday' => 'Sunday',
-);
-
+$days = get_days_of_week();
 ?>
 
 <table id="opening-hours" class="overvies-table">   
@@ -58,3 +48,5 @@ $days = array(
         <?php endforeach; ?>
     </tbody>
 </table>
+
+   

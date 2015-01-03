@@ -49,7 +49,7 @@ class Car_share_Season {
         $date_to = get_date_meta($post->ID, '_to');
         $season_price = get_post_meta($post->ID, '_season_price', true);
 
-        include 'partials/season/date_box.php';
+        include 'partials/season/date_interval.php';
         wp_nonce_field(__FILE__, 'season_nonce');
     }
 
