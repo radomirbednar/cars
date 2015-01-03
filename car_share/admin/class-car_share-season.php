@@ -49,9 +49,9 @@ class Car_share_Season {
 
     public function date_box(){
         global $post;
-        $date_from = get_date_meta($post->ID, '_from');
-        $date_to = get_date_meta($post->ID, '_to');
-        $season_price = get_post_meta($post->ID, '_season_price', true);
+        $session = new sc_Season($post);
+        $date_from = $session->from();
+        $date_to = $session->to();
 
         include 'partials/season/date_interval.php';
         wp_nonce_field(__FILE__, 'season_nonce');
@@ -59,8 +59,8 @@ class Car_share_Season {
 
     public function day_prices_box(){
         global $post;
-        
-        $season_day_prices = get_post_meta($post->ID, '_season_day_prices');
+        $session = new sc_Season($post);
+        $season_day_prices = $session->day_prices_indexed_with_dayname();
 
         include 'partials/season/day_prices.php';
         wp_nonce_field(__FILE__, 'season_nonce');
@@ -71,7 +71,7 @@ class Car_share_Season {
         //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
         if (isset($_POST['season_nonce']) && wp_verify_nonce($_POST['season_nonce'], __FILE__)) {
             global $post;
-            //global $wpdb;
+            global $wpdb;
 
             $date_from = DateTime::createFromFormat('d.m.Y', $_POST['_from']);
             $date_to = DateTime::createFromFormat('d.m.Y', $_POST['_to']);
@@ -88,12 +88,27 @@ class Car_share_Season {
                 delete_date_meta($post->ID, '_to');
             }
 
+            // seassion day prices
+            if(!empty($_POST['_season_day_prices'])){
+                foreach ($_POST['_season_day_prices'] as $dayname => $price){
+                    $sql = "
+                        REPLACE INTO day_prices (post_id, dayname, price) VALUES (
+                            '" . (int) $post->ID . "',
+                            '" . esc_sql($dayname) . "',
+                            '" . floatval($price) . "'
+                        )
+                    ";
+                    $wpdb->query($sql);
+                }
+            }
+
+            /*
             if("" != trim($_POST['_season_day_prices'])){
                 array_walk($_POST['_season_day_prices'], 'floatval');
                 update_post_meta($post->ID, '_season_day_prices', $_POST['_season_day_prices']);
             } else {
                 delete_post_meta($post->ID, '_season_day_prices');
-            }            
+            }*/
         }
     }
 
