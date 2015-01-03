@@ -5,13 +5,13 @@ class sc_Season {
     protected $id;
     protected $post;
 
-    public function __construct($id = null) {
-        if($id instanceof WP_Post){
+    public function __construct($post = null) {
+        if($post instanceof WP_Post){
             $this->id = $post->ID;
             $this->post = $post;
         } else {
-            $this->id = $id;
-            $this->post = get_post($id);            
+            $this->id = $post;
+            $this->post = get_post($post);            
         }        
     }
 
@@ -34,11 +34,11 @@ class sc_Season {
     }
 
     public function from(){
-        get_date_meta($post->ID, '_from');
+        return get_date_meta($this->id, '_from');
     }
 
     public function to(){
-        get_date_meta($post->ID, '_to');
+        return get_date_meta($this->id, '_to');
     }
 
 }
