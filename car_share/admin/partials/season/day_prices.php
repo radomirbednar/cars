@@ -1,8 +1,14 @@
 <?php
+$days = get_days_of_week();
+?>
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+<table>
+    <tbody>
+        <?php foreach($days as $day_name => $label): ?>
+        <tr>
+            <td><?php _e($label, $this->car_share) ?>:</td>
+            <td><input type="text" name="_season_day_prices[<?php echo $day_name ?>]" class="small-input" value="<?php echo isset($season_day_prices[$day_name]) ? $season_day_prices[$day_name] : 0 ?>"></td>
+        </tr>        
+        <?php endforeach; ?>
+    </tbody>    
+</table>

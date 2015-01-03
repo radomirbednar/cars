@@ -38,7 +38,11 @@ class Car_share_Season {
     public function add_custom_boxes() {
 
         add_meta_box(
-                'date_box', __('Date interval', $this->car_share), array($this, 'date_box'), 'sc-season'
+                'season_date_box', __('Date interval', $this->car_share), array($this, 'date_box'), 'sc-season'
+        );
+
+        add_meta_box(
+                'season_prices_box', __('Prices', $this->car_share), array($this, 'day_prices_box'), 'sc-season'
         );
 
     }
@@ -53,6 +57,15 @@ class Car_share_Season {
         wp_nonce_field(__FILE__, 'season_nonce');
     }
 
+    public function day_prices_box(){
+        global $post;
+        
+        $season_day_prices = get_post_meta($post->ID, '_season_day_prices');
+
+        include 'partials/season/day_prices.php';
+        wp_nonce_field(__FILE__, 'season_nonce');
+    }
+
     public function save() {
 
         //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
@@ -62,25 +75,25 @@ class Car_share_Season {
 
             $date_from = DateTime::createFromFormat('d.m.Y', $_POST['_from']);
             $date_to = DateTime::createFromFormat('d.m.Y', $_POST['_to']);
-            
+
             if(!empty($date_from)){
                 update_date_meta($post->ID, '_from', $date_from);
             } else {
                 delete_date_meta($post->ID, '_from');
             }
-            
+
             if(!empty($date_to)){
                 update_date_meta($post->ID, '_to', $date_to);
             } else {
                 delete_date_meta($post->ID, '_to');
-            }    
-            
-            if("" != trim($_POST['_season_price'])){
-                update_post_meta($post->ID, '_season_price', $_POST['_season_price']);
-            } else {
-                delete_post_meta($post->ID, '_season_price');
             }
 
+            if("" != trim($_POST['_season_day_prices'])){
+                array_walk($_POST['_season_day_prices'], 'floatval');
+                update_post_meta($post->ID, '_season_day_prices', $_POST['_season_day_prices']);
+            } else {
+                delete_post_meta($post->ID, '_season_day_prices');
+            }            
         }
     }
 
