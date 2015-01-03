@@ -45,11 +45,7 @@ class Car_share_CarCategory {
         add_meta_box(
                 'car_category_day_prices', __('Price', $this->car_share), array($this, 'day_prices_box'), 'sc-car-category'
         );
-
-        add_meta_box(
-                'car_category_price', __('Price', $this->car_share), array($this, 'price_box'), 'sc-car-category'
-        );
-
+        
         add_meta_box(
                 'car_category_discount_upon_duration', __('Discount upon duration', $this->car_share), array($this, 'discount_upon_duration_box'), 'sc-car-category'
         );
@@ -75,69 +71,35 @@ class Car_share_CarCategory {
         $car_cateogry = new sc_Category($post);
 
         include 'partials/car-category/discount_upon_duration.php';
-    }
-
-    public function price_box(){
-        global $post;
-        global $wpdb;
-
-        $sql = "
-            SELECT * FROM car_price WHERE post_id = '" . (int) $post->ID . "' AND parent_price_id = 0
-        ";
-
-        $start_price = $wpdb->get_row($sql);
-
-        $sql = "
-            SELECT *
-            FROM car_price
-            WHERE post_id = '" . (int) $post->ID . "'
-            AND parent_price_id = " . (int) $start_price->car_price_id . "
-            ORDER BY time_from ASC";
-
-        $special_prices = $wpdb->get_results($sql);
-
-        include 'partials/car-category/price.php';
         wp_nonce_field(__FILE__, 'car_category_nonce');
     }
+
+
 
     public function save() {
         //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
         if (isset($_POST['car_category_nonce']) && wp_verify_nonce($_POST['car_category_nonce'], __FILE__)) {
+            
             global $wpdb;
             global $post;
-
-            // rent prices
-            $sql = "DELETE FROM car_price WHERE post_id = " . (int) $post->ID;
-            $wpdb->query($sql);
-            //$price_by = (int) $_POST['price_by'];
-
-            // start price
-            $sql = "
-                    INSERT INTO
-                        car_price (post_id, price_value, time_from)
-                    VALUES (
-                        '" . (int) $post->ID . "',
-                        '" . esc_attr(str_replace(',', '.', $_POST['start_price'])) . "',
-                        0
-                    )
-                ";
-
-            $wpdb->query($sql);
-            $parent_price_id = $wpdb->insert_id;
-
-            if (!empty($_POST['special_price']['next_price'])) {
-                foreach ($_POST['special_price']['next_price'] as $key => $val) {
+            
+            // category day prices
+            if(!empty($_POST['_category_day_prices'])){
+                foreach ($_POST['_category_day_prices'] as $dayname => $price){
                     $sql = "
-                            INSERT INTO
-                                car_price (post_id, price_value, time_from, parent_price_id)
-                            VALUES (
-                                '" . (int) $post->ID . "',
-                                '" . esc_attr(str_replace(',', '.', $_POST['special_price']['next_price'][$key])) . "',
-                                '" . esc_attr(str_replace(',', '.', $_POST['special_price']['next_time'][$key])) . "',
-                                '" . $parent_price_id . "'
-                            )
-                        ";
+                        REPLACE INTO day_prices (post_id, dayname, price) VALUES (
+                            '" . (int) $post->ID . "',
+                            '" . esc_sql($dayname) . "',
+                            '" . floatval($price) . "'
+                        )
+                    ";
                     $wpdb->query($sql);
+                }
+            }  
+            
+            if(!empty($_POST['_discount_upon_duration'])){
+                foreach($_POST['_discount_upon_duration'] as $val){
+                    
                 }
             }
 
