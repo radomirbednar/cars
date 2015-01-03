@@ -43,14 +43,38 @@ class Car_share_CarCategory {
         );
 
         add_meta_box(
+                'car_category_day_prices', __('Price', $this->car_share), array($this, 'day_prices_box'), 'sc-car-category'
+        );
+
+        add_meta_box(
                 'car_category_price', __('Price', $this->car_share), array($this, 'price_box'), 'sc-car-category'
         );
+
+        add_meta_box(
+                'car_category_discount_upon_duration', __('Discount upon duration', $this->car_share), array($this, 'discount_upon_duration_box'), 'sc-car-category'
+        );
+
     }
 
     public function minimum_age_box(){
         global $post;
         $minimum_driver_age = get_post_meta($post->ID, '_minimum_driver_age', true);
-        include 'partials/car-category/minimum_driver_age.php';        
+        include 'partials/car-category/minimum_driver_age.php';
+    }
+
+    public function day_prices_box(){
+        global $post;
+        $category = new sc_Category($post);
+        $season_day_prices = $category->day_prices_indexed_with_dayname();
+
+        include 'partials/car-category/day_prices.php';
+    }
+
+    public function discount_upon_duration_box(){
+        global $post;
+        $car_cateogry = new sc_Category($post);
+
+        include 'partials/car-category/discount_upon_duration.php';
     }
 
     public function price_box(){
@@ -70,10 +94,10 @@ class Car_share_CarCategory {
             AND parent_price_id = " . (int) $start_price->car_price_id . "
             ORDER BY time_from ASC";
 
-        $special_prices = $wpdb->get_results($sql);        
-        
+        $special_prices = $wpdb->get_results($sql);
+
         include 'partials/car-category/price.php';
-        wp_nonce_field(__FILE__, 'car_category_nonce');        
+        wp_nonce_field(__FILE__, 'car_category_nonce');
     }
 
     public function save() {
@@ -86,7 +110,7 @@ class Car_share_CarCategory {
             $sql = "DELETE FROM car_price WHERE post_id = " . (int) $post->ID;
             $wpdb->query($sql);
             //$price_by = (int) $_POST['price_by'];
-            
+
             // start price
             $sql = "
                     INSERT INTO
