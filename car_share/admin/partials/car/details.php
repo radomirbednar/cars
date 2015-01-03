@@ -8,7 +8,7 @@ $transsition_options = Car::getTransmissionOptions();
         <td>
             <select name="_number_of_seats" class="small-input">
                 <?php for($i = 0; $i < 12; $i++): ?>
-                <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                <option value="<?php echo $i ?>" <?php echo $number_of_seats == $i ? ' selected="selected" ' : '' ?>><?php echo $i ?></option>
                 <?php endfor; ?>
             </select>
         </td>
@@ -18,7 +18,7 @@ $transsition_options = Car::getTransmissionOptions();
         <td>
             <select name="_number_of_doors" class="small-input">
                 <?php for($i = 0; $i < 6; $i++): ?>
-                <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                <option value="<?php echo $i ?>" <?php echo $number_of_doors == $i ? ' selected="selected" ' : '' ?>><?php echo $i ?></option>
                 <?php endfor; ?>
             </select>
         </td>
@@ -28,7 +28,7 @@ $transsition_options = Car::getTransmissionOptions();
         <td>
             <select name="_number_of_suitcases" class="small-input">
                 <?php for($i = 0; $i < 11; $i++): ?>
-                <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                <option value="<?php echo $i ?>" <?php echo $number_of_suitcases == $i ? ' selected="selected" ' : '' ?>><?php echo $i ?></option>
                 <?php endfor; ?>
             </select>            
         </td>
@@ -38,7 +38,7 @@ $transsition_options = Car::getTransmissionOptions();
         <td>
             <select name="_transmission">
                 <?php foreach($transsition_options as $key => $label): ?>
-                <option value="<?php echo $key ?>"><?php _e($label, $this->car_share) ?></option>
+                <option value="<?php echo $key ?>" <?php echo $transmission == $key ? ' selected="selected" ' : '' ?>><?php _e($label, $this->car_share) ?></option>
                 <?php endforeach; ?>
             </select>    
         </td>

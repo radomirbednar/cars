@@ -69,7 +69,10 @@ class Car_share_CarCategory {
     public function discount_upon_duration_box(){
         global $post;
         $discount_upon_duration = get_post_meta($post->ID, '_discount_upon_duration', true);
-        ksort($discount_upon_duration);
+        
+        if(is_array($discount_upon_duration)){
+            ksort($discount_upon_duration);
+        }        
 
         include 'partials/car-category/discount_upon_duration.php';
         wp_nonce_field(__FILE__, 'car_category_nonce');

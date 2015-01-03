@@ -75,10 +75,10 @@ class Car_share_Admin {
          * class.
          */
         wp_enqueue_style($this->car_share, plugin_dir_url(__FILE__) . 'css/car_share-admin.css', array(), $this->version, 'all');
-        
+
         //wp_register_style('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css');
         //wp_enqueue_style( 'jquery-ui' );
-        
+
         //wp_enqueue_style($this->car_share . 'jquery-ui', plugin_dir_url(__FILE__) . 'css/datepicker/css/datepicker.css', array(), $this->version, 'all');
         wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
     }
@@ -102,7 +102,7 @@ class Car_share_Admin {
          * class.
          */
         wp_enqueue_script($this->car_share, plugin_dir_url(__FILE__) . 'js/car_share-admin.js', array('jquery'), $this->version, false);
-        wp_enqueue_script( 'jquery-ui-datepicker', false, array('jquery'));        
+        wp_enqueue_script( 'jquery-ui-datepicker', false, array('jquery'));
     }
 
     public function add_custom_boxes($post_id) {
@@ -110,25 +110,25 @@ class Car_share_Admin {
         add_meta_box(
                 'locations_box', __('Locations', $this->car_share), array($this, 'locations_box'), 'sc-car'
         );
-        
+
         add_meta_box(
                 'unavailability_box', __('Unavailability', $this->car_share), array($this, 'unavailability_box'), 'sc-car'
-        );        
-        
+        );
+
         add_meta_box(
                 'car_details_box', __('Details', $this->car_share), array($this, 'details_box'), 'sc-car'
-        );        
+        );
 
         add_meta_box(
                 'service_price_box', __('Price', $this->car_share), array($this, 'service_price_box'), 'sc-service'
         );
-     
+
         add_meta_box(
                 'service_per_box', __('Price per', $this->car_share), array($this, 'service_per_box'), 'sc-service'
-        ); 
+        );
         add_meta_box(
                 'service_quantity_box', __('Quantity', $this->car_share), array($this, 'service_quantity_box'), 'sc-service'
-        );    
+        );
     }
 
 
@@ -147,86 +147,92 @@ class Car_share_Admin {
         include 'partials/car/locations_box.php';
         wp_nonce_field(__FILE__, 'car_nonce');
     }
-    
+
     public function unavailability_box(){
         include 'partials/car/unavailability_box.php';
     }
-    
+
     public function details_box(){
         global $post;
+
+        $number_of_seats = get_post_meta($post->ID, '_number_of_seats', true);
+        $number_of_doors = get_post_meta($post->ID, '_number_of_doors', true);
+        $number_of_suitcases = get_post_meta($post->ID, '_number_of_suitcases', true);
+        $transmission = get_post_meta($post->ID, '_transmission', true);
+
         include 'partials/car/details.php';
     }
-    
+
     /**
-     * 
+     *
      * @global type $post
      */
     public function service_price_box() {
         global $post;
 
-        $service_fee = get_post_meta($post->ID, '_service_fee', true);    
-          
+        $service_fee = get_post_meta($post->ID, '_service_fee', true);
+
         include 'partials/service/price_box.php';
         wp_nonce_field(__FILE__, 'service_fee_nonce');
     }
- 
-    
+
+
     public function service_per_box() {
-        global $post; 
-        $service_per = get_post_meta($post->ID, '_service_per', true);    
- 
-        
-        
-        
-        
+        global $post;
+        $service_per = get_post_meta($post->ID, '_service_per', true);
+
         wp_nonce_field(__FILE__, 'service_fee_nonce');
     }
-    
+
     public function service_quantity_box() {
         global $post;
 
-        $service_fee = get_post_meta($post->ID, '_service_fee', true);    
-        
-        $service_per = get_post_meta($post->ID, '_service_per', true);    
-        $service_quantity_box = get_post_meta($post->ID, '_$service_quantity_box', true); 
-        
-         
-        
+        $service_fee = get_post_meta($post->ID, '_service_fee', true);
+
+        $service_per = get_post_meta($post->ID, '_service_per', true);
+        $service_quantity_box = get_post_meta($post->ID, '_$service_quantity_box', true);
+
+
+
         wp_nonce_field(__FILE__, 'service_fee_nonce');
     }
-  
-     
+
+
 
     public function save() {
         global $post;
         global $wpdb;
 
         /*
-        * 
+        *
         * save car atributs
-        * 
-        */  
- 
+        *
+        */
+
         if (isset($_POST['car_nonce']) && wp_verify_nonce($_POST['car_nonce'], __FILE__)) {
             //
             $keys = array(
                 '_current_location',
                 '_pickup_location',
-                '_dropoff_location'
+                '_dropoff_location',
+                '_number_of_seats',
+                '_number_of_doors',
+                '_number_of_suitcases',
+                '_transmission'
             );
             $this->save_post_keys($post->ID, $keys);
-        } 
-        
+        }
+
         /*
-         * saving services attributes 
+         * saving services attributes
          */
         if (isset($_POST['service_fee_nonce']) && wp_verify_nonce($_POST['service_fee_nonce'], __FILE__)) {
-            
-            update_post_meta($post->ID, '_service_fee', str_replace(',', '.', $_POST['_service_fee'])); 
-      
+
+            update_post_meta($post->ID, '_service_fee', str_replace(',', '.', $_POST['_service_fee']));
+
         }
-         
-        
+
+
     }
 
     public function save_post_keys($post_id, $keys) {
