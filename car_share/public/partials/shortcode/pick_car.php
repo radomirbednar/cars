@@ -33,7 +33,7 @@ $cars = $wpdb->get_results($sql);
 
         <?php endforeach; ?>
         
-        <button type="submit" class="btn btn-default"><?php _e('Confirm', $this->car_share); ?></button>
+        <button type="submit" class="btn btn-default"><?php _e('Continue', $this->car_share); ?></button>
         
         <input type="hidden" name="pick_up_location" value="<?php echo esc_attr($_POST["pick_up_location"]) ?>">
         <input type="hidden" name="drop_off_location" value="<?php echo esc_attr($_POST["pick_up_location"]) ?>">
