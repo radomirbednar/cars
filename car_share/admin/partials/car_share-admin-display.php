@@ -45,10 +45,12 @@ do_settings_sections( 'test-plugin-additional-settings-section' );
  * 
  */ 
 
+
+
 if (isset($_POST['createpage'])){
  
         $new_page_title = array('Search for a car', 'Pick a car', 'Choose your extras', 'Review your booking', 'Checkout'); 
-        $new_page_content = array('This is the page content', 'This is the page content', 'This is the page content', 'This is the page content', 'This is the page content');
+        $new_page_content = array('[sc-search_for_car]', '[sc-pick_car]', '[sc-extras]', '[sc-review]', '[sc-checkout]');
         $new_page_template = array('','','','','',); //ex. template-custom.php. Leave blank if you don't want a custom page template.
  
         /*MultipleIterator::MIT_NEED_ANY 
