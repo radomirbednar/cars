@@ -156,6 +156,9 @@ class Car_share {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-car_share-public.php';
                 
+                
+                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-car_share-shortcode.php';
+                
                 /**
                  * 
                  */
@@ -215,6 +218,7 @@ class Car_share {
 	private function define_public_hooks() {
 
 		$plugin_public = new Car_share_Public( $this->get_car_share(), $this->get_version() );
+                $car_shortcode = new Car_share_Shortcode( $this->get_car_share(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );

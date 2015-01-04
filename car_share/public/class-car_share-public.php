@@ -53,7 +53,7 @@ class Car_share_Public {
         $this->version = $version;
 
         //shordcode for the page Search for a car
-        add_shortcode('searchforacar', array($this, 'car_share_searchforacar'));
+        //add_shortcode('searchforacar', array($this, 'car_share_searchforacar'));
     }
 
     /**
@@ -231,7 +231,8 @@ class Car_share_Public {
                 'search_items' => __('Search car categories', $this->car_share),
                 'menu_name' => __('Car categories', $this->car_share)
             ),
-            'public' => false,
+            'public' => true,
+            'publicly_queryable' => true,
             'show_ui' => true,
             'supports' => array(
                 'thumbnail',
@@ -251,22 +252,13 @@ class Car_share_Public {
     /*
      * Zpracovani informaci z datepickeru 
      */    
-     
+     /*
     public function car_share_searchforacar($atts) { 
-        /*
-         * Zobrazeni datepickeru 
-         */ 
         
-        
-        
-        
-        
-        
-        
-        
-        
+        //  Zobrazeni datepickeru 
+                  
         ob_start();
         include_once( 'partials/car_share-searchforacar.php' );
         return ob_get_clean(); 
-    } 
+    } */
 }

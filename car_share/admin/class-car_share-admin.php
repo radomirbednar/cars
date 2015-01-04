@@ -106,7 +106,10 @@ class Car_share_Admin {
     }
 
     public function add_custom_boxes($post_id) {
-
+        add_meta_box(
+                'car_category_box', __('Category', $this->car_share), array($this, 'car_category_box'), 'sc-car'
+        );
+        
         add_meta_box(
                 'locations_box', __('Locations', $this->car_share), array($this, 'locations_box'), 'sc-car'
         );
@@ -130,8 +133,17 @@ class Car_share_Admin {
                 'service_quantity_box', __('Quantity', $this->car_share), array($this, 'service_quantity_box'), 'sc-service'
         );
     }
-
-
+    
+    public function car_category_box(){
+        global $post;
+        global $wpdb;
+        
+        $current_car_category = get_post_meta($post->ID, '_car_category', true);
+        
+        $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-car-category' AND post_status IN ('publish', 'pending', 'draft', 'private') ORDER BY post_title DESC";
+        $car_categories = $wpdb->get_results($sql);
+        include 'partials/car/category.php';        
+    }
 
     public function locations_box() {
         global $post;
@@ -144,7 +156,7 @@ class Car_share_Admin {
         $pickup_location = get_post_meta($post->ID, '_pickup_location', true);
         $dropoff_location = get_post_meta($post->ID, '_dropoff_location', true);
 
-        include 'partials/car/locations_box.php';
+        include 'partials/car/locations_box.php';        
         wp_nonce_field(__FILE__, 'car_nonce');
     }
 
@@ -191,9 +203,6 @@ class Car_share_Admin {
 
         $service_per = get_post_meta($post->ID, '_service_per', true);
         $service_quantity_box = get_post_meta($post->ID, '_$service_quantity_box', true);
-
-
-
         wp_nonce_field(__FILE__, 'service_fee_nonce');
     }
 
@@ -218,7 +227,8 @@ class Car_share_Admin {
                 '_number_of_seats',
                 '_number_of_doors',
                 '_number_of_suitcases',
-                '_transmission'
+                '_transmission',
+                '_car_category'
             );
             $this->save_post_keys($post->ID, $keys);
         }
