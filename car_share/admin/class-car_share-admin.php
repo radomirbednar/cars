@@ -121,6 +121,11 @@ class Car_share_Admin {
         add_meta_box(
                 'car_details_box', __('Details', $this->car_share), array($this, 'details_box'), 'sc-car'
         );
+        
+        /*
+        add_meta_box(
+                'car_services_box', __('Services', $this->car_share), array($this, 'car_services_box'), 'sc-car'
+        );     */   
 
         add_meta_box(
                 'service_price_box', __('Price', $this->car_share), array($this, 'service_price_box'), 'sc-service'

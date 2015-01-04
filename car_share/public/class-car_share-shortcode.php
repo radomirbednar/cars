@@ -13,8 +13,9 @@ class Car_share_Shortcode {
         $this->car_share = $car_share;
         $this->version = $version;
 
-        add_shortcode( 'search_for_car', array($this, 'search_for_car'));
-        add_shortcode( 'pick_car', array($this, 'pick_car'));
+        add_shortcode( 'sc-search_for_car', array($this, 'search_for_car'));
+        add_shortcode( 'sc-pick_car', array($this, 'pick_car'));
+        add_shortcode( 'sc-extras', array($this, 'extras'));
     }
     
     public function search_for_car($atts) { 
@@ -28,5 +29,11 @@ class Car_share_Shortcode {
         include_once( 'partials/shortcode/pick_car.php' );
         return ob_get_clean(); 
     }    
+    
+    public function extras(){
+        ob_start();
+        include_once( 'partials/shortcode/extras.php' );
+        return ob_get_clean();         
+    }
     
 }
