@@ -17,7 +17,7 @@ class sc_Category {
 
     public function day_prices() {
         global $wpdb;
-        $sql = "SELECT * FROM day_prices WHERE post_id = '" . (int) $this->id . "'";
+        $sql = "SELECT * FROM day_prices WHERE car_category_id = '" . (int) $this->id . "'";
         return $wpdb->get_results($sql);
     }
 
@@ -32,6 +32,25 @@ class sc_Category {
 
         return $return;
     }
-
-
+    
+    
+    public function season_to_category_prices(){
+        
+        global $wpdb;
+        $return = array();
+        
+        $sql = "SELECT * FROM day_prices WHERE car_category_id = '" . (int) $this->id . "' AND season_id != 0";
+        $results = $wpdb->get_results($sql);        
+        
+        foreach($results as $r){
+            
+            if(!array_key_exists($r->season_id, $return)){
+                $return[$r->season_id]['days'] = array(); 
+                $return[$r->season_id]['car_category_id'] = $r->car_category_id; 
+            } 
+            
+            $return[$r->season_id]['days'][$r->dayname] = $r->price;             
+        }        
+        return $return;        
+    }
 }
