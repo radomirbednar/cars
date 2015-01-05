@@ -95,17 +95,16 @@ if (isset($_POST['createpage'])){
     }
 ?>
 
+
 <div class="wrap">
     <h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
     <!-- @TODO: Provide markup for your options page here. -->
     <div class="section panel">
-    <form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['REQUEST_URI'];?>">
-
+    <form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['REQUEST_URI'];?>"> 
         <?php
           /* settings_fields('cow4a_theme_options');
           do_settings_sections($this->plugin_slug);*/
-        ?>
-
+        ?> 
         <input type="hidden" name="createpage" />
         <p class="submit">
             <input type="submit" class="button button-primary button-hero load-customize hide-if-no-customize" value="<?php _e('Create Page') ?>" />

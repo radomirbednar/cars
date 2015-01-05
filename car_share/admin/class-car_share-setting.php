@@ -75,9 +75,7 @@ class Car_share_Setting {
         );
     }
 
-    
-    
-    
+  
     /**
      * Render the settings page for this plugin.
      *
@@ -157,22 +155,14 @@ class Car_share_Setting {
                 ), $links
         );
     }
-    
-    
+ 
     /*
      * 
      * create the page for the plugin
      * 
      */
-    
-    
-  public function my_plugin_install_function()
-  {
    
-  }
-    
-    
-    
-    
-
-}
+  public function my_plugin_install_function()
+  { 
+  } 
+} 
