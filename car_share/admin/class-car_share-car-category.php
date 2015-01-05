@@ -49,6 +49,10 @@ class Car_share_CarCategory {
         add_meta_box(
                 'car_category_discount_upon_duration', __('Discount upon duration', $this->car_share), array($this, 'discount_upon_duration_box'), 'sc-car-category'
         );
+        
+        add_meta_box(
+                'car_category_assing_season', __('Assing season', $this->car_share), array($this, 'assing_season_box'), 'sc-car-category'
+        );        
 
     }
 
@@ -61,11 +65,18 @@ class Car_share_CarCategory {
     public function day_prices_box(){
         global $post;
         $category = new sc_Category($post);
-        $season_day_prices = $category->day_prices_indexed_with_dayname();
+        $category_day_prices = $category->day_prices_indexed_with_dayname();
 
         include 'partials/car-category/day_prices.php';
     }
 
+    public function assing_season_box(){
+        global $post;        
+        
+
+        include 'partials/car-category/assign-season.php';
+    }    
+    
     public function discount_upon_duration_box(){
         global $post;
         $discount_upon_duration = get_post_meta($post->ID, '_discount_upon_duration', true);
