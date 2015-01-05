@@ -40,6 +40,8 @@ $cars = $wpdb->get_results($sql);
             
             <?php 
             
+             //predefinovane informace k autu
+            
              $number_of_seats = get_post_meta($car->ID, '_number_of_seats', true);
              $number_of_doors = get_post_meta($car->ID, '_number_of_doors', true);
              $number_of_suitcases = get_post_meta($car->ID, '_number_of_suitcases', true);
@@ -65,18 +67,38 @@ $cars = $wpdb->get_results($sql);
                 
                 <?php if(!empty ($number_of_seats)) { ?> 
                 
+                    <tr>
+                        <th><?php _e('Seats', $this->car_share); ?></th> 
+                        <td><?php echo $number_of_seats; ?></td>
+                    </tr>       
+                
+                
+                <?php }; ?> 
+                <?php if(!empty ($number_of_doors)) { ?>                  
+                    <tr>
+                        <th><?php _e('Doors', $this->car_share); ?></th>
                         
+                        <td><?php echo $number_of_doors; ?></td>
+                    </tr>       
+                <?php }; ?>    
+                     
+                <?php if(!empty ($number_of_suitcases)) { ?> 
                 
+                    <tr>
+                        <th><?php _e('Bags', $this->car_share); ?></th>
+                        
+                         <td><?php echo $number_of_suitcases; ?></td>
+                    </tr>        
+                <?php }; ?>     
+                 <?php if(!empty ($transmission)) { ?> 
                 
-                <?php }; ?>
-                
-                <?php echo $number_of_doors; ?> 
-                
-                <?php echo $number_of_suitcases; ?> 
-                
-                <?php echo $transmission; ?> 
-                
-                    
+                    <tr>
+                        <th><?php _e('Transmission', $this->car_share); ?></th> 
+                       <td><?php echo $transmission; ?></td>
+                    </tr>       
+ 
+                <?php }; ?>  
+   
                 </table>    
                     
                     
