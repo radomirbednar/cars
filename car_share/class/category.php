@@ -21,10 +21,10 @@ class sc_Category {
         return $wpdb->get_results($sql);
     }
 
-    public function day_prices_indexed_with_dayname() {
+    public function day_prices_indexed_with_dayname($season_id = 0) {
 
         $return = array();
-        $day_prices = $this->day_prices();
+        $day_prices = $this->day_prices($season_id = 0);
 
         foreach ($day_prices as $day_price) {
             $return[$day_price->dayname] = $day_price;
@@ -34,12 +34,12 @@ class sc_Category {
     }
     
     
-    public function season_to_category_prices(){
+    public function season_to_category_prices($season_id = 0){
         
         global $wpdb;
         $return = array();
         
-        $sql = "SELECT * FROM day_prices WHERE car_category_id = '" . (int) $this->id . "' AND season_id != 0";
+        $sql = "SELECT * FROM day_prices WHERE car_category_id = '" . (int) $this->id . "' AND season_id != '" . (int) $season_id . "'";
         $results = $wpdb->get_results($sql);        
         
         foreach($results as $r){

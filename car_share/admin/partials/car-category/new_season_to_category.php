@@ -36,51 +36,28 @@ $days = get_days_of_week();
 
         $("#save-session-to-category").submit(function (event) {
             
-            event.preventDefault();
-            var resp = $(this).find('.response');
-            var self = $(this);
+                event.preventDefault();                
+                var self = $(this);
 
-            jQuery.ajax({
-                type: $(this).attr('method'),
-                url: $(this).attr('action'),
-                data: $(this).serialize(),
-                beforeSend: function () {
-                    //self.find(':submit').attr('disabled','disabled');
-                    self.find(':submit').prop("disabled", true);
-                }
-            }).done(function (ret) {
-                self[0].reset()
-                $('#TB_closeWindowButton').trigger('click');
-                //resp.html('<div class="alert alert-success">' + ret + '</div>');
-                //self.find(".clear").val("");
-            }).fail(function (ret) {
-                //resp.html('<div class="alert alert-danger">' + ret.responseText + '</div>');
-            }).always(function () {
-                self.find(':submit').prop("disabled", false);
+                jQuery.ajax({
+                    type: $(this).attr('method'),
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    beforeSend: function () {
+                        //self.find(':submit').attr('disabled','disabled');
+                        self.find(':submit').prop("disabled", true);
+                    }
+                }).done(function (ret) {
+                    self[0].reset()
+                    $('#TB_closeWindowButton').trigger('click');
+                    //resp.html('<div class="alert alert-success">' + ret + '</div>');
+                    //self.find(".clear").val("");
+                }).fail(function (ret) {
+                    //resp.html('<div class="alert alert-danger">' + ret.responseText + '</div>');
+                }).always(function () {
+                    self.find(':submit').prop("disabled", false);
+                });
             });
-        });
-
-        $("#primary, #secondary, #colophon").submit(function (event) {
-            event.preventDefault();
-            var resp = $(this).find('.response');
-            var self = $(this);
-            jQuery.ajax({
-                type: $(this).attr('method'),
-                url: $(this).attr('action'),
-                data: $(this).serialize(),
-                beforeSend: function () {
-                    //self.find(':submit').attr('disabled','disabled');
-                    self.find(':submit').prop("disabled", true);
-                }
-            }).done(function (ret) {
-                resp.html('<div class="alert alert-success">' + ret + '</div>');
-                self.find(".clear").val("");
-            }).fail(function (ret) {
-                resp.html('<div class="alert alert-danger">' + ret.responseText + '</div>');
-            }).always(function () {
-                self.find(':submit').prop("disabled", false);
-            });
-        });
-    });
+        });    
 </script>
 

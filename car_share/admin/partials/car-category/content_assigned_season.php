@@ -14,8 +14,8 @@ foreach ($season2category_prices as $season_id => $season_price):
     <tr>
         <td colspan="7"><?php echo get_the_title($season_id) ?></td>
         <td>
-            <a href="#TB_inline?width=auto&inlineId=modal-season2category&width=753&height=409" class="thickbox" data-season_id="<?php echo $season_id ?>" data-car_category_id="<?php echo $season_price['car_category_id'] ?>"><?php _e('Edit', $this->car_share) ?></a> | 
-            <a href="#" class="thickbox" data-season_id="<?php echo $season_id ?>" data-car_category_id="<?php echo $season_price['car_category_id'] ?>"><?php _e('Delete', $this->car_share) ?></a>
+            <a href="#" class="edit-s2c" data-season_id="<?php echo $season_id ?>" data-car_category_id="<?php echo $season_price['car_category_id'] ?>"><?php _e('Edit', $this->car_share) ?></a> | 
+            <a href="#" class="remove-s2c" data-season_id="<?php echo $season_id ?>" data-car_category_id="<?php echo $season_price['car_category_id'] ?>"><?php _e('Delete', $this->car_share) ?></a>
         </td>
     </tr>
     
@@ -28,3 +28,12 @@ foreach ($season2category_prices as $season_id => $season_price):
         <td></td>
     </tr>
 <?php endforeach; ?>
+
+<script>
+    jQuery(document).ready(function ($) {
+        $( ".edit-s2c" ).click(function(event) {
+            event.preventDefault();                       
+            tb_show('<?php _e('Edit', $this->car_share) ?>', ajaxurl + '?action=edit_season_to_category&session_id=' + $(this).data('season_id') + '&car_category_id=' + $(this).data('car_category_id')); 
+        });
+    });    
+</script>

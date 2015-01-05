@@ -40,7 +40,18 @@ class Car_share_CarCategory {
         add_action('in_admin_footer', array($this, 'new_season_to_category'));
 
         add_action('wp_ajax_add_season_to_category', array($this, 'add_season_to_category_callback'));
+        add_action('wp_ajax_edit_season_to_category', array($this, 'edit_season_to_category'));
     }
+    
+    public function edit_season_to_category(){
+        global $wpdb;
+        
+        $season_id = $_GET['season_id'];
+        $car_category_id = $_GET['car_category_id'];
+        
+        include 'partials/car-category/edit_s2c.php';
+        die();
+    }    
 
     public function add_season_to_category_callback(){
 
