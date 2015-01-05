@@ -98,4 +98,8 @@ cursor: default;
 float: left;
 width: 49%;
 margin: 0 auto; 
+} 
+#car_drop_of_location
+{
+  display: none;   
 }

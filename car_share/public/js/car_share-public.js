@@ -29,10 +29,14 @@
      */
  
     $(function() {
+        
+        var i;
+        
         $("#car_datefrom").datepicker({
             minDate: 0,
             changeMonth: true,
             numberOfMonths: 2,
+ 
             onClose: function(selectedDate) {
                 $("#car_dateto").datepicker("option", "minDate", selectedDate);
             }
@@ -40,13 +44,23 @@
         $("#car_dateto").datepicker({
             minDate: 0,
             changeMonth: true,
-            numberOfMonths: 2,
-            onClose: function(selectedDate) {
-                
-                $("#car_datefrom").datepicker("option", "maxDate", selectedDate);
-            
+            numberOfMonths: 2,  
+    
+           
+            onClose: function(selectedDate) { 
+                $("#car_datefrom").datepicker("option", "maxDate", selectedDate); 
             }
-        });
+        }); 
     });
+   
  
-})(jQuery);
+   
+  
+  $("#returnlocationcheck").click(function(event) {       
+    if ($(this).is(":checked"))
+      $("#car_drop_of_location").show('fast');
+    else
+      $("#car_drop_of_location").hide('fast');
+  });
+   
+})(jQuery); 

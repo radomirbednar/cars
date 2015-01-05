@@ -102,10 +102,8 @@ class Car_share_Public {
         
         wp_enqueue_script('jquery-ui-datepicker', array('jquery-ui-core'), $this->version, true); 
         wp_enqueue_script($this->car_share, plugin_dir_url(__FILE__) . 'js/car_share-public.js', array('jquery'), $this->version, true);
-    }
-
-    /**
-     *
+    } 
+    /** 
      */
     public function register_custom_post() {
 
