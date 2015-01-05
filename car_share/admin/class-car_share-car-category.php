@@ -72,7 +72,10 @@ class Car_share_CarCategory {
 
     public function assing_season_box(){
         global $post;        
+        global $wpdb;
         
+        $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-season' AND post_status IN ('publish')";
+        $seasons = $wpdb->get_results($sql);
 
         include 'partials/car-category/assign-season.php';
     }    

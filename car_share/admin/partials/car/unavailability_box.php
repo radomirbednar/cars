@@ -30,7 +30,7 @@
 
         function unavailabilityTableRow(next_time, next_price, price_type) {
 
-            var str = ' <tr class="item">' +
+            var str = '<tr class="item">' +
                     '<td>' +
                     '<input type="text" name="unavailability[][note]" value="">' +
                     '</td>' +
