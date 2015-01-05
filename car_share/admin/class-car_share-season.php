@@ -35,8 +35,7 @@ class Car_share_Season {
         add_action('save_post', array($this, 'save'));
     }
 
-    public function add_custom_boxes() {
-
+    public function add_custom_boxes() { 
         add_meta_box(
                 'season_date_box', __('Date interval', $this->car_share), array($this, 'date_box'), 'sc-season'
         );
@@ -54,8 +53,7 @@ class Car_share_Season {
     }
 
 
-    public function save() {
-
+    public function save() { 
         //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
         if (isset($_POST['season_nonce']) && wp_verify_nonce($_POST['season_nonce'], __FILE__)) {
             
@@ -77,6 +75,5 @@ class Car_share_Season {
                 delete_date_meta($post->ID, '_to');
             }
         }
-    }
-
+    } 
 }

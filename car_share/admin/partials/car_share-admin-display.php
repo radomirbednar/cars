@@ -18,22 +18,21 @@
     <h2>Settings</h2>
     <form method="post" action="options.php">
     <?php
-// This prints out all hidden setting fields
-// settings_fields( $option_group )
-settings_fields( 'main-settings-group' );
-// do_settings_sections( $page )
-do_settings_sections( 'test-plugin-main-settings-section' );
-    ?>
+    // This prints out all hidden setting fields
+    // settings_fields( $option_group )
+    settings_fields( 'main-settings-group' );
+        // do_settings_sections( $page )
+    do_settings_sections( 'test-plugin-main-settings-section' ); 
+    ?>     
     <?php submit_button('Save Changes'); ?>
-    </form>
-
+    </form> 
     <form method="post" action="options.php">
     <?php
-// This prints out all hidden setting fields
-// settings_fields( $option_group )
-settings_fields( 'additional-settings-group' );
-// do_settings_sections( $page )
-do_settings_sections( 'test-plugin-additional-settings-section' );
+    // This prints out all hidden setting fields
+    // settings_fields( $option_group )
+    settings_fields( 'additional-settings-group' );
+    // do_settings_sections( $page )
+    do_settings_sections( 'test-plugin-additional-settings-section' );
     ?>
     <?php submit_button('Save Changes'); ?>
     </form>
@@ -41,12 +40,8 @@ do_settings_sections( 'test-plugin-additional-settings-section' );
 
 <?php
 /* zpracování formuláře pro vytvoření stránek
- *
- *
- */
-
-
-
+ * 
+ */  
 if (isset($_POST['createpage'])){
 
         $new_page_title = array('Search for a car', 'Pick a car', 'Choose your extras', 'Review your booking', 'Checkout');
@@ -94,18 +89,12 @@ if (isset($_POST['createpage'])){
         }
     }
 ?>
-
+ 
 <div class="wrap">
     <h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
     <!-- @TODO: Provide markup for your options page here. -->
     <div class="section panel">
-    <form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['REQUEST_URI'];?>">
-
-        <?php
-          /* settings_fields('cow4a_theme_options');
-          do_settings_sections($this->plugin_slug);*/
-        ?>
-
+    <form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['REQUEST_URI'];?>">  
         <input type="hidden" name="createpage" />
         <p class="submit">
             <input type="submit" class="button button-primary button-hero load-customize hide-if-no-customize" value="<?php _e('Create Page') ?>" />

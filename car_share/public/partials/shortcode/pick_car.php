@@ -24,11 +24,66 @@ $cars = $wpdb->get_results($sql);
     <form action="<?php echo $extras_car_url ?>" method="post">
         <?php foreach ($cars as $car): ?>
 
-        <div class="col-lg-12">
-            <label>                
+        <div class="col-md-12">
+            
+            
+            <h2><?php the_title() ?></h2> 
+            
+            <?php
+            
+     
+              $post_thumbnail =  get_the_post_thumbnail($car->ID,'thumbnail');
+    
+            ?> 
+            
+         
+            
+            <?php 
+            
+             $number_of_seats = get_post_meta($car->ID, '_number_of_seats', true);
+             $number_of_doors = get_post_meta($car->ID, '_number_of_doors', true);
+             $number_of_suitcases = get_post_meta($car->ID, '_number_of_suitcases', true);
+             $transmission = get_post_meta($car->ID, '_transmission', true);
+             
+             $number_of_seats = esc_attr($number_of_seats);
+             $number_of_doors = esc_attr($number_of_doors);
+             $number_of_suitcases = esc_attr($number_of_suitcases);
+             $transmission = esc_attr($transmission);
+      
+            ?> 
+            
+            
+            <label>                     
                 <input type="radio" name="car" value="<?php echo $car->ID ?>">
-                <?php echo get_the_title($car->ID) ?>
-            </label>
+             </label>
+                
+                 
+                <?php echo $post_thumbnail; ?> 
+                <h2><?php echo get_the_title($car->ID) ?></h2>
+  
+                <table>
+                
+                <?php if(!empty ($number_of_seats)) { ?> 
+                
+                        
+                
+                
+                <?php }; ?>
+                
+                <?php echo $number_of_doors; ?> 
+                
+                <?php echo $number_of_suitcases; ?> 
+                
+                <?php echo $transmission; ?> 
+                
+                    
+                </table>    
+                    
+                    
+       
+            
+            
+            
         </div>    
 
         <?php endforeach; ?>

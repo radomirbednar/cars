@@ -53,7 +53,7 @@ class Car_share_Public {
         $this->version = $version;
 
         //shordcode for the page Search for a car
-        //add_shortcode('searchforacar', array($this, 'car_share_searchforacar'));
+        /* add_shortcode('searchforacar', array($this, 'car_share_searchforacar'));*/
     }
 
     /**
@@ -102,10 +102,8 @@ class Car_share_Public {
         
         wp_enqueue_script('jquery-ui-datepicker', array('jquery-ui-core'), $this->version, true); 
         wp_enqueue_script($this->car_share, plugin_dir_url(__FILE__) . 'js/car_share-public.js', array('jquery'), $this->version, true);
-    }
-
-    /**
-     *
+    } 
+    /** 
      */
     public function register_custom_post() {
 
@@ -217,7 +215,7 @@ class Car_share_Public {
 
         register_post_type('sc-season', $args);
         
-        // car type
+        // typ auta
         $args = array(
             'labels' => array(
                 'name' => __('Car category', $this->car_share),
@@ -252,13 +250,13 @@ class Car_share_Public {
     /*
      * Zpracovani informaci z datepickeru 
      */    
-     /*
-    public function car_share_searchforacar($atts) { 
+ 
+   /* public function car_share_searchforacar($atts) { 
         
         //  Zobrazeni datepickeru 
                   
         ob_start();
         include_once( 'partials/car_share-searchforacar.php' );
         return ob_get_clean(); 
-    } */
+    }  */
 }

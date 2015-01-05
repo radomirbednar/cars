@@ -1,13 +1,27 @@
-<?php
-$sc_options = get_option('sc-pages');
-$pick_car_url = isset($sc_options['pick_car']) ? get_page_link($sc_options['pick_car']) : '';
+<?php 
+    $sc_options = get_option('sc-pages');  
+    $pick_car_url = isset($sc_options['pick_car']) ? get_page_link($sc_options['pick_car']) : ''; 
 ?>
+
+
+
+
+
+<div>  
+    <?php _e('1. Search for a car', $this->car_share); ?>      
+    <?php _e('2. Pick a car', $this->car_share); ?>   
+    <?php _e('3. Pick a car', $this->car_share); ?>   
+ 
+</div>
+
+
+
 
 <form name="car_share_search_form" action="<?php echo $pick_car_url ?>" method="post">
     <div class="form-group">
         <label><?php _e('Pickup location:', $this->car_share) ?></label>
         <select class="form-control" name="pick_up_location">
-            <option value="">-----</option>
+            <option value="">---</option>
             <?php
             $args = array(
                 'post_type' => 'sc-location',
@@ -26,12 +40,18 @@ $pick_car_url = isset($sc_options['pick_car']) ? get_page_link($sc_options['pick
                 endif;
             ?>
         </select>
-    </div>
-
-    <div class="form-group">
+    </div> 
+    
+    
+    <label for="returnlocationcheck"><?php _e('Returning to different location', $this->car_share) ?></label>
+    <input type="checkbox" name="returnlocation" id="returnlocationcheck" />
+    
+    
+    
+    <div class="form-group" id="car_drop_of_location">
         <label><?php _e('Drop off location:', $this->car_share) ?></label>
         <select class="form-control" name="drop_off_location">
-            <option value="">-----</option>
+            <option value="">---</option>
             <?php
             $args = array(
                 'post_type' => 'sc-location',
@@ -49,11 +69,12 @@ $pick_car_url = isset($sc_options['pick_car']) ? get_page_link($sc_options['pick
                 endif;
             ?>
         </select>
-    </div>
-
-
+    </div> 
+     
+   
+    
     <div class="form-group">
-        <label for="car_datefrom"><?php _e('Pick-up date and time', $this->car_share); ?></label>
+        <label for="car_datefrom"><?php _e('Pick-up date and time:', $this->car_share); ?></label>
         <input id="car_datefrom" class="hasdatepicker" name="car_datefrom" value="">
         <select class="form-control" name="car_hoursfrom">
             <?php for ($i = 0; $i < 24; $i++): ?>
@@ -63,7 +84,7 @@ $pick_car_url = isset($sc_options['pick_car']) ? get_page_link($sc_options['pick
     </div>
 
     <div class="form-group">
-        <label for="car_dateto"><?php _e('Return date and time', $this->car_share); ?></label>
+        <label for="car_dateto"><?php _e('Return date and time:', $this->car_share); ?></label>
         <input id="car_dateto" class="hasdatepicker" name="car_dateto" value="">
         <select class="form-control" name="car_hoursto">
             <?php for ($i = 0; $i < 24; $i++): ?>
@@ -71,11 +92,15 @@ $pick_car_url = isset($sc_options['pick_car']) ? get_page_link($sc_options['pick
 <?php endfor ?>
         </select>
     </div>
-
+ 
+    <?php $options = get_option('car_plugin_options_arraykey'); ?>
+     
+    <?php if( $options['showcategory'] == 1 ){ ?>
+    
     <div class="form-group">
-        <label for="car_category"><?php _e('Category', $this->car_share); ?></label>
+        <label for="car_category"><?php _e('Category:', $this->car_share); ?></label>
         <select class="form-control" name="car_category">
-            <option value="">-----</option>
+          
             <?php
             $args = array(
                 'post_type' => 'sc-car-category',
@@ -93,7 +118,9 @@ $pick_car_url = isset($sc_options['pick_car']) ? get_page_link($sc_options['pick
                 endif;
             ?>
         </select>
-    </div>
+    </div> 
+    <?php } ?>
+     
     <!-- Standard button -->
-    <button type="submit" class="btn btn-default"><?php _e('SEARCH', $this->car_share); ?></button>
+    <button type="submit" class="btn btn-default"><?php _e('SEARCH', $this->car_share); ?></button> 
 </form>
