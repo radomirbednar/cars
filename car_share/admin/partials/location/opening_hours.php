@@ -20,30 +20,30 @@ $days = get_days_of_week();
             <td>
                 <select name="open[<?php echo $day_name ?>][from][hour]">
                 <?php for($i = 0; $i < 25; $i++): ?>
-                    <option value="<?php echo $i ?>" <?php echo $i == $day_opening_hours->from_hour ? ' selected="selected" ' : '' ?>><?php echo sprintf('%02d', $i) ?></option>
+                    <option value="<?php echo $i ?>" <?php echo isset($day_opening_hours->from_hour) && $i == $day_opening_hours->from_hour ? ' selected="selected" ' : '' ?>><?php echo sprintf('%02d', $i) ?></option>
                 <?php endfor; ?>
                 </select> 
                 :
                 <select name="open[<?php echo $day_name ?>][from][min]">
                 <?php for($i = 0; $i < 60; $i++): ?>
-                    <option value="<?php echo $i ?>" <?php echo $i == $day_opening_hours->from_min ? ' selected="selected" ' : '' ?>><?php echo sprintf('%02d', $i) ?></option>
+                    <option value="<?php echo $i ?>" <?php echo isset($day_opening_hours->from_min) && $i == $day_opening_hours->from_min ? ' selected="selected" ' : '' ?>><?php echo sprintf('%02d', $i) ?></option>
                 <?php endfor; ?>
                 </select>
             </td>
             <td>
                 <select name="open[<?php echo $day_name ?>][to][hour]">
                 <?php for($i = 0; $i < 25; $i++): ?>
-                    <option value="<?php echo $i ?>" <?php echo $i == $day_opening_hours->to_hour ? ' selected="selected" ' : '' ?>><?php echo sprintf('%02d', $i) ?></option>
+                    <option value="<?php echo $i ?>" <?php echo isset($day_opening_hours->to_hour) && $i == $day_opening_hours->to_hour ? ' selected="selected" ' : '' ?>><?php echo sprintf('%02d', $i) ?></option>
                 <?php endfor; ?>
                 </select> 
                 :
                 <select name="open[<?php echo $day_name ?>][to][min]">
                 <?php for($i = 0; $i < 60; $i++): ?>
-                    <option value="<?php echo $i ?>" <?php echo $i == $day_opening_hours->to_min ? ' selected="selected" ' : '' ?>><?php echo sprintf('%02d', $i) ?></option>
+                    <option value="<?php echo $i ?>" <?php echo isset($day_opening_hours->to_min) && $i == $day_opening_hours->to_min ? ' selected="selected" ' : '' ?>><?php echo sprintf('%02d', $i) ?></option>
                 <?php endfor; ?>
                 </select>            
             </td>
-            <td><input type="checkbox" name="open[<?php echo $day_name ?>][open]" value="1" <?php echo 1 == $day_opening_hours->open ? ' checked="checked" ' : '' ?>></td>
+            <td><input type="checkbox" name="open[<?php echo $day_name ?>][open]" value="1" <?php echo isset($day_opening_hours->open) && 1 == $day_opening_hours->open ? ' checked="checked" ' : '' ?>></td>
         </tr>
         <?php endforeach; ?>
     </tbody>
