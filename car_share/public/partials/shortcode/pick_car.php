@@ -22,13 +22,15 @@ $cars = $wpdb->get_results($sql);
 
 <?php if (!empty($cars)): ?>
     <form action="<?php echo $extras_car_url ?>" method="post">
-        <?php foreach ($cars as $car): ?> 
-        <div>
+        <?php foreach ($cars as $car): ?>
+
+        <div class="col-lg-12">
             <label>                
                 <input type="radio" name="car" value="<?php echo $car->ID ?>">
                 <?php echo get_the_title($car->ID) ?>
             </label>
-        </div>     
+        </div>    
+
         <?php endforeach; ?>
         
         <button type="submit" class="btn btn-default"><?php _e('Continue', $this->car_share); ?></button>

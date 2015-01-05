@@ -35,18 +35,14 @@ class Car_share_Season {
         add_action('save_post', array($this, 'save'));
     }
 
-    public function add_custom_boxes() {
-
+    public function add_custom_boxes() { 
         add_meta_box(
                 'season_date_box', __('Date interval', $this->car_share), array($this, 'date_box'), 'sc-season'
-        );
-
+        ); 
         add_meta_box(
                 'season_prices_box', __('Prices', $this->car_share), array($this, 'day_prices_box'), 'sc-season'
-        );
-
-    }
-
+        ); 
+    } 
     public function date_box(){
         global $post;
         $session = new sc_Season($post);
@@ -66,8 +62,7 @@ class Car_share_Season {
         wp_nonce_field(__FILE__, 'season_nonce');
     }
 
-    public function save() {
-
+    public function save() { 
         //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
         if (isset($_POST['season_nonce']) && wp_verify_nonce($_POST['season_nonce'], __FILE__)) {
             global $post;
@@ -100,8 +95,7 @@ class Car_share_Season {
                     ";
                     $wpdb->query($sql);
                 }
-            }
-
+            } 
             /*
             if("" != trim($_POST['_season_day_prices'])){
                 array_walk($_POST['_season_day_prices'], 'floatval');
@@ -110,6 +104,5 @@ class Car_share_Season {
                 delete_post_meta($post->ID, '_season_day_prices');
             }*/
         }
-    }
-
+    } 
 }

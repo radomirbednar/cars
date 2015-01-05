@@ -187,8 +187,7 @@ class Car_share_Admin {
         $service_fee = get_post_meta($post->ID, '_service_fee', true);  
         $per_service = get_post_meta($post->ID, '_per_service', true);
           
-        include 'partials/service/price_box.php';
-    
+        include 'partials/service/price_box.php'; 
         wp_nonce_field(__FILE__, 'service_fee_nonce');
      
     } 
@@ -199,7 +198,6 @@ class Car_share_Admin {
         $service_quantity_box = get_post_meta($post->ID, '_service_quantity_box', true);
         
         include 'partials/service/quantity_box.php'; 
-        
         wp_nonce_field(__FILE__, 'service_qt_nonce');
         
     }

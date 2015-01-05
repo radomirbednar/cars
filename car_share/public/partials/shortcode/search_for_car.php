@@ -1,10 +1,9 @@
-<?php
+<?php 
+    $sc_options = get_option('sc-pages');  
+    $pick_car_url = isset($sc_options['pick_car']) ? get_page_link($sc_options['pick_car']) : ''; 
+?>
 
-$sc_options = get_option('sc-pages'); 
-$pick_car_url = isset($sc_options['pick_car']) ? get_page_link($sc_options['pick_car']) : '';
 
-
-?> 
 <form name="car_share_search_form" action="<?php echo $pick_car_url ?>" method="post">
     <div class="form-group">
         <label><?php _e('Pickup location:', $this->car_share) ?></label>
@@ -28,8 +27,7 @@ $pick_car_url = isset($sc_options['pick_car']) ? get_page_link($sc_options['pick
                 endif;
             ?>
         </select>
-    </div>
-
+    </div> 
     <div class="form-group">
         <label><?php _e('Drop off location:', $this->car_share) ?></label>
         <select class="form-control" name="drop_off_location">
@@ -51,9 +49,8 @@ $pick_car_url = isset($sc_options['pick_car']) ? get_page_link($sc_options['pick
                 endif;
             ?>
         </select>
-    </div>
-
-
+    </div> 
+    
     <div class="form-group">
         <label for="car_datefrom"><?php _e('Pick-up date and time', $this->car_share); ?></label>
         <input id="car_datefrom" class="hasdatepicker" name="car_datefrom" value="">
@@ -73,10 +70,7 @@ $pick_car_url = isset($sc_options['pick_car']) ? get_page_link($sc_options['pick
 <?php endfor ?>
         </select>
     </div>
-
-    
-    
-    
+ 
     <div class="form-group">
         <label for="car_category"><?php _e('Category', $this->car_share); ?></label>
         <select class="form-control" name="car_category">
@@ -98,10 +92,7 @@ $pick_car_url = isset($sc_options['pick_car']) ? get_page_link($sc_options['pick
                 endif;
             ?>
         </select>
-    </div>
-    
-    
-    
+    </div> 
     <!-- Standard button -->
-    <button type="submit" class="btn btn-default"><?php _e('SEARCH', $this->car_share); ?></button>
+    <button type="submit" class="btn btn-default"><?php _e('SEARCH', $this->car_share); ?></button> 
 </form>
