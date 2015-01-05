@@ -1,7 +1,9 @@
 <?php
-$sc_options = get_option('sc-pages');
- 
+
+$sc_options = get_option('sc-pages'); 
 $pick_car_url = isset($sc_options['pick_car']) ? get_page_link($sc_options['pick_car']) : '';
+
+
 ?> 
 <form name="car_share_search_form" action="<?php echo $pick_car_url ?>" method="post">
     <div class="form-group">
