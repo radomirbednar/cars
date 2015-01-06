@@ -39,6 +39,17 @@ class Car_share_Admin {
      * @var      string    $version    The current version of this plugin.
      */
     private $version;
+    
+    /**
+     * jednotlive kusy aut, napr 5x fabie,
+     *
+     * @var type
+     */
+    public $single_cars = array(
+        1 => 'a',
+        2 => 'b',
+        3 => 'c'
+    );    
 
     /**
      * Initialize the class and set its properties.
@@ -54,7 +65,13 @@ class Car_share_Admin {
 
         add_action('add_meta_boxes', array($this, 'add_custom_boxes'));
         add_action('save_post', array($this, 'save'));
+        
+        add_action('in_admin_footer', array($this, 'single_car_js'));
     }
+    
+    public function single_car_js(){
+        include 'partials/car/js-statuses.php';
+    }    
 
     /**
      * Register the stylesheets for the Dashboard.
@@ -106,22 +123,32 @@ class Car_share_Admin {
     }
 
     public function add_custom_boxes() {
-        
+        /*
         add_meta_box(
                 'single_cars_box', __('Single cars', $this->car_share), array($this, 'single_cars_box'), 'sc-car'
-        );
+        );*/
+        
+        foreach($this->single_cars as $key => $value){
+            add_meta_box(
+                    'single_car_box_' . $key, sprintf(__('Single car %d', $this->car_share), $key), array($this, 'single_car_box'), 'sc-car'
+            );
+        }
+        reset($this->single_cars);
+        
 
         add_meta_box(
                 'car_category_box', __('Category', $this->car_share), array($this, 'car_category_box'), 'sc-car'
         );
 
+        /**
         add_meta_box(
                 'locations_box', __('Locations', $this->car_share), array($this, 'locations_box'), 'sc-car'
-        );
+        );*/
 
+        /*
         add_meta_box(
                 'unavailability_box', __('Unavailability', $this->car_share), array($this, 'unavailability_box'), 'sc-car'
-        );
+        );*/
 
         add_meta_box(
                 'car_details_box', __('Details', $this->car_share), array($this, 'details_box'), 'sc-car'
@@ -140,7 +167,21 @@ class Car_share_Admin {
                 'service_quantity_box', __('Quantity', $this->car_share), array($this, 'service_quantity_box'), 'sc-service'
         );
     }
+    
+    public function single_car_box(){
+        global $post;
+        global $wpdb;
 
+        $key = key($this->single_cars);
+        next($this->single_cars);
+
+        $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
+        $locations = $wpdb->get_results($sql);
+
+        include 'partials/car/single_car.php';
+    }    
+
+    /*
     public function single_cars_box(){
         global $post;
         global $wpdb;
@@ -149,7 +190,7 @@ class Car_share_Admin {
         //$locations = $wpdb->get_results($sql);        
         
         include 'partials/car/single_cars_box.php';
-    }
+    }*/
 
     public function car_category_box(){
         global $post;
@@ -160,8 +201,11 @@ class Car_share_Admin {
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-car-category' AND post_status IN ('publish', 'pending', 'draft', 'private') ORDER BY post_title DESC";
         $car_categories = $wpdb->get_results($sql);
         include 'partials/car/category.php';
+        
+        wp_nonce_field(__FILE__, 'car_nonce');
     }
 
+    /*
     public function locations_box() {
         global $post;
         global $wpdb;
@@ -175,7 +219,7 @@ class Car_share_Admin {
 
         include 'partials/car/locations_box.php';
         wp_nonce_field(__FILE__, 'car_nonce');
-    }
+    }*/
 
     public function unavailability_box(){
         include 'partials/car/unavailability_box.php';
