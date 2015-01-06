@@ -112,7 +112,7 @@ class Car_share_Public {
             'labels' => array(
                 'name' => __('Cars', $this->car_share),
                 'singular_name' => __('Car', $this->car_share),
-                'add_new' => __('Add new', $this->car_share),
+                'add_new' => __('Add new car', $this->car_share),
                 'add_new_item' => __('Add new car', $this->car_share),
                 'edit_item' => __('Edit car', $this->car_share),
                 'new_item' => __('New car', $this->car_share),
