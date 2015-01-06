@@ -27,7 +27,7 @@
  * @subpackage Car_share/includes
  * @author     My name <mail@example.com>
  */
-class Car_share {    
+class Car_share {
 
 
 	/**
@@ -74,7 +74,7 @@ class Car_share {
 
 		$this->load_dependencies();
 		$this->set_locale();
-		$this->define_admin_hooks(); 
+		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
 	}
@@ -96,13 +96,13 @@ class Car_share {
 	 * @access   private
 	 */
 	private function load_dependencies() {
-            
+
                 /**
-                 * 
+                 *
                  */
                 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions.php';
-                
-            
+
+
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
@@ -119,54 +119,59 @@ class Car_share {
 		 * The class responsible for defining all actions that occur in the Dashboard.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-car_share-admin.php';
-                
+
                 /**
                  * Car taxonomies
                  */
                 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-car_share-taxonomy.php';
-                
+
                 /**
                  * session post type
                  */
                 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-car_share-season.php';
-                
+
                 /**
-                 * 
+                 *
                  */
                 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-car_share-location.php';
-                
+
                 /**
-                 * 
+                 *
                  */
                 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-car_share-car-category.php';
 
-                /*
-                 * 
-                 * The class setting page in admin 
-                 * 
-                 * 
+                /**
+                 *
                  */
-                
+                require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-car_share-single.php';
+
+                /*
+                 *
+                 * The class setting page in admin
+                 *
+                 *
+                 */
+
                 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-car_share-setting.php';
-                
-                
+
+
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-car_share-public.php';
-                
-                
+
+
                 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-car_share-shortcode.php';
-                
+
                 /**
-                 * 
+                 *
                  */
                 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'class/car.php';
                 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'class/location.php';
                 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'class/season.php';
                 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'class/category.php';
-                 
+
 
 		$this->loader = new Car_share_Loader();
 
@@ -184,8 +189,8 @@ class Car_share {
 	private function set_locale() {
 
 		$plugin_i18n = new Car_share_i18n();
-		$plugin_i18n->set_domain( $this->get_car_share() ); 
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' ); 
+		$plugin_i18n->set_domain( $this->get_car_share() );
+		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
 
 	/**
@@ -197,15 +202,16 @@ class Car_share {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Car_share_Admin( $this->get_car_share(), $this->get_version());  
+		$plugin_admin = new Car_share_Admin( $this->get_car_share(), $this->get_version());
                 $plugin_setting = new Car_share_Setting($this->get_car_share(), $this->get_version());
                 //$plugin_taxonomy = new Car_share_Taxonomy($this->get_car_share(), $this->get_version());
                 $season = new Car_share_Season($this->get_car_share(), $this->get_version());
                 $location = new Car_share_Location($this->get_car_share(), $this->get_version());
                 $car_category = new Car_share_CarCategory($this->get_car_share(), $this->get_version());
-                 
+                $single_car = new Car_share_Single($this->get_car_share(), $this->get_version());
+
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' ); 
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 	}
 
 	/**
@@ -222,7 +228,7 @@ class Car_share {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-                
+
                 $this->loader->add_action( 'init', $plugin_public, 'register_custom_post' );
         }
 
@@ -264,5 +270,5 @@ class Car_share {
 	 */
 	public function get_version() {
 		return $this->version;
-	}         
+	}
 }

@@ -54,41 +54,6 @@ class Car_share_Admin {
 
         add_action('add_meta_boxes', array($this, 'add_custom_boxes'));
         add_action('save_post', array($this, 'save'));
-
-        add_action('wp_ajax_add_single_car', array($this, 'add_single_car_callback'));
-        add_action('wp_ajax_edit_single_car', array($this, 'edit_single_car_callback'));
-        add_action('wp_ajax_delete_single_car', array($this, 'delete_single_car_callback'));
-    }
-
-
-    public function add_single_car_callback(){
-
-        global $wpdb;
-
-        $id = $_GET['id'];
-        
-        $pickup_location = get_post_meta($id, '_pickup_location', true);
-        $dropoff_location = get_post_meta($id, '_dropoff_location', true);
-
-        $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
-        $locations = $wpdb->get_results($sql);
-
-        include 'partials/car/add_single_car.php';
-        die();
-    }
-
-    public function edit_single_car_callback(){
-
-        $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
-        $locations = $wpdb->get_results($sql);
-
-        include 'partials/car/add_single_car.php';
-        die();
-    }
-
-    public function delete_single_car_callback(){
-
-        die();
     }
 
     /**
@@ -140,8 +105,8 @@ class Car_share_Admin {
         wp_enqueue_script( 'jquery-ui-datepicker', false, array('jquery'));
     }
 
-    public function add_custom_boxes($post_id) {
-
+    public function add_custom_boxes() {
+        
         add_meta_box(
                 'single_cars_box', __('Single cars', $this->car_share), array($this, 'single_cars_box'), 'sc-car'
         );
@@ -180,8 +145,8 @@ class Car_share_Admin {
         global $post;
         global $wpdb;
         
-        $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
-        $locations = $wpdb->get_results($sql);        
+        //$sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
+        //$locations = $wpdb->get_results($sql);        
         
         include 'partials/car/single_cars_box.php';
     }

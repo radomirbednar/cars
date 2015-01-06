@@ -1,31 +1,4 @@
-<div class="single-car">
-
-    <button id="add-single-car" type="button" class="button button-primary"><?php _e('Add single car', $this->car_share) ?></button>        
-
-    <div id="single-car-data">
-        <?php if (!empty($locations)): ?>
-            <h4><?php _e('Pick-up location:', $this->car_share) ?></h4>
-            <?php foreach ($locations as $location): ?>
-                <label class="inline-label">
-                    <input type="checkbox" name="_pickup_location[]" value="<?php echo $location->ID ?>">
-                    <?php _e($location->post_title) ?>
-                </label>
-            <?php endforeach; ?>
-            <div class="clear"></div>
-        <?php endif; ?>
-
-        <?php if (!empty($locations)): ?>
-            <h4><?php _e('Drop-off Location:', $this->car_share) ?></h4>
-            <?php foreach ($locations as $location): ?>
-                <label class="inline-label">
-                    <input type="checkbox" name="_dropoff_location[]" value="<?php echo $location->ID ?>">
-                    <?php _e($location->post_title) ?>
-                </label>
-            <?php endforeach; ?>
-            <div class="clear"></div>
-        <?php endif; ?>
-
-    </div>
+<div class="single-car">    
 
     <table class="wp-list-table widefat fixed posts">
         <thead>
@@ -68,20 +41,5 @@
         </tbody>
     </table>
 
-
+    <button id="add-single-car" type="button" class="button button-primary"><?php _e('Add single car', $this->car_share) ?></button>        
 </div>
-<script>
-    jQuery(document).ready(function ($) {
-        $("#add-single-car").click(function (event) {
-
-            var form = $(this).parents('form');
-
-            console.log('x' + form.serialize());
-
-            /*
-             event.preventDefault();                       
-             tb_show('<?php _e('Add single car', $this->car_share) ?>', ajaxurl + '?action=add_single_car&id=<?php echo $post->ID ?>'); 
-             */
-        });
-    });
-</script>
