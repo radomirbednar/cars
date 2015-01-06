@@ -21,6 +21,16 @@ $cars = $wpdb->get_results($sql);
 
 
 <?php if (!empty($cars)): ?>
+
+
+
+    <div>
+        <?php _e('1. Search for a car', $this->car_share); ?>
+        <?php _e('2. Pick a car', $this->car_share); ?>
+        <?php _e('3. Pick a car', $this->car_share); ?>
+    </div>
+
+
     <form action="<?php echo $extras_car_url ?>" method="post">
         <?php foreach ($cars as $car): ?>
 

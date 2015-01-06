@@ -36,7 +36,7 @@
             minDate: 0,
             changeMonth: true,
             numberOfMonths: 2,
- 
+            dateFormat: 'dd-mm-yy', 
             onClose: function(selectedDate) {
                 $("#car_dateto").datepicker("option", "minDate", selectedDate);
             }
@@ -45,15 +45,12 @@
             minDate: 0,
             changeMonth: true,
             numberOfMonths: 2,  
-    
-           
+            dateFormat: 'dd-mm-yy', 
             onClose: function(selectedDate) { 
                 $("#car_datefrom").datepicker("option", "maxDate", selectedDate); 
             }
         }); 
     });
-   
- 
    
   
   $("#returnlocationcheck").click(function(event) {       
