@@ -41,6 +41,7 @@ class Car_share_CarCategory {
 
         add_action('wp_ajax_add_season_to_category', array($this, 'add_season_to_category_callback'));
         add_action('wp_ajax_edit_season_to_category', array($this, 'edit_season_to_category_callback'));
+        add_action('wp_ajax_reload_season2category', array($this, 'reload_season2category_callback'));
     }
 
     public function add_custom_boxes() {
@@ -62,29 +63,42 @@ class Car_share_CarCategory {
         );
     }
     
-    public function edit_season_to_category_callback(){
+    public function reload_season2category_callback(){
         global $wpdb;
         
-        $season_id = $_GET['season_id'];
-        $car_category_id = $_GET['car_category_id'];
-        
+        $car_category_id = $_GET['id'];
+
         $category = new sc_Category($car_category_id);
+        $season2category = $category->day_prices_indexed_with_dayname();
+
+        include 'partials/car-category/content_assigned_season.php';
+        die();        
+    }
+
+    public function edit_season_to_category_callback(){
+        global $wpdb;
+
+        $season_id = $_GET['season_id'];
+        $post_id = $_GET['car_category_id'];
+
+        $category = new sc_Category($post_id);
         $season2category = $category->day_prices_indexed_with_dayname($season_id);
-        
+
         include 'partials/car-category/edit_s2c.php';
         die();
-    }    
+    }
 
     public function add_season_to_category_callback(){
 
-        global $wpdb;        
+        global $wpdb;
+        $post_id = (int) $_POST['_car_category_id'];
 
         // category day prices
         if(!empty($_POST['_season_to_category_prices'])){
             foreach ($_POST['_season_to_category_prices'] as $dayname => $price){
                 $sql = "
                     REPLACE INTO day_prices (car_category_id, season_id, dayname, price) VALUES (
-                        '" . (int) $_POST['_car_category_id'] . "',
+                        '" . $post_id . "',
                         '" . (int) $_POST['_season_to_category'] . "',
                         '" . esc_sql($dayname) . "',
                         '" . floatval($price) . "'
@@ -93,8 +107,14 @@ class Car_share_CarCategory {
                     $wpdb->query($sql);
                 }
         }
+        
+        $category = new sc_Category($post_id);
+        $season2category_prices = $category->season_to_category_prices();
+
+        include 'partials/car-category/content_assigned_season.php';        
+        
         exit();
-    }    
+    }
 
     public function minimum_age_box(){
         global $post;
@@ -112,7 +132,7 @@ class Car_share_CarCategory {
 
     public function assigned_season_box(){
         global $post;
-        $category = new sc_Category($post);        
+        $category = new sc_Category($post);
         $season2category_prices = $category->season_to_category_prices();
 
         include 'partials/car-category/season2category.php';

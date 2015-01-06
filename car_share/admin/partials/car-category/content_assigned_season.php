@@ -10,12 +10,22 @@ endforeach;
 $days_row .= '<td></td></tr>';
 
 foreach ($season2category_prices as $season_id => $season_price):
+    $season = new sc_Season($season_id);
+    $from = $season->from();
+    $to = $season->to();
     ?>
     <tr>
-        <td colspan="7"><?php echo get_the_title($season_id) ?></td>
+        <td colspan="7">
+            <strong><?php echo get_the_title($season_id) ?></strong>
+            ( <?php echo empty($from) ? '' : $from->format(get_option('date_format')) ?> - <?php echo empty($from) ? '' : $to->format(get_option('date_format')) ?> )
+        </td>
         <td>
-            <a href="#" class="edit-s2c" data-season_id="<?php echo $season_id ?>" data-car_category_id="<?php echo $season_price['car_category_id'] ?>"><?php _e('Edit', $this->car_share) ?></a> | 
-            <a href="#" class="remove-s2c" data-season_id="<?php echo $season_id ?>" data-car_category_id="<?php echo $season_price['car_category_id'] ?>"><?php _e('Delete', $this->car_share) ?></a>
+            <a href="#" class="edit-s2c" data-season_id="<?php echo $season_id ?>" data-car_category_id="<?php echo $season_price['car_category_id'] ?>">
+                <?php _e('Edit', $this->car_share) ?>
+            </a> | 
+            <a href="#" class="remove-s2c" data-season_id="<?php echo $season_id ?>" data-car_category_id="<?php echo $season_price['car_category_id'] ?>">
+                <?php _e('Delete', $this->car_share) ?>
+            </a>
         </td>
     </tr>
     
@@ -29,11 +39,11 @@ foreach ($season2category_prices as $season_id => $season_price):
     </tr>
 <?php endforeach; ?>
 
-<script>
+<script>    
     jQuery(document).ready(function ($) {
         $( ".edit-s2c" ).click(function(event) {
             event.preventDefault();                       
             tb_show('<?php _e('Edit', $this->car_share) ?>', ajaxurl + '?action=edit_season_to_category&season_id=' + $(this).data('season_id') + '&car_category_id=' + $(this).data('car_category_id')); 
         });
-    });    
+    });      
 </script>

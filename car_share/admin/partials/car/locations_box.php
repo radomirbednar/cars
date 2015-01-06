@@ -1,3 +1,4 @@
+<!--
 <div class="row">
     <label><?php _e('Current location', $this->car_share) ?>
         <select name="_current_location">
@@ -9,7 +10,7 @@
             <?php endif; ?>
         </select>
     </label>
-</div>    
+</div>   --> 
 
 <?php if (!empty($locations)): ?>
 <h4><?php _e('Pick-up location:', $this->car_share) ?></h4>

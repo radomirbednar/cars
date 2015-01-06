@@ -1,5 +1,5 @@
 <table id="season-to-category" style="width: 100%;">
-    <tbody>
+    <tbody id="content-season2category">
         <?php include 'content_assigned_season.php'; ?>
     </tbody>
 </table>
@@ -8,16 +8,52 @@
 
 
 <script>
-    function reload_assigned_seasons(){
+
+    jQuery(document).ready(function ($) {
+
+        $('body').on('submit','.update-season2category',function(event) {
+
+                event.preventDefault();
+                var self = $(this);
+
+                jQuery.ajax({
+                    type: $(this).attr('method'),
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    beforeSend: function () {
+                        //self.find(':submit').attr('disabled','disabled');
+                        self.find(':submit').prop("disabled", true);
+                    }
+                }).done(function (ret) {                    
+                    self[0].reset()
+                    $('#TB_closeWindowButton').trigger('click');
+                    $('#content-season2category').html(ret);
+                    //resp.html('<div class="alert alert-success">' + ret + '</div>');
+                    //self.find(".clear").val("");
+                }).fail(function (ret) {
+                    //resp.html('<div class="alert alert-danger">' + ret.responseText + '</div>');                    
+                }).always(function () {
+                    self.find(':submit').prop("disabled", false);
+                });
+            });
+        });
+
+
+/*
+    function reload_season2category(car_category_id){
         jQuery.ajax({
-            type: $(this).attr('method'),
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
+            type: "POST",
+            url: ajaxurl,
+            action : 'reload_season2category',
+            data: {
+                'id': car_category_id
+            },
             beforeSend: function () {
                 //self.find(':submit').attr('disabled','disabled');
-                self.find(':submit').prop("disabled", true);
+                //self.find(':submit').prop("disabled", true);
             }
         }).done(function (ret) {
+            $('#content-season2category').html(ret);
             //resp.html('<div class="alert alert-success">' + ret + '</div>');
             //self.find(".clear").val("");
         }).fail(function (ret) {
@@ -25,5 +61,5 @@
         }).always(function () {
             //self.find(':submit').prop("disabled", false);
         });
-    }
+    }*/
 </script>
