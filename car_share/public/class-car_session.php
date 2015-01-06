@@ -25,26 +25,22 @@ class Car_Cart {
      * @param string $order_code The order code of the item.
      * @param int $quantity The quantity.
      */
-    function setItemSearch($order_code, $quantity) {
-        
-        
-        
-        
-        
+    function setItemSearch($pick_up_location, $drop_off_location, $car_hoursfrom, $car_hoursto, $car_category) {
          
-        $this->items['car_search'] = $quantity;
-        
-        
-        
-        
+        $this->items['pick_up_location'] = $pick_up_location;
+        $this->items['drop_off_location'] = $drop_off_location;
+        $this->items['car_hoursfrom'] = $car_hoursfrom;
+        $this->items['car_hoursto'] = $car_hoursto;
+        $this->items['car_category'] = $car_category;    
     }
-    
-    
-    function getItemSearch() {     
+     
+    function getItemSearch(){   
+        
+         return $this->items; 
+         
     }
    
-    
-    
+     
     /**
      * getItemPrice() - Get the price of an item.
      *
@@ -52,6 +48,11 @@ class Car_Cart {
      * @return int The price.
      */
     function getItemPrice($order_code) {
+        
+        
+        
+        
+        
         // This is where the code taht retrieves prices
         // goes. We'll just say everything costs $19.99 for this tutorial.
         return 9.99;  

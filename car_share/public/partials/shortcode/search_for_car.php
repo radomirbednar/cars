@@ -1,33 +1,33 @@
 
- <div>
+<div>
     <?php _e('1. Search for a car', $this->car_share); ?>
     <?php _e('2. Pick a car', $this->car_share); ?>
     <?php _e('3. Pick a car', $this->car_share); ?>
 </div>
-
+<?php echo $this->warning; ?>
 
 <form name="car_share_search_form" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
     <div class="form-group">
         <label><?php _e('Pickup location:', $this->car_share) ?></label>
         <select class="form-control" name="pick_up_location">
 
-<?php
-$args = array(
-    'post_type' => 'sc-location',
-    'post_status' => 'publish'
-);
-$query = new WP_Query($args);
-?>
-<?php
-if ($query->have_posts()) :
-    while ($query->have_posts()) : $query->the_post();
-        ?>
+            <?php
+            $args = array(
+                'post_type' => 'sc-location',
+                'post_status' => 'publish'
+            );
+            $query = new WP_Query($args);
+            ?>
+            <?php
+            if ($query->have_posts()) :
+                while ($query->have_posts()) : $query->the_post();
+                    ?>
                     <option value="<?php the_ID(); ?>"><?php the_title(); ?></option>
-        <?php
-    endwhile;
-    wp_reset_postdata();
-endif;
-?>
+                    <?php
+                endwhile;
+                wp_reset_postdata();
+            endif;
+            ?>
         </select>
     </div>
 
@@ -49,11 +49,11 @@ endif;
                 while ($query->have_posts()) : $query->the_post();
                     ?>
                     <option value="<?php the_ID(); ?>"><?php the_title(); ?></option>
-        <?php
-    endwhile;
-    wp_reset_postdata();
-endif;
-?>
+                    <?php
+                endwhile;
+                wp_reset_postdata();
+            endif;
+            ?>
         </select>
     </div>
 
@@ -71,15 +71,15 @@ endif;
         <label for="car_dateto"><?php _e('Return date and time:', $this->car_share); ?></label>
         <input id="car_dateto" class="hasdatepicker" required name="car_dateto" value="">
         <select class="form-control" name="car_hoursto">
-<?php for ($i = 0; $i < 24; $i++): ?>
+            <?php for ($i = 0; $i < 24; $i++): ?>
                 <option value="<?php echo $i; ?>"><?php echo $i; ?>:00 </option>
-<?php endfor ?>
+            <?php endfor ?>
         </select>
     </div>
 
-            <?php $options = get_option('car_plugin_options_arraykey'); ?>
+    <?php $options = get_option('car_plugin_options_arraykey'); ?>
 
-<?php if ($options['showcategory'] == 1) { ?>
+    <?php if ($options['showcategory'] == 1) { ?>
 
         <div class="form-group">
             <label for="car_category"><?php _e('Category:', $this->car_share); ?></label>
@@ -96,14 +96,14 @@ endif;
                     while ($query->have_posts()) : $query->the_post();
                         ?>
                         <option value="<?php the_ID(); ?>"><?php the_title(); ?></option>
-            <?php
-        endwhile;
-        wp_reset_postdata();
-    endif;
-    ?>
+                        <?php
+                    endwhile;
+                    wp_reset_postdata();
+                endif;
+                ?>
             </select>
         </div>
-            <?php } ?>
+    <?php } ?>
 
     <!-- Standard button -->
     <button type="submit" class="btn btn-default"><?php _e('SEARCH', $this->car_share); ?></button>
