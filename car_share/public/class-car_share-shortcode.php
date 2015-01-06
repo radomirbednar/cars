@@ -24,7 +24,10 @@ class Car_share_Shortcode {
         
         add_action('plugins_loaded', array($this, 'search_for_car_form')); 
         
-        session_start(); 
+        if(!isset($_SESSION))
+            {
+            session_start();
+            }
  
     }
 
@@ -120,35 +123,28 @@ class Car_share_Shortcode {
           
                $sc_options = get_option('sc-pages');
                $extras_car_url = isset($sc_options['extras']) ? get_page_link($sc_options['extras']) : '';
-                
-              
-               
- 
+           
                $Cars_cart = new Car_Cart('shopping_cart');  
                $Cars_cart->getItems(); 
               
                var_dump($Cars_cart);
-               
-                   
                 
-               
-               
                exit();  
            
                
                
-            $sql = "
-                SELECT
-                    *
-                FROM
-                wp_posts 
-                WHERE
+                $sql = "
+                    SELECT
+                        *
+                    FROM
+                    wp_posts 
+                    WHERE
                     post_type = 'sc-car'
-                AND
-                post_status = 'publish'         
-            ";
+                    AND
+                    post_status = 'publish'         
+                ";
 
-        $cars = $wpdb->get_results($sql);
+            $cars = $wpdb->get_results($sql);
  
           
     }
