@@ -144,13 +144,11 @@ class Car_share_Setting {
      
         }
      
-    function plugin_main_settings_validate($arr_input) {
-        $options = get_option('car_plugin_options_arraykey');
-         
+    function plugin_main_settings_validate($arr_input) { 
+        $options = get_option('car_plugin_options_arraykey');  
         $options['notemail'] = trim($arr_input['notemail']);  
-        $options['showcategory'] = trim($arr_input['showcategory']);
-        
-        return $options;
+        $options['showcategory'] = trim($arr_input['showcategory']); 
+        return $options; 
     } 
     function print_additional_settings_section_info() {
         echo '<p>Additional Settings Description.</p>';
@@ -164,8 +162,7 @@ class Car_share_Setting {
         $options['another-setting'] = trim($arr_input['another-setting']);
         return $options;
     } 
-    
-    
+ 
     /**
      * Add settings action link to the plugins page.
      *

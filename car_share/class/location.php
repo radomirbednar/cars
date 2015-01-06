@@ -3,7 +3,7 @@
 class Location {
     
     protected $id;
-    
+     
     public function __construct($id = null){
         $this->id = $id;
     }
@@ -26,7 +26,10 @@ class Location {
         ";
         
         return $wpdb->get_results($sql);
+        
     }
+     
+   
     
     public function get_opening_hours_with_day_key(){
         $opening_hours = $this->get_opening_hours();

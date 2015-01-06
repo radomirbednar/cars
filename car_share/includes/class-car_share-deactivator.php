@@ -20,8 +20,7 @@
  * @subpackage Car_share/includes
  * @author     My name <mail@example.com>
  */
-class Car_share_Deactivator {
-
+class Car_share_Deactivator { 
 	/**
 	 * Short Description. (use period)
 	 *
@@ -29,8 +28,6 @@ class Car_share_Deactivator {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function deactivate() {
-
-	}
-
+	public static function deactivate() { 
+	} 
 }
