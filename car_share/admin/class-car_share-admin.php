@@ -41,14 +41,14 @@ class Car_share_Admin {
     private $version;
 
     /**
-     * jednotlive kusy aut, napr 5x fabie, 
+     * jednotlive kusy aut, napr 5x fabie,
      *
-     * @var type 
+     * @var type
      */
-    private $single_cars = array(
-        1 => '',
-        2 => '',
-        3 => ''
+    public $single_cars = array(
+        1 => 'a',
+        2 => 'b',
+        3 => 'c'
     );
     /**
      * Initialize the class and set its properties.
@@ -64,10 +64,10 @@ class Car_share_Admin {
 
         add_action('add_meta_boxes', array($this, 'add_custom_boxes'));
         add_action('save_post', array($this, 'save'));
-        
+
         add_action('admin_menu', array($this, 'check_screen'));
     }
-    
+
     public function check_screen(){
         $current_screen = get_current_screen();
         $x = 1;
@@ -124,17 +124,18 @@ class Car_share_Admin {
     }
 
     public function add_custom_boxes() {
-        
+
         /*
         add_meta_box(
                 'single_cars_box', __('Single cars', $this->car_share), array($this, 'single_cars_box'), 'sc-car'
         );*/
-        
+
         foreach($this->single_cars as $key => $value){
             add_meta_box(
                     'single_car_box_' . $key, sprintf(__('Single car %d', $this->car_share), $key), array($this, 'single_car_box'), 'sc-car'
-            );            
+            );
         }
+        reset($this->single_cars);
 
         add_meta_box(
                 'car_category_box', __('Category', $this->car_share), array($this, 'car_category_box'), 'sc-car'
@@ -161,12 +162,13 @@ class Car_share_Admin {
     public function single_car_box(){
         global $post;
         global $wpdb;
-        
-        $key = next($this->single_cars);        
-        
+
+        $key = key($this->single_cars);
+        next($this->single_cars);
+
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
-        $locations = $wpdb->get_results($sql);         
-        
+        $locations = $wpdb->get_results($sql);
+
         include 'partials/car/single_car.php';
     }
 
@@ -184,6 +186,7 @@ class Car_share_Admin {
 
 
     public function details_box(){
+
         global $post;
 
         $number_of_seats = get_post_meta($post->ID, '_number_of_seats', true);
@@ -217,7 +220,6 @@ class Car_share_Admin {
 
         include 'partials/service/quantity_box.php';
         wp_nonce_field(__FILE__, 'service_qt_nonce');
-
     }
 
     public function save() {

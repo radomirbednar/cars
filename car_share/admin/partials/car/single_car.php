@@ -22,7 +22,7 @@
 
 <h2><?php _e('Status', $this->car_share) ?></h2>
 
-<table id="status">
+<table class="status">
     <thead>
         <tr>
             <td>
@@ -43,7 +43,7 @@
     <tfoot>
         <tr>
             <td colspan="2">
-                <button id="add-status" type="button" class="button button-primary"><?php _e('Add status', $this->car_share) ?></button>
+                <button id="add-status-<?php echo $key ?>" type="button" class="add-status button button-primary"><?php _e('Add status', $this->car_share) ?></button>
             </td>    
         </tr>    
     </tfoot>    
@@ -68,6 +68,7 @@
                     '<button class="remove-row" type="button"><?php _e("X", $this->car_share) ?></button>' +
                     '</td>' +
                     '</tr>';
+            
             return str;
         }
 
@@ -76,15 +77,17 @@ if (!empty($special_prices)):
     foreach ($special_prices as $sp):
         ?>
                 var row = statusTableRow('<?php echo $sp->time_from ?>', '<?php echo $sp->price_value ?>', '<?php echo $sp->time_type ?>');
-                $('#status tbody').append(row);
+                $('.status tbody').append(row);
         <?php
     endforeach;
 endif;
 ?>
 
-        $('#add-status').click(function (e) {
+        $('.add-status').click(function (e) {
+            console.log($(this));
             var row = statusTableRow('', '', '');
-            $('#status tbody').append(row);
+            console.log('hello');
+            $(this).parent('.status').find('tbody').append(row);
         });
 
         $('#status').on('click', 'tbody .remove-row', function (event) {
