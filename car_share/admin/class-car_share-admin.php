@@ -41,6 +41,16 @@ class Car_share_Admin {
     private $version;
 
     /**
+     * jednotlive kusy aut, napr 5x fabie, 
+     *
+     * @var type 
+     */
+    private $single_cars = array(
+        1 => '',
+        2 => '',
+        3 => ''
+    );
+    /**
      * Initialize the class and set its properties.
      *
      * @since    1.0.0
@@ -54,6 +64,14 @@ class Car_share_Admin {
 
         add_action('add_meta_boxes', array($this, 'add_custom_boxes'));
         add_action('save_post', array($this, 'save'));
+        
+        add_action('admin_menu', array($this, 'check_screen'));
+    }
+    
+    public function check_screen(){
+        $current_screen = get_current_screen();
+        $x = 1;
+        $x = 1;
     }
 
     /**
@@ -107,20 +125,19 @@ class Car_share_Admin {
 
     public function add_custom_boxes() {
         
+        /*
         add_meta_box(
                 'single_cars_box', __('Single cars', $this->car_share), array($this, 'single_cars_box'), 'sc-car'
-        );
+        );*/
+        
+        foreach($this->single_cars as $key => $value){
+            add_meta_box(
+                    'single_car_box_' . $key, sprintf(__('Single car %d', $this->car_share), $key), array($this, 'single_car_box'), 'sc-car'
+            );            
+        }
 
         add_meta_box(
                 'car_category_box', __('Category', $this->car_share), array($this, 'car_category_box'), 'sc-car'
-        );
-
-        add_meta_box(
-                'locations_box', __('Locations', $this->car_share), array($this, 'locations_box'), 'sc-car'
-        );
-
-        add_meta_box(
-                'unavailability_box', __('Unavailability', $this->car_share), array($this, 'unavailability_box'), 'sc-car'
         );
 
         add_meta_box(
@@ -141,15 +158,18 @@ class Car_share_Admin {
         );
     }
 
-    public function single_cars_box(){
+    public function single_car_box(){
         global $post;
         global $wpdb;
         
-        //$sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
-        //$locations = $wpdb->get_results($sql);        
+        $key = next($this->single_cars);        
         
-        include 'partials/car/single_cars_box.php';
+        $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
+        $locations = $wpdb->get_results($sql);         
+        
+        include 'partials/car/single_car.php';
     }
+
 
     public function car_category_box(){
         global $post;
@@ -162,24 +182,6 @@ class Car_share_Admin {
         include 'partials/car/category.php';
     }
 
-    public function locations_box() {
-        global $post;
-        global $wpdb;
-
-        $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
-        $locations = $wpdb->get_results($sql);
-
-        $current_location = get_post_meta($post->ID, '_current_location', true);
-        $pickup_location = get_post_meta($post->ID, '_pickup_location', true);
-        $dropoff_location = get_post_meta($post->ID, '_dropoff_location', true);
-
-        include 'partials/car/locations_box.php';
-        wp_nonce_field(__FILE__, 'car_nonce');
-    }
-
-    public function unavailability_box(){
-        include 'partials/car/unavailability_box.php';
-    }
 
     public function details_box(){
         global $post;
@@ -190,6 +192,7 @@ class Car_share_Admin {
         $transmission = get_post_meta($post->ID, '_transmission', true);
 
         include 'partials/car/details.php';
+        wp_nonce_field(__FILE__, 'car_nonce');
     }
 
     /**
