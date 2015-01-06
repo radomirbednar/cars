@@ -15,16 +15,23 @@ class sc_Category {
         }        
     }
 
-    public function day_prices() {
+    public function day_prices($season_id = 0) {
         global $wpdb;
         $sql = "SELECT * FROM day_prices WHERE car_category_id = '" . (int) $this->id . "'";
+        
+        if(!empty($season_id)){
+            $sql .= " AND season_id = '" . (int) $season_id . "'";
+        } else {
+            $sql .= " AND season_id = '0'";
+        }
+        
         return $wpdb->get_results($sql);
     }
 
     public function day_prices_indexed_with_dayname($season_id = 0) {
 
         $return = array();
-        $day_prices = $this->day_prices($season_id = 0);
+        $day_prices = $this->day_prices($season_id);
 
         foreach ($day_prices as $day_price) {
             $return[$day_price->dayname] = $day_price;

@@ -40,14 +40,36 @@ class Car_share_CarCategory {
         add_action('in_admin_footer', array($this, 'new_season_to_category'));
 
         add_action('wp_ajax_add_season_to_category', array($this, 'add_season_to_category_callback'));
-        add_action('wp_ajax_edit_season_to_category', array($this, 'edit_season_to_category'));
+        add_action('wp_ajax_edit_season_to_category', array($this, 'edit_season_to_category_callback'));
+    }
+
+    public function add_custom_boxes() {
+
+        add_meta_box(
+                'car_category_miminum_age', __('Minimum driver age', $this->car_share), array($this, 'minimum_age_box'), 'sc-car-category'
+        );
+
+        add_meta_box(
+                'car_category_day_prices', __('Price', $this->car_share), array($this, 'day_prices_box'), 'sc-car-category'
+        );
+
+        add_meta_box(
+                'car_category_discount_upon_duration', __('Discount upon duration', $this->car_share), array($this, 'discount_upon_duration_box'), 'sc-car-category'
+        );
+
+        add_meta_box(
+                'car_category_assign_season', __('Assigned seasons', $this->car_share), array($this, 'assigned_season_box'), 'sc-car-category'
+        );
     }
     
-    public function edit_season_to_category(){
+    public function edit_season_to_category_callback(){
         global $wpdb;
         
         $season_id = $_GET['season_id'];
         $car_category_id = $_GET['car_category_id'];
+        
+        $category = new sc_Category($car_category_id);
+        $season2category = $category->day_prices_indexed_with_dayname($season_id);
         
         include 'partials/car-category/edit_s2c.php';
         die();
@@ -72,27 +94,7 @@ class Car_share_CarCategory {
                 }
         }
         exit();
-    }
-
-    public function add_custom_boxes() {
-
-        add_meta_box(
-                'car_category_miminum_age', __('Minimum driver age', $this->car_share), array($this, 'minimum_age_box'), 'sc-car-category'
-        );
-
-        add_meta_box(
-                'car_category_day_prices', __('Price', $this->car_share), array($this, 'day_prices_box'), 'sc-car-category'
-        );
-
-        add_meta_box(
-                'car_category_discount_upon_duration', __('Discount upon duration', $this->car_share), array($this, 'discount_upon_duration_box'), 'sc-car-category'
-        );
-
-        add_meta_box(
-                'car_category_assign_season', __('Assigned seasons', $this->car_share), array($this, 'assigned_season_box'), 'sc-car-category'
-        );
-
-    }
+    }    
 
     public function minimum_age_box(){
         global $post;
