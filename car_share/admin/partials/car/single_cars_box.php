@@ -1,4 +1,4 @@
-<div class="single-car">    
+<div class="single-car">
 
     <table class="wp-list-table widefat fixed posts">
         <thead>
@@ -15,7 +15,7 @@
                 <th style="" class="">
                     <?php _e('Nedostupnost', $this->car_share) ?>
                 </th>
-                <th style="" class="">                   
+                <th style="" class="">
                 </th>
             </tr>
         </thead>
@@ -41,5 +41,5 @@
         </tbody>
     </table>
 
-    <button id="add-single-car" type="button" class="button button-primary"><?php _e('Add single car', $this->car_share) ?></button>        
+    <a href="/wp-admin/edit.php?post_type=sc-car&page=add-single-cars" class="button button-primary"><?php _e('Add single car', $this->car_share) ?></a>
 </div>

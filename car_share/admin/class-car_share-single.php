@@ -108,7 +108,8 @@ class Car_share_Single {
         //add_menu_page( 'Single cars', 'Single cars', '', 'myplugin/myplugin-admin.php', '', plugins_url( 'myplugin/images/icon.png' ), 6 );        
         //add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function ); 
         
-        add_submenu_page( "edit.php?post_type=sc-car",  __('Single cars', $this->car_share), __('Single cars', $this->car_share), '', 'single-cars', array($this, 'single_cars')); 
+        add_submenu_page( "edit.php?post_type=sc-car",  __('Single cars', $this->car_share), __('Single cars', $this->car_share), 'edit_posts', 'single-cars', array($this, 'single_cars')); 
+        add_submenu_page( "edit.php?post_type=sc-car",  __('Add single cars', $this->car_share), __('Add single cars', $this->car_share), 'edit_posts', 'add-single-cars', array($this, 'single_cars')); 
     }
     
     public function single_cars(){        
