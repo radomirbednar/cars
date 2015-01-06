@@ -15,6 +15,13 @@ function get_days_of_week(){
     return $days;    
 }
 
+function get_car_statuses(){
+    $arr = array(
+        0 => 'Inaccessible',
+        1 => 'Reserved'
+    );
+}
+
 function get_term_meta($term_id, $meta_key){
     global $wpdb;
     

@@ -38,6 +38,8 @@
         </tr>
     </thead>
     <tbody>
+        
+     
 
     </tbody>
     <tfoot>
@@ -50,48 +52,17 @@
 </table>
 
 <script>
-    jQuery(document).ready(function ($) {
-
-        function statusTableRow(next_time, next_price, price_type) {
-
-            var str = '<tr class="item">' +
-                    '<td>' +
-                    '<input type="text" name="status[][note]" value="">' +
-                    '</td>' +
-                    '<td>' +
-                    '<input type="text" name="status[][from]" value="">' +
-                    '</td>' +
-                    '<td>' +
-                    '<input type="text" name="status[][to]" value="">' +
-                    '</td>' +
-                    '<td>' +
-                    '<button class="remove-row" type="button"><?php _e("X", $this->car_share) ?></button>' +
-                    '</td>' +
-                    '</tr>';
-            
-            return str;
-        }
-
+jQuery(document).ready(function ($) {
 <?php
 if (!empty($special_prices)):
     foreach ($special_prices as $sp):
         ?>
                 var row = statusTableRow('<?php echo $sp->time_from ?>', '<?php echo $sp->price_value ?>', '<?php echo $sp->time_type ?>');
-                $('.status tbody').append(row);
+                document.write(row);
         <?php
     endforeach;
 endif;
 ?>
+});
+</script>   
 
-        $('.add-status').click(function (e) {
-            console.log($(this));
-            var row = statusTableRow('', '', '');
-            console.log('hello');
-            $(this).parent('.status').find('tbody').append(row);
-        });
-
-        $('#status').on('click', 'tbody .remove-row', function (event) {
-            $(this).parents(".item").remove();
-        });
-    });
-</script>

@@ -64,14 +64,12 @@ class Car_share_Admin {
 
         add_action('add_meta_boxes', array($this, 'add_custom_boxes'));
         add_action('save_post', array($this, 'save'));
-
-        add_action('admin_menu', array($this, 'check_screen'));
+        
+        add_action('in_admin_footer', array($this, 'single_car_js'));
     }
-
-    public function check_screen(){
-        $current_screen = get_current_screen();
-        $x = 1;
-        $x = 1;
+    
+    public function single_car_js(){
+        include 'partials/car/js-statuses.php';
     }
 
     /**
