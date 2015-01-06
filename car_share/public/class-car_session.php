@@ -17,6 +17,9 @@ class Car_Cart {
         $hash=sha1('whatsthecallme063214056*'); 
         $this->cart_name = $name.$hash; 
         $this->items = empty($_SESSION[$this->cart_name]) ? array() : $_SESSION[$this->cart_name]; 
+        
+        
+        
     }
      
     /**

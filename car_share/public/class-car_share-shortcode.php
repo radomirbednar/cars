@@ -23,6 +23,8 @@ class Car_share_Shortcode {
         add_shortcode('sc-checkout', array($this, 'checkout')); 
         
         add_action('plugins_loaded', array($this, 'search_for_car_form')); 
+        
+        session_start(); 
  
     }
 
@@ -99,12 +101,13 @@ class Car_share_Shortcode {
      
             }  
             else {        
-                session_start();  
+               
                 
                 $Cars_cart = new Car_Cart('shopping_cart'); 
                 $Cars_cart->setItemSearch($pick_up_location, $drop_off_location, $car_hoursfrom, $car_hoursto, $car_category);  
                 $Cars_cart->save(); 
                 
+           
                 
                 wp_redirect($pick_car_url);
                 exit;
@@ -114,25 +117,24 @@ class Car_share_Shortcode {
     
      
     public function pick_car_form(){
-         
-    
+          
                $sc_options = get_option('sc-pages');
                $extras_car_url = isset($sc_options['extras']) ? get_page_link($sc_options['extras']) : '';
+                
+              
                
-       
-               $Cars_cart = new Car_Cart('shopping_cart'); 
-               
-               $Cars_get_items = $Cars_cart->getItems(); 
-                 
-                   
-               var_dump($Cars_get_items);
+ 
+               $Cars_cart = new Car_Cart('shopping_cart');  
+               $Cars_cart->getItems(); 
+              
+               var_dump($Cars_cart);
                
                    
                 
                
                
                exit();  
-               
+           
                
                
             $sql = "
@@ -160,7 +162,8 @@ class Car_share_Shortcode {
 
     public function pick_car($atts) {
         
-             $this->pick_car_form();
+        $this->pick_car_form();
+        
         ob_start();
         include_once( 'partials/shortcode/pick_car.php' );
         return ob_get_clean();
