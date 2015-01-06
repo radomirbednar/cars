@@ -59,8 +59,7 @@ class Car_share_Season {
                     echo $to->format(get_option('date_format'));
                 }
                 break;            
-        }
-        
+        }        
     }
     
     public function add_custom_boxes() { 
