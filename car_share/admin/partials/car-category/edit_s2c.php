@@ -4,6 +4,7 @@ $days = get_days_of_week();
 <form id="save-session-to-category" class="update-season2category" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>">
     <input type="hidden" name="action" value="add_season_to_category">
     <input type="hidden" name="_car_category_id" value="<?php echo (int) $post_id ?>">
+    <input type="hidden" name="_season_to_category" value="<?php echo (int) $season_id ?>">
     <table>
         <tbody>
             <tr>
@@ -14,7 +15,7 @@ $days = get_days_of_week();
 
             <tr>
 <?php foreach ($days as $day_name => $label): ?>
-                    <td><input type="text" name="_s2c_prices[<?php echo $day_name ?>]" class="day-price" value="<?php echo isset($season2category[$day_name]) ? $season2category[$day_name]->price : 0 ?>"></td>
+                    <td><input type="text" name="_season_to_category_prices[<?php echo $day_name ?>]" class="day-price" value="<?php echo isset($season2category[$day_name]) ? $season2category[$day_name]->price : 0 ?>"></td>
                 <?php endforeach; ?>
             </tr>
         </tbody>

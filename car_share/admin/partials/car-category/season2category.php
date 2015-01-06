@@ -13,8 +13,6 @@
 
         $('body').on('submit','.update-season2category',function(event) {
 
-                console.log('xxxxxxxxxxxx');
-
                 event.preventDefault();
                 var self = $(this);
 
@@ -26,14 +24,14 @@
                         //self.find(':submit').attr('disabled','disabled');
                         self.find(':submit').prop("disabled", true);
                     }
-                }).done(function (ret) {
-                    console.log(ret);
+                }).done(function (ret) {                    
                     self[0].reset()
                     $('#TB_closeWindowButton').trigger('click');
+                    $('#content-season2category').html(ret);
                     //resp.html('<div class="alert alert-success">' + ret + '</div>');
                     //self.find(".clear").val("");
                 }).fail(function (ret) {
-                    //resp.html('<div class="alert alert-danger">' + ret.responseText + '</div>');
+                    //resp.html('<div class="alert alert-danger">' + ret.responseText + '</div>');                    
                 }).always(function () {
                     self.find(':submit').prop("disabled", false);
                 });
@@ -41,6 +39,7 @@
         });
 
 
+/*
     function reload_season2category(car_category_id){
         jQuery.ajax({
             type: "POST",
@@ -62,5 +61,5 @@
         }).always(function () {
             //self.find(':submit').prop("disabled", false);
         });
-    }
+    }*/
 </script>

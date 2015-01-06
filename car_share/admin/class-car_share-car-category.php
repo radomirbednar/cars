@@ -91,13 +91,14 @@ class Car_share_CarCategory {
     public function add_season_to_category_callback(){
 
         global $wpdb;
+        $post_id = (int) $_POST['_car_category_id'];
 
         // category day prices
         if(!empty($_POST['_season_to_category_prices'])){
             foreach ($_POST['_season_to_category_prices'] as $dayname => $price){
                 $sql = "
                     REPLACE INTO day_prices (car_category_id, season_id, dayname, price) VALUES (
-                        '" . (int) $_POST['_car_category_id'] . "',
+                        '" . $post_id . "',
                         '" . (int) $_POST['_season_to_category'] . "',
                         '" . esc_sql($dayname) . "',
                         '" . floatval($price) . "'
@@ -106,6 +107,12 @@ class Car_share_CarCategory {
                     $wpdb->query($sql);
                 }
         }
+        
+        $category = new sc_Category($post_id);
+        $season2category_prices = $category->season_to_category_prices();
+
+        include 'partials/car-category/content_assigned_season.php';        
+        
         exit();
     }
 
