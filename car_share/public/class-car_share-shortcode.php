@@ -28,19 +28,15 @@ class Car_share_Shortcode {
 
  
     public function search_for_car_form() {
-  
-        
-        echo 'test';
-        
-        
-        $sc_options = get_option('sc-pages'); 
-        
-        //fix 
-        $wp_rewrite = new WP_Rewrite();
- 
-        $pick_car_url = isset($sc_options['pick_car']) ? get_permalink($sc_options['pick_car']) : '';  
-          
+   
+        //fix pro permalinky
+        if ( empty( $GLOBALS['wp_rewrite'] ) )
+	$GLOBALS['wp_rewrite'] = new WP_Rewrite();
          
+        $sc_options = get_option('sc-pages');  
+        $pick_car_url = isset($sc_options['pick_car']) ? get_permalink($sc_options['pick_car']) : '';  
+    
+        
         //check if form is posted
         if (isset($_POST['pick_up_location']) && isset($_POST['car_datefrom']) && isset($_POST['car_dateto'])) {
    
@@ -48,7 +44,7 @@ class Car_share_Shortcode {
             $pick_up_location = sanitize_text_field($_POST['pick_up_location']);
             $drop_off_location = sanitize_text_field($_POST['drop_off_location']);
 
-        //ostatni z formulare
+        //ostatní z formuláře
             $car_datefrom = $_POST['car_datefrom'];
             $car_dateto = $_POST['car_dateto'];
 
@@ -65,15 +61,15 @@ class Car_share_Shortcode {
             $car_hoursto = DateTime::createFromFormat($format, $car_dateto . ' ' . $car_hoursto);
             $car_hoursfrom = $car_hoursfrom->format('H:i:s');
             $car_hoursto = $car_hoursto->format('H:i:s');
-
-
-        // jmeno dne 
+ 
+        // jméno dne 
             $day_car_from = date('l', strtotime($car_datefrom));
             $day_car_dateto = date('l', strtotime($car_dateto));
 
         // TODO check if the location is disponible in this date and time
         // naplneni vyhledavani do SESSION
         // check jestli je zrovna otevreno kdyz si vybiram auto
+            
             
             global $wpdb;
             
@@ -84,8 +80,7 @@ class Car_share_Shortcode {
                     AND open = 1
                     AND open_from <= %s
                     AND open_to >= %s", $pick_up_location, $day_car_from, $car_hoursfrom, $car_hoursfrom
-            );
-
+            ); 
             $resultfrom = $wpdb->get_results($sqlfrom);
 
             $sqlto = $wpdb->prepare("SELECT * FROM
@@ -95,16 +90,20 @@ class Car_share_Shortcode {
                     AND open = 1
                     AND open_from <= %s
                     AND open_to >= %s", $drop_off_location, $day_car_dateto, $car_hoursto, $car_hoursto
-            );
-            
+            ); 
             $resultto = $wpdb->get_results($sqlto);
-
-
-            if (empty($resultfrom) || empty($resultto)) {
-
+ 
+            
+            
+            if (empty($resultfrom) || empty($resultto)) { 
                 $warning = __('Sorry, we won\'t be here. Please choose another time.', $this->car_share);
                 
             } else {
+                
+                
+             
+                
+                
                 wp_redirect($pick_car_url);
                 exit;
             }
