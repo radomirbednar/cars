@@ -3,13 +3,13 @@
 function get_days_of_week(){
     
     $days = array(
-        'Monday' => 'Monday',
-        'Tuesday' => 'Tuesday',
-        'Wednesday' => 'Wednesday',
-        'Thursday' => 'Thursday',
-        'Friday' => 'Friday',
-        'Saturday' => 'Saturday',
-        'Sunday' => 'Sunday',
+        'Monday' => 'Mon',
+        'Tuesday' => 'Tues',
+        'Wednesday' => 'Wed',
+        'Thursday' => 'Thurs',
+        'Friday' => 'Fri',
+        'Saturday' => 'Sat',
+        'Sunday' => 'Sun',
     );    
     
     return $days;    
