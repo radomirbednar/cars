@@ -1,11 +1,8 @@
 
-
-
-
-<div>
-<?php _e('1. Search for a car', $this->car_share); ?>
-<?php _e('2. Pick a car', $this->car_share); ?>
-<?php _e('3. Pick a car', $this->car_share); ?>
+ <div>
+    <?php _e('1. Search for a car', $this->car_share); ?>
+    <?php _e('2. Pick a car', $this->car_share); ?>
+    <?php _e('3. Pick a car', $this->car_share); ?>
 </div>
 
 

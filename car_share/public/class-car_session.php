@@ -13,12 +13,10 @@ class Car_Cart {
      *
      * @param string $name The name of the cart.
      */
-    function __construct($name) {
-         
+    function __construct($name) {       
         $hash=sha1('whatsthecallme063214056*'); 
         $this->cart_name = $name.$hash; 
-        $this->items = empty($_SESSION[$this->cart_name]) ? array() : $_SESSION[$this->cart_name];
-  
+        $this->items = empty($_SESSION[$this->cart_name]) ? array() : $_SESSION[$this->cart_name]; 
     }
      
     /**
@@ -28,20 +26,21 @@ class Car_Cart {
      * @param int $quantity The quantity.
      */
     function setItemSearch($order_code, $quantity) {
-    
         
+        
+        
+        
+        
+         
         $this->items['car_search'] = $quantity;
         
         
-         
-          
+        
+        
     }
     
     
-    function getItemSearch() {
-        
-         
-        
+    function getItemSearch() {     
     }
    
     
