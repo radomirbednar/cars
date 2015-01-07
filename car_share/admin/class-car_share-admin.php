@@ -127,10 +127,11 @@ class Car_share_Admin {
         global $post;
         $this->load_single_cars($post->ID);
         
-        $i = 1;
+        $i = 10;
+        
         foreach(Car_share_Admin::$single_cars as $key => $value){
             add_meta_box(
-                    'single_car_box_' . $key, sprintf(__('Single car %d', $this->car_share), $i), array($this, 'single_car_box'), 'sc-car'
+                    'single_car_box_' . $key, sprintf(__('Single car #%d', $this->car_share), $i), array($this, 'single_car_box'), 'sc-car'
             );
             $i++;
         }
@@ -140,25 +141,10 @@ class Car_share_Admin {
         add_meta_box(
                 'car_category_box', __('Category', $this->car_share), array($this, 'car_category_box'), 'sc-car'
         );
-
-        /**
-        add_meta_box(
-                'locations_box', __('Locations', $this->car_share), array($this, 'locations_box'), 'sc-car'
-        );*/
-
-        /*
-        add_meta_box(
-                'unavailability_box', __('Unavailability', $this->car_share), array($this, 'unavailability_box'), 'sc-car'
-        );*/
-
+        
         add_meta_box(
                 'car_details_box', __('Details', $this->car_share), array($this, 'details_box'), 'sc-car'
         );
-
-        /*
-        add_meta_box(
-                'car_services_box', __('Services', $this->car_share), array($this, 'car_services_box'), 'sc-car'
-        );     */
 
         add_meta_box(
                 'service_price_box', __('Price', $this->car_share), array($this, 'service_price_box'), 'sc-service'
@@ -178,6 +164,12 @@ class Car_share_Admin {
 
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
         $locations = $wpdb->get_results($sql);
+        
+        $sql = "SELECT location_id FROM sc_single_car_location WHERE single_car_id = '" . (int) $car_id . "' AND location_type = '" . Car_share::PICK_UP_LOCATION . "'";
+        $pick_up_location = $wpdb->get_col($sql);
+        
+        $sql = "SELECT location_id FROM sc_single_car_location WHERE single_car_id = '" . (int) $car_id . "' AND location_type = '" . Car_share::DROP_OFF_LOCATION . "'";
+        $drop_off_location = $wpdb->get_col($sql);        
 
         include 'partials/car/single_car.php';
     }    
@@ -288,7 +280,8 @@ class Car_share_Admin {
             
             
             // pick up / drop off locations
-            $sql = "DELETE FROM sc_single_car_location WHERE single_car_id IN (SELECT single_car_id FROM sc_single_car WHERE parent = '" . $post->ID . "')'";            
+            $sql = "DELETE FROM sc_single_car_location WHERE single_car_id IN (SELECT single_car_id FROM sc_single_car WHERE parent = '" . $post->ID . "')";            
+            $wpdb->query($sql);            
             
             if(!empty($_POST['_pickup_location'])){
                 foreach($_POST['_pickup_location'] as $car_id => $location_ids){
@@ -390,6 +383,7 @@ class Car_share_Admin {
         }
         
         global $wpdb;
+        
         $sql = "
             SELECT 
                 single_car_id
@@ -398,7 +392,8 @@ class Car_share_Admin {
             WHERE
                 parent = '" . $post_id . "'
             ORDER BY 
-                single_car_id ASC
+                single_car_id 
+            ASC
         ";
         
         $result = $wpdb->get_col($sql);        
