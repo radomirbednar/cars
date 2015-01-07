@@ -166,10 +166,10 @@ class Car_share_Admin {
         $locations = $wpdb->get_results($sql);
         
         $sql = "SELECT location_id FROM sc_single_car_location WHERE single_car_id = '" . (int) $car_id . "' AND location_type = '" . Car_share::PICK_UP_LOCATION . "'";
-        $pick_up_location = $wpdb->get_col($sql);
+        $pickup_location = $wpdb->get_col($sql);
         
         $sql = "SELECT location_id FROM sc_single_car_location WHERE single_car_id = '" . (int) $car_id . "' AND location_type = '" . Car_share::DROP_OFF_LOCATION . "'";
-        $drop_off_location = $wpdb->get_col($sql);        
+        $dropoff_location = $wpdb->get_col($sql);        
 
         include 'partials/car/single_car.php';
     }    
@@ -308,7 +308,7 @@ class Car_share_Admin {
                     
                     foreach($location_ids as $location_id){
                         $sql = "
-                            REPLACE INTO 
+                            INSERT INTO 
                                 sc_single_car_location (single_car_id, location_id, location_type)
                             VALUES (
                                 '" . (int) $car_id . "',
@@ -325,22 +325,18 @@ class Car_share_Admin {
                 foreach($_POST['status'] as $car_statuses){
                     foreach($car_statuses as $car_status){
                         $sql = "
-                            REPLACE INTO 
+                            INSERT INTO 
                                 sc_car_status (single_car_id, location_id, location_type)
                             VALUES (
                                 '" . (int) $post->ID . "',
                                 '" . (int) $location_id . "',
-                                '" . Car_share::PICK_UP_LOCATION. "'    
+                                '" . Car_share::PICK_UP_LOCATION . "'    
                             )";            
                         
                         $wpdb->query($sql);                        
                     }
                 }
             }
-            
-            
-            
-
         }
 
         /*
