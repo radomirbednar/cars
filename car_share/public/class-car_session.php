@@ -51,11 +51,7 @@ class Car_Cart {
      * @return int The price.
      */
     function getItemPrice($order_code) {
-        
-        
-        
-        
-        
+         
         // This is where the code taht retrieves prices
         // goes. We'll just say everything costs $19.99 for this tutorial.
         return 9.99;  
@@ -69,10 +65,7 @@ class Car_Cart {
     function getItemName($order_code) {
         // This is where the code that retrieves product names
         // goes. We'll just return something generic for this tutorial.
-        
-        
-        
-        
+         
         return 'My Product (' . $order_code . ')'; 
     }
      
@@ -83,8 +76,7 @@ class Car_Cart {
      */
     function getItems() {
         return $this->items; 
-    }
-     
+    } 
     /**
      * hasItems() - Checks to see if there are items in the cart.
      *
@@ -92,8 +84,7 @@ class Car_Cart {
      */
     function hasItems() {
         return (bool) $this->items;
-    }
-     
+    } 
     /**
      * getItemQuantity() - Get the quantity of an item in the cart.
      *
@@ -102,24 +93,23 @@ class Car_Cart {
      */
     function getItemQuantity($order_code) {
         return (int) $this->items[$order_code];
-    }
-     
+    } 
     /**
      * clean() - Cleanup the cart contents. If any items have a
      *           quantity less than one, remove them.
      */
     function clean() {
+        
         foreach ( $this->items as $order_code=>$quantity ) {
             if ( $quantity < 1 )
                 unset($this->items[$order_code]);
         }
-    }
-     
+    } 
     /**
      * save() - Saves the cart to a session variable.
      */
     function save() {
-        $this->clean();
+        //$this->clean();
         $_SESSION[$this->cart_name] = $this->items;
-    }
+    } 
 } 
