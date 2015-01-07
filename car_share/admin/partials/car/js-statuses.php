@@ -57,6 +57,7 @@
         return str;
     }
 
+/*
     function reload_date_picker(){
         $( "#post-body" ).find(".status .item").each(function( index ) {
 
@@ -67,7 +68,7 @@
             //date_to.datepicker();
 
         });
-    }
+    }*/
 
     jQuery(document).ready(function ($) {
 
@@ -83,12 +84,14 @@
             var date_to = element.find(".status-date-to");
 
             date_from.datepicker({
+                dateFormat: 'dd.mm.yy',
                 onSelect: function (selected_date) {
                     date_to.datepicker("option", "minDate", selected_date);
                 }
             });
             
             date_to.datepicker({
+                dateFormat: 'dd.mm.yy',
                 onSelect: function (selected_date) {
                     date_from.datepicker("option", "maxDate", selected_date);
                 }
