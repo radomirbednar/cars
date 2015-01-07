@@ -2,7 +2,9 @@
 
     var status_key = 0;
 
-    function statusTableRow(car_id, key, from_date, from_hour, to_date, to_hour) {
+    function statusTableRow(car_id, key, from_date, from_hour, from_min, to_date, to_hour, to_min) {
+        
+        console.log(to_date);
 
         status_key = key;
 
@@ -14,7 +16,7 @@
                 '</select>' +
                 '</td>' +
                 '<td>' +
-                '<input id="status-date-from-' + car_id + '_'+ status_key +'" class="status-date-from" type="text" name="status[' + car_id + '][' + status_key + '][from]" value="">' +
+                '<input id="status-date-from-' + car_id + '_'+ status_key +'" class="status-date-from" type="text" name="status[' + car_id + '][' + status_key + '][from]" value="' + from_date + '">' +
                 '<select  name="status[' + car_id + '][' + status_key + '][from_hour]">';
         
                 <?php for($i = 0; $i < 24; $i++): ?>
@@ -32,7 +34,7 @@
         str +=  '</select>' +
                 '</td>' +
                 '<td>' +
-                '<input id="status-date-to-' + car_id + '_'+ status_key +'" class="status-date-to" type="text" name="status[' + car_id + '][' + status_key + '][to]" value="">' +
+                '<input id="status-date-to-' + car_id + '_'+ status_key +'" class="status-date-to" type="text" name="status[' + car_id + '][' + status_key + '][to]" value="' + to_date + '">' +
                 '<select  name="status[' + car_id + '][' + status_key + '][to_hour]">';
         
                 <?php for($i = 0; $i < 24; $i++): ?>
@@ -57,6 +59,8 @@
         status_key++;
         return str;
     }
+    
+    function apply_
 
 /*
     function reload_date_picker(){
@@ -77,28 +81,13 @@
 
             var car_id = $(this).data('car_id');            
             
-            var row = statusTableRow(car_id, key, from_date, from_hour, from_min, to_date, to_hour, to_min);
+            var row = statusTableRow(car_id, status_key, '', '', '', '', '', '');
             
             $(this).parents('.status').find('tbody').append(row);
             
             var element = $(this).parents('.status').find('tbody').find('.item:last');
 
-            var date_from = element.find(".status-date-from");
-            var date_to = element.find(".status-date-to");
 
-            date_from.datepicker({
-                dateFormat: 'dd.mm.yy',
-                onSelect: function (selected_date) {
-                    date_to.datepicker("option", "minDate", selected_date);
-                }
-            });
-            
-            date_to.datepicker({
-                dateFormat: 'dd.mm.yy',
-                onSelect: function (selected_date) {
-                    date_from.datepicker("option", "maxDate", selected_date);
-                }
-            });
 
         });
 
