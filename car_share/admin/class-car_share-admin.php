@@ -45,11 +45,7 @@ class Car_share_Admin {
      *
      * @var type
      */
-    public $single_cars = array(
-        1 => 'a',
-        2 => 'b',
-        3 => 'c'
-    );    
+    public static $single_cars = array();    
 
     /**
      * Initialize the class and set its properties.
@@ -128,12 +124,17 @@ class Car_share_Admin {
                 'single_cars_box', __('Single cars', $this->car_share), array($this, 'single_cars_box'), 'sc-car'
         );*/
         
-        foreach($this->single_cars as $key => $value){
+        global $post;
+        $this->load_single_cars($post->ID);
+        
+        $i = 1;
+        foreach(Car_share_Admin::$single_cars as $key => $value){
             add_meta_box(
-                    'single_car_box_' . $key, sprintf(__('Single car %d', $this->car_share), $key), array($this, 'single_car_box'), 'sc-car'
+                    'single_car_box_' . $key, sprintf(__('Single car %d', $this->car_share), $i), array($this, 'single_car_box'), 'sc-car'
             );
+            $i++;
         }
-        reset($this->single_cars);
+        reset(Car_share_Admin::$single_cars);
         
 
         add_meta_box(
@@ -172,8 +173,8 @@ class Car_share_Admin {
         global $post;
         global $wpdb;
 
-        $car_id = key($this->single_cars);
-        next($this->single_cars);
+        $car_id = current(Car_share_Admin::$single_cars);
+        next(Car_share_Admin::$single_cars);
 
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
         $locations = $wpdb->get_results($sql);
@@ -380,6 +381,37 @@ class Car_share_Admin {
                 delete_post_meta($post_id, $key);
             }
         }
+    }
+    
+    public function load_single_cars($post_id){
+        
+        if(!empty(Car_share_Admin::$single_cars)){
+            return Car_share_Admin::$single_cars;
+        }
+        
+        global $wpdb;
+        $sql = "
+            SELECT 
+                single_car_id
+            FROM
+                sc_single_car
+            WHERE
+                parent = '" . $post_id . "'
+            ORDER BY 
+                single_car_id ASC
+        ";
+        
+        $result = $wpdb->get_col($sql);        
+        
+        if(!empty($result)){
+            self::$single_cars = $result;
+        } else {
+            Car_share_Admin::$single_cars = array(
+                '0' => '1'
+            );
+        }
+        
+        return Car_share_Admin::$single_cars;
     }
 
 }
