@@ -159,9 +159,7 @@ class Car_share_CarCategory {
         include 'partials/car-category/discount_upon_duration.php';
         wp_nonce_field(__FILE__, 'car_category_nonce');
     }
-
-
-
+ 
     public function save() {
         //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
         if (isset($_POST['car_category_nonce']) && wp_verify_nonce($_POST['car_category_nonce'], __FILE__)) {
@@ -183,8 +181,7 @@ class Car_share_CarCategory {
                     $wpdb->query($sql);
                 }
             }
-
-
+ 
             delete_post_meta($post->ID, '_discount_upon_duration');
 
             if(!empty($_POST['_discount_upon_duration'])){

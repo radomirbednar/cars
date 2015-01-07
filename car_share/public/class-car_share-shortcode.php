@@ -9,6 +9,8 @@
 class Car_share_Shortcode {
 
     public $warning;
+    
+    public $cars;
 
     public function __construct($car_share, $version) {
 
@@ -141,6 +143,8 @@ class Car_share_Shortcode {
         $car_dfrom_string = $car_dfrom->format('Y-m-d H:i:s'); 
         $car_dto_string = $car_dto->format('Y-m-d H:i:s');
    
+        //dej mi vsechny auta - zatim bez kategorii
+        
         global $wpdb; 
         $sql = "     
               SELECT DISTINCT 
@@ -150,11 +154,7 @@ class Car_share_Shortcode {
                     JOIN 
                     sc_single_car sc_single_car 
                     ON
-                    sc_single_car.parent = posts.ID     
-                    JOIN     
-                    sc_single_car_status sc_status  
-                    ON 
-                    sc_status.single_car_id = sc_single_car.single_car_id      
+                    sc_single_car.parent = posts.ID       
                     JOIN 
                     sc_single_car_location sc_location 
                     ON 
@@ -170,10 +170,7 @@ class Car_share_Shortcode {
                     AND
                     (sc_locationto.location_id = '$drop_off_location' AND sc_locationto.location_type = '2')     
                     AND 
-                    posts.post_status = 'publish' 
-                    
-                    
-
+                    posts.post_status = 'publish'  
                     AND NOT EXISTS  
                     (      
                     SELECT DISTINCT 
@@ -204,22 +201,21 @@ class Car_share_Shortcode {
                     (sc_locationto.location_id = '$drop_off_location' AND sc_locationto.location_type = '2')     
                     AND 
                     posts.post_status = 'publish' 
-                    AND
-                    sc_status.date_from between '$car_dfrom_string' and '$car_dto_string' 
-                    AND
-                    sc_status.date_to between '$car_dfrom_string' and '$car_dto_string'         
-                    )  GROUP BY single_car_id"
-                 ;
- 
-            echo $sql; 
-            $cars = $wpdb->get_results($sql);         
-            var_dump($cars); 
-        
-          
-   
- 
+                    AND 
+                    (sc_status.date_from between '$car_dfrom_string' and '$car_dto_string') 
+                    AND 
+                    (sc_status.date_to between '$car_dfrom_string' and '$car_dto_string')          
+                    ) GROUP BY sc_single_car.single_car_id"
+                 ; 
+         
+            $this->cars = $wpdb->get_results($sql);    
+              
     }
-
+     
+    public function extras_form(){
+        
+    }
+     
     public function search_for_car($atts) { 
         ob_start();
         include_once( 'partials/shortcode/search_for_car.php' );
@@ -233,7 +229,7 @@ class Car_share_Shortcode {
         return ob_get_clean();
     }
 
-    public function extras() {
+    public function extras() { 
         ob_start();
         include_once( 'partials/shortcode/extras.php' );
         return ob_get_clean();
@@ -243,6 +239,5 @@ class Car_share_Shortcode {
         ob_start();
         include_once( 'partials/shortcode/checkout.php' );
         return ob_get_clean();
-    }
-
-}
+    } 
+} 
