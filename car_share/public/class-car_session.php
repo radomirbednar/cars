@@ -28,12 +28,12 @@ class Car_Cart {
      * @param string $order_code The order code of the item.
      * @param int $quantity The quantity.
      */
-    function setItemSearch($pick_up_location, $drop_off_location, $car_hoursfrom, $car_hoursto, $car_category) {
+    function setItemSearch($pick_up_location, $drop_off_location, $car_datefrom, $car_dateto, $car_category) {
          
         $this->items['pick_up_location'] = $pick_up_location;
         $this->items['drop_off_location'] = $drop_off_location;
-        $this->items['car_hoursfrom'] = $car_hoursfrom;
-        $this->items['car_hoursto'] = $car_hoursto;
+        $this->items['car_datefrom'] = $car_datefrom;
+        $this->items['car_dateto'] = $car_dateto;
         $this->items['car_category'] = $car_category;    
     }
      
