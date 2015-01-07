@@ -144,7 +144,7 @@ class Car_share_Shortcode {
         global $wpdb; 
         $sql = "     
               SELECT DISTINCT 
-                    posts.ID                      
+                    *                      
                     FROM
                     $wpdb->posts posts
                     JOIN 
@@ -158,24 +158,33 @@ class Car_share_Shortcode {
                     JOIN 
                     sc_single_car_location sc_location 
                     ON 
-                    sc_location.single_car_id = sc_single_car.single_car_id  
+                    sc_location.single_car_id = sc_single_car.single_car_id   
+                    JOIN 
+                    sc_single_car_location sc_locationto 
+                    ON      
+                    sc_locationto.single_car_id = sc_single_car.single_car_id   
                     WHERE   
                     posts.post_type = 'sc-car'   
-                    AND  
-                    (sc_location.location_id = '$pick_up_location' AND sc_location.location_type = '1')    
+                    AND   
+                    (sc_location.location_id = '$pick_up_location' AND sc_location.location_type = '1')     
                     AND
-                    (sc_location.location_id = '$drop_off_location' AND sc_location.location_type = '2')     
-                    AND
+                    (sc_locationto.location_id = '$drop_off_location' AND sc_locationto.location_type = '2')     
+                    AND 
                     posts.post_status = 'publish' 
                     AND NOT EXISTS  
-                    (   
-                     
+                    (     
+ 
+
+
                         SELECT * FROM sc_single_car_status
                         WHERE
-                        date_from >= '$car_dfrom_string' 
+                        date_from <= '$car_dfrom_string' 
                         AND
-                        date_to <= '$car_dto_string'       
-                    
+                        date_to >= '$car_dto_string'       
+
+
+
+
                     )";
  
             echo $sql; 
