@@ -96,16 +96,15 @@
 
     jQuery(document).ready(function ($) {
         
-        $('.postbox').on('click', '.new-car', function (event) {
-            //$(this).parents(".item").remove();            
-            var new_box = $(this).parent('.postbox').cone();
-            
-            console.log('new car');
+        $('.postbox').on('click', '.new-car', function (event) {            
+            var id = $(this).data('car_id');                              
+            var new_box = $(this).parents('.postbox').clone();            
+            $('#single_car_box_' + id).after(new_box);
         });
         
         $('.postbox').on('click', '.clone-car', function (event) {
             //$(this).parents(".item").remove();
-            var new_box = $(this).parent('.postbox').cone();
+            var new_box = $(this).parents('.postbox').clone();
             console.log('clone car');
         });
         
