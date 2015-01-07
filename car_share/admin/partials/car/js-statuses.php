@@ -40,7 +40,7 @@
         
         str +=  '</select>';
         
-        str += '<select  name="status[' + car_id + '][' + status_key + '][to_min]">';;
+        str += '<select name="status[' + car_id + '][' + status_key + '][to_min]">';;
 
                 <?php for($i = 0; $i < 60; $i++): ?>
                     str += '<option value="<?php echo $i ?>"><?php echo sprintf("%02s", $i)  ?></option>';
