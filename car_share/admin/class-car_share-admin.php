@@ -170,6 +170,9 @@ class Car_share_Admin {
 
         $sql = "SELECT location_id FROM sc_single_car_location WHERE single_car_id = '" . (int) $car_id . "' AND location_type = '" . Car_share::DROP_OFF_LOCATION . "'";
         $dropoff_location = $wpdb->get_col($sql);
+        
+        $sql = "SELECT * FROM sc_single_car_status WHERE single_car_id = '" . (int) $car_id . "'";
+        $statuses = $wpdb->get_results($sql);
 
         include 'partials/car/single_car.php';
     }
@@ -329,18 +332,18 @@ class Car_share_Admin {
                     foreach($car_statuses as $car_status){
 
                         $date_from_string = $car_status['from'] . ' ' . sprintf("%02s", $car_status['from_hour']) . ' ' . sprintf("%02s", $car_status['from_min']);
-                        $date_from = DateTime::createFromFormat('dd.mm.yy H i', $date_from_string);
+                        $date_from = DateTime::createFromFormat('d.m.Y H i', $date_from_string);
                         
                         $date_to_string = $car_status['to'] . ' ' . sprintf("%02s", $car_status['to_hour']) . ' ' . sprintf("%02s", $car_status['to_min']);
-                        $date_to = DateTime::createFromFormat('dd.mm.yy H i', $date_to_string);
+                        $date_to = DateTime::createFromFormat('d.m.Y H i', $date_to_string);
 
                         $sql = "
                             INSERT INTO
                                 sc_single_car_status (single_car_id, date_from, date_to, status)
                             VALUES (
                                 '" . $single_car_id . "',
-                                '" . $date_from . "',
-                                '" . $date_to . "',
+                                '" . (empty($date_from) ? "" : $date_from->format('Y-m-d H:i:s')) . "',
+                                '" . (empty($date_to) ? "" : $date_to->format('Y-m-d H:i:s')) . "',
                                 '" . (int) $car_status['status'] . "'
                             )";
 

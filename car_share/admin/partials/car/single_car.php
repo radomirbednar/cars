@@ -53,9 +53,12 @@
 jQuery(document).ready(function ($) {
 <?php
 
-if (!empty($special_prices)):
+if (!empty($statuses)):
     $status_key = 0;
-    foreach ($special_prices as $sp):
+    foreach ($statuses as $status):
+        
+        
+        
         ?>
                 var row = statusTableRow('<?php echo $car_id ?>', '<?php echo $status_key ?>', '<?php echo $sp->time_from ?>', '<?php echo $sp->price_value ?>', '<?php echo $sp->time_type ?>');
                 document.write(row);                
