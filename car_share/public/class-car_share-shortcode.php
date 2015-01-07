@@ -171,6 +171,9 @@ class Car_share_Shortcode {
                     (sc_locationto.location_id = '$drop_off_location' AND sc_locationto.location_type = '2')     
                     AND 
                     posts.post_status = 'publish' 
+                    
+                    
+
                     AND NOT EXISTS  
                     (      
                     SELECT DISTINCT 
@@ -205,7 +208,8 @@ class Car_share_Shortcode {
                     sc_status.date_from <= '$car_dfrom_string' 
                     AND
                     sc_status.date_to >= '$car_dto_string'        
-                    )";
+                    )  GROUP BY single_car_id"
+                 ;
  
             echo $sql; 
             $cars = $wpdb->get_results($sql);         
