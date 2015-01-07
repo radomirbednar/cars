@@ -102,8 +102,7 @@
             $('#single_car_box_' + id).after(new_box);
         });
         
-        $('.postbox').on('click', '.clone-car', function (event) {
-            //$(this).parents(".item").remove();
+        $('.postbox').on('click', '.clone-car', function (event) {            
             var new_box = $(this).parents('.postbox').clone();
             console.log('clone car');
         });
@@ -115,13 +114,9 @@
         });        
 
         $('.add-status').click(function (e) {
-
-            var car_id = $(this).data('car_id');            
-            
-            var row = statusTableRow(car_id, status_key, '', '', '', '', '', '');
-            
-            $(this).parents('.status').find('tbody').append(row);
-            
+            var car_id = $(this).data('car_id');                        
+            var row = statusTableRow(car_id, status_key, '', '', '', '', '', '');            
+            $(this).parents('.status').find('tbody').append(row);            
             var element = $(this).parents('.status').find('tbody').find('.item:last');
             apply_datepicker(element);
         });
