@@ -172,7 +172,7 @@ class Car_share_Admin {
         global $post;
         global $wpdb;
 
-        $key = key($this->single_cars);
+        $car_id = key($this->single_cars);
         next($this->single_cars);
 
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
