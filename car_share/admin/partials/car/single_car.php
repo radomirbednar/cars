@@ -49,6 +49,13 @@
     </tfoot>    
 </table>
 
+<hr>
+
+<button id="delete-car-<?php echo $car_id ?>" data-car_id="<?php echo $car_id ?>" type="button" class="add-status alignright button button-primary"><?php _e('Delete', $this->car_share) ?></button>
+<button id="clone-car-<?php echo $car_id ?>" data-car_id="<?php echo $car_id ?>" type="button" class="add-status alignright button button-primary"><?php _e('Clone', $this->car_share) ?></button>
+<button id="new-car-<?php echo $car_id ?>" data-car_id="<?php echo $car_id ?>" type="button" class="add-status alignright button button-primary"><?php _e('New', $this->car_share) ?></button>
+
+<div class="clear"></div>
 <script>
 jQuery(document).ready(function ($) {
 <?php

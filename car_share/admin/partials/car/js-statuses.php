@@ -17,7 +17,7 @@
                 '</td>' +
                 '<td>' +
                 '<input id="status-date-from-' + car_id + '_'+ status_key +'" class="status-date-from" type="text" name="car[' + car_id + '][status][' + status_key + '][from]" value="' + from_date + '">' +
-                '<select  name="status[' + car_id + '][' + status_key + '][from_hour]">';
+                '<select  name="car[' + car_id + '][status][' + status_key + '][from_hour]">';
         
                 <?php for($i = 0; $i < 24; $i++): ?>
                     str += '<option value="<?php echo $i ?>"'
