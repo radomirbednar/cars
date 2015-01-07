@@ -127,38 +127,24 @@ class Car_share_Shortcode {
 
         $sc_options = get_option('sc-pages');
         $extras_car_url = isset($sc_options['extras']) ? get_page_link($sc_options['extras']) : '';
-
-         
+ 
         $Cars_cart = new Car_Cart('shopping_cart'); 
         $Cars_cart_items =  $Cars_cart->getItems();
-        
-        
+ 
         $pick_up_location = $Cars_cart_items['pick_up_location']; 
         $drop_off_location = $Cars_cart_items['drop_off_location']; 
         
         $car_dfrom = $Cars_cart_items['car_datefrom']; 
         $car_dto = $Cars_cart_items['car_dateto']; 
         $car_category = $Cars_cart_items['car_category'];
-        
-        
+  
         $car_dfrom_string = $car_dfrom->format('Y-m-d H:i:s'); 
         $car_dto_string = $car_dto->format('Y-m-d H:i:s');
-      
-        
-        echo $pick_up_location;
-        echo $drop_off_location; 
-        echo $car_dfrom_string;
-    
-        
-         
-        global $wpdb;
-         
-        $sql = "   
-            
-            
-                
-              SELECT
-                     *
+   
+        global $wpdb; 
+        $sql = "     
+              SELECT DISTINCT 
+                    *                      
                     FROM
                     $wpdb->posts posts
                     JOIN 
@@ -167,49 +153,46 @@ class Car_share_Shortcode {
                     sc_single_car.parent = posts.ID     
                     JOIN     
                     sc_single_car_status sc_status  
-                    ON
-                    sc_status.single_car_id = sc_single_car      
-                   
+                    ON 
+                    sc_status.single_car_id = sc_single_car.single_car_id      
                     JOIN 
                     sc_single_car_location sc_location 
-                    ON
-          
-                    sc_location.single_car_id = sc_single_car.single_car_id  
-                    WHERE  
-       
-                    posts.post_type = 'sc-car'  
-       
-                    AND 
-                    (sc_location.location_id = '$pick_up_location' AND sc_location.location_type = 1)  
-                    AND 
-                    (sc_location.location_id = '$drop_off_location' AND sc_location.location_type = 2)
- 
+                    ON 
+                    sc_location.single_car_id = sc_single_car.single_car_id   
+                    JOIN 
+                    sc_single_car_location sc_locationto 
+                    ON      
+                    sc_locationto.single_car_id = sc_single_car.single_car_id   
+                    WHERE   
+                    posts.post_type = 'sc-car'   
+                    AND   
+                    (sc_location.location_id = '$pick_up_location' AND sc_location.location_type = '1')     
                     AND
-                    posts.post_status = 'publish'
-                    
+                    (sc_locationto.location_id = '$drop_off_location' AND sc_locationto.location_type = '2')     
+                    AND 
+                    posts.post_status = 'publish' 
                     AND NOT EXISTS  
-                    ( 
-                    
-                    SELECT * FROM sc_single_car_status
-                    WHERE
-                    date_from >= '$car_dfrom_string' 
-                    AND
-                    date_to <= '$car_dto_string'    
-                      
-                    ) 
-               ";
+                    (     
+ 
+
+
+                        SELECT * FROM sc_single_car_status
+                        WHERE
+                        date_from <= '$car_dfrom_string' 
+                        AND
+                        date_to >= '$car_dto_string'       
+
+
+
+
+                    )";
+ 
+            echo $sql; 
+            $cars = $wpdb->get_results($sql);         
+            var_dump($cars); 
         
-        
-        
-        
-        $cars = $wpdb->get_results($sql);         
-        var_dump($cars); 
-        
-         
-       /* 
-        * 
-        * 
-        * 
+          
+       /*  
         * SELECT
                      *
                     FROM
@@ -225,19 +208,15 @@ class Car_share_Shortcode {
                     JOIN 
                     sc_single_car_location sc_location 
                     ON
-                    sc_location.single_car_id = sc_single_car.single_car_id 
- 
+                    sc_location.single_car_id = sc_single_car.single_car_id  
                     WHERE  
-                    posts.post_type = 'sc-car' 
-                    
+                    posts.post_type = 'sc-car'  
                     AND 
                     (sc_location.location_id = '$pick_up_location' AND sc_location.location_type = 1)  
                     AND 
-                    (sc_location.location_id = '$drop_off_location' AND sc_location.location_type = 2)
- 
+                    (sc_location.location_id = '$drop_off_location' AND sc_location.location_type = 2) 
                     AND
-                    posts.post_status = 'publish'
-                    
+                    posts.post_status = 'publish' 
                     AND NOT EXISTS  
                     (     
                     SELECT * FROM sc_single_car_status
@@ -264,8 +243,7 @@ class Car_share_Shortcode {
 	$meta_key3, 
 	$meta_key3_value";
         */
-        
-  
+ 
     }
 
     public function search_for_car($atts) { 
