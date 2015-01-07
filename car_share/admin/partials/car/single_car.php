@@ -22,7 +22,7 @@
 
 <h2><?php _e('Status', $this->car_share) ?></h2>
 
-<table class="status">
+<table id="car-status-<?php echo $car_id ?>" class="status">
     <thead>
         <tr>
             <td>
@@ -53,13 +53,27 @@
 jQuery(document).ready(function ($) {
 <?php
 
-if (!empty($special_prices)):
+if (!empty($statuses)):
     $status_key = 0;
-    foreach ($special_prices as $sp):
-        ?>
-                var row = statusTableRow('<?php echo $car_id ?>', '<?php echo $status_key ?>', '<?php echo $sp->time_from ?>', '<?php echo $sp->price_value ?>', '<?php echo $sp->time_type ?>');
-                document.write(row);                
-        <?php
+    foreach ($statuses as $status):   
+        
+        $date_from = DateTime::createFromFormat('Y-m-d H:i:s', $status->date_from); 
+        $date_to = DateTime::createFromFormat('Y-m-d H:i:s', $status->date_to); 
+        
+        ?>           
+            
+            var row = statusTableRow(
+                <?php echo $car_id ?>, 
+                <?php echo $status_key ?>, 
+                '<?php echo empty($date_from) ? '' : $date_from->format('d.m.Y') ?>', 
+                '<?php echo empty($date_from) ? '' : $date_from->format('H') ?>', 
+                '<?php echo empty($date_from) ? '' : $date_from->format('i') ?>', 
+                '<?php echo empty($date_to) ? '' : $date_to->format('d.m.Y') ?>', 
+                '<?php echo empty($date_to) ? '' : $date_to->format('H') ?>', 
+                '<?php echo empty($date_to) ? '' : $date_to->format('i') ?>');
+        
+            $("#car-status-<?php echo $car_id ?> tbody").append(row);            
+            <?php
         $status_key++;
     endforeach; 
     ?>

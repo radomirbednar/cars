@@ -39,13 +39,13 @@ class Car_share_Admin {
      * @var      string    $version    The current version of this plugin.
      */
     private $version;
-    
+
     /**
      * jednotlive kusy aut, napr 5x fabie,
      *
      * @var type
      */
-    public static $single_cars = array();    
+    public static $single_cars = array();
 
     /**
      * Initialize the class and set its properties.
@@ -61,13 +61,13 @@ class Car_share_Admin {
 
         add_action('add_meta_boxes', array($this, 'add_custom_boxes'));
         add_action('save_post', array($this, 'save'));
-        
+
         add_action('in_admin_footer', array($this, 'single_car_js'));
     }
-    
+
     public function single_car_js(){
         include 'partials/car/js-statuses.php';
-    }    
+    }
 
     /**
      * Register the stylesheets for the Dashboard.
@@ -123,12 +123,12 @@ class Car_share_Admin {
         add_meta_box(
                 'single_cars_box', __('Single cars', $this->car_share), array($this, 'single_cars_box'), 'sc-car'
         );*/
-        
+
         global $post;
         $this->load_single_cars($post->ID);
-        
+
         //$i = 10;
-        
+
         foreach(Car_share_Admin::$single_cars as $key => $value){
             add_meta_box(
                     'single_car_box_' . $value, sprintf(__('Single car #%d', $this->car_share), $value), array($this, 'single_car_box'), 'sc-car'
@@ -136,12 +136,12 @@ class Car_share_Admin {
             //$i++;
         }
         reset(Car_share_Admin::$single_cars);
-        
+
 
         add_meta_box(
                 'car_category_box', __('Category', $this->car_share), array($this, 'car_category_box'), 'sc-car'
         );
-        
+
         add_meta_box(
                 'car_details_box', __('Details', $this->car_share), array($this, 'details_box'), 'sc-car'
         );
@@ -154,7 +154,7 @@ class Car_share_Admin {
                 'service_quantity_box', __('Quantity', $this->car_share), array($this, 'service_quantity_box'), 'sc-service'
         );
     }
-    
+
     public function single_car_box(){
         global $post;
         global $wpdb;
@@ -164,24 +164,27 @@ class Car_share_Admin {
 
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
         $locations = $wpdb->get_results($sql);
-        
+
         $sql = "SELECT location_id FROM sc_single_car_location WHERE single_car_id = '" . (int) $car_id . "' AND location_type = '" . Car_share::PICK_UP_LOCATION . "'";
         $pickup_location = $wpdb->get_col($sql);
-        
+
         $sql = "SELECT location_id FROM sc_single_car_location WHERE single_car_id = '" . (int) $car_id . "' AND location_type = '" . Car_share::DROP_OFF_LOCATION . "'";
-        $dropoff_location = $wpdb->get_col($sql);        
+        $dropoff_location = $wpdb->get_col($sql);
+        
+        $sql = "SELECT * FROM sc_single_car_status WHERE single_car_id = '" . (int) $car_id . "'";
+        $statuses = $wpdb->get_results($sql);
 
         include 'partials/car/single_car.php';
-    }    
+    }
 
     /*
     public function single_cars_box(){
         global $post;
         global $wpdb;
-        
+
         //$sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
-        //$locations = $wpdb->get_results($sql);        
-        
+        //$locations = $wpdb->get_results($sql);
+
         include 'partials/car/single_cars_box.php';
     }*/
 
@@ -194,7 +197,7 @@ class Car_share_Admin {
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-car-category' AND post_status IN ('publish', 'pending', 'draft', 'private') ORDER BY post_title DESC";
         $car_categories = $wpdb->get_results($sql);
         include 'partials/car/category.php';
-        
+
         wp_nonce_field(__FILE__, 'car_nonce');
     }
 
@@ -276,63 +279,75 @@ class Car_share_Admin {
                 '_car_category'
             );
             $this->save_post_keys($post->ID, $keys);
-            
-            
+
+
             // pick up / drop off locations
-            $sql = "DELETE FROM sc_single_car_location WHERE single_car_id IN (SELECT single_car_id FROM sc_single_car WHERE parent = '" . $post->ID . "')";            
-            $wpdb->query($sql);            
-            
+            $sql = "DELETE FROM sc_single_car_location WHERE single_car_id IN (SELECT single_car_id FROM sc_single_car WHERE parent = '" . $post->ID . "')";
+            $wpdb->query($sql);
+
             if(!empty($_POST['_pickup_location'])){
                 foreach($_POST['_pickup_location'] as $car_id => $location_ids){
-                    
+
                     foreach($location_ids as $location_id){
-                        
+
                         $sql = "
-                            INSERT INTO 
+                            INSERT INTO
                                 sc_single_car_location (single_car_id, location_id, location_type)
                             VALUES (
                                 '" . (int) $car_id . "',
                                 '" . (int) $location_id . "',
-                                '" . Car_share::PICK_UP_LOCATION . "'    
-                            ) 
+                                '" . Car_share::PICK_UP_LOCATION . "'
+                            )
                         ";
-                        
+
                         $wpdb->query($sql);
-                    }          
+                    }
                 }
             }
-            
+
             if(!empty($_POST['_dropoff_location'])){
                 foreach($_POST['_dropoff_location'] as $car_id => $location_ids){
-                    
+
                     foreach($location_ids as $location_id){
                         $sql = "
-                            INSERT INTO 
+                            INSERT INTO
                                 sc_single_car_location (single_car_id, location_id, location_type)
                             VALUES (
                                 '" . (int) $car_id . "',
                                 '" . (int) $location_id . "',
-                                '" . Car_share::DROP_OFF_LOCATION . "'    
-                            )";            
-                        
+                                '" . Car_share::DROP_OFF_LOCATION . "'
+                            )";
+
                         $wpdb->query($sql);
-                    }          
+                    }
                 }
-            }            
-            
-            if(!empty($_POST['status'])){                
-                foreach($_POST['status'] as $car_statuses){
+            }
+
+            // statuses
+            $sql = "DELETE FROM sc_single_car_status WHERE single_car_id IN (SELECT single_car_id FROM sc_single_car WHERE parent = '" . $post->ID . "')";
+            $wpdb->query($sql);
+
+            if(!empty($_POST['status'])){
+                foreach($_POST['status'] as $single_car_id => $car_statuses){
                     foreach($car_statuses as $car_status){
-                        $sql = "
-                            INSERT INTO 
-                                sc_car_status (single_car_id, location_id, location_type)
-                            VALUES (
-                                '" . (int) $post->ID . "',
-                                '" . (int) $location_id . "',
-                                '" . Car_share::PICK_UP_LOCATION . "'    
-                            )";            
+
+                        $date_from_string = $car_status['from'] . ' ' . sprintf("%02s", $car_status['from_hour']) . ' ' . sprintf("%02s", $car_status['from_min']);
+                        $date_from = DateTime::createFromFormat('d.m.Y H i', $date_from_string);
                         
-                        $wpdb->query($sql);                        
+                        $date_to_string = $car_status['to'] . ' ' . sprintf("%02s", $car_status['to_hour']) . ' ' . sprintf("%02s", $car_status['to_min']);
+                        $date_to = DateTime::createFromFormat('d.m.Y H i', $date_to_string);
+
+                        $sql = "
+                            INSERT INTO
+                                sc_single_car_status (single_car_id, date_from, date_to, status)
+                            VALUES (
+                                '" . $single_car_id . "',
+                                '" . (empty($date_from) ? "" : $date_from->format('Y-m-d H:i:s')) . "',
+                                '" . (empty($date_to) ? "" : $date_to->format('Y-m-d H:i:s')) . "',
+                                '" . (int) $car_status['status'] . "'
+                            )";
+
+                        $wpdb->query($sql);
                     }
                 }
             }
@@ -370,29 +385,29 @@ class Car_share_Admin {
             }
         }
     }
-    
+
     public function load_single_cars($post_id){
-        
+
         if(!empty(Car_share_Admin::$single_cars)){
             return Car_share_Admin::$single_cars;
         }
-        
+
         global $wpdb;
-        
+
         $sql = "
-            SELECT 
+            SELECT
                 single_car_id
             FROM
                 sc_single_car
             WHERE
                 parent = '" . $post_id . "'
-            ORDER BY 
-                single_car_id 
+            ORDER BY
+                single_car_id
             ASC
         ";
-        
-        $result = $wpdb->get_col($sql);        
-        
+
+        $result = $wpdb->get_col($sql);
+
         if(!empty($result)){
             self::$single_cars = $result;
         } else {
@@ -400,7 +415,7 @@ class Car_share_Admin {
                 '0' => '1'
             );
         }
-        
+
         return Car_share_Admin::$single_cars;
     }
 
