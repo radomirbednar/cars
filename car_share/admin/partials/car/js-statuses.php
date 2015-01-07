@@ -29,8 +29,14 @@
     }
 
     function reload_date_picker(){
-        $( "li" ).each(function( index ) {
-          console.log( index + ": " + $( this ).text() );
+        $( "#post-body" ).find(".status .item").each(function( index ) {
+            
+            var date_from = $( this ).find('.status-date-from');
+            var date_to = $( this ).find('.status-date-to');
+            
+            //date_from.datepicker();
+            //date_to.datepicker();
+          
         });
     }
 
@@ -39,7 +45,10 @@
         $('.add-status').click(function (e) {
             var car_id = $(this).data('car_id');
             var row = statusTableRow(car_id, status_key, '', '', '');
-            $(this).parents('.status').find('tbody').append(row);
+            var element = $(this).parents('.status').find('tbody').append(row);
+            //console.log(element);
+            element.find(".status-date-from").datepicker();
+            element.find(".status-date-to").datepicker();
         });
 
         $('.status').on('click', 'tbody .remove-row', function (event) {
