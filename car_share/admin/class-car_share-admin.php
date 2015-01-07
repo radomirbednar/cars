@@ -287,7 +287,16 @@ class Car_share_Admin {
             
             // clean 
             $sql = "DELETE FROM sc_single_car_status WHERE single_car_id IN (SELECT single_car_id FROM sc_single_car WHERE parent = '" . $post->ID . "')";
-            $wpdb->query($sql);            
+            $wpdb->query($sql);   
+            
+            if(!empty($_POST['car'])){
+                
+                foreach($_POST['car'] as $car){
+                    
+                    
+                    
+                }                
+            }
 
             
             /*
