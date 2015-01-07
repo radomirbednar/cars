@@ -212,57 +212,7 @@ class Car_share_Shortcode {
             var_dump($cars); 
         
           
-       /*  
-        * SELECT
-                     *
-                    FROM
-                    $wpdb->posts posts
-                    JOIN     
-                    sc_single_car_status sc_status 
-                    ON
-                    sc_status.car_id = posts.ID      
-                    JOIN 
-                    sc_single_car sc_single_car 
-                    ON
-                    sc_single_car.parent = posts.ID
-                    JOIN 
-                    sc_single_car_location sc_location 
-                    ON
-                    sc_location.single_car_id = sc_single_car.single_car_id  
-                    WHERE  
-                    posts.post_type = 'sc-car'  
-                    AND 
-                    (sc_location.location_id = '$pick_up_location' AND sc_location.location_type = 1)  
-                    AND 
-                    (sc_location.location_id = '$drop_off_location' AND sc_location.location_type = 2) 
-                    AND
-                    posts.post_status = 'publish' 
-                    AND NOT EXISTS  
-                    (     
-                    SELECT * FROM sc_single_car_status
-                    WHERE
-                    date_from >= '$car_dfrom_string' 
-                    AND
-                    date_to <= '$car_dto_string'    
-                    )"; 
-        "
-        SELECT      key3.post_id
-	FROM        $wpdb->postmeta key3
-	INNER JOIN  $wpdb->postmeta key1 
-	            ON key1.post_id = key3.post_id
-	            AND key1.meta_key = %s 
-	INNER JOIN  $wpdb->postmeta key2
-	            ON key2.post_id = key3.post_id
-	            AND key2.meta_key = %s
-	WHERE       key3.meta_key = %s 
-	            AND key3.meta_value = %s
-	ORDER BY    key1.meta_value, key2.meta_value
-	",         
-	$meta_key1, 
-	$meta_key2, 
-	$meta_key3, 
-	$meta_key3_value";
-        */
+   
  
     }
 
