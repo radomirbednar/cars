@@ -42,8 +42,8 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="2">
-                <button id="add-status-<?php echo $car_id ?>" data-car_id="<?php echo $car_id ?>" type="button" class="add-status button button-primary"><?php _e('Add status', $this->car_share) ?></button>
+            <td colspan="4">
+                <button id="add-status-<?php echo $car_id ?>" data-car_id="<?php echo $car_id ?>" type="button" class="add-status alignleft button button-primary"><?php _e('Add status', $this->car_share) ?></button>
             </td>    
         </tr>    
     </tfoot>    
