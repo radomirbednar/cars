@@ -54,16 +54,16 @@ jQuery(document).ready(function ($) {
 <?php
 
 if (!empty($special_prices)):
-    $special_price_key = 0;
+    $status_key = 0;
     foreach ($special_prices as $sp):
         ?>
-                var row = statusTableRow('<?php echo $car_id ?>', '<?php echo $special_price_key ?>', '<?php echo $sp->time_from ?>', '<?php echo $sp->price_value ?>', '<?php echo $sp->time_type ?>');
+                var row = statusTableRow('<?php echo $car_id ?>', '<?php echo $status_key ?>', '<?php echo $sp->time_from ?>', '<?php echo $sp->price_value ?>', '<?php echo $sp->time_type ?>');
                 document.write(row);                
         <?php
-        $special_price_key++;
+        $status_key++;
     endforeach; 
     ?>
-       special_price_key = <?php echo $special_price_key ?>    
+       status_key = <?php echo $status_key ?>    
     <?php endif; ?>
 });
 </script>   

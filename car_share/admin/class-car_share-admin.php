@@ -127,13 +127,13 @@ class Car_share_Admin {
         global $post;
         $this->load_single_cars($post->ID);
         
-        $i = 10;
+        //$i = 10;
         
         foreach(Car_share_Admin::$single_cars as $key => $value){
             add_meta_box(
-                    'single_car_box_' . $key, sprintf(__('Single car #%d', $this->car_share), $i), array($this, 'single_car_box'), 'sc-car'
+                    'single_car_box_' . $value, sprintf(__('Single car #%d', $this->car_share), $value), array($this, 'single_car_box'), 'sc-car'
             );
-            $i++;
+            //$i++;
         }
         reset(Car_share_Admin::$single_cars);
         
@@ -263,7 +263,6 @@ class Car_share_Admin {
         * save car atributs
         *
         */
-
         if (isset($_POST['car_nonce']) && wp_verify_nonce($_POST['car_nonce'], __FILE__)) {
             //
             $keys = array(
