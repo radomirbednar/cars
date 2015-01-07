@@ -281,10 +281,16 @@ class Car_share_Admin {
             $this->save_post_keys($post->ID, $keys);
 
 
-            // pick up / drop off locations
+            // clean pick up / drop off locations
             $sql = "DELETE FROM sc_single_car_location WHERE single_car_id IN (SELECT single_car_id FROM sc_single_car WHERE parent = '" . $post->ID . "')";
             $wpdb->query($sql);
+            
+            // clean 
+            $sql = "DELETE FROM sc_single_car_status WHERE single_car_id IN (SELECT single_car_id FROM sc_single_car WHERE parent = '" . $post->ID . "')";
+            $wpdb->query($sql);            
 
+            
+            /*
             if(!empty($_POST['_pickup_location'])){
                 foreach($_POST['_pickup_location'] as $car_id => $location_ids){
 
@@ -304,7 +310,9 @@ class Car_share_Admin {
                     }
                 }
             }
+            */
 
+            /*
             if(!empty($_POST['_dropoff_location'])){
                 foreach($_POST['_dropoff_location'] as $car_id => $location_ids){
 
@@ -322,11 +330,11 @@ class Car_share_Admin {
                     }
                 }
             }
+            */
 
-            // statuses
-            $sql = "DELETE FROM sc_single_car_status WHERE single_car_id IN (SELECT single_car_id FROM sc_single_car WHERE parent = '" . $post->ID . "')";
-            $wpdb->query($sql);
 
+
+            /*
             if(!empty($_POST['status'])){
                 foreach($_POST['status'] as $single_car_id => $car_statuses){
                     foreach($car_statuses as $car_status){
@@ -351,6 +359,7 @@ class Car_share_Admin {
                     }
                 }
             }
+            */
         }
 
         /*
