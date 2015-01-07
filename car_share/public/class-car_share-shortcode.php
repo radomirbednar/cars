@@ -207,7 +207,7 @@ class Car_share_Shortcode {
                     AND
                     sc_status.date_from between '$car_dfrom_string' and '$car_dto_string' 
                     AND
-                    sc_status.date_to between '$car_dfrom_string' and '$car_dto_string')         
+                    sc_status.date_to between '$car_dfrom_string' and '$car_dto_string'         
                     )  GROUP BY single_car_id"
                  ;
  
