@@ -95,6 +95,25 @@
     }*/
 
     jQuery(document).ready(function ($) {
+        
+        $('.postbox').on('click', '.new-car', function (event) {
+            //$(this).parents(".item").remove();            
+            var new_box = $(this).parent('.postbox').cone();
+            
+            console.log('new car');
+        });
+        
+        $('.postbox').on('click', '.clone-car', function (event) {
+            //$(this).parents(".item").remove();
+            var new_box = $(this).parent('.postbox').cone();
+            console.log('clone car');
+        });
+        
+        $('.postbox').on('click', '.delete-car', function (event) {
+            //$(this).parents(".item").remove();
+            //var new_box = $(this).parent('.postbox').cone();
+            console.log('delete car');
+        });        
 
         $('.add-status').click(function (e) {
 
