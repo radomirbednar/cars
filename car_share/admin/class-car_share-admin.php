@@ -289,14 +289,14 @@ class Car_share_Admin {
             ///$sql = "DELETE FROM sc_single_car_location WHERE single_car_id = '" . . "'";
             
             if(!empty($_POST['_pickup_location'])){
-                foreach($_POST['_pickup_location'] as $key => $location_ids){
+                foreach($_POST['_pickup_location'] as $car_id => $location_ids){
                     
                     foreach($location_ids as $location_id){
                         $sql = "
                             REPLACE INTO 
                                 sc_single_car_location (single_car_id, location_id, location_type)
                             VALUES (
-                                '" . (int) $post->ID . "',
+                                '" . (int) $car_id . "',
                                 '" . (int) $location_id . "',
                                 '" . Car_share::PICK_UP_LOCATION. "'    
                             )";            
@@ -307,14 +307,14 @@ class Car_share_Admin {
             }
             
             if(!empty($_POST['_dropoff_location'])){
-                foreach($_POST['_dropoff_location'] as $key => $location_ids){
+                foreach($_POST['_dropoff_location'] as $car_id => $location_ids){
                     
                     foreach($location_ids as $location_id){
                         $sql = "
                             REPLACE INTO 
                                 sc_single_car_location (single_car_id, location_id, location_type)
                             VALUES (
-                                '" . (int) $post->ID . "',
+                                '" . (int) $car_id . "',
                                 '" . (int) $location_id . "',
                                 '" . Car_share::DROP_OFF_LOCATION . "'    
                             )";            
