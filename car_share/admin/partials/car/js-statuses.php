@@ -2,7 +2,7 @@
 
     var status_key = 0;
 
-    function statusTableRow(car_id, key, next_time, next_price, price_type) {
+    function statusTableRow(car_id, key, from_date, from_hour, to_date, to_hour) {
 
         status_key = key;
 
@@ -75,7 +75,10 @@
         $('.add-status').click(function (e) {
 
             var car_id = $(this).data('car_id');
-            var row = statusTableRow(car_id, status_key, '', '', '');
+            //var row = statusTableRow(car_id, status_key, '', '', '');
+            
+            var row = statusTableRow(car_id, key, from_date, from_hour, to_date, to_hour);
+            
             $(this).parents('.status').find('tbody').append(row);
             
             var element = $(this).parents('.status').find('tbody').find('.item:last');

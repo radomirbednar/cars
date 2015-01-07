@@ -22,7 +22,7 @@
 
 <h2><?php _e('Status', $this->car_share) ?></h2>
 
-<table class="status">
+<table id="car-status-<?php echo $car_id ?>" class="status">
     <thead>
         <tr>
             <td>
@@ -55,14 +55,13 @@ jQuery(document).ready(function ($) {
 
 if (!empty($statuses)):
     $status_key = 0;
-    foreach ($statuses as $status):
+    foreach ($statuses as $status):   
         
-        
-        
-        ?>
-                var row = statusTableRow('<?php echo $car_id ?>', '<?php echo $status_key ?>', '<?php echo $sp->time_from ?>', '<?php echo $sp->price_value ?>', '<?php echo $sp->time_type ?>');
-                document.write(row);                
-        <?php
+        $date_from = DateTime::createFromFormat('Y-m-d H:i:s', ''); ?>            
+            //var row = statusTableRow(car_id, status_key, '', '', '');
+            var row = statusTableRow(<?php echo $car_id ?>, <?php echo $status_key ?>, '', '', '', '');            
+            $("#car-status-<?php echo $car_id ?> tbody").append(row);            
+            <?php
         $status_key++;
     endforeach; 
     ?>
