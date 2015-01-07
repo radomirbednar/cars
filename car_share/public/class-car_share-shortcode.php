@@ -7,11 +7,9 @@
  */
 
 class Car_share_Shortcode {
-    
-    
+     
     public $warning;
- 
-
+  
     public function __construct($car_share, $version) {
 
         $this->car_share = $car_share;
@@ -27,11 +25,8 @@ class Car_share_Shortcode {
         if(!isset($_SESSION))
             {
             session_start();
-            }
- 
-    }
-
- 
+            } 
+    } 
     public function search_for_car_form() {
    
         //fix for permalinks
