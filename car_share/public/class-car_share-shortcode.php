@@ -70,10 +70,13 @@ class Car_share_Shortcode {
             }
 
             $format = 'd-m-Y H';
-            $car_hoursfrom = DateTime::createFromFormat($format, $car_datefrom . ' ' . $car_hoursfrom);
-            $car_hoursto = DateTime::createFromFormat($format, $car_dateto . ' ' . $car_hoursto);
-            $car_hoursfrom = $car_hoursfrom->format('H:i:s');
-            $car_hoursto = $car_hoursto->format('H:i:s');
+            
+            $car_dfrom = DateTime::createFromFormat($format, $car_datefrom . ' ' . $car_hoursfrom);
+            $car_dto = DateTime::createFromFormat($format, $car_dateto . ' ' . $car_hoursto);
+            
+            
+            $car_hoursfrom = $car_dfrom->format('H:i:s');
+            $car_hoursto = $car_dto->format('H:i:s');
 
             // name for a day
 
@@ -102,17 +105,18 @@ class Car_share_Shortcode {
                     AND open_from <= %s
                     AND open_to >= %s", $drop_off_location, $day_car_dateto, $car_hoursto, $car_hoursto
             );
+            
             $resultto = $wpdb->get_results($sqlto);
 
-            if (empty($resultfrom) || empty($resultto)) {
-
+            if (empty($resultfrom) || empty($resultto)) { 
+                
                 $this->warning = __('Sorry, we won\'t be here. Please choose another time.', $this->car_share);
+                
             } else {
  
                 $Cars_cart = new Car_Cart('shopping_cart');
-                $Cars_cart->setItemSearch($pick_up_location, $drop_off_location, $car_hoursfrom, $car_hoursto, $car_category);
-                $Cars_cart->save();
- 
+                $Cars_cart->setItemSearch($pick_up_location, $drop_off_location, $car_dfrom, $car_dto, $car_category);
+                $Cars_cart->save(); 
                 wp_redirect($pick_car_url);
                 exit;
             }
@@ -124,55 +128,124 @@ class Car_share_Shortcode {
         $sc_options = get_option('sc-pages');
         $extras_car_url = isset($sc_options['extras']) ? get_page_link($sc_options['extras']) : '';
 
+         
         $Cars_cart = new Car_Cart('shopping_cart'); 
         $Cars_cart_items =  $Cars_cart->getItems();
-         
-        var_dump($Cars_cart_items); 
+        
         
         $pick_up_location = $Cars_cart_items['pick_up_location']; 
         $drop_off_location = $Cars_cart_items['drop_off_location']; 
-        $car_hoursfrom = $Cars_cart_items['car_hoursfrom']; 
-        $car_hoursto = $Cars_cart_items['car_hoursto']; 
+        
+        $car_dfrom = $Cars_cart_items['car_datefrom']; 
+        $car_dto = $Cars_cart_items['car_dateto']; 
         $car_category = $Cars_cart_items['car_category'];
         
-        echo $car_datefrom;
- 
-        echo $car_dateto;
+        
+        $car_dfrom_string = $car_dfrom->format('Y-m-d H:i:s'); 
+        $car_dto_string = $car_dto->format('Y-m-d H:i:s');
+      
+        
+        echo $pick_up_location;
+        echo $drop_off_location; 
+        echo $car_dfrom_string;
     
+        
+         
         global $wpdb;
          
-        $sql = "  
-                SELECT
+        $sql = "   
+            
+            
+                
+              SELECT
+                     *
+                    FROM
+                    $wpdb->posts posts
+                    JOIN 
+                    sc_single_car sc_single_car 
+                    ON
+                    sc_single_car.parent = posts.ID     
+                    JOIN     
+                    sc_single_car_status sc_status  
+                    ON
+                    sc_status.single_car_id = sc_single_car      
+                   
+                    JOIN 
+                    sc_single_car_location sc_location 
+                    ON
+          
+                    sc_location.single_car_id = sc_single_car.single_car_id  
+                    WHERE  
+       
+                    posts.post_type = 'sc-car'  
+       
+                    AND 
+                    (sc_location.location_id = '$pick_up_location' AND sc_location.location_type = 1)  
+                    AND 
+                    (sc_location.location_id = '$drop_off_location' AND sc_location.location_type = 2)
+ 
+                    AND
+                    posts.post_status = 'publish'
+                    
+                    AND NOT EXISTS  
+                    ( 
+                    
+                    SELECT * FROM sc_single_car_status
+                    WHERE
+                    date_from >= '$car_dfrom_string' 
+                    AND
+                    date_to <= '$car_dto_string'    
+                      
+                    ) 
+               ";
+        
+        
+        
+        
+        $cars = $wpdb->get_results($sql);         
+        var_dump($cars); 
+        
+         
+       /* 
+        * 
+        * 
+        * 
+        * SELECT
                      *
                     FROM
                     $wpdb->posts posts
                     JOIN     
-                    sc_car_status sc_status
+                    sc_single_car_status sc_status 
                     ON
-                    sc_status.car_id = posts.ID        
-                    WHERE 
+                    sc_status.car_id = posts.ID      
+                    JOIN 
+                    sc_single_car sc_single_car 
+                    ON
+                    sc_single_car.parent = posts.ID
+                    JOIN 
+                    sc_single_car_location sc_location 
+                    ON
+                    sc_location.single_car_id = sc_single_car.single_car_id 
+ 
+                    WHERE  
                     posts.post_type = 'sc-car' 
-                    OR
-                    posts.post_type = 'sc-car-category'
-                
+                    
+                    AND 
+                    (sc_location.location_id = '$pick_up_location' AND sc_location.location_type = 1)  
+                    AND 
+                    (sc_location.location_id = '$drop_off_location' AND sc_location.location_type = 2)
+ 
                     AND
-                    posts.post_status = 'publish'    
+                    posts.post_status = 'publish'
+                    
                     AND NOT EXISTS  
                     (     
-                    SELECT * FROM sc_car_status
+                    SELECT * FROM sc_single_car_status
                     WHERE
-                    date_from >= '2015-01-18 00:00:00' 
+                    date_from >= '$car_dfrom_string' 
                     AND
-                    date_to <= '2015-01-19 00:00:00'   
-                    )
-                     
-             "; 
-        $cars = $wpdb->get_results($sql);
-                
-       // var_dump($cars); 
-        
-         
-       /* 
+                    date_to <= '$car_dto_string'    
+                    )"; 
         "
         SELECT      key3.post_id
 	FROM        $wpdb->postmeta key3
