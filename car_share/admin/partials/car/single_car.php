@@ -57,9 +57,21 @@ if (!empty($statuses)):
     $status_key = 0;
     foreach ($statuses as $status):   
         
-        $date_from = DateTime::createFromFormat('Y-m-d H:i:s', ''); ?>            
-            //var row = statusTableRow(car_id, status_key, '', '', '');
-            var row = statusTableRow(<?php echo $car_id ?>, <?php echo $status_key ?>, '', '', '', '');            
+        $date_from = DateTime::createFromFormat('Y-m-d H:i:s', $status->date_from); 
+        $date_to = DateTime::createFromFormat('Y-m-d H:i:s', $status->date_to); 
+        
+        ?>           
+            
+            var row = statusTableRow(
+                <?php echo $car_id ?>, 
+                <?php echo $status_key ?>, 
+                '<?php echo empty($date_from) ? '' : $date_from->format('d.m.Y') ?>', 
+                '<?php echo empty($date_from) ? '' : $date_from->format('H') ?>', 
+                '<?php echo empty($date_from) ? '' : $date_from->format('i') ?>', 
+                '<?php echo empty($date_to) ? '' : $date_to->format('d.m.Y') ?>', 
+                '<?php echo empty($date_to) ? '' : $date_to->format('H') ?>', 
+                '<?php echo empty($date_to) ? '' : $date_to->format('i') ?>');
+        
             $("#car-status-<?php echo $car_id ?> tbody").append(row);            
             <?php
         $status_key++;

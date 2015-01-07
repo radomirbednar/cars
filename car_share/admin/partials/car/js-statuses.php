@@ -18,7 +18,8 @@
                 '<select  name="status[' + car_id + '][' + status_key + '][from_hour]">';
         
                 <?php for($i = 0; $i < 24; $i++): ?>
-                    str += '<option value="<?php echo $i ?>"><?php echo sprintf("%02s", $i)  ?></option>';
+                    str += '<option value="<?php echo $i ?>"'
+                    str += '><?php echo sprintf("%02s", $i)  ?></option>';
                 <?php endfor; ?>
                 
         str += '</select> : ' +
@@ -74,10 +75,9 @@
 
         $('.add-status').click(function (e) {
 
-            var car_id = $(this).data('car_id');
-            //var row = statusTableRow(car_id, status_key, '', '', '');
+            var car_id = $(this).data('car_id');            
             
-            var row = statusTableRow(car_id, key, from_date, from_hour, to_date, to_hour);
+            var row = statusTableRow(car_id, key, from_date, from_hour, from_min, to_date, to_hour, to_min);
             
             $(this).parents('.status').find('tbody').append(row);
             
@@ -99,12 +99,6 @@
                     date_from.datepicker("option", "maxDate", selected_date);
                 }
             });
-            
-            /*
-            onSelect: function (date_from) {
-                $('#date-to').datepicker("option", "minDate", date_from);
-            }*/
-
 
         });
 
