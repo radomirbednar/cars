@@ -274,9 +274,9 @@ class Car_share_Admin {
         if (isset($_POST['car_nonce']) && wp_verify_nonce($_POST['car_nonce'], __FILE__)) {
             //
             $keys = array(
-                '_current_location',
-                '_pickup_location',
-                '_dropoff_location',
+                //'_current_location',
+                //'_pickup_location',
+                //'_dropoff_location',
                 '_number_of_seats',
                 '_number_of_doors',
                 '_number_of_suitcases',
@@ -286,20 +286,23 @@ class Car_share_Admin {
             $this->save_post_keys($post->ID, $keys);
             
             
-            ///$sql = "DELETE FROM sc_single_car_location WHERE single_car_id = '" . . "'";
+            // pick up / drop off locations
+            $sql = "DELETE FROM sc_single_car_location WHERE single_car_id IN (SELECT single_car_id FROM sc_single_car WHERE parent = '" . $post->ID . "')'";            
             
             if(!empty($_POST['_pickup_location'])){
                 foreach($_POST['_pickup_location'] as $car_id => $location_ids){
                     
                     foreach($location_ids as $location_id){
+                        
                         $sql = "
-                            REPLACE INTO 
+                            INSERT INTO 
                                 sc_single_car_location (single_car_id, location_id, location_type)
                             VALUES (
                                 '" . (int) $car_id . "',
                                 '" . (int) $location_id . "',
-                                '" . Car_share::PICK_UP_LOCATION. "'    
-                            )";            
+                                '" . Car_share::PICK_UP_LOCATION . "'    
+                            ) 
+                        ";
                         
                         $wpdb->query($sql);
                     }          

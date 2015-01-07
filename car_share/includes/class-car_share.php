@@ -48,6 +48,10 @@ class Car_share {
 	 * @var      string    $car_share    The string used to uniquely identify this plugin.
 	 */
 	protected $car_share;
+        
+        const PICK_UP_LOCATION = 1;        
+        const DROP_OFF_LOCATION = 2;
+                
 
 	/**
 	 * The current version of the plugin.
