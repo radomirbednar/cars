@@ -72,7 +72,11 @@ if (!empty($statuses)):
                 '<?php echo empty($date_to) ? '' : $date_to->format('H') ?>', 
                 '<?php echo empty($date_to) ? '' : $date_to->format('i') ?>');
         
-            $("#car-status-<?php echo $car_id ?> tbody").append(row);            
+            $("#car-status-<?php echo $car_id ?> tbody").append(row);  
+            
+            var element = $("#car-status-<?php echo $car_id ?> tbody").find('.item:last');
+            apply_datepicker(element);            
+            
             <?php
         $status_key++;
     endforeach; 

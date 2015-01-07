@@ -105,9 +105,7 @@
             $(this).parents('.status').find('tbody').append(row);
             
             var element = $(this).parents('.status').find('tbody').find('.item:last');
-
-
-
+            apply_datepicker(element);
         });
 
         $('.status').on('click', 'tbody .remove-row', function (event) {

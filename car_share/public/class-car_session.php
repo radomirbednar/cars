@@ -108,8 +108,8 @@ class Car_Cart {
      * clean() - Cleanup the cart contents. If any items have a
      *           quantity less than one, remove them.
      */
-    function clean() {
-        foreach ( $this->items as $order_code=>$quantity ) {
+    function clean() {        
+        foreach ( $this->items as $order_code=>$quantity ) {            
             if ( $quantity < 1 )
                 unset($this->items[$order_code]);
         }
@@ -119,7 +119,7 @@ class Car_Cart {
      * save() - Saves the cart to a session variable.
      */
     function save() {
-        $this->clean();
+        //$this->clean();
         $_SESSION[$this->cart_name] = $this->items;
     }
 } 
