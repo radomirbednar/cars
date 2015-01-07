@@ -57,11 +57,6 @@ class Car_share {
 	 * @var      string    $version    The current version of the plugin.
 	 */
 	protected $version;
-        
-        
-        const PICK_UP_LOCATION = 1;        
-        const DROP_OFF_LOCATION = 2;
-        
 
 	/**
 	 * Define the core functionality of the plugin.
