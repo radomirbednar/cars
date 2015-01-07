@@ -143,8 +143,8 @@ class Car_share_Shortcode {
    
         global $wpdb; 
         $sql = "     
-              SELECT DISTINCT
-                    posts.ID
+              SELECT DISTINCT 
+                    posts.ID                      
                     FROM
                     $wpdb->posts posts
                     JOIN 
@@ -169,23 +169,20 @@ class Car_share_Shortcode {
                     posts.post_status = 'publish' 
                     AND NOT EXISTS  
                     (   
+                     
                         SELECT * FROM sc_single_car_status
                         WHERE
                         date_from >= '$car_dfrom_string' 
                         AND
                         date_to <= '$car_dto_string'       
+                    
                     )";
-
+ 
+            echo $sql; 
+            $cars = $wpdb->get_results($sql);         
+            var_dump($cars); 
         
-        
-        echo $sql; 
-        $cars = $wpdb->get_results($sql);         
-        var_dump($cars); 
-        
-        
-        
-        
-        
+          
        /*  
         * SELECT
                      *
