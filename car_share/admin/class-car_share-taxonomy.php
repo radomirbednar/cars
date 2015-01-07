@@ -9,7 +9,7 @@ class Car_share_Taxonomy {
      * @access   private
      * @var      string    $car_share    The ID of this plugin.
      */
-    private $car_share;
+    private $car_share; 
 
     /**
      * The version of this plugin.
