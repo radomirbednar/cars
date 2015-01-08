@@ -1,5 +1,20 @@
 <?php
 
+function sc_get_price($car_id, DateTime $from, DateTime $to, $args){
+    
+    $category_id = (int) get_post_meta($car_id, '_car_category', true);
+    
+    if(empty($category_id)){
+        // auto nema kategorii, nemam ceny        
+    }
+    
+    
+    
+       
+    
+}
+
+
 function get_days_of_week(){
     
     $days = array(
