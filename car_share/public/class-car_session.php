@@ -43,27 +43,11 @@ class Car_Cart {
      * @return int The price.
      */
     function getItemPrice($itemID) {
-          
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        return 99;
-        
-        
+         
+        $this->getItems();
+ 
+        return 99; 
     }
-    
     
     
     

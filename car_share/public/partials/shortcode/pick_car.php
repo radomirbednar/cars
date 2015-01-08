@@ -3,29 +3,27 @@
           else { $sc_pr = '&'; }      
     ?> 
     <div>
+        
         <?php _e('1. Search for a car', $this->car_share); ?>
         <?php _e('2. Pick a car', $this->car_share); ?>
         <?php _e('3. Pick a car', $this->car_share); ?>
+    
     </div>
-    <?php foreach ($this->cars as $car): ?>
-        <div class="col-md-12"> 
-            
+    <?php foreach ($this->cars as $car): ?>  
+            <div class="col-md-12">  
             <?php
-            $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail');
+                $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail');
+                //predefinovane informace k autu
+                $number_of_seats = get_post_meta($car->ID, '_number_of_seats', true);
+                $number_of_doors = get_post_meta($car->ID, '_number_of_doors', true);
+                $number_of_suitcases = get_post_meta($car->ID, '_number_of_suitcases', true);
+                $transmission = get_post_meta($car->ID, '_transmission', true);
+                $number_of_seats = esc_attr($number_of_seats);
+                $number_of_doors = esc_attr($number_of_doors);
+                $number_of_suitcases = esc_attr($number_of_suitcases);
+                $transmission = esc_attr($transmission);
+                //predefinovane informace k autu
             ?> 
-            <?php
-            //predefinovane informace k autu
-            $number_of_seats = get_post_meta($car->ID, '_number_of_seats', true);
-            $number_of_doors = get_post_meta($car->ID, '_number_of_doors', true);
-            $number_of_suitcases = get_post_meta($car->ID, '_number_of_suitcases', true);
-            $transmission = get_post_meta($car->ID, '_transmission', true);
-            $number_of_seats = esc_attr($number_of_seats);
-            $number_of_doors = esc_attr($number_of_doors);
-            $number_of_suitcases = esc_attr($number_of_suitcases);
-            $transmission = esc_attr($transmission);
-            //predefinovane informace k autu
-            ?>
-
             <?php echo $post_thumbnail; ?> 
             <h2><?php echo get_the_title($car->ID) ?></h2>
             <table>
