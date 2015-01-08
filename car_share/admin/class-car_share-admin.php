@@ -105,8 +105,12 @@ class Car_share_Admin {
 
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
         $locations = $wpdb->get_results($sql);
-
+        
+        ob_start();
         include 'partials/car/single_car_box.php';
+        $html = ob_get_contents();
+        ob_end_clean();        
+        
         die();
     }
 

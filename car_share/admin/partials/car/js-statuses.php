@@ -5,7 +5,7 @@
 
     function statusTableRow(car_id, key, from_date, from_hour, from_min, to_date, to_hour, to_min) {
 
-        console.log(to_date);
+        //console.log(to_date);
 
         //status_key = key;
 
@@ -22,6 +22,7 @@
 
                 <?php for($i = 0; $i < 24; $i++): ?>
                     str += '<option value="<?php echo $i ?>"'
+                    str += <?php echo $i ?> == from_hour ? ' selected="selected" ' : ''; 
                     str += '><?php echo sprintf("%02s", $i)  ?></option>';
                 <?php endfor; ?>
 
@@ -29,7 +30,9 @@
                 '<select name="car[' + car_id + '][status][' + status_key + '][from_min]">';
 
                 <?php for($i = 0; $i < 60; $i++): ?>
-                    str += '<option value="<?php echo $i ?>"><?php echo sprintf("%02s", $i)  ?></option>';
+                    str += '<option value="<?php echo $i ?>"';
+                    str += <?php echo $i ?> == from_min ? ' selected="selected" ' : ''; 
+                    str += '><?php echo sprintf("%02s", $i)  ?></option>';
                 <?php endfor; ?>
 
         str +=  '</select>' +
@@ -39,7 +42,9 @@
                 '<select  name="car[' + car_id + '][status][' + status_key + '][to_hour]">';
 
                 <?php for($i = 0; $i < 24; $i++): ?>
-                    str += '<option value="<?php echo $i ?>"><?php echo sprintf("%02s", $i)  ?></option>';
+                    str += '<option value="<?php echo $i ?>"';
+                    str += <?php echo $i ?> == to_hour ? ' selected="selected" ' : ''; 
+                    str += '><?php echo sprintf("%02s", $i)  ?></option>';
                 <?php endfor; ?>
 
         str +=  '</select>';
@@ -47,7 +52,9 @@
         str += '<select name="car[' + car_id + '][status][' + status_key + '][to_min]">';;
 
                 <?php for($i = 0; $i < 60; $i++): ?>
-                    str += '<option value="<?php echo $i ?>"><?php echo sprintf("%02s", $i)  ?></option>';
+                    str += '<option value="<?php echo $i ?>"';
+                    str += <?php echo $i ?> == to_min ? ' selected="selected" ' : ''; 
+                    str += '><?php echo sprintf("%02s", $i)  ?></option>';
                 <?php endfor; ?>
 
         str +=  '</select>' +
@@ -90,7 +97,7 @@
             var self = $(this);
             var id = $(this).data('car_id');
             
-            console.log(id);
+            //console.log(id);
             
             //var form = 
 
@@ -105,7 +112,8 @@
                         self.prop("disabled", true);
                     }
                 }).done(function (ret) {
-                    $('#single_car_box_' + id).after(ret);
+                    var new_element = $('#single_car_box_' + id).after(ret);
+                    
                 }).fail(function (ret) {
                     alert('<?php _e('Create new car failed', $this->car_share) ?>');
                 }).always(function () {
@@ -118,8 +126,6 @@
         
             var self = $(this);
             var id = $(this).data('car_id');
-            
-            //var form = 
 
             jQuery.ajax({
                 type: 'post',
