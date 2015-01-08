@@ -11,6 +11,9 @@ class Car_share_Shortcode {
     public $warning;
     public $cars;
     public $extras_car_url;
+    
+    
+    
 
     public function __construct($car_share, $version) {
 
@@ -76,8 +79,7 @@ class Car_share_Shortcode {
 
             $car_dfrom = DateTime::createFromFormat($format, $car_datefrom . ' ' . $car_hoursfrom);
             $car_dto = DateTime::createFromFormat($format, $car_dateto . ' ' . $car_hoursto);
-
-
+ 
             $car_hoursfrom = $car_dfrom->format('H:i:s');
             $car_hoursto = $car_dto->format('H:i:s');
 
@@ -247,10 +249,8 @@ class Car_share_Shortcode {
       
             $id_code = sanitize_text_field($_GET['chcar']);
              
-            $Cars_cart = new Car_Cart('shopping_cart'); 
-        
-            $Cars_cart->setItemId($id_code); 
-            
+            $Cars_cart = new Car_Cart('shopping_cart');  
+            $Cars_cart->setItemId($id_code);  
             $Cars_cart->save();    
        
             

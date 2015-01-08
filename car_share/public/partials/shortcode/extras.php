@@ -14,7 +14,7 @@ $extras_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['ch
             $service_fee = get_post_meta(get_the_ID(), '_service_fee', true);
             $_per_service = get_post_meta(get_the_ID(), '_per_service', true);
             $_service_quantity_box = get_post_meta(get_the_ID(), '_service_quantity_box', true);
-            
+            $service_id = get_the_ID(); 
             ?>
             <h2><?php the_title() ?></h2> 
             <?php
@@ -30,34 +30,24 @@ $extras_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['ch
             ?>
              <?php
             // check if the custom field has a value
-            if (!empty($_per_service)) {
-                 
-                $service_info =  $_per_service;
+            if (!empty($_per_service)) { 
+                 echo $_per_service;
             }
             ?>
-             
-            <select name="service[]">             
-                
-                <?php 
-             
-                foreach ($_service_quantity_box as $box)
-                {
-                        
-                        
-                
-                    
-                    
-                } 
-                ?>
-                
-            </select>
-              
+            <div class="form-group"> 
+            <select name="service[<?php echo $service_id; ?>]"> 
+                <?php  
+                for ($i = 0; $i <= $_service_quantity_box; $i++) { 
+                  echo '<option value="'.$i.'">'.$i.'</option>'; 
+                }          
+                ?> 
+            </select> 
+            </div>  
             <?php
         endwhile;
         wp_reset_postdata();
     endif;
-    ?> 
-
+    ?>  
    <a href="#" type="submit" class="btn btn-default"><?php _e('BACK', $this->car_share); ?></a>           
    <button type="submit" class="btn btn-default"><?php _e('CHECKOUT', $this->car_share); ?></button>                 
 </form> 
