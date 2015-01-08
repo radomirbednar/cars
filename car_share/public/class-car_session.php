@@ -4,8 +4,7 @@ class Car_Cart {
      
     private $cart_name;       // The name of the cart/session variable
     private $items = array(); // The array for storing items in the cart
- 
-     
+  
     /**
      * __construct() - Constructor. This assigns the name of the cart
      *                 to an instance variable and loads the cart from
@@ -16,10 +15,7 @@ class Car_Cart {
     function __construct($name) {       
         $hash=sha1('whatsthecallme063214056*'); 
         $this->cart_name = $name.$hash; 
-        $this->items = empty($_SESSION[$this->cart_name]) ? array() : $_SESSION[$this->cart_name]; 
-        
-        
-        
+        $this->items = empty($_SESSION[$this->cart_name]) ? array() : $_SESSION[$this->cart_name];    
     }
      
     /**
@@ -28,8 +24,7 @@ class Car_Cart {
      * @param string $order_code The order code of the item.
      * @param int $quantity The quantity.
      */
-    function setItemSearch($pick_up_location, $drop_off_location, $car_datefrom, $car_dateto, $car_category) {
-         
+    function setItemSearch($pick_up_location, $drop_off_location, $car_datefrom, $car_dateto, $car_category) { 
         $this->items['pick_up_location'] = $pick_up_location;
         $this->items['drop_off_location'] = $drop_off_location;
         $this->items['car_datefrom'] = $car_datefrom;
@@ -37,10 +32,8 @@ class Car_Cart {
         $this->items['car_category'] = $car_category;    
     }
      
-    function getItemSearch(){   
-        
-         return $this->items; 
-         
+    function getItemSearch(){    
+         return $this->items;  
     }
    
      
