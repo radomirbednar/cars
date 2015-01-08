@@ -100,10 +100,8 @@
                 beforeSend: function () {
                         self.prop("disabled", true);
                     }
-                }).done(function (ret) {
-                    //console.log(ret);
-                    $('#single_car_box_' + id).after(ret);
-                    //new_car_key++;                    
+                }).done(function (ret) {                    
+                    $('#single_car_box_' + id).after(ret);                                   
                 }).fail(function (ret) {
                     alert('<?php _e('Create new car failed', $this->car_share) ?>');
                 }).always(function () {
