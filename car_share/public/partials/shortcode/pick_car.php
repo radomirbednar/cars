@@ -50,6 +50,8 @@
                         <td><?php echo $transmission; ?></td>
                     </tr>
                 <?php }; ?>
+            
+            
             </table> 
             <a class="continue btn btn-default" href=" <?php echo $this->extras_car_url; ?>?choose='<?php echo $car->single_car_id; ?>'"><?php _e('CHOOSE', $this->car_share); ?></a> 
         </div>

@@ -1,4 +1,3 @@
-
 <div>
     <?php _e('1. Search for a car', $this->car_share); ?>
     <?php _e('2. Pick a car', $this->car_share); ?>
@@ -9,8 +8,7 @@
 <form name="car_share_search_form" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
     <div class="form-group">
         <label><?php _e('Pickup location:', $this->car_share) ?></label>
-        <select class="form-control" name="pick_up_location">
-
+        <select class="form-control" name="pick_up_location"> 
             <?php
             $args = array(
                 'post_type' => 'sc-location',
@@ -55,8 +53,7 @@
             endif;
             ?>
         </select>
-    </div>
-
+    </div> 
     <div class="form-group">
         <label for="car_datefrom"><?php _e('Pick-up date and time:', $this->car_share); ?></label>
         <input id="car_datefrom" class="hasdatepicker" required name="car_datefrom" value="">
@@ -65,8 +62,7 @@
                 <option value="<?php echo $i; ?>"><?php echo $i; ?>:00 </option>
             <?php endfor ?>
         </select>
-    </div>
-
+    </div> 
     <div class="form-group">
         <label for="car_dateto"><?php _e('Return date and time:', $this->car_share); ?></label>
         <input id="car_dateto" class="hasdatepicker" required name="car_dateto" value="">
@@ -77,14 +73,11 @@
         </select>
     </div>
 
-    <?php $options = get_option('car_plugin_options_arraykey'); ?>
-
-    <?php if ($options['showcategory'] == 1) { ?>
-
+    <?php $options = get_option('car_plugin_options_arraykey'); ?> 
+    <?php if ($options['showcategory'] == 1) { ?> 
         <div class="form-group">
             <label for="car_category"><?php _e('Category:', $this->car_share); ?></label>
-            <select class="form-control" name="car_category">
-
+            <select class="form-control" name="car_category"> 
                 <?php
                 $args = array(
                     'post_type' => 'sc-car-category',
@@ -103,8 +96,7 @@
                 ?>
             </select>
         </div>
-    <?php } ?>
-
+    <?php } ?> 
     <!-- Standard button -->
     <button type="submit" class="btn btn-default"><?php _e('SEARCH', $this->car_share); ?></button>
 </form>
