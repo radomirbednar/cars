@@ -73,7 +73,7 @@ class Car_share_Admin {
         global $wpdb;
 
         $id = $_POST['id'];
-        
+
         $statuses = array();
         $pickup_location = array();
         $dropoff_location = array();
@@ -86,26 +86,31 @@ class Car_share_Admin {
                     $pickup_location[] = $val;
                 }
             }
-            
+
             if (isset($params['car'][$id]['dropoff_location'])) {
                 foreach ($params['car'][$id]['dropoff_location'] as $val) {
                     $dropoff_location[] = $val;                }
             }
-            
+
             if (isset($params['car'][$id]['status'])) {
                 foreach ($params['car'][$id]['status'] as $val) {
                     
-                    $date_from = DateTime::createFromFormat('d.m.Y', $val['from']);
-                    $date_to = DateTime::createFromFormat('d.m.Y', $val['to']);
-                    
+                    //sprintf("%02s", $val['from_hour'])
+
+                    $from_string = $val['from'] . ' ' . sprintf("%02s", $val['from_hour']) . ':' . sprintf("%02s", $val['from_min']);
+                    $date_from = DateTime::createFromFormat('d.m.Y H:i', $from_string);
+
+                    $to_string = $val['to'] . ' ' . sprintf("%02s", $val['to_hour']) . ':' . sprintf("%02s", $val['to_min']);;
+                    $date_to = DateTime::createFromFormat('d.m.Y H:i', $to_string);
+
                     if(!empty($date_from)){
                         $val['date_from'] = $date_from->format('Y-m-d H:i:s');
                     }
-                    
+
                     if(!empty($date_to)){
                         $val['date_to'] = $date_to->format('Y-m-d H:i:s');
-                    }                    
-                    
+                    }
+
                     $statuses[] = $val;
                 }
             }
@@ -116,12 +121,12 @@ class Car_share_Admin {
 
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
         $locations = $wpdb->get_results($sql);
-        
+
         //ob_start();
         include 'partials/car/single_car_box.php';
         //$html = ob_get_contents();
-        //ob_end_clean();        
-        
+        //ob_end_clean();
+
         //array_walk ( $statuses , '(array)');
         /*
         $return = array(
@@ -129,8 +134,8 @@ class Car_share_Admin {
             'car_status' => $statuses,
             'car_id' => $car_id
         );
-        
-        echo json_encode($return);        
+
+        echo json_encode($return);
         */
         die();
     }
@@ -138,12 +143,12 @@ class Car_share_Admin {
     public function delete_single_car_ajax() {
 
         global $wpdb;
-        $id = $_POST['id'];        
-        
+        $id = $_POST['id'];
+
         if (false !== strpos($id, 'new_car')) {
             die();
         }
-        
+
         $sql = "DELETE FROM sc_single_car WHERE single_car_id = '" . (int) $id . "'";
         $wpdb->query($sql);
 
@@ -152,7 +157,7 @@ class Car_share_Admin {
 
         $sql = "DELETE FROM sc_single_car_status WHERE single_car_id = '" . (int) $id . "'";
         $wpdb->query($sql);
-        
+
         die();
     }
 
@@ -237,11 +242,11 @@ class Car_share_Admin {
         add_meta_box(
                 'car_details_box', __('Details', $this->car_share), array($this, 'details_box'), 'sc-car'
         );
-        
+
         /*
         add_meta_box(
                 'add_new_single_car_box', __('Add new single car', $this->car_share), array($this, 'add_new_single_car_box'), 'sc-car', 'side'
-        );  */              
+        );  */
 
         add_meta_box(
                 'service_price_box', __('Price', $this->car_share), array($this, 'service_price_box'), 'sc-service'
@@ -251,7 +256,7 @@ class Car_share_Admin {
                 'service_quantity_box', __('Quantity', $this->car_share), array($this, 'service_quantity_box'), 'sc-service'
         );
     }
-    
+
     function add_new_single_car_box(){
         include 'partials/car/add_new_single_car.php';
     }
