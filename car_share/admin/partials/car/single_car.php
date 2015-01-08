@@ -62,13 +62,16 @@ jQuery(document).ready(function ($) {
 
 if (!empty($statuses)):
     $status_key = 0;
-    foreach ($statuses as $status):        
-        $date_from = DateTime::createFromFormat('Y-m-d H:i:s', $status->date_from); 
-        $date_to = DateTime::createFromFormat('Y-m-d H:i:s', $status->date_to);        
+    foreach ($statuses as $status):
+        
+        $status = (object) $status;
+        
+        $date_from = isset($status->date_from) ? DateTime::createFromFormat('Y-m-d H:i:s', $status->date_from) : ''; 
+        $date_to = isset($status->date_to) ? DateTime::createFromFormat('Y-m-d H:i:s', $status->date_to) : '';        
         ?>           
             
             var row = statusTableRow(
-                <?php echo $car_id ?>, 
+                '<?php echo $car_id  ?>', 
                 <?php echo $status_key ?>, 
                 '<?php echo empty($date_from) ? '' : $date_from->format('d.m.Y') ?>', 
                 '<?php echo empty($date_from) ? '' : $date_from->format('H') ?>', 
@@ -77,7 +80,7 @@ if (!empty($statuses)):
                 '<?php echo empty($date_to) ? '' : $date_to->format('H') ?>', 
                 '<?php echo empty($date_to) ? '' : $date_to->format('i') ?>');
         
-            $("#car-status-<?php echo $car_id ?> tbody").append(row);  
+            $('#post-body').find("#car-status-<?php echo $car_id ?> tbody").append(row);  
             
             var element = $("#car-status-<?php echo $car_id ?> tbody").find('.item:last');
             apply_datepicker(element);            

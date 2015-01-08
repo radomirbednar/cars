@@ -89,13 +89,23 @@ class Car_share_Admin {
             
             if (isset($params['car'][$id]['dropoff_location'])) {
                 foreach ($params['car'][$id]['dropoff_location'] as $val) {
-                    $dropoff_location[] = $val;
-                }
+                    $dropoff_location[] = $val;                }
             }
-
-            $statuses = array();
+            
             if (isset($params['car'][$id]['status'])) {
                 foreach ($params['car'][$id]['status'] as $val) {
+                    
+                    $date_from = DateTime::createFromFormat('d.m.Y', $val['from']);
+                    $date_to = DateTime::createFromFormat('d.m.Y', $val['to']);
+                    
+                    if(!empty($date_from)){
+                        $val['date_from'] = $date_from->format('Y-m-d H:i:s');
+                    }
+                    
+                    if(!empty($date_to)){
+                        $val['date_to'] = $date_to->format('Y-m-d H:i:s');
+                    }                    
+                    
                     $statuses[] = $val;
                 }
             }
@@ -107,24 +117,33 @@ class Car_share_Admin {
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
         $locations = $wpdb->get_results($sql);
         
-        ob_start();
+        //ob_start();
         include 'partials/car/single_car_box.php';
-        $html = ob_get_contents();
-        ob_end_clean();        
+        //$html = ob_get_contents();
+        //ob_end_clean();        
         
+        //array_walk ( $statuses , '(array)');
+        /*
         $return = array(
             'html' => $html,
-            'status' => $statuses
+            'car_status' => $statuses,
+            'car_id' => $car_id
         );
         
         echo json_encode($return);        
+        */
         die();
     }
 
     public function delete_single_car_ajax() {
 
         global $wpdb;
-        $id = $_POST['id'];
+        $id = $_POST['id'];        
+        
+        if (false !== strpos($id, 'new_car')) {
+            die();
+        }
+        
         $sql = "DELETE FROM sc_single_car WHERE single_car_id = '" . (int) $id . "'";
         $wpdb->query($sql);
 
@@ -133,6 +152,8 @@ class Car_share_Admin {
 
         $sql = "DELETE FROM sc_single_car_status WHERE single_car_id = '" . (int) $id . "'";
         $wpdb->query($sql);
+        
+        die();
     }
 
     public function single_car_js() {
@@ -191,8 +212,6 @@ class Car_share_Admin {
 
         global $post;
         $this->load_single_cars($post->ID);
-
-        //$i = 10;
 
         foreach (Car_share_Admin::$single_cars as $key => $value) {
 

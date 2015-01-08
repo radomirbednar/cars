@@ -4,11 +4,9 @@
     var new_car_key = 1;
 
     function statusTableRow(car_id, key, from_date, from_hour, from_min, to_date, to_hour, to_min) {
-
-        //console.log(to_date);
-
-        //status_key = key;
-
+        
+        console.log(from_date);
+        
         var str = '<tr class="item">' +
                 '<td>' +
                 '<select name="car[' + car_id + '][status][' + status_key + '][status]">'+
@@ -22,7 +20,7 @@
 
                 <?php for($i = 0; $i < 24; $i++): ?>
                     str += '<option value="<?php echo $i ?>"'
-                    str += <?php echo $i ?> == from_hour ? ' selected="selected" ' : ''; 
+                    str += <?php echo $i ?> == from_hour ? ' selected="selected" ' : '';
                     str += '><?php echo sprintf("%02s", $i)  ?></option>';
                 <?php endfor; ?>
 
@@ -31,7 +29,7 @@
 
                 <?php for($i = 0; $i < 60; $i++): ?>
                     str += '<option value="<?php echo $i ?>"';
-                    str += <?php echo $i ?> == from_min ? ' selected="selected" ' : ''; 
+                    str += <?php echo $i ?> == from_min ? ' selected="selected" ' : '';
                     str += '><?php echo sprintf("%02s", $i)  ?></option>';
                 <?php endfor; ?>
 
@@ -43,7 +41,7 @@
 
                 <?php for($i = 0; $i < 24; $i++): ?>
                     str += '<option value="<?php echo $i ?>"';
-                    str += <?php echo $i ?> == to_hour ? ' selected="selected" ' : ''; 
+                    str += <?php echo $i ?> == to_hour ? ' selected="selected" ' : '';
                     str += '><?php echo sprintf("%02s", $i)  ?></option>';
                 <?php endfor; ?>
 
@@ -53,7 +51,7 @@
 
                 <?php for($i = 0; $i < 60; $i++): ?>
                     str += '<option value="<?php echo $i ?>"';
-                    str += <?php echo $i ?> == to_min ? ' selected="selected" ' : ''; 
+                    str += <?php echo $i ?> == to_min ? ' selected="selected" ' : '';
                     str += '><?php echo sprintf("%02s", $i)  ?></option>';
                 <?php endfor; ?>
 
@@ -96,15 +94,11 @@
 
             var self = $(this);
             var id = $(this).data('car_id');
-            
-            //console.log(id);
-            
-            //var form = 
 
             jQuery.ajax({
                 type: 'post',
                 url: ajaxurl,
-                dataType: "json",
+                //dataType: "json",
                 data: {
                     'id': id,
                     'action': 'create_single_car',
@@ -113,8 +107,7 @@
                         self.prop("disabled", true);
                     }
                 }).done(function (ret) {
-                    var new_element = $('#single_car_box_' + id).after(ret.html);
-                    
+                    var new_element = $('#single_car_box_' + id).after(ret);
                 }).fail(function (ret) {
                     alert('<?php _e('Create new car failed', $this->car_share) ?>');
                 }).always(function () {
@@ -123,15 +116,15 @@
         });
 
         // clone single car
-        $('.postbox-container').on('click', '.clone-car', function (event) {        
-        
+        $('.postbox-container').on('click', '.clone-car', function (event) {
+
             var self = $(this);
             var id = $(this).data('car_id');
 
             jQuery.ajax({
                 type: 'post',
                 url: ajaxurl,
-                dataType: "json",
+                //dataType: "json",
                 data: {
                     'id': id,
                     'action': 'create_single_car',
@@ -140,15 +133,24 @@
                 beforeSend: function () {
                         self.prop("disabled", true);
                     }
-                }).done(function (ret) {
-                    $('#single_car_box_' + id).after(ret.html);
+                }).done(function (data) {
+                    
+                    //console.log(data);
+                    
+                    var new_element = $('#single_car_box_' + id).after(data);
+                    //var statuses = data.car_status;                    
+                    //$('#single_car_box_' + id).after(data.html);
+
+                    //console.log(statuses);
+
+                    self.prop("disabled", false);
                 }).fail(function (ret) {
                     alert('<?php _e('Cloning car failed', $this->car_share) ?>');
                 }).always(function () {
                     self.prop("disabled", false);
-                });        
-        
-            //var new_box = $(this).parents('.postbox').clone();            
+                });
+
+            //var new_box = $(this).parents('.postbox').clone();
         });
 
         //delete single car
