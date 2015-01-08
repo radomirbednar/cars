@@ -89,6 +89,8 @@
 
             var self = $(this);
             var id = $(this).data('car_id');
+            
+            //var form = 
 
             jQuery.ajax({
                 type: 'post',
@@ -110,12 +112,33 @@
         });
 
         // clone single car
-        $('.postbox-container').on('click', '.clone-car', function (event) {
-            
-            
+        $('.postbox-container').on('click', '.clone-car', function (event) {        
         
-            var new_box = $(this).parents('.postbox').clone();
-            //console.log('clone car');
+            var self = $(this);
+            var id = $(this).data('car_id');
+            
+            //var form = 
+
+            jQuery.ajax({
+                type: 'post',
+                url: ajaxurl,
+                data: {
+                    'id': id,
+                    'action': 'create_single_car',
+                    'form': $(this).parents('form').serialize();
+                },
+                beforeSend: function () {
+                        self.prop("disabled", true);
+                    }
+                }).done(function (ret) {
+                    $('#single_car_box_' + id).after(ret);
+                }).fail(function (ret) {
+                    alert('<?php _e('Create new car failed', $this->car_share) ?>');
+                }).always(function () {
+                    self.prop("disabled", false);
+                });        
+        
+            //var new_box = $(this).parents('.postbox').clone();            
         });
 
         //delete single car
