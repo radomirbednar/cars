@@ -37,14 +37,15 @@ $extras_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['ch
             ?>
             
             
-            foreach ($_service_quantity_box)
-            
-            <select name="service[]">
-             
-                
-                
-                
-            
+            <select name="service[]">             
+                <?php 
+                    foreach ($_service_quantity_box as $box)
+                    {
+                        
+                        
+                        
+                    } 
+                ?> 
             </select>
               
             <?php
