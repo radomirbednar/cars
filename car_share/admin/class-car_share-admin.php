@@ -93,9 +93,7 @@ class Car_share_Admin {
             }
 
             if (isset($params['car'][$id]['status'])) {
-                foreach ($params['car'][$id]['status'] as $val) {
-                    
-                    //sprintf("%02s", $val['from_hour'])
+                foreach ($params['car'][$id]['status'] as $val) {                    
 
                     $from_string = $val['from'] . ' ' . sprintf("%02s", $val['from_hour']) . ':' . sprintf("%02s", $val['from_min']);
                     $date_from = DateTime::createFromFormat('d.m.Y H:i', $from_string);
@@ -111,8 +109,7 @@ class Car_share_Admin {
                         $val['date_to'] = $date_to->format('Y-m-d H:i:s');
                     }
 
-                    $statuses[] = $val;
-                }
+                    $statuses[] = $val;                }
             }
         }
 
@@ -289,6 +286,9 @@ class Car_share_Admin {
 
         $sql = "SELECT * FROM sc_single_car_status WHERE single_car_id = '" . (int) $car_id . "' ORDER BY single_car_status_id ASC";
         $statuses = $wpdb->get_results($sql);
+        
+        $sql = "SELECT spz FROM sc_single_car WHERE single_car_id = '" . (int) $car_id . "'";
+        $spz = $wpdb->get_var($sql); 
 
         include 'partials/car/single_car.php';
     }
@@ -386,11 +386,17 @@ class Car_share_Admin {
                         $wpdb->query($sql);
                         $single_car_id = $wpdb->insert_id;
                     }
+                    
+                    $sql = "
+                        INSERT INTO sc_single_car (single_car_id, spz) VALUES (
+                            '" . (int) $single_car_id . "',
+                            '" . esc_sql($car['spz']) . "'    
+                        ) ON DUPLICATE KEY UPDATE spz = '" . esc_sql($car['spz']) .  "'";
+                    
+                    $wpdb->query($sql);                    
 
                     foreach ($car as $key => $attribute) {
-
                         switch ($key) {
-
                             case 'status':
                                 foreach ($attribute as $car_status) {
                                     $date_from_string = $car_status['from'] . ' ' . sprintf("%02s", $car_status['from_hour']) . ' ' . sprintf("%02s", $car_status['from_min']);
@@ -404,7 +410,7 @@ class Car_share_Admin {
                                             INSERT INTO
                                                 sc_single_car_status (single_car_id, date_from, date_to, status)
                                             VALUES (
-                                                '" . $single_car_id . "',
+                                                '" . (int) $single_car_id . "',
                                                 '" . (empty($date_from) ? "" : $date_from->format('Y-m-d H:i:s')) . "',
                                                 '" . (empty($date_to) ? "" : $date_to->format('Y-m-d H:i:s')) . "',
                                                 '" . (int) $car_status['status'] . "'

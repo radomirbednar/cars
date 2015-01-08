@@ -1,3 +1,5 @@
+<label><?php _e('Spz:', $this->car_share) ?><input type="text" name="car[<?php echo $car_id ?>][spz]" value="<?php echo isset($spz) ? esc_attr($spz) : '' ?>"></label>
+
 <?php if (!empty($locations)): ?>
 <h2><?php _e('Pick-up location:', $this->car_share) ?></h2>
     <?php foreach ($locations as $location): ?>
