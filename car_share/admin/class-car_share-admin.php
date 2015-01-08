@@ -68,34 +68,34 @@ class Car_share_Admin {
         add_action('wp_ajax_create_single_car', array($this, 'create_single_car_ajax'));
     }
 
-    public function create_single_car_ajax(){
+    public function create_single_car_ajax() {
 
         global $wpdb;
 
         $id = $_POST['id'];
 
-        if(isset($_POST['form'])){
+        if (isset($_POST['form'])) {
             $params = array();
             parse_str($_POST['form'], $params);
 
             $dropoff_location = array();
-            if(isset($params['car'][$id]['pickup_location'])){
-                foreach($params['car'][$id]['pickup_location'] as $val){
+            if (isset($params['car'][$id]['pickup_location'])) {
+                foreach ($params['car'][$id]['pickup_location'] as $val) {
                     $dropoff_location[] = $val;
                 }
             }
 
             $dropoff_location = array();
-            if(isset($params['car'][$id]['dropoff_location'])){
-                foreach($params['car'][$id]['dropoff_location'] as $val){
+            if (isset($params['car'][$id]['dropoff_location'])) {
+                foreach ($params['car'][$id]['dropoff_location'] as $val) {
                     $dropoff_location[] = $val;
                 }
             }
-            
+
             $statuses = array();
-            if(isset($params['car'][$id]['status'])){
-                foreach($params['car'][$id]['status'] as $val){
-                   $statuses[] = $val; 
+            if (isset($params['car'][$id]['status'])) {
+                foreach ($params['car'][$id]['status'] as $val) {
+                    $statuses[] = $val;
                 }
             }
         }
@@ -109,7 +109,7 @@ class Car_share_Admin {
         die();
     }
 
-    public function delete_single_car_ajax(){
+    public function delete_single_car_ajax() {
 
         global $wpdb;
         $id = $_POST['id'];
@@ -121,7 +121,6 @@ class Car_share_Admin {
 
         $sql = "DELETE FROM sc_single_car_status WHERE single_car_id = '" . (int) $id . "'";
         $wpdb->query($sql);
-
     }
 
     public function single_car_js() {
@@ -184,13 +183,21 @@ class Car_share_Admin {
         //$i = 10;
 
         foreach (Car_share_Admin::$single_cars as $key => $value) {
+
+            if ('new_car' == $key) {
+                $label = 1;
+                $value = 'new_car';
+            } else {
+                $label = $value;
+            }
+
             add_meta_box(
-                    'single_car_box_' . $value, sprintf(__('Single car #%d', $this->car_share), $value), array($this, 'single_car_box'), 'sc-car'
+                    'single_car_box_' . $value, sprintf(__('Single car #%s', $this->car_share), $label), array($this, 'single_car_box'), 'sc-car'
             );
             //$i++;
         }
-        reset(Car_share_Admin::$single_cars);
 
+        reset(Car_share_Admin::$single_cars);
 
         add_meta_box(
                 'car_category_box', __('Category', $this->car_share), array($this, 'car_category_box'), 'sc-car'
@@ -215,6 +222,15 @@ class Car_share_Admin {
         global $wpdb;
 
         $car_id = current(Car_share_Admin::$single_cars);
+        $key = key(Car_share_Admin::$single_cars);
+
+        //$label = $car_id;
+
+        if ('new_car' == $key) {
+            $car_id = 'new_car';
+            //$label = 1;
+        }
+
         next(Car_share_Admin::$single_cars);
 
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
@@ -314,7 +330,17 @@ class Car_share_Admin {
 
             if (!empty($_POST['car'])) {
 
-                foreach ($_POST['car'] as $single_car_id => $car){
+                foreach ($_POST['car'] as $single_car_id => $car) {
+
+                    if (false !== strpos($single_car_id, 'new_car')) {
+
+                        $sql = "INSERT INTO sc_single_car (parent) VALUES (
+                                        '" . $post->ID . "'
+                            )";
+
+                        $wpdb->query($sql);
+                        $single_car_id = $wpdb->insert_id;
+                    }
 
                     foreach ($car as $key => $attribute) {
 
@@ -328,7 +354,7 @@ class Car_share_Admin {
                                     $date_to_string = $car_status['to'] . ' ' . sprintf("%02s", $car_status['to_hour']) . ' ' . sprintf("%02s", $car_status['to_min']);
                                     $date_to = DateTime::createFromFormat('d.m.Y H i', $date_to_string);
 
-                                    if(!empty($date_from) && !empty($date_to)){
+                                    if (!empty($date_from) && !empty($date_to)) {
                                         $sql = "
                                             INSERT INTO
                                                 sc_single_car_status (single_car_id, date_from, date_to, status)
@@ -437,7 +463,7 @@ class Car_share_Admin {
             self::$single_cars = $result;
         } else {
             Car_share_Admin::$single_cars = array(
-                '0' => '1'
+                'new_car' => '1'
             );
         }
 

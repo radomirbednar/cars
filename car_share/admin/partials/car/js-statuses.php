@@ -7,7 +7,7 @@
 
         console.log(to_date);
 
-        status_key = key;
+        //status_key = key;
 
         var str = '<tr class="item">' +
                 '<td>' +
@@ -89,6 +89,8 @@
 
             var self = $(this);
             var id = $(this).data('car_id');
+            
+            console.log(id);
             
             //var form = 
 
