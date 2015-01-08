@@ -3,8 +3,8 @@
 </label> 
 <?php    
     $values =  array(
-        0    => "Per day",
-        1  => "Per rental", 
+        1    => "Per day",
+        2  => "Per rental", 
     );
     
 foreach ($values as $key=>$value)

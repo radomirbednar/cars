@@ -14,6 +14,7 @@ $extras_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['ch
             $service_fee = get_post_meta(get_the_ID(), '_service_fee', true);
             $_per_service = get_post_meta(get_the_ID(), '_per_service', true);
             $_service_quantity_box = get_post_meta(get_the_ID(), '_service_quantity_box', true);
+            
             ?>
             <h2><?php the_title() ?></h2> 
             <?php
@@ -27,17 +28,21 @@ $extras_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['ch
                 echo $service_fee;
             }
             ?>
-            <?php
+             <?php
             // check if the custom field has a value
             if (!empty($_per_service)) {
-                $per_service = array();
+                
+                
+                
+                $service_info =  $_per_service;
             }
             ?>
+            
             <?php
             // check if the custom field has a value
             if (!empty($_service_quantity_box)) {
-                echo '<input type="checkbox"  name="service[]" value="' . get_the_ID() . '">';
-            }
+                echo '<input type="checkbox"  name="service[][]" value="' . get_the_ID() . '">';
+            } 
             ?> 
             <?php
         endwhile;

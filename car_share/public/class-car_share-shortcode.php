@@ -9,8 +9,8 @@
 class Car_share_Shortcode {
 
     public $warning;
-    
     public $cars;
+    public $extras_car_url;
 
     public function __construct($car_share, $version) {
 
@@ -20,7 +20,7 @@ class Car_share_Shortcode {
         add_shortcode('sc-search_for_car', array($this, 'search_for_car'));
         add_shortcode('sc-pick_car', array($this, 'pick_car'));
         add_shortcode('sc-extras', array($this, 'extras'));
-        add_shortcode('sc-checkout', array($this, 'checkout')); 
+        add_shortcode('sc-checkout', array($this, 'checkout'));
         add_action('plugins_loaded', array($this, 'search_for_car_form'));
 
         if (!isset($_SESSION)) {
@@ -34,8 +34,8 @@ class Car_share_Shortcode {
      *
      */
 
-    public function search_for_car_form() { 
-        //fix for permalinks 
+    public function search_for_car_form() {
+        //fix for permalinks
         if (empty($GLOBALS['wp_rewrite']))
             $GLOBALS['wp_rewrite'] = new WP_Rewrite();
 
@@ -44,17 +44,17 @@ class Car_share_Shortcode {
 
         //check if form is posted
 
-        if (isset($_POST['pick_up_location']) && isset($_POST['car_datefrom']) && isset($_POST['car_dateto'])) { 
-            //id lokace 
+        if (isset($_POST['pick_up_location']) && isset($_POST['car_datefrom']) && isset($_POST['car_dateto'])) {
+            //id lokace
             $pick_up_location = sanitize_text_field($_POST['pick_up_location']);
- 
+
             if (isset($_POST['returnlocation'])) {
                 $drop_off_location = sanitize_text_field($_POST['drop_off_location']);
             } else {
 
                 $drop_off_location = $pick_up_location;
             }
- 
+
             //others infor from the form
 
             $car_datefrom = $_POST['car_datefrom'];
@@ -72,11 +72,11 @@ class Car_share_Shortcode {
             }
 
             $format = 'd-m-Y H';
-            
+
             $car_dfrom = DateTime::createFromFormat($format, $car_datefrom . ' ' . $car_hoursfrom);
             $car_dto = DateTime::createFromFormat($format, $car_dateto . ' ' . $car_hoursto);
-            
-            
+
+
             $car_hoursfrom = $car_dfrom->format('H:i:s');
             $car_hoursto = $car_dto->format('H:i:s');
 
@@ -107,18 +107,17 @@ class Car_share_Shortcode {
                     AND open_from <= %s
                     AND open_to >= %s", $drop_off_location, $day_car_dateto, $car_hoursto, $car_hoursto
             );
-            
+
             $resultto = $wpdb->get_results($sqlto);
 
-            if (empty($resultfrom) || empty($resultto)) { 
-                
+            if (empty($resultfrom) || empty($resultto)) {
+
                 $this->warning = __('Sorry, we won\'t be here. Please choose another time.', $this->car_share);
-                
             } else {
- 
+
                 $Cars_cart = new Car_Cart('shopping_cart');
                 $Cars_cart->setItemSearch($pick_up_location, $drop_off_location, $car_dfrom, $car_dto, $car_category);
-                $Cars_cart->save(); 
+                $Cars_cart->save();
                 wp_redirect($pick_car_url);
                 exit;
             }
@@ -128,94 +127,104 @@ class Car_share_Shortcode {
     public function pick_car_form() {
 
         $sc_options = get_option('sc-pages');
-        $extras_car_url = isset($sc_options['extras']) ? get_page_link($sc_options['extras']) : '';
- 
-        $Cars_cart = new Car_Cart('shopping_cart'); 
-        $Cars_cart_items =  $Cars_cart->getItems();
- 
-        $pick_up_location = $Cars_cart_items['pick_up_location']; 
-        $drop_off_location = $Cars_cart_items['drop_off_location']; 
-        
-        $car_dfrom = $Cars_cart_items['car_datefrom']; 
-        $car_dto = $Cars_cart_items['car_dateto']; 
+        $this->extras_car_url = isset($sc_options['extras']) ? get_page_link($sc_options['extras']) : '';
+
+
+
+        $Cars_cart = new Car_Cart('shopping_cart');
+        $Cars_cart_items = $Cars_cart->getItems();
+
+        $pick_up_location = $Cars_cart_items['pick_up_location'];
+        $drop_off_location = $Cars_cart_items['drop_off_location'];
+
+        $car_dfrom = $Cars_cart_items['car_datefrom'];
+        $car_dto = $Cars_cart_items['car_dateto'];
         $car_category = $Cars_cart_items['car_category'];
-  
-        $car_dfrom_string = $car_dfrom->format('Y-m-d H:i:s'); 
+
+        $car_dfrom_string = $car_dfrom->format('Y-m-d H:i:s');
         $car_dto_string = $car_dto->format('Y-m-d H:i:s');
-   
+
         //dej mi vsechny auta - zatim bez kategorii
-        
-        global $wpdb; 
-      
-         $sql = "     
-              SELECT DISTINCT 
-                    *                      
+
+        global $wpdb;
+
+        $sql = "
+              SELECT DISTINCT
+                    *
                     FROM
                     $wpdb->posts posts
-                    JOIN 
-                    sc_single_car sc_single_car 
+                    JOIN
+                    sc_single_car sc_single_car
                     ON
-                    sc_single_car.parent = posts.ID       
-                    JOIN 
-                    sc_single_car_location sc_location 
-                    ON 
-                    sc_location.single_car_id = sc_single_car.single_car_id   
-                    JOIN 
-                    sc_single_car_location sc_locationto 
-                    ON      
-                    sc_locationto.single_car_id = sc_single_car.single_car_id 
-                    
-                    WHERE sc_single_car.single_car_id NOT IN    
-                    ( 
-                    SELECT single_car_id FROM sc_single_car_status 
-                    WHERE 
-                    ( date_from between '$car_dfrom_string' and '$car_dto_string') 
-                    OR 
-                    ( date_to between '$car_dfrom_string' and '$car_dto_string')       
-                    ) 
+                    sc_single_car.parent = posts.ID
+                    JOIN
+                    sc_single_car_location sc_location
+                    ON
+                    sc_location.single_car_id = sc_single_car.single_car_id
+                    JOIN
+                    sc_single_car_location sc_locationto
+                    ON
+                    sc_locationto.single_car_id = sc_single_car.single_car_id
+
+                    WHERE sc_single_car.single_car_id NOT IN
+                    (
+                    SELECT single_car_id FROM sc_single_car_status
+                    WHERE
+                    ( date_from between '$car_dfrom_string' and '$car_dto_string')
+                    OR
+                    ( date_to between '$car_dfrom_string' and '$car_dto_string')
+                    )
                     AND
-                    posts.post_type = 'sc-car'   
-                    AND   
-                    (sc_location.location_id = '$pick_up_location' AND sc_location.location_type = '1')     
+                    posts.post_type = 'sc-car'
                     AND
-                    (sc_locationto.location_id = '$drop_off_location' AND sc_locationto.location_type = '2')     
-                    AND 
-                    posts.post_status = 'publish'   
+                    (sc_location.location_id = '$pick_up_location' AND sc_location.location_type = '1')
+                    AND
+                    (sc_locationto.location_id = '$drop_off_location' AND sc_locationto.location_type = '2')
+                    AND
+                    posts.post_status = 'publish'
                     GROUP BY posts.ID"
-                 ; 
-         
-        $this->cars = $wpdb->get_results($sql);   
-        
-        echo $sql;
-            
+        ;
+
+        $this->cars = $wpdb->get_results($sql);
     }
-     
-    public function extras_form(){
-        
+
+    public function extras_form() {
+
     }
-     
-    public function search_for_car($atts) { 
+
+    public function search_for_car($atts) {
         ob_start();
         include_once( 'partials/shortcode/search_for_car.php' );
         return ob_get_clean();
     }
 
-    public function pick_car($atts) { 
-        $this->pick_car_form(); 
+    public function pick_car($atts) {
+        $this->pick_car_form();
         ob_start();
         include_once( 'partials/shortcode/pick_car.php' );
         return ob_get_clean();
     }
 
-    public function extras() { 
+    public function extras() {
         ob_start();
         include_once( 'partials/shortcode/extras.php' );
         return ob_get_clean();
     }
 
     public function checkout() {
+        
+  
         ob_start();
         include_once( 'partials/shortcode/checkout.php' );
         return ob_get_clean();
     } 
-} 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+}
