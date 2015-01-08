@@ -146,72 +146,7 @@ class Car_share_Shortcode {
         //dej mi vsechny auta - zatim bez kategorii
         
         global $wpdb; 
-        /*$sql = "     
-              SELECT DISTINCT 
-                    *                      
-                    FROM
-                    $wpdb->posts posts
-                    JOIN 
-                    sc_single_car sc_single_car 
-                    ON
-                    sc_single_car.parent = posts.ID       
-                    JOIN 
-                    sc_single_car_location sc_location 
-                    ON 
-                    sc_location.single_car_id = sc_single_car.single_car_id   
-                    JOIN 
-                    sc_single_car_location sc_locationto 
-                    ON      
-                    sc_locationto.single_car_id = sc_single_car.single_car_id   
-                    WHERE   
-                    posts.post_type = 'sc-car'   
-                    AND   
-                    (sc_location.location_id = '$pick_up_location' AND sc_location.location_type = '1')     
-                    AND
-                    (sc_locationto.location_id = '$drop_off_location' AND sc_locationto.location_type = '2')     
-                    AND 
-                    posts.post_status = 'publish'  
-                    AND NOT EXISTS  
-                    (      
-                    SELECT DISTINCT 
-                    *                      
-                    FROM
-                    $wpdb->posts posts
-                    JOIN 
-                    sc_single_car sc_single_car 
-                    ON
-                    sc_single_car.parent = posts.ID     
-                    JOIN     
-                    sc_single_car_status sc_status  
-                    ON 
-                    sc_status.single_car_id = sc_single_car.single_car_id      
-                    JOIN 
-                    sc_single_car_location sc_location 
-                    ON 
-                    sc_location.single_car_id = sc_single_car.single_car_id   
-                    JOIN 
-                    sc_single_car_location sc_locationto 
-                    ON      
-                    sc_locationto.single_car_id = sc_single_car.single_car_id   
-                    WHERE   
-                    posts.post_type = 'sc-car'   
-                    AND   
-                    (sc_location.location_id = '$pick_up_location' AND sc_location.location_type = '1')     
-                    AND
-                    (sc_locationto.location_id = '$drop_off_location' AND sc_locationto.location_type = '2')     
-                    AND 
-                    posts.post_status = 'publish' 
-                    AND 
-                    (sc_status.date_from between '$car_dfrom_string' and '$car_dto_string') 
-                    AND 
-                    (sc_status.date_to between '$car_dfrom_string' and '$car_dto_string')          
-                    )  
-                    GROUP BY sc_single_car.single_car_id"
-                 ; 
-        */
-        
-     
-        
+      
          $sql = "     
               SELECT DISTINCT 
                     *                      
@@ -233,14 +168,11 @@ class Car_share_Shortcode {
                     WHERE sc_single_car.single_car_id NOT IN    
                     ( 
                     SELECT single_car_id FROM sc_single_car_status 
-                    WHERE
-                   
+                    WHERE 
                     ( date_from between '$car_dfrom_string' and '$car_dto_string') 
-                    AND 
-                    ( date_to between '$car_dfrom_string' and '$car_dto_string')      
-              
-                    )
- 
+                    OR 
+                    ( date_to between '$car_dfrom_string' and '$car_dto_string')       
+                    ) 
                     AND
                     posts.post_type = 'sc-car'   
                     AND   
@@ -249,7 +181,7 @@ class Car_share_Shortcode {
                     (sc_locationto.location_id = '$drop_off_location' AND sc_locationto.location_type = '2')     
                     AND 
                     posts.post_status = 'publish'   
-                    GROUP BY sc_single_car.single_car_id"
+                    GROUP BY posts.ID"
                  ; 
          
         $this->cars = $wpdb->get_results($sql);   

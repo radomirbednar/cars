@@ -1,13 +1,11 @@
-<?php if (!empty($this->cars)): ?>
-
+<?php if (!empty($this->cars)): ?> 
     <div>
         <?php _e('1. Search for a car', $this->car_share); ?>
         <?php _e('2. Pick a car', $this->car_share); ?>
         <?php _e('3. Pick a car', $this->car_share); ?>
     </div>
     <?php foreach ($this->cars as $car): ?>
-        <div class="col-md-12">
-
+        <div class="col-md-12"> 
             <?php
             $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail');
             ?>
@@ -24,8 +22,7 @@
             //predefinovane informace k autu
             ?>
 
-            <?php echo $post_thumbnail; ?>
-
+            <?php echo $post_thumbnail; ?> 
             <h2><?php echo get_the_title($car->ID) ?></h2>
             <table>
                 <?php if (!empty($number_of_seats)) { ?>
@@ -53,10 +50,8 @@
                         <td><?php echo $transmission; ?></td>
                     </tr>
                 <?php }; ?>
-            </table>
-
-            <a class="continue btn btn-default" href=" <?php echo $this->extras_car_url; ?>?choose='<?php echo $car->single_car_id; ?>'"><?php _e('CHOOSE', $this->car_share); ?></a>
-
+            </table> 
+            <a class="continue btn btn-default" href=" <?php echo $this->extras_car_url; ?>?choose='<?php echo $car->single_car_id; ?>'"><?php _e('CHOOSE', $this->car_share); ?></a> 
         </div>
     <?php endforeach; ?>
 <?php else: ?>
