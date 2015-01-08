@@ -11,6 +11,9 @@ class Car_share_Shortcode {
     public $warning;
     public $cars;
     public $extras_car_url;
+    
+    
+    
 
     public function __construct($car_share, $version) {
 
@@ -76,8 +79,7 @@ class Car_share_Shortcode {
 
             $car_dfrom = DateTime::createFromFormat($format, $car_datefrom . ' ' . $car_hoursfrom);
             $car_dto = DateTime::createFromFormat($format, $car_dateto . ' ' . $car_hoursto);
-
-
+ 
             $car_hoursfrom = $car_dfrom->format('H:i:s');
             $car_hoursto = $car_dto->format('H:i:s');
 
@@ -147,8 +149,12 @@ class Car_share_Shortcode {
         //dej mi vsechny auta - zatim bez kategorii
 
         global $wpdb;
-
-        $sql = "
+        
+        
+        if($car_category!='')
+        {
+  
+            $sql = "
               SELECT DISTINCT
                     *
                     FROM
@@ -164,16 +170,12 @@ class Car_share_Shortcode {
                     JOIN
                     sc_single_car_location sc_locationto
                     ON
-                    sc_locationto.single_car_id = sc_single_car.single_car_id
-
+                    sc_locationto.single_car_id = sc_single_car.single_car_id  
                     WHERE sc_single_car.single_car_id NOT IN
-                    (
-                    SELECT single_car_id FROM sc_single_car_status
-                    WHERE
-                    ( date_from between '$car_dfrom_string' and '$car_dto_string')
-                    OR
-                    ( date_to between '$car_dfrom_string' and '$car_dto_string')
-                    )
+                    ( 
+                    SELECT single_car_id FROM sc_single_car_status WHERE 
+                    '$car_dto_string' >= date_from AND date_to >= '$car_dfrom_string' 
+                    )       
                     AND
                     posts.post_type = 'sc-car'
                     AND
@@ -182,51 +184,87 @@ class Car_share_Shortcode {
                     (sc_locationto.location_id = '$drop_off_location' AND sc_locationto.location_type = '2')
                     AND
                     posts.post_status = 'publish'
-                    GROUP BY posts.ID"
-        ; 
-        $this->cars = $wpdb->get_results($sql);
+                    GROUP BY posts.ID"; 
+  
+        }
+        else {
+            
+                 $sql = "
+              SELECT DISTINCT
+                    *
+                    FROM
+                    $wpdb->posts posts
+                    JOIN
+                    sc_single_car sc_single_car
+                    ON
+                    sc_single_car.parent = posts.ID
+                    JOIN
+                    sc_single_car_location sc_location
+                    ON
+                    sc_location.single_car_id = sc_single_car.single_car_id
+                    JOIN
+                    sc_single_car_location sc_locationto
+                    ON
+                    sc_locationto.single_car_id = sc_single_car.single_car_id  
+                    WHERE sc_single_car.single_car_id NOT IN
+                    ( 
+                    SELECT single_car_id FROM sc_single_car_status WHERE 
+                    '$car_dto_string' >= date_from AND date_to >= '$car_dfrom_string' 
+                    )       
+                    AND
+                    posts.post_type = 'sc-car'
+                    AND
+                    (sc_location.location_id = '$pick_up_location' AND sc_location.location_type = '1')
+                    AND
+                    (sc_locationto.location_id = '$drop_off_location' AND sc_locationto.location_type = '2')
+                    AND
+                    posts.post_status = 'publish'
+                    GROUP BY posts.ID"; 
+                 
+                  
+        }
+ 
+        $this->cars = $wpdb->get_results($sql);      
     }
-
-    public function extras_form() {
-         
-        // Add the id of the chose car
-         
+     
+    public function extras_form() { 
+        /* 
+         * Add the id of the chose car     
+         */
         if (isset($_GET['chcar']))
-        { 
-      
-            $id_code = sanitize_text_field($_GET['chcar']);
-             
+        {  
+            $id_code = sanitize_text_field($_GET['chcar']); 
             $Cars_cart = new Car_Cart('shopping_cart'); 
             $Cars_cart->setItemId($id_code); 
-            $Cars_cart->save();    
+            $Cars_cart->save();  
+            
+             var_dump( $Cars_cart->getItems());
         } 
         
-        // form extras
+        /* 
+         *  information form extras
+         */
         
-        if (isset($_POST['']))
-        { 
-      
-            $id_code = sanitize_text_field($_GET['chcar']);
-             
-            $Cars_cart = new Car_Cart('shopping_cart'); 
-        
-            $Cars_cart->setItemId($id_code); 
-            
+          
+    }
+    
+    public function checkout_form(){
+    
+        if (isset($_POST['service']))
+        {       
+            $service = $_POST['service']; 
+            $Cars_cart = new Car_Cart('shopping_cart');  
+            $Cars_cart->setItemService($service);  
             $Cars_cart->save();    
-       
+    
+            var_dump( $Cars_cart->getItems());
             
             
             
-        } 
-        
-        
-        
-        
-        
-        
+        }
         
     }
-
+ 
     public function search_for_car($atts) {
         ob_start();
         include_once( 'partials/shortcode/search_for_car.php' );
@@ -249,6 +287,8 @@ class Car_share_Shortcode {
 
     public function checkout() {
  
+        $this->checkout_form();
+         
         ob_start();
         include_once( 'partials/shortcode/checkout.php' );
         return ob_get_clean();
