@@ -81,15 +81,15 @@
             });
 
     }
-    
+
     jQuery(document).ready(function ($) {
 
         // add single car
-        $('.postbox-container').on('click', '.new-car', function (event) {         
-            
+        $('.postbox-container').on('click', '.new-car', function (event) {
+
             var self = $(this);
-            var id = $(this).data('car_id');            
-            
+            var id = $(this).data('car_id');
+
             jQuery.ajax({
                 type: 'post',
                 url: ajaxurl,
@@ -100,23 +100,20 @@
                 beforeSend: function () {
                         self.prop("disabled", true);
                     }
-                }).done(function (ret) {                    
-                    $('#single_car_box_' + id).after(ret);                                   
+                }).done(function (ret) {
+                    $('#single_car_box_' + id).after(ret);
                 }).fail(function (ret) {
                     alert('<?php _e('Create new car failed', $this->car_share) ?>');
                 }).always(function () {
                     self.prop("disabled", false);
-                });            
-            
-            /*
-            var id = $(this).data('car_id');
-            var new_box = $(this).parents('.postbox').clone();
-            $('#single_car_box_' + id).after(new_box);
-            */
+                });
         });
 
         // clone single car
         $('.postbox-container').on('click', '.clone-car', function (event) {
+            
+            
+        
             var new_box = $(this).parents('.postbox').clone();
             //console.log('clone car');
         });
@@ -147,7 +144,7 @@
         });
 
         // add new status
-        $('.postbox-container').on('click', '.add-status', function (event) {        
+        $('.postbox-container').on('click', '.add-status', function (event) {
             var car_id = $(this).data('car_id');
             var row = statusTableRow(car_id, status_key, '', '', '', '', '', '');
             $(this).parents('.status').find('tbody').append(row);
