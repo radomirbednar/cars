@@ -41,6 +41,9 @@ $extras_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['ch
             
             <select name="service[]">
              
+                
+                
+                
             
             </select>
               
@@ -51,8 +54,5 @@ $extras_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['ch
     ?> 
 
    <a href="#" type="submit" class="btn btn-default"><?php _e('BACK', $this->car_share); ?></a>           
-   <button type="submit" class="btn btn-default"><?php _e('CHECKOUT', $this->car_share); ?></button>      
-            
-</form>
-
-
+   <button type="submit" class="btn btn-default"><?php _e('CHECKOUT', $this->car_share); ?></button>                 
+</form> 
