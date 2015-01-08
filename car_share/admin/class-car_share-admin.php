@@ -73,19 +73,20 @@ class Car_share_Admin {
         global $wpdb;
 
         $id = $_POST['id'];
+        
+        $statuses = array();
+        $pickup_location = array();
+        $dropoff_location = array();
 
         if (isset($_POST['form'])) {
             $params = array();
             parse_str($_POST['form'], $params);
-
-            $pickup_location = array();
             if (isset($params['car'][$id]['pickup_location'])) {
                 foreach ($params['car'][$id]['pickup_location'] as $val) {
                     $pickup_location[] = $val;
                 }
             }
-
-            $dropoff_location = array();
+            
             if (isset($params['car'][$id]['dropoff_location'])) {
                 foreach ($params['car'][$id]['dropoff_location'] as $val) {
                     $dropoff_location[] = $val;
@@ -111,6 +112,12 @@ class Car_share_Admin {
         $html = ob_get_contents();
         ob_end_clean();        
         
+        $return = array(
+            'html' => $html,
+            'status' => $statuses
+        );
+        
+        echo json_encode($return);        
         die();
     }
 

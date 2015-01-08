@@ -104,6 +104,7 @@
             jQuery.ajax({
                 type: 'post',
                 url: ajaxurl,
+                dataType: "json",
                 data: {
                     'id': id,
                     'action': 'create_single_car',
@@ -112,7 +113,7 @@
                         self.prop("disabled", true);
                     }
                 }).done(function (ret) {
-                    var new_element = $('#single_car_box_' + id).after(ret);
+                    var new_element = $('#single_car_box_' + id).after(ret.html);
                     
                 }).fail(function (ret) {
                     alert('<?php _e('Create new car failed', $this->car_share) ?>');
@@ -130,6 +131,7 @@
             jQuery.ajax({
                 type: 'post',
                 url: ajaxurl,
+                dataType: "json",
                 data: {
                     'id': id,
                     'action': 'create_single_car',
@@ -139,7 +141,7 @@
                         self.prop("disabled", true);
                     }
                 }).done(function (ret) {
-                    $('#single_car_box_' + id).after(ret);
+                    $('#single_car_box_' + id).after(ret.html);
                 }).fail(function (ret) {
                     alert('<?php _e('Cloning car failed', $this->car_share) ?>');
                 }).always(function () {
@@ -158,6 +160,7 @@
             jQuery.ajax({
                 type: 'post',
                 url: ajaxurl,
+                dataType: "json",
                 data: {
                     'id': id,
                     'action': 'delete_single_car',
