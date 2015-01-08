@@ -49,17 +49,22 @@
     </tfoot>    
 </table>
 
+<hr>
+
+<button id="delete-car-<?php echo $car_id ?>" data-car_id="<?php echo $car_id ?>" type="button" class="delete-car alignright button button-primary"><?php _e('Delete', $this->car_share) ?></button>
+<button id="clone-car-<?php echo $car_id ?>" data-car_id="<?php echo $car_id ?>" type="button" class="clone-car alignright button button-primary"><?php _e('Clone', $this->car_share) ?></button>
+<button id="new-car-<?php echo $car_id ?>" data-car_id="<?php echo $car_id ?>" type="button" class="new-car alignright button button-primary"><?php _e('New', $this->car_share) ?></button>
+
+<div class="clear"></div>
 <script>
 jQuery(document).ready(function ($) {
 <?php
 
 if (!empty($statuses)):
     $status_key = 0;
-    foreach ($statuses as $status):   
-        
+    foreach ($statuses as $status):        
         $date_from = DateTime::createFromFormat('Y-m-d H:i:s', $status->date_from); 
-        $date_to = DateTime::createFromFormat('Y-m-d H:i:s', $status->date_to); 
-        
+        $date_to = DateTime::createFromFormat('Y-m-d H:i:s', $status->date_to);        
         ?>           
             
             var row = statusTableRow(
@@ -81,8 +86,7 @@ if (!empty($statuses)):
         $status_key++;
     endforeach; 
     ?>
-       status_key = <?php echo $status_key ?>    
+       status_key = <?php echo $status_key ?>;   
     <?php endif; ?>
 });
-</script>   
-
+</script>
