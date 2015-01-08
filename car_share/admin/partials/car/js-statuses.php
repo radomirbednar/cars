@@ -160,6 +160,7 @@
                         self.prop("disabled", true);
                     }
                 }).done(function (ret) {
+                    self.prop("disabled", false);
                     $('#single_car_box_' + id).remove();
                 }).fail(function (ret) {
                     alert('<?php _e('Delete failed', $this->car_share) ?>');

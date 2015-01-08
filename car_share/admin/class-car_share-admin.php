@@ -101,6 +101,7 @@ class Car_share_Admin {
         }
 
         $car_id = 'new_car_' . rand(0, 50000);
+        $label = __('New car', $this->car_share);
 
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
         $locations = $wpdb->get_results($sql);
