@@ -62,11 +62,9 @@ jQuery(document).ready(function ($) {
 
 if (!empty($statuses)):
     $status_key = 0;
-    foreach ($statuses as $status):   
-        
+    foreach ($statuses as $status):        
         $date_from = DateTime::createFromFormat('Y-m-d H:i:s', $status->date_from); 
-        $date_to = DateTime::createFromFormat('Y-m-d H:i:s', $status->date_to); 
-        
+        $date_to = DateTime::createFromFormat('Y-m-d H:i:s', $status->date_to);        
         ?>           
             
             var row = statusTableRow(
@@ -88,8 +86,7 @@ if (!empty($statuses)):
         $status_key++;
     endforeach; 
     ?>
-       status_key = <?php echo $status_key ?>    
+       status_key = <?php echo $status_key ?>;   
     <?php endif; ?>
 });
-</script>   
-
+</script>

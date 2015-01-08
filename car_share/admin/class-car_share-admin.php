@@ -63,39 +63,67 @@ class Car_share_Admin {
         add_action('save_post', array($this, 'save'));
 
         add_action('in_admin_footer', array($this, 'single_car_js'));
-        
+
         add_action('wp_ajax_delete_single_car', array($this, 'delete_single_car_ajax'));
         add_action('wp_ajax_create_single_car', array($this, 'create_single_car_ajax'));
     }
-    
+
     public function create_single_car_ajax(){
-        
+
         global $wpdb;
-        
+
+        $id = $_POST['id'];
+
+        if(isset($_POST['form'])){
+            $params = array();
+            parse_str($_POST['form'], $params);
+
+            $dropoff_location = array();
+            if(isset($params['car'][$id]['pickup_location'])){
+                foreach($params['car'][$id]['pickup_location'] as $val){
+                    $dropoff_location[] = $val;
+                }
+            }
+
+            $dropoff_location = array();
+            if(isset($params['car'][$id]['dropoff_location'])){
+                foreach($params['car'][$id]['dropoff_location'] as $val){
+                    $dropoff_location[] = $val;
+                }
+            }
+            
+            $statuses = array();
+            if(isset($params['car'][$id]['status'])){
+                foreach($params['car'][$id]['status'] as $val){
+                   $statuses[] = $val; 
+                }
+            }
+        }
+
         $car_id = 'new_car_' . rand(0, 50000);
-        
+
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
-        $locations = $wpdb->get_results($sql);        
-        
+        $locations = $wpdb->get_results($sql);
+
         include 'partials/car/single_car_box.php';
         die();
     }
 
     public function delete_single_car_ajax(){
-        
+
         global $wpdb;
-        $id = $_POST['id'];        
+        $id = $_POST['id'];
         $sql = "DELETE FROM sc_single_car WHERE single_car_id = '" . (int) $id . "'";
         $wpdb->query($sql);
-        
+
         $sql = "DELETE FROM sc_single_car_location WHERE single_car_id = '" . (int) $id . "'";
         $wpdb->query($sql);
-                
+
         $sql = "DELETE FROM sc_single_car_status WHERE single_car_id = '" . (int) $id . "'";
-        $wpdb->query($sql);                
-        
+        $wpdb->query($sql);
+
     }
-    
+
     public function single_car_js() {
         include 'partials/car/js-statuses.php';
     }
@@ -182,7 +210,7 @@ class Car_share_Admin {
     }
 
     public function single_car_box() {
-        
+
         global $post;
         global $wpdb;
 
@@ -255,7 +283,7 @@ class Car_share_Admin {
     }
 
     public function save() {
-        
+
         global $post;
         global $wpdb;
 
@@ -273,7 +301,7 @@ class Car_share_Admin {
                 '_transmission',
                 '_car_category'
             );
-            
+
             $this->save_post_keys($post->ID, $keys);
 
             // clean pick up / drop off locations
@@ -300,7 +328,7 @@ class Car_share_Admin {
                                     $date_to_string = $car_status['to'] . ' ' . sprintf("%02s", $car_status['to_hour']) . ' ' . sprintf("%02s", $car_status['to_min']);
                                     $date_to = DateTime::createFromFormat('d.m.Y H i', $date_to_string);
 
-                                    if(!empty($date_from) && !empty($date_to)){                                    
+                                    if(!empty($date_from) && !empty($date_to)){
                                         $sql = "
                                             INSERT INTO
                                                 sc_single_car_status (single_car_id, date_from, date_to, status)

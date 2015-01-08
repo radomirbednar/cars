@@ -125,7 +125,7 @@
                 data: {
                     'id': id,
                     'action': 'create_single_car',
-                    'form': $(this).parents('form').serialize();
+                    'form': $(this).parents('form').serialize()
                 },
                 beforeSend: function () {
                         self.prop("disabled", true);
@@ -133,7 +133,7 @@
                 }).done(function (ret) {
                     $('#single_car_box_' + id).after(ret);
                 }).fail(function (ret) {
-                    alert('<?php _e('Create new car failed', $this->car_share) ?>');
+                    alert('<?php _e('Cloning car failed', $this->car_share) ?>');
                 }).always(function () {
                     self.prop("disabled", false);
                 });        
