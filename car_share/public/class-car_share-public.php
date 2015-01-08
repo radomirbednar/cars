@@ -244,19 +244,5 @@ class Car_share_Public {
         register_post_type('sc-car-category', $args);        
     } 
 
-    /* shordcode for a custom pages
-     */
-
-    /*
-     * Zpracovani informaci z datepickeru 
-     */    
  
-   /* public function car_share_searchforacar($atts) { 
-        
-        //  Zobrazeni datepickeru 
-                  
-        ob_start();
-        include_once( 'partials/car_share-searchforacar.php' );
-        return ob_get_clean(); 
-    }  */
 }
