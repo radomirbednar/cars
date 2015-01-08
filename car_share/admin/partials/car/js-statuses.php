@@ -1,6 +1,7 @@
 <script>
 
     var status_key = 0;
+    var new_car_key = 1;
 
     function statusTableRow(car_id, key, from_date, from_hour, from_min, to_date, to_hour, to_min) {
 
@@ -84,11 +85,36 @@
     jQuery(document).ready(function ($) {
 
         // add single car
-        $('.postbox').on('click', '.new-car', function (event) {
-            console.log('click');
+        $('.postbox').on('click', '.new-car', function (event) {         
+            
+            var self = $(this);
+            var id = $(this).data('car_id');            
+            
+            jQuery.ajax({
+                type: 'post',
+                url: ajaxurl,
+                data: {
+                    'id': id,
+                    'action': 'create_single_car',
+                },
+                beforeSend: function () {
+                        self.prop("disabled", true);
+                    }
+                }).done(function (ret) {
+                    //console.log(ret);
+                    $('#single_car_box_' + id).after(ret);
+                    //new_car_key++;                    
+                }).fail(function (ret) {
+                    alert('<?php _e('Create new car failed', $this->car_share) ?>');
+                }).always(function () {
+                    self.prop("disabled", false);
+                });            
+            
+            /*
             var id = $(this).data('car_id');
             var new_box = $(this).parents('.postbox').clone();
             $('#single_car_box_' + id).after(new_box);
+            */
         });
 
         // clone single car
@@ -123,7 +149,7 @@
         });
 
         // add new status
-        $('.add-status').click(function (e) {
+        $('.add-status').on('click', '.clone-car', function (event) {        
             var car_id = $(this).data('car_id');
             var row = statusTableRow(car_id, status_key, '', '', '', '', '', '');
             $(this).parents('.status').find('tbody').append(row);

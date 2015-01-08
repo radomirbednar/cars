@@ -65,6 +65,20 @@ class Car_share_Admin {
         add_action('in_admin_footer', array($this, 'single_car_js'));
         
         add_action('wp_ajax_delete_single_car', array($this, 'delete_single_car_ajax'));
+        add_action('wp_ajax_create_single_car', array($this, 'create_single_car_ajax'));
+    }
+    
+    public function create_single_car_ajax(){
+        
+        global $wpdb;
+        
+        $car_id = 'new_car_' . rand(0, 50000);
+        
+        $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
+        $locations = $wpdb->get_results($sql);        
+        
+        include 'partials/car/single_car_box.php';
+        die();
     }
 
     public function delete_single_car_ajax(){
