@@ -31,22 +31,28 @@ $extras_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['ch
              <?php
             // check if the custom field has a value
             if (!empty($_per_service)) {
-                
-                
-                
+                 
                 $service_info =  $_per_service;
             }
             ?>
             
-            <?php
-            // check if the custom field has a value
-            if (!empty($_service_quantity_box)) {
-                echo '<input type="checkbox"  name="service[][]" value="' . get_the_ID() . '">';
-            } 
-            ?> 
+            
+            foreach ($_service_quantity_box)
+            
+            <select name="service[]">
+             
+            
+            </select>
+              
             <?php
         endwhile;
         wp_reset_postdata();
     endif;
     ?> 
+
+   <a href="#" type="submit" class="btn btn-default"><?php _e('BACK', $this->car_share); ?></a>           
+   <button type="submit" class="btn btn-default"><?php _e('CHECKOUT', $this->car_share); ?></button>      
+            
 </form>
+
+

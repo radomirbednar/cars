@@ -33,8 +33,11 @@ class Car_Cart {
     }
      
     function getItemSearch(){    
-         return $this->items;  
+        return $this->items;  
     }
+    
+    
+  
    
      
     /**
@@ -55,13 +58,15 @@ class Car_Cart {
      *
      * @param string $order_code The order code of the item.
      */
-    function getItemName($order_code) {
-        // This is where the code that retrieves product names
-        // goes. We'll just return something generic for this tutorial.
-         
-        return 'My Product (' . $order_code . ')'; 
+    
+    
+    function setItemId($id_code) { 
+        $this->items['car_ID'] = $id_code;    
     }
      
+    
+    
+    
     /**
      * getItems() - Get all items.
      *
@@ -101,8 +106,7 @@ class Car_Cart {
     /**
      * save() - Saves the cart to a session variable.
      */
-    function save() {
-        //$this->clean();
+    function save() { 
         $_SESSION[$this->cart_name] = $this->items;
     } 
 } 
