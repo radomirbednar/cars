@@ -86,7 +86,7 @@ if (!empty($statuses)):
         $status_key++;
     endforeach; 
     ?>
-       status_key = <?php echo $status_key ?>;   
+       status_key = <?php echo $status_key ?>;    
     <?php endif; ?>
 });
 </script>

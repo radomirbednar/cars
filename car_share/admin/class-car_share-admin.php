@@ -73,19 +73,20 @@ class Car_share_Admin {
         global $wpdb;
 
         $id = $_POST['id'];
+        
+        $statuses = array();
+        $pickup_location = array();
+        $dropoff_location = array();
 
         if (isset($_POST['form'])) {
             $params = array();
             parse_str($_POST['form'], $params);
-
-            $dropoff_location = array();
             if (isset($params['car'][$id]['pickup_location'])) {
                 foreach ($params['car'][$id]['pickup_location'] as $val) {
-                    $dropoff_location[] = $val;
+                    $pickup_location[] = $val;
                 }
             }
-
-            $dropoff_location = array();
+            
             if (isset($params['car'][$id]['dropoff_location'])) {
                 foreach ($params['car'][$id]['dropoff_location'] as $val) {
                     $dropoff_location[] = $val;
@@ -101,11 +102,22 @@ class Car_share_Admin {
         }
 
         $car_id = 'new_car_' . rand(0, 50000);
+        $label = __('New car', $this->car_share);
 
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-location' AND post_status = 'publish' ORDER BY post_title ASC ";
         $locations = $wpdb->get_results($sql);
-
+        
+        ob_start();
         include 'partials/car/single_car_box.php';
+        $html = ob_get_contents();
+        ob_end_clean();        
+        
+        $return = array(
+            'html' => $html,
+            'status' => $statuses
+        );
+        
+        echo json_encode($return);        
         die();
     }
 
@@ -184,7 +196,7 @@ class Car_share_Admin {
 
         foreach (Car_share_Admin::$single_cars as $key => $value) {
 
-            if ('new_car' == $key) {
+            if ('new_car' == (string) $key) {
                 $label = 1;
                 $value = 'new_car';
             } else {
@@ -206,6 +218,11 @@ class Car_share_Admin {
         add_meta_box(
                 'car_details_box', __('Details', $this->car_share), array($this, 'details_box'), 'sc-car'
         );
+        
+        /*
+        add_meta_box(
+                'add_new_single_car_box', __('Add new single car', $this->car_share), array($this, 'add_new_single_car_box'), 'sc-car', 'side'
+        );  */              
 
         add_meta_box(
                 'service_price_box', __('Price', $this->car_share), array($this, 'service_price_box'), 'sc-service'
@@ -214,6 +231,10 @@ class Car_share_Admin {
         add_meta_box(
                 'service_quantity_box', __('Quantity', $this->car_share), array($this, 'service_quantity_box'), 'sc-service'
         );
+    }
+    
+    function add_new_single_car_box(){
+        include 'partials/car/add_new_single_car.php';
     }
 
     public function single_car_box() {
@@ -226,7 +247,7 @@ class Car_share_Admin {
 
         //$label = $car_id;
 
-        if ('new_car' == $key) {
+        if ('new_car' == (string) $key) {
             $car_id = 'new_car';
             //$label = 1;
         }
