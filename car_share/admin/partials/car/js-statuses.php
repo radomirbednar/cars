@@ -85,7 +85,7 @@
     jQuery(document).ready(function ($) {
 
         // add single car
-        $('.postbox').on('click', '.new-car', function (event) {         
+        $('.postbox-container').on('click', '.new-car', function (event) {         
             
             var self = $(this);
             var id = $(this).data('car_id');            
@@ -118,13 +118,13 @@
         });
 
         // clone single car
-        $('.postbox').on('click', '.clone-car', function (event) {
+        $('.postbox-container').on('click', '.clone-car', function (event) {
             var new_box = $(this).parents('.postbox').clone();
             //console.log('clone car');
         });
 
         //delete single car
-        $('.postbox').on('click', '.delete-car', function (event) {
+        $('.postbox-container').on('click', '.delete-car', function (event) {
 
             var self = $(this);
             var id = $(this).data('car_id');
@@ -149,7 +149,7 @@
         });
 
         // add new status
-        $('.add-status').on('click', '.clone-car', function (event) {        
+        $('.postbox-container').on('click', '.add-status', function (event) {        
             var car_id = $(this).data('car_id');
             var row = statusTableRow(car_id, status_key, '', '', '', '', '', '');
             $(this).parents('.status').find('tbody').append(row);
@@ -158,7 +158,7 @@
         });
 
         // remove status
-        $('.status').on('click', 'tbody .remove-row', function (event) {
+        $('.postbox-container').on('click', 'tbody .remove-row', function (event) {
             $(this).parents(".item").remove();
         });
     });
