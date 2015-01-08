@@ -93,9 +93,7 @@ class Car_share_Admin {
             }
 
             if (isset($params['car'][$id]['status'])) {
-                foreach ($params['car'][$id]['status'] as $val) {
-                    
-                    //sprintf("%02s", $val['from_hour'])
+                foreach ($params['car'][$id]['status'] as $val) {                    
 
                     $from_string = $val['from'] . ' ' . sprintf("%02s", $val['from_hour']) . ':' . sprintf("%02s", $val['from_min']);
                     $date_from = DateTime::createFromFormat('d.m.Y H:i', $from_string);
@@ -111,8 +109,7 @@ class Car_share_Admin {
                         $val['date_to'] = $date_to->format('Y-m-d H:i:s');
                     }
 
-                    $statuses[] = $val;
-                }
+                    $statuses[] = $val;                }
             }
         }
 
