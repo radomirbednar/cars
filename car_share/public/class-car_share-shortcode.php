@@ -220,15 +220,15 @@ class Car_share_Shortcode {
                     AND
                     posts.post_status = 'publish'
                     GROUP BY posts.ID"; 
-            
+                 
+                  
         }
  
         $this->cars = $wpdb->get_results($sql);      
     }
      
     public function extras_form() { 
-        /*
-         * 
+        /* 
          * Add the id of the chose car     
          */
         if (isset($_GET['chcar']))
@@ -236,36 +236,35 @@ class Car_share_Shortcode {
             $id_code = sanitize_text_field($_GET['chcar']); 
             $Cars_cart = new Car_Cart('shopping_cart'); 
             $Cars_cart->setItemId($id_code); 
-            $Cars_cart->save();    
+            $Cars_cart->save();  
+            
+             var_dump( $Cars_cart->getItems());
         } 
         
-        /*
-         * 
+        /* 
          *  information form extras
          */
         
-        if (isset($_POST['']))
-        { 
-      
-            $id_code = sanitize_text_field($_GET['chcar']);
-             
+          
+    }
+    
+    public function checkout_form(){
+    
+        if (isset($_POST['service']))
+        {       
+            $service = $_POST['service']; 
             $Cars_cart = new Car_Cart('shopping_cart');  
-            $Cars_cart->setItemId($id_code);  
+            $Cars_cart->setItemService($service);  
             $Cars_cart->save();    
-       
+    
+            var_dump( $Cars_cart->getItems());
             
             
             
-        } 
-        
-        
-        
-        
-        
-        
+        }
         
     }
-
+ 
     public function search_for_car($atts) {
         ob_start();
         include_once( 'partials/shortcode/search_for_car.php' );
@@ -288,6 +287,8 @@ class Car_share_Shortcode {
 
     public function checkout() {
  
+        $this->checkout_form();
+         
         ob_start();
         include_once( 'partials/shortcode/checkout.php' );
         return ob_get_clean();

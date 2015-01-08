@@ -35,23 +35,38 @@ class Car_Cart {
     function getItemSearch(){    
         return $this->items;  
     }
-    
-    
-  
-   
-     
+ 
     /**
      * getItemPrice() - Get the price of an item.
      *
      * @param string $order_code The order code of the item.
      * @return int The price.
      */
-    function getItemPrice($order_code) {
-         
-        // This is where the code taht retrieves prices
-        // goes. We'll just say everything costs $19.99 for this tutorial.
-        return 9.99;  
+    function getItemPrice($itemID) {
+          
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        return 99;
+        
+        
     }
+    
+    
+    
+    
      
     /**
      * getItemName() - Get the name of an item.
@@ -62,11 +77,11 @@ class Car_Cart {
     
     function setItemId($id_code) { 
         $this->items['car_ID'] = $id_code;    
+    }  
+    function setItemService($service) { 
+       $this->items['service'] = $service;      
     }
-     
-    
-    
-    
+   
     /**
      * getItems() - Get all items.
      *
