@@ -1,13 +1,10 @@
-<?php
-
-
+<?php 
 $Cars_cart = new Car_Cart('shopping_cart');
 $Cars_cart_items = $Cars_cart->getItems();
 
 $car_ID = $Cars_cart_items['car_ID'];
 $pick_up_location = $Cars_cart_items['pick_up_location'];
 $drop_off_location = $Cars_cart_items['drop_off_location'];
-
  
 $car_dfrom = $Cars_cart_items['car_datefrom'];
 $car_dto = $Cars_cart_items['car_dateto'];
@@ -15,7 +12,7 @@ $car_category = $Cars_cart_items['car_category'];
 
 $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
 $car_dto_string = $car_dto->format('Y-m-d H:i');
-
+ 
 global $wpdb;
 $sql = "
             SELECT DISTINCT *
@@ -29,6 +26,11 @@ $sql = "
             sc_single_car.single_car_id = $car_ID;";
 
 $car_result = $wpdb->get_results($sql);
+
+
+//$extras = ;
+
+
 ?>
 
 <?php if (!empty($car_result)): ?>
@@ -37,11 +39,10 @@ $car_result = $wpdb->get_results($sql);
     <?php _e('2. Pick a car', $this->car_share); ?>
     <?php _e('3. Checkout', $this->car_share); ?>
     </div>
-
-
+ 
     <?php foreach ($car_result as $car): ?> 
         <?php $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail'); ?> 
-        <h2><?php _e('Review your booking', $this->car_share); ?></h2> 
+        <strong><?php _e('Review your booking', $this->car_share); ?></strong> 
         <table>
             <tr>
                 <td><?php _e('FROM', $this->car_share); ?></td>
@@ -95,15 +96,10 @@ $car_result = $wpdb->get_results($sql);
             </tr>
         </tbody>
     </table>
-
-
-
-
+ 
     <form action="" method="post" class="form-horizontal">
-        <!-- Address form -->
-
-        <h2><?php _e('PERSONAL DETAILS: ', $this->car_share); ?></h2>
-
+        <!-- Address form --> 
+        <strong><?php _e('Billing Information', $this->car_share); ?></strong> 
         <!-- full-name input-->
         <div class="control-group">
             <label class="control-label"><?php _e('Full Name', $this->car_share); ?></label>
@@ -216,13 +212,13 @@ $car_result = $wpdb->get_results($sql);
                     <option value="BM"><?php _e('Bermuda', $this->car_share); ?></option>
                     <option value="BT"><?php _e('Bhutan', $this->car_share); ?></option>
                     <option value="BO"><?php _e('Bolivia', $this->car_share); ?></option>
-                    <option value="BA">Bosnia and Herzegowina</option>
-                    <option value="BW">Botswana</option>
-                    <option value="BV">Bouvet Island</option>
-                    <option value="BR">Brazil</option>
-                    <option value="IO">British Indian Ocean Territory</option>
-                    <option value="BN">Brunei Darussalam</option>
-                    <option value="BG">Bulgaria</option>
+                    <option value="BA"><?php _e('Bosnia and Herzegowina', $this->car_share); ?></option>
+                    <option value="BW"><?php _e('Botswana', $this->car_share); ?></option>
+                    <option value="BV"><?php _e('Bouvet Island', $this->car_share); ?></option>
+                    <option value="BR"><?php _e('Brazil', $this->car_share); ?></option>
+                    <option value="IO"><?php _e('British Indian Ocean Territory', $this->car_share); ?></option>
+                    <option value="BN"><?php _e('Brunei Darussalam', $this->car_share); ?></option>
+                    <option value="BG"><?php _e('Bulgaria', $this->car_share); ?></option>
                     <option value="BF">Burkina Faso</option>
                     <option value="BI">Burundi</option>
                     <option value="KH">Cambodia</option>
