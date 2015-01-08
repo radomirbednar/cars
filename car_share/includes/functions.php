@@ -1,6 +1,17 @@
 <?php
 
+
+
 function sc_get_price($car_id, DateTime $from, DateTime $to, $args){
+    
+    global $wpdb;
+    
+    //$booking_interval = $to->diff($from);
+    
+    $day_interval = DateInterval::createFromDateString('1 day');
+    $period = new DatePeriod($from, $day_interval, $to);
+    
+    
     
     $category_id = (int) get_post_meta($car_id, '_car_category', true);
     
@@ -8,9 +19,20 @@ function sc_get_price($car_id, DateTime $from, DateTime $to, $args){
         // auto nema kategorii, nemam ceny        
     }
     
+    // category prices
+    $sql = "SELECT * FROM `day_prices` WHERE car_category_id = '" . $category_id . "' AND season_id = 0";
+    $prices_from_category = $wpdb->get_results($sql);
     
-    
+    // find all assigned season
+    $sql = "SELECT ID FROM $wpdb->posts p
+            JOIN postmeta_date start ON p.ID = start.post_id AND meta_key = '_from'
+            JOIN postmeta_date end ON p.ID = end.post_id AND meta_key = '_to'
+            WHERE post_status = 'publish' AND post_type='sc-season' ";
        
+    foreach($period as $day){
+        echo $day->format( "l" );
+        
+    }
     
 }
 
