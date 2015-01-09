@@ -185,12 +185,7 @@ class Car_share_Shortcode {
                     posts.post_status = 'publish'
                     GROUP BY posts.ID"; 
         $this->cars = $wpdb->get_results($sql); 
-         
-        //check if there are the season         
-        $category_price = $Cars_cart->getItemPrice($car_category);
-        
-        
-        var_dump($category_price);
+ 
          
     }
 
