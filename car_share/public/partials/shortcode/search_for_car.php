@@ -27,15 +27,13 @@
             endif;
             ?>
         </select>
-    </div>
-
+    </div> 
     <label for="returnlocationcheck"><?php _e('Returning to different location', $this->car_share) ?></label>
     <input type="checkbox" name="returnlocation" id="returnlocationcheck" />
 
     <div class="form-group" id="car_drop_of_location">
         <label><?php _e('Drop off location:', $this->car_share) ?></label>
-        <select class="form-control" name="drop_off_location">
-
+        <select class="form-control" name="drop_off_location"> 
             <?php
             $args = array(
                 'post_type' => 'sc-location',

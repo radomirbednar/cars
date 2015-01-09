@@ -128,7 +128,7 @@ class Car_share_Shortcode {
         $Cars_cart = new Car_Cart('shopping_cart');
         $Cars_cart_items = $Cars_cart->getItems();
 
-        //improve for sanitize
+        //improve for check
 
         $pick_up_location = $Cars_cart_items['pick_up_location'];
         $drop_off_location = $Cars_cart_items['drop_off_location'];
@@ -185,8 +185,7 @@ class Car_share_Shortcode {
                     posts.post_status = 'publish'
                     GROUP BY posts.ID"; 
         $this->cars = $wpdb->get_results($sql); 
- 
-         
+          
     }
 
     public function extras_form() {
@@ -234,13 +233,10 @@ class Car_share_Shortcode {
         return ob_get_clean();
     }
 
-    public function checkout() {
-
-        $this->checkout_form();
-
+    public function checkout() { 
+        $this->checkout_form(); 
         ob_start();
         include_once( 'partials/shortcode/checkout.php' );
         return ob_get_clean();
-    }
-
+    } 
 }

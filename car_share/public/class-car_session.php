@@ -45,7 +45,8 @@ class Car_Cart {
    
         
     function sc_get_price($car_id, DateTime $from, DateTime $to) {
-          
+      
+        
     global $wpdb; 
     $day_interval = DateInterval::createFromDateString('1 day'); 
     $period = new DatePeriod($from, $day_interval, $to);
@@ -147,8 +148,7 @@ class Car_Cart {
     //
     if ($discount > 0) {
         $total_price = $total_price - $total_price * $discount / 100;
-    }
-
+    } 
     //
     return $total_price;
     }
