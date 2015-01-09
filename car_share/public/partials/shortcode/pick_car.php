@@ -2,16 +2,14 @@
     <?php if ( get_option('permalink_structure') ) { $sc_pr = '?'; }
           else { $sc_pr = '&'; }      
     ?> 
-    <div>
-        
+    <div> 
         <?php _e('1. Search for a car', $this->car_share); ?>
         <?php _e('2. Pick a car', $this->car_share); ?>
-        <?php _e('3. Pick a car', $this->car_share); ?>
-    
+        <?php _e('3. Pick a car', $this->car_share); ?> 
     </div>
     <?php foreach ($this->cars as $car): ?>  
-            <div class="col-md-12">  
-            <?php
+          <div class="col-md-12">  
+            <?php  
                 $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail');
                 //predefinovane informace k autu
                 $number_of_seats = get_post_meta($car->ID, '_number_of_seats', true);
@@ -22,13 +20,22 @@
                 $number_of_doors = esc_attr($number_of_doors);
                 $number_of_suitcases = esc_attr($number_of_suitcases);
                 $transmission = esc_attr($transmission);
-                //predefinovane informace k autu
+                //predefinovane informace k autu 
+                $Cars_cart = new Car_Cart('shopping_cart');
+                $Cars_cart_items = $Cars_cart->getItems(); 
+                //improve for sanitize 
+                $pick_up_location = $Cars_cart_items['pick_up_location'];
+                $drop_off_location = $Cars_cart_items['drop_off_location']; 
+                $car_dfrom = $Cars_cart_items['car_datefrom'];
+                $car_dto = $Cars_cart_items['car_dateto'];
+                $car_category = $Cars_cart_items['car_category'];  
             ?> 
             <?php echo $post_thumbnail; ?> 
             <h2><?php echo get_the_title($car->ID) ?></h2> 
-            <h3><?php _e('Price: ', $this->car_share); ?>           </h3>
-            
-  
+            <h3><?php _e('Price: ', $this->car_share); ?> 
+                <?php $price = $Cars_cart->sc_get_price($car->ID, $car_dfrom, $car_dto); ?> 
+                <?php if(!empty($price)){ echo $price;}?>  
+            </h3> 
             <table>
                 <?php if (!empty($number_of_seats)) { ?>
                     <tr>
@@ -54,8 +61,7 @@
                         <td><?php echo $transmission; ?></td> 
                     </tr>
                 <?php }; ?> 
-            </table> 
-            
+            </table>  
             <a class="continue btn btn-default" href="<?php echo $this->extras_car_url; ?><?php echo $sc_pr; ?>chcar=<?php echo $car->single_car_id; ?>"><?php _e('CHOOSE', $this->car_share); ?></a> 
         </div>
     <?php endforeach; ?> 

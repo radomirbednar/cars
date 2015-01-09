@@ -122,16 +122,13 @@ class Car_share_Shortcode {
         }
     }
 
-    public function pick_car_form() {
-
-        $sc_options = get_option('sc-pages');
-
-
+    public function pick_car_form() { 
+        $sc_options = get_option('sc-pages'); 
         $this->extras_car_url = isset($sc_options['extras']) ? get_page_link($sc_options['extras']) : '';
         $Cars_cart = new Car_Cart('shopping_cart');
         $Cars_cart_items = $Cars_cart->getItems();
 
-        //improve for sanitize
+        //improve for check
 
         $pick_up_location = $Cars_cart_items['pick_up_location'];
         $drop_off_location = $Cars_cart_items['drop_off_location'];
@@ -141,23 +138,18 @@ class Car_share_Shortcode {
         $car_category = $Cars_cart_items['car_category'];
 
         $car_dfrom_string = $car_dfrom->format('Y-m-d H:i:s');
-        $car_dto_string = $car_dto->format('Y-m-d H:i:s');
-
+        $car_dto_string = $car_dto->format('Y-m-d H:i:s'); 
         /*
          * get me all cars from one category
-         */
-
-        global $wpdb;
-        if ($car_category != '') {
-
-            $category_and = "AND wp_postmeta.meta_value = '$car_category'";
-        } else {
-
+         */ 
+        global $wpdb; 
+         if ($car_category != '') { 
+            $category_and = "AND wp_postmeta.meta_value = '$car_category'"; 
+        } else { 
             $category_and = '';
         }
-
-        $sql = "
-                SELECT DISTINCT
+ 
+        $sql = "SELECT DISTINCT
                     *
                     FROM
                     $wpdb->posts posts
@@ -191,10 +183,9 @@ class Car_share_Shortcode {
                     (sc_locationto.location_id = '$drop_off_location' AND sc_locationto.location_type = '2')
                     AND
                     posts.post_status = 'publish'
-                    GROUP BY posts.ID";
-
-        echo $sql;
-        $this->cars = $wpdb->get_results($sql);
+                    GROUP BY posts.ID"; 
+        $this->cars = $wpdb->get_results($sql); 
+          
     }
 
     public function extras_form() {
@@ -242,13 +233,10 @@ class Car_share_Shortcode {
         return ob_get_clean();
     }
 
-    public function checkout() {
-
-        $this->checkout_form();
-
+    public function checkout() { 
+        $this->checkout_form(); 
         ob_start();
         include_once( 'partials/shortcode/checkout.php' );
         return ob_get_clean();
-    }
-
+    } 
 }

@@ -1,18 +1,23 @@
-<?php 
+<?php
 $Cars_cart = new Car_Cart('shopping_cart');
 $Cars_cart_items = $Cars_cart->getItems();
 
 $car_ID = $Cars_cart_items['car_ID'];
 $pick_up_location = $Cars_cart_items['pick_up_location'];
 $drop_off_location = $Cars_cart_items['drop_off_location'];
- 
+
 $car_dfrom = $Cars_cart_items['car_datefrom'];
 $car_dto = $Cars_cart_items['car_dateto'];
 $car_category = $Cars_cart_items['car_category'];
 
 $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
 $car_dto_string = $car_dto->format('Y-m-d H:i');
- 
+
+
+
+
+
+
 global $wpdb;
 $sql = "
             SELECT DISTINCT *
@@ -25,33 +30,36 @@ $sql = "
             WHERE
             sc_single_car.single_car_id = $car_ID;";
 
-$car_result = $wpdb->get_results($sql);
+    $car_result = $wpdb->get_results($sql);
+    $extras = $Cars_cart_items['service'];
+ 
+    $price = $Cars_cart->sc_get_price($car->ID, $car_dfrom, $car_dto); ?> 
 
+    
 
-//$extras = ;
-
-
+ 
+ 
 ?>
 
 <?php if (!empty($car_result)): ?>
     <div>
-    <?php _e('1. Search for a car', $this->car_share); ?>
-    <?php _e('2. Pick a car', $this->car_share); ?>
-    <?php _e('3. Checkout', $this->car_share); ?>
+        <?php _e('1. Search for a car', $this->car_share); ?>
+        <?php _e('2. Pick a car', $this->car_share); ?>
+        <?php _e('3. Checkout', $this->car_share); ?>
     </div>
- 
-    <?php foreach ($car_result as $car): ?> 
-        <?php $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail'); ?> 
-        <strong><?php _e('Review your booking', $this->car_share); ?></strong> 
+
+    <?php foreach ($car_result as $car): ?>
+        <?php $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail'); ?>
+        <strong><?php _e('Review your booking', $this->car_share); ?></strong>
         <table>
             <tr>
                 <td><?php _e('FROM', $this->car_share); ?></td>
-                <td><?php echo get_the_title( $pick_up_location ); ?></td>
+                <td><?php echo get_the_title($pick_up_location); ?></td>
                 <td><?php echo $car_dfrom_string; ?></td>
             </tr>
             <tr>
                 <td><?php _e('TO', $this->car_share); ?></td>
-                <td><?php echo get_the_title( $drop_off_location ); ?></td>
+                <td><?php echo get_the_title($drop_off_location); ?></td>
                 <td><?php echo $car_dto_string; ?></td>
             </tr>
         </table>
@@ -59,7 +67,7 @@ $car_result = $wpdb->get_results($sql);
         <table>
             <tr>
                 <td>
-        <?php echo $post_thumbnail; ?>
+                    <?php echo $post_thumbnail; ?>
                 </td>
                 <td><?php echo get_the_title($car->ID); ?></td>
             </tr>
@@ -67,25 +75,44 @@ $car_result = $wpdb->get_results($sql);
     <?php endforeach; ?>
 
     <table>
-        <tbody> 
+        <tbody>
             <tr>
                 <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
-                <td>
-
-                </td>
-            </tr> 
+                <td> 
+                <?php 
+                    $total_extras='';
+                
+                    foreach ($extras as $key => $extras_id) { ?>
+                    <?php
+                    
+                    $service_fee = get_post_meta($key, '_service_fee', true);   
+                    $_per_service = get_post_meta($key, '_per_service', true);
+                    $_service_quantity_box = get_post_meta($key, '_service_quantity_box', true);
+                    $service_name = get_the_title($key); 
+              
+                    ?>
+                    <?php echo $service_name.', '; ?>  
+                    <?php
+                    }
+                    ?>
+                </td>    
+            </tr>
             <tr>
                 <td><?php _e('CAR : ', $this->car_share); ?></td>
-                <td></td>
+                <td><?php if(!empty($price)){ echo $price;}?></td>
             </tr>
             <tr>
-                <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td>
-
-                <td></td>
+                <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td> 
+                <td></td> 
+                <?php if (!empty($total_extras)){ ?> 
             <tr>
-                <td><?php _e('EXTRAS : ', $this->car_share); ?></td>
-                <td></td>
+                <td><?php _e('EXTRAS : ', $this->car_share); ?></td> 
+                <td><?php echo $total_extras; ?></td>
             </tr>
+            
+            
+                <?php } ?>
+            
             <tr>
                 <td><?php _e('TOTAL : ', $this->car_share); ?></td>
                 <td></td>
@@ -96,10 +123,10 @@ $car_result = $wpdb->get_results($sql);
             </tr>
         </tbody>
     </table>
- 
+
     <form action="" method="post" class="form-horizontal">
-        <!-- Address form --> 
-        <strong><?php _e('Billing Information', $this->car_share); ?></strong> 
+        <!-- Address form -->
+        <strong><?php _e('Billing Information', $this->car_share); ?></strong>
         <!-- full-name input-->
         <div class="control-group">
             <label class="control-label"><?php _e('Full Name', $this->car_share); ?></label>
