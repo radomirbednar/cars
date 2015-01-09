@@ -29,8 +29,7 @@ $car_result = $wpdb->get_results($sql);
 
 
 //$extras = ;
-
-
+ 
 ?>
 
 <?php if (!empty($car_result)): ?>

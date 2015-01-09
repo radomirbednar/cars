@@ -2,12 +2,10 @@
     <?php if ( get_option('permalink_structure') ) { $sc_pr = '?'; }
           else { $sc_pr = '&'; }      
     ?> 
-    <div>
-        
+    <div> 
         <?php _e('1. Search for a car', $this->car_share); ?>
         <?php _e('2. Pick a car', $this->car_share); ?>
-        <?php _e('3. Pick a car', $this->car_share); ?>
-    
+        <?php _e('3. Pick a car', $this->car_share); ?> 
     </div>
     <?php foreach ($this->cars as $car): ?>  
             <div class="col-md-12">  
@@ -26,7 +24,7 @@
             ?> 
             <?php echo $post_thumbnail; ?> 
             <h2><?php echo get_the_title($car->ID) ?></h2> 
-            <h3><?php _e('Price: ', $this->car_share); ?>           </h3> 
+            <h3><?php _e('Price: ', $this->car_share); ?></h3> 
             <table>
                 <?php if (!empty($number_of_seats)) { ?>
                     <tr>
