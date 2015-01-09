@@ -65,7 +65,7 @@
                     </tr>
                 <?php }; ?> 
             </table>  
-            <a class="continue btn btn-default" href="<?php echo $this->extras_car_url; ?><?php echo $sc_pr; ?>chcar=<?php echo $car->single_car_id; ?>"><?php _e('CHOOSE', $this->car_share); ?></a> 
+            <a class="continue btn btn-default" href="<?php echo $this->extras_car_url; ?><?php echo $sc_pr; ?>chcar=<?php echo $car->single_car_id; ?>"><?php _e('Book a car', $this->car_share); ?></a> 
         </div>
     <?php endforeach; ?> 
     <a href="#" type="submit" class="btn btn-default"><?php _e('BACK', $this->car_share); ?></a>            

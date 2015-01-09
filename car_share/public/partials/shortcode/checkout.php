@@ -1,4 +1,7 @@
 <?php
+
+
+
 $Cars_cart = new Car_Cart('shopping_cart');
 $Cars_cart_items = $Cars_cart->getItems();
 $extras = $Cars_cart_items['service'];
@@ -448,6 +451,11 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
                 </select>
             </div>
         </div> 
-        <button type="submit" class="btn btn-default"><?php _e('Book car', $this->car_share); ?></button>
+        <button type="submit" class="btn btn-default" name="sc-checkout"><?php _e('Book a car', $this->car_share); ?></button>
     </form>
+        
+    
+        
+        
+        
 <?php endif; ?>
