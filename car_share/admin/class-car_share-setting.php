@@ -73,8 +73,15 @@ class Car_share_Setting {
         $this->plugin_screen_hook_suffix = add_menu_page(
                 __('Car plugin settings', $this->car_share), __('Car plugin setting', $this->car_share), 'manage_options', $this->car_share, array($this, 'display_plugin_admin_page')
         );
+        
+        add_submenu_page($this->car_share, __('Checkout form setup', $this->car_share), __('Checkout form setup', $this->car_share), 'manage_options', 'checkout-form-setup', array($this, 'checkout_form_setup'));
     }
 
+    
+    public function checkout_form_setup(){
+        include_once( 'partials/checkout_form_setup.php' );        
+    }
+    
     /**
      * Render the settings page for this plugin.
      *
