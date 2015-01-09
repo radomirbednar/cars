@@ -64,44 +64,29 @@ class Car_share_Voucher {
     
     public function add_custom_boxes() { 
         add_meta_box(
-                'season_date_box', __('Date interval', $this->car_share), array($this, 'date_box'), 'sc-season'
+                'voucher_code_box', __('Code', $this->car_share), array($this, 'voucher_code_box'), 'sc-voucher'
         );
-
     }
     
-
-    public function date_box(){
-        global $post;
-        $session = new sc_Season($post);
-        $date_from = $session->from();
-        $date_to = $session->to();
-
-        include 'partials/season/date_interval.php';
-        wp_nonce_field(__FILE__, 'season_nonce');
+    public function voucher_code_box(){
+        global $post;        
+        $voucher_code = get_post_meta($post->ID, '_voucher_code', true);        
+        include 'partials/voucher/code.php';
+        wp_nonce_field(__FILE__, 'voucher_nonce');
     }
-
 
     public function save() { 
         //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
-        if (isset($_POST['season_nonce']) && wp_verify_nonce($_POST['season_nonce'], __FILE__)) {
+        if (isset($_POST['voucher_nonce']) && wp_verify_nonce($_POST['voucher_nonce'], __FILE__)) {
             
             global $post;
-            global $wpdb;
-
-            $date_from = DateTime::createFromFormat('d.m.Y', $_POST['_from']);
-            $date_to = DateTime::createFromFormat('d.m.Y', $_POST['_to']);
-
-            if(!empty($date_from)){
-                update_date_meta($post->ID, '_from', $date_from);
+            
+            if(empty($_POST['_voucher_code'])){
+                delete_post_meta($post->ID, '_voucher_code');
             } else {
-                delete_date_meta($post->ID, '_from');
+                update_post_meta($post->ID, '_voucher_code', sanitize_text_field($_POST['_voucher_code']));
             }
 
-            if(!empty($date_to)){
-                update_date_meta($post->ID, '_to', $date_to);
-            } else {
-                delete_date_meta($post->ID, '_to');
-            }
         }
     } 
 }
