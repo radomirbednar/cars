@@ -38,6 +38,18 @@ class Car_share_Setting {
      * @var      string    $version    The current version of this plugin.
      */
     private $version;
+    
+    
+    private $inputs = array(
+        '_name' => 'Fullname',
+        '_email' => 'Email address',
+        '_phone' => 'Phone',
+        '_address_1' => 'Address 1',
+        '_address_2' => 'Address 2',
+        '_city' => 'City',        
+        '_country' => 'Country',        
+        '_zip' => 'Zip',
+    );
 
     /**
      * Initialize the class and set its properties.
@@ -79,7 +91,13 @@ class Car_share_Setting {
 
     
     public function checkout_form_setup(){
-        include_once( 'partials/checkout_form_setup.php' );        
+        
+        if(isset($_POST['save_checkout_form_setup'])){
+            
+        }
+        
+        include_once( 'partials/checkout_form_setup.php' ); 
+        wp_nonce_field(__FILE__, 'checkout_form_nonce' );
     }
     
     /**
