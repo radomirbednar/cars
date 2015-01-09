@@ -14,10 +14,6 @@ $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
 $car_dto_string = $car_dto->format('Y-m-d H:i');
 
 
-
-
-
-
 global $wpdb;
 $sql = "
             SELECT DISTINCT *
@@ -30,20 +26,14 @@ $sql = "
             WHERE
             sc_single_car.single_car_id = $car_ID;";
 
-    $car_result = $wpdb->get_results($sql);
-    $extras = $Cars_cart_items['service'];
- 
-    $price = $Cars_cart->sc_get_price($car->ID, $car_dfrom, $car_dto); ?> 
+$car_result = $wpdb->get_results($sql);
+$extras = $Cars_cart_items['service'];
 
-    
-
- 
- 
+$price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto);
 ?>
-
 <?php if (!empty($car_result)): ?>
     <div>
-        <?php _e('1. Search for a car', $this->car_share); ?>
+    <?php _e('1. Search for a car', $this->car_share); ?>
         <?php _e('2. Pick a car', $this->car_share); ?>
         <?php _e('3. Checkout', $this->car_share); ?>
     </div>
@@ -67,7 +57,7 @@ $sql = "
         <table>
             <tr>
                 <td>
-                    <?php echo $post_thumbnail; ?>
+        <?php echo $post_thumbnail; ?>
                 </td>
                 <td><?php echo get_the_title($car->ID); ?></td>
             </tr>
@@ -78,41 +68,42 @@ $sql = "
         <tbody>
             <tr>
                 <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
-                <td> 
-                <?php 
-                    $total_extras='';
-                
-                    foreach ($extras as $key => $extras_id) { ?>
-                    <?php
-                    
-                    $service_fee = get_post_meta($key, '_service_fee', true);   
-                    $_per_service = get_post_meta($key, '_per_service', true);
-                    $_service_quantity_box = get_post_meta($key, '_service_quantity_box', true);
-                    $service_name = get_the_title($key); 
-              
-                    ?>
-                    <?php echo $service_name.', '; ?>  
-                    <?php
+                <td>
+    <?php
+    $total_extras = '';
+
+    foreach ($extras as $key => $extras_id) {
+        ?>
+                        <?php
+                        $service_fee = get_post_meta($key, '_service_fee', true);
+                        $_per_service = get_post_meta($key, '_per_service', true);
+                        $_service_quantity_box = get_post_meta($key, '_service_quantity_box', true);
+                        $service_name = get_the_title($key);
+                        ?>
+                        <?php echo $service_name . ', '; ?>
+                        <?php
                     }
                     ?>
-                </td>    
+                </td>
             </tr>
             <tr>
                 <td><?php _e('CAR : ', $this->car_share); ?></td>
-                <td><?php if(!empty($price)){ echo $price;}?></td>
+                <td><?php if (!empty($price)) {
+                    echo $price;
+                } ?></td>
             </tr>
             <tr>
-                <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td> 
-                <td></td> 
-                <?php if (!empty($total_extras)){ ?> 
-            <tr>
-                <td><?php _e('EXTRAS : ', $this->car_share); ?></td> 
-                <td><?php echo $total_extras; ?></td>
-            </tr>
-            
-            
-                <?php } ?>
-            
+                <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td>
+                <td></td>
+                <?php if (!empty($total_extras)) { ?>
+                <tr>
+                    <td><?php _e('EXTRAS : ', $this->car_share); ?></td>
+                    <td><?php echo $total_extras; ?></td>
+                </tr>
+
+
+            <?php } ?>
+
             <tr>
                 <td><?php _e('TOTAL : ', $this->car_share); ?></td>
                 <td></td>

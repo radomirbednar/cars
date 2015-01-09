@@ -7,7 +7,7 @@
  */
 
 class Car_share_Shortcode {
-
+     
     public $warning;
     public $cars;
     public $extras_car_url;
@@ -26,7 +26,9 @@ class Car_share_Shortcode {
         if (!isset($_SESSION)) {
             session_start();
         }
-    }
+ 
+        
+   }
 
     /*
      *
