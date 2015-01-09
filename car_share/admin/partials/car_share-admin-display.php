@@ -25,6 +25,11 @@
     do_settings_sections( 'test-plugin-main-settings-section' ); 
     ?>     
     <?php submit_button('Save Changes'); ?>
+    
+    
+    
+    
+    
     </form> 
     <form method="post" action="options.php">
     <?php
@@ -38,9 +43,12 @@
     </form>
 </div>
 
+
+
+
 <?php
-/* zpracování formuláře pro vytvoření stránek
- * 
+/* 
+ * form for create the page and the 
  */  
 if (isset($_POST['createpage'])){
 
@@ -92,7 +100,6 @@ if (isset($_POST['createpage'])){
  
 <div class="wrap">
     <h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
-    <!-- @TODO: Provide markup for your options page here. -->
     <div class="section panel">
     <form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['REQUEST_URI'];?>">  
         <input type="hidden" name="createpage" />

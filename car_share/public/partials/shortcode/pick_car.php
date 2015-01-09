@@ -25,14 +25,18 @@
                 //predefinovane informace k autu
             ?> 
             <?php echo $post_thumbnail; ?> 
-            <h2><?php echo get_the_title($car->ID) ?></h2>
+            <h2><?php echo get_the_title($car->ID) ?></h2> 
+            <h3><?php _e('Price: ', $this->car_share); ?></h3>
+            
+            
+            
+ 
             <table>
                 <?php if (!empty($number_of_seats)) { ?>
                     <tr>
                         <th><?php _e('Seats', $this->car_share); ?></th>
                     
-                        <td><?php echo $number_of_seats; ?></td>
-                    
+                        <td><?php echo $number_of_seats; ?></td> 
                     </tr>
                 <?php }; ?>
                 <?php if (!empty($number_of_doors)) { ?>
@@ -62,10 +66,8 @@
             </table> 
             <a class="continue btn btn-default" href="<?php echo $this->extras_car_url; ?><?php echo $sc_pr; ?>chcar=<?php echo $car->single_car_id; ?>"><?php _e('CHOOSE', $this->car_share); ?></a> 
         </div>
-    <?php endforeach; ?>
-
-    <a href="#" type="submit" class="btn btn-default"><?php _e('BACK', $this->car_share); ?></a>           
-  
+    <?php endforeach; ?> 
+    <a href="#" type="submit" class="btn btn-default"><?php _e('BACK', $this->car_share); ?></a>            
 <?php else: ?>
     <p><?php _e('Sorry, there is no car meeting your requirements.', $this->car_share); ?></p>
 <?php endif; ?>

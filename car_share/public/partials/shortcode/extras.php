@@ -2,6 +2,9 @@
 $sc_options = get_option('sc-pages');
 $extras_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
 ?> 
+
+
+
 <form action="<?php echo $extras_car_url ?>" method="post">
     <?php
     $args = array(
@@ -30,8 +33,13 @@ $extras_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['ch
             ?>
              <?php
             // check if the custom field has a value
-            if (!empty($_per_service)) { 
-                 echo $_per_service;
+            if (!empty($_per_service)) {  
+                
+                   $values =  array(
+                     1  => "Per day",
+                     2  => "Per rental", 
+                    ); 
+                   echo $values[$_per_service]; 
             }
             ?>
             <div class="form-group"> 
