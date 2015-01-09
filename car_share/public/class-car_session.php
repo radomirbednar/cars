@@ -154,7 +154,7 @@ class Car_Cart {
         } 
         //
         return $total_price;
-    }
+    
         
         // apply time discount
         $time_discount = get_post_meta($category_id, '_discount_upon_duration', true); 
