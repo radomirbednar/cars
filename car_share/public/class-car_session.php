@@ -44,10 +44,15 @@ class Car_Cart {
      */
     function getItemPrice($itemID) {
          
-        $this->getItems();
- 
+         
+        
+        
         return 99; 
+    
+        
+        
     }
+    
     
     
     
@@ -56,9 +61,7 @@ class Car_Cart {
      * getItemName() - Get the name of an item.
      *
      * @param string $order_code The order code of the item.
-     */
-    
-    
+     */ 
     function setItemId($id_code) { 
         $this->items['car_ID'] = $id_code;    
     }  
