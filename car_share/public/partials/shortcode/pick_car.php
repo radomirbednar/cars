@@ -26,9 +26,7 @@
             ?> 
             <?php echo $post_thumbnail; ?> 
             <h2><?php echo get_the_title($car->ID) ?></h2> 
-            <h3><?php _e('Price: ', $this->car_share); ?>           </h3>
-            
-  
+            <h3><?php _e('Price: ', $this->car_share); ?>           </h3> 
             <table>
                 <?php if (!empty($number_of_seats)) { ?>
                     <tr>

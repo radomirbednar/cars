@@ -42,15 +42,8 @@ class Car_Cart {
      * @param string $order_code The order code of the item.
      * @return int The price.
      */
-    function getItemPrice($itemID) {
-         
-         
-        
-        
-        return 99; 
-    
-        
-        
+    function getItemPrice($car_category) {
+     
     }
     
     

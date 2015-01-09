@@ -122,11 +122,8 @@ class Car_share_Shortcode {
         }
     }
 
-    public function pick_car_form() {
-
-        $sc_options = get_option('sc-pages');
-
-
+    public function pick_car_form() { 
+        $sc_options = get_option('sc-pages'); 
         $this->extras_car_url = isset($sc_options['extras']) ? get_page_link($sc_options['extras']) : '';
         $Cars_cart = new Car_Cart('shopping_cart');
         $Cars_cart_items = $Cars_cart->getItems();
@@ -141,23 +138,18 @@ class Car_share_Shortcode {
         $car_category = $Cars_cart_items['car_category'];
 
         $car_dfrom_string = $car_dfrom->format('Y-m-d H:i:s');
-        $car_dto_string = $car_dto->format('Y-m-d H:i:s');
-
+        $car_dto_string = $car_dto->format('Y-m-d H:i:s'); 
         /*
          * get me all cars from one category
-         */
-
-        global $wpdb;
-        if ($car_category != '') {
-
-            $category_and = "AND wp_postmeta.meta_value = '$car_category'";
-        } else {
-
+         */ 
+        global $wpdb; 
+         if ($car_category != '') { 
+            $category_and = "AND wp_postmeta.meta_value = '$car_category'"; 
+        } else { 
             $category_and = '';
         }
-
-        $sql = "
-                SELECT DISTINCT
+ 
+        $sql = "SELECT DISTINCT
                     *
                     FROM
                     $wpdb->posts posts
@@ -191,10 +183,15 @@ class Car_share_Shortcode {
                     (sc_locationto.location_id = '$drop_off_location' AND sc_locationto.location_type = '2')
                     AND
                     posts.post_status = 'publish'
-                    GROUP BY posts.ID";
-
-        echo $sql;
-        $this->cars = $wpdb->get_results($sql);
+                    GROUP BY posts.ID"; 
+        $this->cars = $wpdb->get_results($sql); 
+         
+        //check if there are the season         
+        $category_price = $Cars_cart->getItemPrice($car_category);
+        
+        
+        var_dump($category_price);
+         
     }
 
     public function extras_form() {
