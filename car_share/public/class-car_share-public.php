@@ -292,7 +292,7 @@ class Car_share_Public {
                 //'thumbnail',
                 'title',
                 //'editor',
-            //'page-attributes'
+                //'page-attributes'
             ),
             'hierarchical' => false
         );
