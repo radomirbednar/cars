@@ -34,32 +34,21 @@ class Car_share_Voucher {
         add_action('add_meta_boxes', array($this, 'add_custom_boxes'));
         add_action('save_post', array($this, 'save'));
         
-        add_filter('manage_sc-season_posts_columns', array($this, 'column_head'));
-        add_action('manage_sc-season_posts_custom_column', array($this, 'column_content'), 10, 2);        
+        add_filter('manage_sc-voucher_posts_columns', array($this, 'column_head'));
+        add_action('manage_sc-voucher_posts_columns', array($this, 'column_content'), 10, 2);        
     }
 
-    public function column_head($defaults){    
-        //$defaults['date_from'] = __('From', $this->car_share);
-        //$defaults['date_to'] = __('To', $this->car_share);
+    public function column_head($defaults){            
+        $defaults['code'] = __('Code', $this->car_share);
         return $defaults;
     }
     
-    public function column_content($column_name, $post_id){
-        /*
+    public function column_content($column_name, $post_id){        
         switch($column_name){
-            case 'date_from':
-                $from = get_date_meta($post_id, '_from');
-                if(!empty($from)){
-                    echo $from->format(get_option('date_format'));
-                }
-                break;
-            case 'date_to':
-                $to = get_date_meta($post_id, '_to');
-                if(!empty($to)){
-                    echo $to->format(get_option('date_format'));
-                }
+            case 'code':
+                echo esc_attr(get_post_meta($post_id, '_voucher_code', true));
                 break;            
-        } */       
+        }
     }
     
     public function add_custom_boxes() { 
