@@ -95,15 +95,14 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
             <tr>
                 <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td>
                 <td></td>
+            </tr>    
+                
                 <?php if (!empty($total_extras)) { ?>
                 <tr>
                     <td><?php _e('EXTRAS : ', $this->car_share); ?></td>
                     <td><?php echo $total_extras; ?></td>
-                </tr>
-
-
-            <?php } ?>
-
+                </tr> 
+            <?php } ?> 
             <tr>
                 <td><?php _e('TOTAL : ', $this->car_share); ?></td>
                 <td></td>
@@ -445,8 +444,7 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
                     <option value="ZW">Zimbabwe</option>
                 </select>
             </div>
-        </div>
-
+        </div> 
         <button type="submit" class="btn btn-default"><?php _e('Book car', $this->car_share); ?></button>
     </form>
 <?php endif; ?>

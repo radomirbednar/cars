@@ -207,11 +207,14 @@ class Car_share_Shortcode {
 
     public function checkout_form() {
 
-        if (isset($_POST['service'])) {
-            $service = $_POST['service'];
+        if (isset($_POST['service'])) {   
+    
+            //remove when zero
+            $service = array_filter($_POST['service']); 
             $Cars_cart = new Car_Cart('shopping_cart');
             $Cars_cart->setItemService($service);
             $Cars_cart->save();
+         
         }
     }
 
