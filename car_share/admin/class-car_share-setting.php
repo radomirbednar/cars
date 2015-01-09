@@ -38,16 +38,16 @@ class Car_share_Setting {
      * @var      string    $version    The current version of this plugin.
      */
     private $version;
-    
-    
+
+
     private $inputs = array(
         '_name' => 'Fullname',
         '_email' => 'Email address',
         '_phone' => 'Phone',
         '_address_1' => 'Address 1',
         '_address_2' => 'Address 2',
-        '_city' => 'City',        
-        '_country' => 'Country',        
+        '_city' => 'City',
+        '_country' => 'Country',
         '_zip' => 'Zip',
     );
 
@@ -85,21 +85,32 @@ class Car_share_Setting {
         $this->plugin_screen_hook_suffix = add_menu_page(
                 __('Car plugin settings', $this->car_share), __('Car plugin setting', $this->car_share), 'manage_options', $this->car_share, array($this, 'display_plugin_admin_page')
         );
-        
+
         add_submenu_page($this->car_share, __('Checkout form setup', $this->car_share), __('Checkout form setup', $this->car_share), 'manage_options', 'checkout-form-setup', array($this, 'checkout_form_setup'));
     }
 
-    
+
     public function checkout_form_setup(){
-        
         if(isset($_POST['save_checkout_form_setup'])){
-            
+            $arr_to_save = array();
+            foreach($this->inputs as $input_key => $input_value){
+
+                $enabled = isset($_POST['billing_inputs'][$input_key]['enabled']) && 1 == $_POST['billing_inputs'][$input_key]['enabled'] ? 1 : 0;
+                $required = isset($_POST['billing_inputs'][$input_key]['required']) && 1 == $_POST['billing_inputs'][$input_key]['required'] ? 1 : 0;                
+                
+                $arr_to_save[] = array(
+                    'visible' => $enabled,
+                    'required' => $required,
+                );
+            }
         }
-        
-        include_once( 'partials/checkout_form_setup.php' ); 
+
+        $input_options = array();
+
+        include_once( 'partials/checkout_form_setup.php' );
         wp_nonce_field(__FILE__, 'checkout_form_nonce' );
     }
-    
+
     /**
      * Render the settings page for this plugin.
      *
@@ -140,7 +151,7 @@ class Car_share_Setting {
         add_settings_field(
                 'currency-setting', 'Currency Setting', array($this, 'create_currency_another_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
         );
- 
+
 // register_setting( $option_group, $option_name, $sanitize_callback )
         register_setting('additional-settings-group', 'second_set_arraykey', array($this, 'plugin_additional_settings_validate'));
     }
@@ -165,37 +176,37 @@ class Car_share_Setting {
         }
         ?> />
         <?php
-           } 
+           }
            function plugin_main_settings_validate($arr_input) {
                $options = get_option('car_plugin_options_arraykey');
                $options['notemail'] = trim($arr_input['notemail']);
                $options['showcategory'] = trim($arr_input['showcategory']);
                return $options;
-           } 
+           }
            function print_additional_settings_section_info() {
                echo '<p>Additional Settings Description.</p>';
-           } 
+           }
            function create_input_another_setting() {
                $options = get_option('second_set_arraykey');
                ?><input type="text" name="second_set_arraykey[sc-unit]" value="<?php echo $options['sc-unit']; ?>" /><?php
-           } 
-           function create_currency_another_setting() { 
-               $options = get_option('second_set_arraykey'); 
-               include_once( 'partials/currencies.php' ); 
-               echo "<select name='second_set_arraykey[sc-currency]'>"; 
+           }
+           function create_currency_another_setting() {
+               $options = get_option('second_set_arraykey');
+               include_once( 'partials/currencies.php' );
+               echo "<select name='second_set_arraykey[sc-currency]'>";
                foreach ($currencies as $currency_code => $currency_details) {
                    $selected = "";
                    if ($options['sc-currency'] == $currency_code) {
                        $selected = " selected ";
                    }
                    echo "<option value='" . esc_attr($currency_code) . "'" . esc_attr($selected) . ">" . esc_html($currency_details['name']) . "</option>";
-               } 
-               echo "</select>"; 
+               }
+               echo "</select>";
             }
 
         function plugin_additional_settings_validate($arr_input) {
 
-            $options = get_option('second_set_arraykey'); 
+            $options = get_option('second_set_arraykey');
             $options['sc-unit'] = trim($arr_input['sc-unit']);
             $options['sc-currency'] = trim($arr_input['sc-currency']);
 

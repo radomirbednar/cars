@@ -4,7 +4,7 @@
         <thead>
             <tr>
                 <th></th>
-                <th><?php _e("Visible", $this->car_share) ?></th>
+                <th><?php _e("Enabled", $this->car_share) ?></th>
                 <th><?php _e("Required", $this->car_share) ?></th>
             </tr>
         </thead>
@@ -15,10 +15,10 @@
                 <?php _e($input_label, $this->car_share) ?>
             </th>
             <td>
-                <input type="checkbox" value="1" name="_billing_inputs[<?php echo $input_key ?>][enable]">
+                <input type="checkbox" value="1" name="billing_inputs[<?php echo $input_key ?>][enable]">
             </td>
             <td>
-                <input type="checkbox" value="1" name="_billing_inputs[<?php echo $input_key ?>][required]">
+                <input type="checkbox" value="1" name="billing_inputs[<?php echo $input_key ?>][required]">
             </td>
         </tr>    
     <?php endforeach; ?>    
