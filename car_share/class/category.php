@@ -34,7 +34,7 @@ class sc_Category {
         $day_prices = $this->day_prices($season_id);
 
         foreach ($day_prices as $day_price) {
-            $return[$day_price->dayname] = $day_price;
+            $return[$day_price->dayname] = floatval($day_price->price);
         }
 
         return $return;
