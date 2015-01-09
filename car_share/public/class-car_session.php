@@ -44,8 +44,7 @@ class Car_Cart {
      * @return int The price.
      */
    
-        
-    function sc_get_price($single_car_id, DateTime $from, DateTime $to) {        
+       function sc_get_price($single_car_id, DateTime $from, DateTime $to) {        
         
         global $wpdb; 
         
@@ -154,29 +153,8 @@ class Car_Cart {
         } 
         //
         return $total_price;
-    
-        
-        // apply time discount
-        $time_discount = get_post_meta($category_id, '_discount_upon_duration', true); 
-        $discount = 0;
-        
-        if (!empty($time_discount)) {
-            ksort($time_discount);
-            foreach ($time_discount as $key => $val) {
-                if ($key < $days) {
-                    $discount = $val;
-                } else {
-                    break;
-                }
-            }
-        } 
-        //
-        if ($discount > 0) {
-            $total_price = $total_price - $total_price * $discount / 100;
-        }
-        //
-        return $total_price; 
-    }
+    } 
+     
 
     
     function sc_get_extras_price(DateTime $from, DateTime $to) {

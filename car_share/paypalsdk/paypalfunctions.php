@@ -378,10 +378,11 @@
 		// The $unique_id field is storing our unique id that we'll use in the request id header.
 		$unique_id = date('ymd-H').rand(1000,9999);		
 		
-		'-------------------------------------------------------------------------------------------
+		/*-------------------------------------------------------------------------------------------
 		' Make the call to Payflow to finalize payment
 		' If an error occured, show the resulting errors
-		'-------------------------------------------------------------------------------------------
+		'-------------------------------------------------------------------------------------------*/
+                
 		$resArray = hash_call($nvpstr,$unique_id);
 		
 		return $resArray;
