@@ -29,7 +29,7 @@ $sql = "
 
 $car_result = $wpdb->get_results($sql);
  
-$price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto); 
+$car_price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto); 
 $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
 
 
@@ -69,6 +69,9 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
 
     <table>
         <tbody>
+            
+            
+            
             <tr>
                 <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
                 <td>
@@ -86,21 +89,21 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
         ?>
                 </td>
             </tr>
+            
+            
             <tr>
                 <td><?php _e('CAR : ', $this->car_share); ?></td>
-                <td><?php if (!empty($price)) {
-                    echo $price;
-                } ?></td>
+                <td><?php echo $car_price;?></td>
             </tr>
             <tr>
                 <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td>
                 <td></td>
             </tr>    
                 
-                <?php if (!empty($total_extras)) { ?>
+                <?php if (!empty($extras_price)) { ?>
                 <tr>
                     <td><?php _e('EXTRAS : ', $this->car_share); ?></td>
-                    <td><?php echo $total_extras; ?></td>
+                    <td><?php echo $extras_price; ?></td>
                 </tr> 
             <?php } ?> 
             <tr>

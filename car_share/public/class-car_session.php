@@ -156,30 +156,24 @@ class Car_Cart {
      
             $Cars_cart_items = $this->getItems();
             $extras = $Cars_cart_items['service']; 
-            $extras_prices='';
-            
-             
+            $extras_prices=''; 
+            $extras_prices=''; 
              
     foreach ($extras as $key => $extras_value)
-        {  
-        
+        {   
             $service_fee = get_post_meta($key, '_service_fee', true);
-            $_per_service = (int)get_post_meta($key, '_per_service', true); 
-             
-            $extras_prices=''; 
-            
+            $_per_service = (int)get_post_meta($key, '_per_service', true);  
+            //1 = per day
             if($_per_service == '1' )
-            {
-          
-                $extras_value;
-                
+            {    
+                $extras_prices = ($service_fee * $days * $extras_value) + $extras_prices; 
             }   
             else
             {
-                $extras_value;
-                 
+                $extras_prices = ($service_fee * $extras_value) + $extras_prices;    
             }   
-        }
+        } 
+        return $extras_prices; 
     }
 
     /**

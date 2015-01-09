@@ -141,16 +141,18 @@ class Car_share_Shortcode {
 
         $car_dfrom_string = $car_dfrom->format('Y-m-d H:i:s');
         $car_dto_string = $car_dto->format('Y-m-d H:i:s'); 
+        
+        
         /*
          * get me all cars from one category
          */ 
+         
         global $wpdb; 
          if ($car_category != '') { 
             $category_and = "AND wp_postmeta.meta_value = '$car_category'"; 
         } else { 
             $category_and = '';
-        }
- 
+        } 
         $sql = "SELECT 
                     *
                     FROM
@@ -175,7 +177,7 @@ class Car_share_Shortcode {
                     (
                     SELECT single_car_id FROM sc_single_car_status WHERE
                     '$car_dto_string' >= date_from AND date_to >= '$car_dfrom_string'
-                    )
+                    ) 
                     $category_and
                     AND
                     posts.post_type = 'sc-car'
@@ -205,17 +207,21 @@ class Car_share_Shortcode {
          */
     }
 
-    public function checkout_form() {
-
+    
+    
+    public function checkout_form() { 
+        
         if (isset($_POST['service'])) {   
     
             //remove when zero
             $service = array_filter($_POST['service']); 
             $Cars_cart = new Car_Cart('shopping_cart');
             $Cars_cart->setItemService($service);
-            $Cars_cart->save();
-         
+            $Cars_cart->save(); 
+             
         }
+       
+        
     }
 
     public function search_for_car($atts) {
