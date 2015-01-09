@@ -50,8 +50,7 @@ function sc_get_price($car_id, DateTime $from, DateTime $to, $args) {
     $applied_sessions = array();
     foreach ((array) $seasons as $session) {
         $begin = DateTime::createFromFormat('Y-m-d H:i:s', $session->date_from . ' 00:00:00');
-        $end = DateTime::createFromFormat('Y-m-d H:i:s', $session->date_to . ' 23:59:59');
-        //$applied_sessions[] = new DatePeriod($begin, $day_interval, $end);
+        $end = DateTime::createFromFormat('Y-m-d H:i:s', $session->date_to . ' 23:59:59');        
 
         $season_prices = $car_category->day_prices_indexed_with_dayname($session->ID);
 

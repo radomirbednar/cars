@@ -242,7 +242,33 @@ class Car_share_Public {
         );
 
         register_post_type('sc-car-category', $args);        
-    } 
+        
+        // order
+        $args = array(
+            'labels' => array(
+                'name' => __('Booking', $this->car_share),
+                'singular_name' => __('Booking', $this->car_share),
+                'add_new' => __('Make a new booking', $this->car_share),
+                'add_new_item' => __('Make a new booking', $this->car_share),
+                'edit_item' => __('Edit booking', $this->car_share),
+                'new_item' => __('Make a new booking', $this->car_share),
+                'all_items' => __('All booking', $this->car_share),
+                'view_item' => __('View car booking', $this->car_share),
+                'search_items' => __('Search car booking', $this->car_share),
+                'menu_name' => __('Car booking', $this->car_share)
+            ),
+            'public' => true,
+            'publicly_queryable' => true,
+            'show_ui' => true,
+            'supports' => array(
+                'thumbnail',
+                'title',
+                'editor',
+            //'page-attributes'
+            ),
+            'hierarchical' => false
+        );
 
- 
+        register_post_type('sc-booking', $args);                
+    }  
 }
