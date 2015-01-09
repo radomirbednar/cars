@@ -151,7 +151,7 @@ class Car_share_Shortcode {
             $category_and = '';
         }
  
-        $sql = "SELECT DISTINCT
+        $sql = "SELECT 
                     *
                     FROM
                     $wpdb->posts posts
