@@ -15,7 +15,7 @@ $days = get_days_of_week();
 
             <tr>
 <?php foreach ($days as $day_name => $label): ?>
-                    <td><input type="text" name="_season_to_category_prices[<?php echo $day_name ?>]" class="day-price" value="<?php echo isset($season2category[$day_name]) ? $season2category[$day_name]->price : 0 ?>"></td>
+                    <td><input type="text" name="_season_to_category_prices[<?php echo $day_name ?>]" class="day-price" value="<?php echo isset($season2category[$day_name]) ? $season2category[$day_name] : 0 ?>"></td>
                 <?php endforeach; ?>
             </tr>
         </tbody>

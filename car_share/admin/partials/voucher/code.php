@@ -1,0 +1,1 @@
+<input type="text" name="_voucher_code" value="<?php echo esc_attr($voucher_code) ?>">
