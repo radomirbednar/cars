@@ -8,9 +8,8 @@
         <?php _e('3. Pick a car', $this->car_share); ?> 
     </div>
     <?php foreach ($this->cars as $car): ?>  
-            <div class="col-md-12">  
-            <?php 
-            
+          <div class="col-md-12">  
+            <?php  
                 $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail');
                 //predefinovane informace k autu
                 $number_of_seats = get_post_meta($car->ID, '_number_of_seats', true);
@@ -29,8 +28,7 @@
                 $drop_off_location = $Cars_cart_items['drop_off_location']; 
                 $car_dfrom = $Cars_cart_items['car_datefrom'];
                 $car_dto = $Cars_cart_items['car_dateto'];
-                $car_category = $Cars_cart_items['car_category']; 
- 
+                $car_category = $Cars_cart_items['car_category'];  
             ?> 
             <?php echo $post_thumbnail; ?> 
             <h2><?php echo get_the_title($car->ID) ?></h2> 
@@ -63,8 +61,7 @@
                         <td><?php echo $transmission; ?></td> 
                     </tr>
                 <?php }; ?> 
-            </table> 
-            
+            </table>  
             <a class="continue btn btn-default" href="<?php echo $this->extras_car_url; ?><?php echo $sc_pr; ?>chcar=<?php echo $car->single_car_id; ?>"><?php _e('CHOOSE', $this->car_share); ?></a> 
         </div>
     <?php endforeach; ?> 
