@@ -34,38 +34,35 @@ class Car_share_Voucher {
         add_action('add_meta_boxes', array($this, 'add_custom_boxes'));
         add_action('save_post', array($this, 'save'));
         
-        add_filter('manage_sc-season_posts_columns', array($this, 'column_head'));
-        add_action('manage_sc-season_posts_custom_column', array($this, 'column_content'), 10, 2);        
+        add_filter('manage_sc-voucher_posts_columns', array($this, 'column_head'));
+        add_action('manage_sc-voucher_posts_custom_column', array($this, 'column_content'), 10, 2);        
     }
 
-    public function column_head($defaults){    
-        //$defaults['date_from'] = __('From', $this->car_share);
-        //$defaults['date_to'] = __('To', $this->car_share);
+    public function column_head($defaults){            
+        $defaults['code'] = __('Code', $this->car_share);
+        $defaults['discount'] = __('Discount', $this->car_share);
         return $defaults;
     }
     
-    public function column_content($column_name, $post_id){
-        /*
+    public function column_content($column_name, $post_id){        
         switch($column_name){
-            case 'date_from':
-                $from = get_date_meta($post_id, '_from');
-                if(!empty($from)){
-                    echo $from->format(get_option('date_format'));
-                }
-                break;
-            case 'date_to':
-                $to = get_date_meta($post_id, '_to');
-                if(!empty($to)){
-                    echo $to->format(get_option('date_format'));
-                }
+            case 'code':
+                echo esc_attr(get_post_meta($post_id, '_voucher_code', true));
                 break;            
-        } */       
+            case 'discount':
+                echo esc_attr(get_post_meta($post_id, '_discount', true)) . ' ' . __('%', $this->car_share);
+                break;                        
+        }
     }
     
     public function add_custom_boxes() { 
         add_meta_box(
                 'voucher_code_box', __('Code', $this->car_share), array($this, 'voucher_code_box'), 'sc-voucher'
         );
+        
+        add_meta_box(
+                'voucher_discount_box', __('Discount (percentage)', $this->car_share), array($this, 'voucher_discount_box'), 'sc-voucher'
+        );        
     }
     
     public function voucher_code_box(){
@@ -74,6 +71,12 @@ class Car_share_Voucher {
         include 'partials/voucher/code.php';
         wp_nonce_field(__FILE__, 'voucher_nonce');
     }
+    
+    public function voucher_discount_box(){
+        global $post;        
+        $discount = get_post_meta($post->ID, '_discount', true);        
+        include 'partials/voucher/discount.php';        
+    }
 
     public function save() { 
         //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
@@ -81,11 +84,19 @@ class Car_share_Voucher {
             
             global $post;
             
+            $keys = array();
+            
             if(empty($_POST['_voucher_code'])){
                 delete_post_meta($post->ID, '_voucher_code');
             } else {
                 update_post_meta($post->ID, '_voucher_code', sanitize_text_field($_POST['_voucher_code']));
             }
+            
+            if(empty($_POST['_discount'])){
+                delete_post_meta($post->ID, '_discount');
+            } else {
+                update_post_meta($post->ID, '_discount', floatval($_POST['_discount']));
+            }            
 
         }
     } 
