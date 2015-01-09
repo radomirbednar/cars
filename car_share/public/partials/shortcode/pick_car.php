@@ -29,6 +29,9 @@
                 $car_dfrom = $Cars_cart_items['car_datefrom'];
                 $car_dto = $Cars_cart_items['car_dateto'];
                 $car_category = $Cars_cart_items['car_category'];  
+   
+                
+                
             ?> 
             <?php echo $post_thumbnail; ?> 
             <h2><?php echo get_the_title($car->ID) ?></h2> 

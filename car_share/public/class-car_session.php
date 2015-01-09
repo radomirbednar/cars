@@ -1,10 +1,10 @@
-<?php 
- 
+<?php
+
 class Car_Cart {
-     
+
     private $cart_name;       // The name of the cart/session variable
     private $items = array(); // The array for storing items in the cart
-  
+
     /**
      * __construct() - Constructor. This assigns the name of the cart
      *                 to an instance variable and loads the cart from
@@ -12,30 +12,31 @@ class Car_Cart {
      *
      * @param string $name The name of the cart.
      */
-    function __construct($name) {       
-        $hash=sha1('whatsthecallme063214056*'); 
-        $this->cart_name = $name.$hash; 
-        $this->items = empty($_SESSION[$this->cart_name]) ? array() : $_SESSION[$this->cart_name];    
+
+    function __construct($name) {
+        $hash = sha1('whatsthecallme063214056*');
+        $this->cart_name = $name . $hash;
+        $this->items = empty($_SESSION[$this->cart_name]) ? array() : $_SESSION[$this->cart_name];
     }
-     
+
     /**
      * setItemQuantity() - Set the quantity of an item.
      *
      * @param string $order_code The order code of the item.
      * @param int $quantity The quantity.
      */
-    function setItemSearch($pick_up_location, $drop_off_location, $car_datefrom, $car_dateto, $car_category) { 
+    function setItemSearch($pick_up_location, $drop_off_location, $car_datefrom, $car_dateto, $car_category) {
         $this->items['pick_up_location'] = $pick_up_location;
         $this->items['drop_off_location'] = $drop_off_location;
         $this->items['car_datefrom'] = $car_datefrom;
         $this->items['car_dateto'] = $car_dateto;
-        $this->items['car_category'] = $car_category;    
+        $this->items['car_category'] = $car_category;
     }
-     
-    function getItemSearch(){    
-        return $this->items;  
+
+    function getItemSearch() {
+        return $this->items;
     }
- 
+
     /**
      * getItemPrice() - Get the price of an item.
      *
@@ -43,8 +44,7 @@ class Car_Cart {
      * @return int The price.
      */
    
-        
-    function sc_get_price($single_car_id, DateTime $from, DateTime $to) {        
+       function sc_get_price($single_car_id, DateTime $from, DateTime $to) {        
         
         global $wpdb; 
         
@@ -153,30 +153,63 @@ class Car_Cart {
         } 
         //
         return $total_price;
+    } 
+     
+
+    
+    function sc_get_extras_price(DateTime $from, DateTime $to) {
+ 
+        global $wpdb;
+         
+            $day_interval = DateInterval::createFromDateString('1 day');
+            $period = new DatePeriod($from, $day_interval, $to);
+            $diff = $to->diff($from);
+            $days = $diff->d;
+     
+            $Cars_cart_items = $this->getItems();
+            $extras = $Cars_cart_items['service']; 
+            $extras_prices=''; 
+            $extras_prices=''; 
+             
+    foreach ($extras as $key => $extras_value)
+        {   
+            $service_fee = get_post_meta($key, '_service_fee', true);
+            $_per_service = (int)get_post_meta($key, '_per_service', true);  
+            //1 = per day
+            if($_per_service == '1' )
+            {    
+                $extras_prices = ($service_fee * $days * $extras_value) + $extras_prices; 
+            }   
+            else
+            {
+                $extras_prices = ($service_fee * $extras_value) + $extras_prices;    
+            }   
+        } 
+        return $extras_prices; 
     }
-        
-     
-     
+
     /**
      * getItemName() - Get the name of an item.
      *
      * @param string $order_code The order code of the item.
-     */ 
-    function setItemId($id_code) { 
-        $this->items['car_ID'] = $id_code;    
-    }  
-    function setItemService($service) { 
-       $this->items['service'] = $service;      
+     */
+    function setItemId($id_code) {
+        $this->items['car_ID'] = $id_code;
     }
-   
+
+    function setItemService($service) {
+        $this->items['service'] = $service;
+    }
+
     /**
      * getItems() - Get all items.
      *
      * @return array The items.
      */
     function getItems() {
-        return $this->items; 
-    } 
+        return $this->items;
+    }
+
     /**
      * hasItems() - Checks to see if there are items in the cart.
      *
@@ -184,7 +217,8 @@ class Car_Cart {
      */
     function hasItems() {
         return (bool) $this->items;
-    } 
+    }
+
     /**
      * getItemQuantity() - Get the quantity of an item in the cart.
      *
@@ -193,22 +227,25 @@ class Car_Cart {
      */
     function getItemQuantity($order_code) {
         return (int) $this->items[$order_code];
-    } 
+    }
+
     /**
      * clean() - Cleanup the cart contents. If any items have a
      *           quantity less than one, remove them.
      */
     function clean() {
-        
-        foreach ( $this->items as $order_code=>$quantity ) {
-            if ( $quantity < 1 )
+
+        foreach ($this->items as $order_code => $quantity) {
+            if ($quantity < 1)
                 unset($this->items[$order_code]);
         }
-    } 
+    }
+
     /**
      * save() - Saves the cart to a session variable.
      */
-    function save() { 
+    function save() {
         $_SESSION[$this->cart_name] = $this->items;
-    } 
-} 
+    }
+
+}

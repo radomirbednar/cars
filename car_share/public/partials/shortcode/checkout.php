@@ -1,6 +1,7 @@
 <?php
 $Cars_cart = new Car_Cart('shopping_cart');
 $Cars_cart_items = $Cars_cart->getItems();
+$extras = $Cars_cart_items['service'];
 
 $car_ID = $Cars_cart_items['car_ID'];
 $pick_up_location = $Cars_cart_items['pick_up_location'];
@@ -27,9 +28,11 @@ $sql = "
             sc_single_car.single_car_id = $car_ID;";
 
 $car_result = $wpdb->get_results($sql);
-$extras = $Cars_cart_items['service'];
+ 
+$car_price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto); 
+$extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
 
-$price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto);
+
 ?>
 <?php if (!empty($car_result)): ?>
     <div>
@@ -66,44 +69,43 @@ $price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto);
 
     <table>
         <tbody>
+            
+            
+            
             <tr>
                 <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
                 <td>
-    <?php
-    $total_extras = '';
-
+    <?php 
     foreach ($extras as $key => $extras_id) {
         ?>
-                        <?php
-                        $service_fee = get_post_meta($key, '_service_fee', true);
-                        $_per_service = get_post_meta($key, '_per_service', true);
-                        $_service_quantity_box = get_post_meta($key, '_service_quantity_box', true);
-                        $service_name = get_the_title($key);
-                        ?>
-                        <?php echo $service_name . ', '; ?>
-                        <?php
-                    }
-                    ?>
+            <?php
+                $service_fee = get_post_meta($key, '_service_fee', true);
+                $_per_service = get_post_meta($key, '_per_service', true); 
+                $service_name = get_the_title($key);
+            ?>
+            <?php echo $service_name . ', '; ?>
+            <?php
+                }
+        ?>
                 </td>
             </tr>
+            
+            
             <tr>
                 <td><?php _e('CAR : ', $this->car_share); ?></td>
-                <td><?php if (!empty($price)) {
-                    echo $price;
-                } ?></td>
+                <td><?php echo $car_price;?></td>
             </tr>
             <tr>
                 <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td>
                 <td></td>
-                <?php if (!empty($total_extras)) { ?>
+            </tr>    
+                
+                <?php if (!empty($extras_price)) { ?>
                 <tr>
                     <td><?php _e('EXTRAS : ', $this->car_share); ?></td>
-                    <td><?php echo $total_extras; ?></td>
-                </tr>
-
-
-            <?php } ?>
-
+                    <td><?php echo $extras_price; ?></td>
+                </tr> 
+            <?php } ?> 
             <tr>
                 <td><?php _e('TOTAL : ', $this->car_share); ?></td>
                 <td></td>
@@ -445,8 +447,7 @@ $price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto);
                     <option value="ZW">Zimbabwe</option>
                 </select>
             </div>
-        </div>
-
+        </div> 
         <button type="submit" class="btn btn-default"><?php _e('Book car', $this->car_share); ?></button>
     </form>
 <?php endif; ?>
