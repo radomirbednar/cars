@@ -210,7 +210,7 @@
 		//'  ID to get the details on the payment authorization
 		//'---------------------------------------------------------------------------
 		$paymentType = $_SESSION['paymentType'];
-	    $nvpstr = "&TOKEN=" . $token . "&TENDER=P&ACTION=G"
+                $nvpstr = "&TOKEN=" . $token . "&TENDER=P&ACTION=G";
 		if ("Sale" == $paymentType)
 		{
 			$nvpstr .= "&TRXTYPE=S";

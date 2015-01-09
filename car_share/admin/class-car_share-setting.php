@@ -51,7 +51,7 @@ class Car_share_Setting {
         $this->car_share = $car_share;
         $this->version = $version;
 
-        add_action('admin_menu', array($this, 'add_plugin_admin_menu')); 
+        add_action('admin_menu', array($this, 'add_plugin_admin_menu'));
         add_action('admin_init', array($this, 'register_settings'));
 
 
@@ -75,7 +75,6 @@ class Car_share_Setting {
         );
     }
 
-  
     /**
      * Render the settings page for this plugin.
      *
@@ -91,22 +90,18 @@ class Car_share_Setting {
         add_settings_section(
                 'main-settings-section', 'General Settings', array($this, 'print_main_settings_section_info'), 'test-plugin-main-settings-section'
         );
-
 // add_settings_field( $id, $title, $callback, $page, $section, $args )
-        
-        
         add_settings_field(
-                'notemail', 'Notification Email:', array($this, 'create_input_some_setting'), 'test-plugin-main-settings-section', 'main-settings-section' 
-        );  
-         
+                'notemail', 'Notification Email:', array($this, 'create_input_some_setting'), 'test-plugin-main-settings-section', 'main-settings-section'
+        );
         add_settings_field(
                 'showcategory', 'Show category:', array($this, 'create_input_some_show_cat'), 'test-plugin-main-settings-section', 'main-settings-section'
         );
- 
+
 // register_setting( $option_group, $option_name, $sanitize_callback )
-        
+
         register_setting('main-settings-group', 'car_plugin_options_arraykey', array($this, 'plugin_main_settings_validate'));
-         
+
 // add_settings_section( $id, $title, $callback, $page )
         add_settings_section(
                 'additional-settings-section', 'Additional Settings', array($this, 'print_additional_settings_section_info'), 'test-plugin-additional-settings-section'
@@ -114,55 +109,74 @@ class Car_share_Setting {
 
 // add_settings_field( $id, $title, $callback, $page, $section, $args )
         add_settings_field(
-                'another-setting', 'Another Setting', array($this, 'create_input_another_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
+                'another-setting', 'Measurement Unit: ', array($this, 'create_input_another_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
         );
 
+        add_settings_field(
+                'currency-setting', 'Currency Setting', array($this, 'create_currency_another_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
+        );
+ 
 // register_setting( $option_group, $option_name, $sanitize_callback )
-        register_setting('additional-settings-group', 'test_plugin_additonal_settings_arraykey', array($this, 'plugin_additional_settings_validate'));
+        register_setting('additional-settings-group', 'second_set_arraykey', array($this, 'plugin_additional_settings_validate'));
     }
 
     function print_main_settings_section_info() {
         echo '<p>General Setting.</p>';
-    } 
-    
-    function create_input_some_setting() {    
+    }
+
+    function create_input_some_setting() {
         $options = get_option('car_plugin_options_arraykey');
-        
-        
-        
-        ?><input type="text" name="car_plugin_options_arraykey[notemail]" value="<?php echo $options['notemail']; ?>" />  
-        <?php 
-    } 
-     
-    function create_input_some_show_cat() {   
-        
-        $options = get_option('car_plugin_options_arraykey');  
-     
-        ?> 
-        <input type="checkbox" name="car_plugin_options_arraykey[showcategory]" value="1" <?php if(isset($options['showcategory']) && ($options['showcategory'] == 1) ){ echo 'checked'; }?> />  
+        ?><input type="text" name="car_plugin_options_arraykey[notemail]" value="<?php echo $options['notemail']; ?>" />
         <?php
-     
+    }
+
+    function create_input_some_show_cat() {
+
+        $options = get_option('car_plugin_options_arraykey');
+        ?>
+        <input type="checkbox" name="car_plugin_options_arraykey[showcategory]" value="1" <?php
+        if (isset($options['showcategory']) && ($options['showcategory'] == 1)) {
+            echo 'checked';
         }
-     
-    function plugin_main_settings_validate($arr_input) { 
-        $options = get_option('car_plugin_options_arraykey');  
-        $options['notemail'] = trim($arr_input['notemail']);  
-        $options['showcategory'] = trim($arr_input['showcategory']); 
-        return $options; 
-    } 
-    function print_additional_settings_section_info() {
-        echo '<p>Additional Settings Description.</p>';
-    } 
-    function create_input_another_setting() {
-        $options = get_option('test_plugin_additonal_settings_arraykey');
-        ?><input type="text" name="test_plugin_additonal_settings_arraykey[another-setting]" value="<?php echo $options['another-setting']; ?>" /><?php
-    } 
-    function plugin_additional_settings_validate($arr_input) {
-        $options = get_option('test_plugin_additonal_settings_arraykey');
-        $options['another-setting'] = trim($arr_input['another-setting']);
-        return $options;
-    } 
- 
+        ?> />
+        <?php
+           } 
+           function plugin_main_settings_validate($arr_input) {
+               $options = get_option('car_plugin_options_arraykey');
+               $options['notemail'] = trim($arr_input['notemail']);
+               $options['showcategory'] = trim($arr_input['showcategory']);
+               return $options;
+           } 
+           function print_additional_settings_section_info() {
+               echo '<p>Additional Settings Description.</p>';
+           } 
+           function create_input_another_setting() {
+               $options = get_option('second_set_arraykey');
+               ?><input type="text" name="second_set_arraykey[sc-unit]" value="<?php echo $options['sc-unit']; ?>" /><?php
+           } 
+           function create_currency_another_setting() { 
+               $options = get_option('second_set_arraykey'); 
+               include_once( 'partials/currencies.php' ); 
+               echo "<select name='second_set_arraykey[sc-currency]'>"; 
+               foreach ($currencies as $currency_code => $currency_details) {
+                   $selected = "";
+                   if ($options['sc-currency'] == $currency_code) {
+                       $selected = " selected ";
+                   }
+                   echo "<option value='" . esc_attr($currency_code) . "'" . esc_attr($selected) . ">" . esc_html($currency_details['name']) . "</option>";
+               } 
+               echo "</select>"; 
+            }
+
+        function plugin_additional_settings_validate($arr_input) {
+
+            $options = get_option('second_set_arraykey'); 
+            $options['sc-unit'] = trim($arr_input['sc-unit']);
+            $options['sc-currency'] = trim($arr_input['sc-currency']);
+
+            return $options;
+        }
+
     /**
      * Add settings action link to the plugins page.
      *
@@ -175,14 +189,15 @@ class Car_share_Setting {
                 ), $links
         );
     }
- 
+
     /*
-     * 
+     *
      * create the page for the plugin
-     * 
+     *
      */
-   
-  public function my_plugin_install_function()
-  { 
-  } 
-} 
+
+    public function my_plugin_install_function() {
+
+    }
+
+}

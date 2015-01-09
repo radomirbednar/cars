@@ -3,71 +3,63 @@
           else { $sc_pr = '&'; }      
     ?> 
     <div>
+        
         <?php _e('1. Search for a car', $this->car_share); ?>
         <?php _e('2. Pick a car', $this->car_share); ?>
         <?php _e('3. Pick a car', $this->car_share); ?>
+    
     </div>
-    <?php foreach ($this->cars as $car): ?>
-        <div class="col-md-12"> 
-            
+    <?php foreach ($this->cars as $car): ?>  
+            <div class="col-md-12">  
             <?php
-            $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail');
+                $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail');
+                //predefinovane informace k autu
+                $number_of_seats = get_post_meta($car->ID, '_number_of_seats', true);
+                $number_of_doors = get_post_meta($car->ID, '_number_of_doors', true);
+                $number_of_suitcases = get_post_meta($car->ID, '_number_of_suitcases', true);
+                $transmission = get_post_meta($car->ID, '_transmission', true);
+                $number_of_seats = esc_attr($number_of_seats);
+                $number_of_doors = esc_attr($number_of_doors);
+                $number_of_suitcases = esc_attr($number_of_suitcases);
+                $transmission = esc_attr($transmission);
+                //predefinovane informace k autu
             ?> 
-            <?php
-            //predefinovane informace k autu
-            $number_of_seats = get_post_meta($car->ID, '_number_of_seats', true);
-            $number_of_doors = get_post_meta($car->ID, '_number_of_doors', true);
-            $number_of_suitcases = get_post_meta($car->ID, '_number_of_suitcases', true);
-            $transmission = get_post_meta($car->ID, '_transmission', true);
-            $number_of_seats = esc_attr($number_of_seats);
-            $number_of_doors = esc_attr($number_of_doors);
-            $number_of_suitcases = esc_attr($number_of_suitcases);
-            $transmission = esc_attr($transmission);
-            //predefinovane informace k autu
-            ?>
-
             <?php echo $post_thumbnail; ?> 
-            <h2><?php echo get_the_title($car->ID) ?></h2>
+            <h2><?php echo get_the_title($car->ID) ?></h2> 
+            <h3><?php _e('Price: ', $this->car_share); ?>           </h3>
+            
+  
             <table>
                 <?php if (!empty($number_of_seats)) { ?>
                     <tr>
-                        <th><?php _e('Seats', $this->car_share); ?></th>
-                    
-                        <td><?php echo $number_of_seats; ?></td>
-                    
+                        <th><?php _e('Seats', $this->car_share); ?></th> 
+                        <td><?php echo $number_of_seats; ?></td> 
                     </tr>
                 <?php }; ?>
                 <?php if (!empty($number_of_doors)) { ?>
                     <tr>
-                        <th><?php _e('Doors', $this->car_share); ?></th> 
-                        
-                        <td><?php echo $number_of_doors; ?></td>
-                        
+                        <th><?php _e('Doors', $this->car_share); ?></th>  
+                        <td><?php echo $number_of_doors; ?></td> 
                     </tr>
                 <?php }; ?>
                 <?php if (!empty($number_of_suitcases)) { ?>
                     <tr>
-                        <th><?php _e('Bags', $this->car_share); ?></th>
-                       
-                        <td><?php echo $number_of_suitcases; ?></td>
-                    
+                        <th><?php _e('Bags', $this->car_share); ?></th> 
+                        <td><?php echo $number_of_suitcases; ?></td> 
                     </tr>
                 <?php }; ?>
                 <?php if (!empty($transmission)) { ?>
                     <tr>
-                        <th><?php _e('Transmission', $this->car_share); ?></th>
-                      
-                        <td><?php echo $transmission; ?></td>
-                    
+                        <th><?php _e('Transmission', $this->car_share); ?></th> 
+                        <td><?php echo $transmission; ?></td> 
                     </tr>
                 <?php }; ?> 
             </table> 
+            
             <a class="continue btn btn-default" href="<?php echo $this->extras_car_url; ?><?php echo $sc_pr; ?>chcar=<?php echo $car->single_car_id; ?>"><?php _e('CHOOSE', $this->car_share); ?></a> 
         </div>
-    <?php endforeach; ?>
-
-    <a href="#" type="submit" class="btn btn-default"><?php _e('BACK', $this->car_share); ?></a>           
-  
+    <?php endforeach; ?> 
+    <a href="#" type="submit" class="btn btn-default"><?php _e('BACK', $this->car_share); ?></a>            
 <?php else: ?>
     <p><?php _e('Sorry, there is no car meeting your requirements.', $this->car_share); ?></p>
 <?php endif; ?>
