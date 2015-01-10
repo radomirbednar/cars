@@ -4,28 +4,36 @@ function get_default_checkout_fields(){
     
     $checkout_fields = array(
         '_name' => array(
-            'label' => 'Fullname'
+            'label' => 'Fullname',
+            'placeholder' => 'full name'
         ),
         '_email' => array(
-            'label' => 'Email address'
+            'label' => 'Email address',
+            'placeholder' => 'Email address'
         ),
         '_phone' => array(
-            'label' => 'Phone'
+            'label' => 'Phone',
+            'placeholder' => 'Telephone number'
         ),
         '_address_1' => array(
-            'label' => 'Address 1'
+            'label' => 'Address 1',
+            'placeholder' => 'address line 1'
         ),
         '_address_2' => array(
-            'label' => 'Address 2'
+            'label' => 'Address 2',
+            'placeholder' => 'address line 2'
         ),
         '_city' => array(
-            'label' => 'City'
+            'label' => 'City',
+            'placeholder' => 'city'
         ),
         '_country' => array(
-            'label' => 'Country'
+            'label' => 'Country',
+            'placeholder' => 'state / province / region'
         ),
         '_zip' => array(
-            'label' => 'Zip'
+            'label' => 'Zip',
+            'placeholder' => 'state / province / region'
         )
     );    
     
