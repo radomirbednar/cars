@@ -121,6 +121,24 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
         <!-- Address form -->
         <strong><?php _e('Billing Information', $this->car_share); ?></strong>
 
+        <?php 
+        $default_checkout_fields = get_default_checkout_fields();
+        $checkout_fields_settings = get_option('sc-checkout-inputs');
+        
+        $checkout_fields = array_merge_recursive($default_checkout_fields, $checkout_fields_settings);
+        
+        foreach($checkout_fields as $input_key => $field): ?>
+        
+            <div class="control-group">
+                <label class="control-label"><?php _e($field['label'], $this->car_share); ?></label>
+                <div class="controls">
+                    <input id="postal-code" name="<?php echo esc_attr($input_key) ?>" type="text" placeholder="<?php _e('zip or postal code', $this->car_share); ?>"
+                           class="input-xlarge">
+                    <p class="help-block"></p>
+                </div>
+            </div>        
+        
+        <?php endforeach; ?>
 
         <?php
         /*
@@ -455,19 +473,7 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
         </div>
          */ ?>
 
-        <?php
-        $checkout_inputs = get_option('sc-checkout-inputs');
 
-        foreach($checkout_inputs as $input_key => $input): ?>
-            <div class="control-group">
-                <label class="control-label"><?php _e($input_key, $this->car_share); ?></label>
-                <div class="controls">
-                    <input id="postal-code" name="<?php echo esc_attr($input_key) ?>" type="text" placeholder="<?php _e('zip or postal code', $this->car_share); ?>"
-                           class="input-xlarge">
-                    <p class="help-block"></p>
-                </div>
-            </div>
-        <?php endforeach; ?>
 
         <button type="submit" class="btn btn-default"><?php _e('Book car', $this->car_share); ?></button>
     </form>

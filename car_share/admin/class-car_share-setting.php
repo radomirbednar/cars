@@ -40,16 +40,7 @@ class Car_share_Setting {
     private $version;
 
 
-    private $checkout_inputs = array(
-        '_name' => 'Fullname',
-        '_email' => 'Email address',
-        '_phone' => 'Phone',
-        '_address_1' => 'Address 1',
-        '_address_2' => 'Address 2',
-        '_city' => 'City',
-        '_country' => 'Country',
-        '_zip' => 'Zip',
-    );
+
 
     /**
      * Initialize the class and set its properties.
@@ -93,10 +84,11 @@ class Car_share_Setting {
     public function checkout_form_setup(){
         
         //$screen = get_current_screen();
+        $default_checkout_fields = get_default_checkout_fields();
         
         if(isset($_POST['save_checkout_form_setup'])){
             $arr_to_save = array();
-            foreach($this->checkout_inputs as $input_key => $input_value){
+            foreach($default_checkout_fields as $input_key => $input_value){
 
                 $enabled = isset($_POST['billing_inputs'][$input_key]['enabled']) && 1 == $_POST['billing_inputs'][$input_key]['enabled'] ? 1 : 0;
                 $required = isset($_POST['billing_inputs'][$input_key]['required']) && 1 == $_POST['billing_inputs'][$input_key]['required'] ? 1 : 0;                

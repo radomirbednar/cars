@@ -1,5 +1,37 @@
 <?php
 
+function get_default_checkout_fields(){
+    
+    $checkout_fields = array(
+        '_name' => array(
+            'label' => 'Fullname'
+        ),
+        '_email' => array(
+            'label' => 'Email address'
+        ),
+        '_phone' => array(
+            'label' => 'Phone'
+        ),
+        '_address_1' => array(
+            'label' => 'Address 1'
+        ),
+        '_address_2' => array(
+            'label' => 'Address 2'
+        ),
+        '_city' => array(
+            'label' => 'City'
+        ),
+        '_country' => array(
+            'label' => 'Country'
+        ),
+        '_zip' => array(
+            'label' => 'Zip'
+        )
+    );    
+    
+    return $checkout_fields;
+}
+
 function get_days_of_week() {
 
     $days = array(
