@@ -2,7 +2,7 @@
 
 require_once ("paypalfunctions.php");
 // ==================================
-// Payflow Express Checkout Module
+// PayPal Express Checkout Module
 // ==================================
 
 //'------------------------------------
@@ -18,7 +18,7 @@ $paymentAmount = $_SESSION["Payment_Amount"];
 //' are set to the selections made on the Integration Assistant 
 //'------------------------------------
 $currencyCodeType = "USD";
-$paymentType = "Sale";
+$paymentType = "Order";
 
 //'------------------------------------
 //' The returnURL is the location where buyers return to when a
@@ -37,26 +37,29 @@ $returnURL = "test";
 $cancelURL = "test";
 
 //'------------------------------------
-//' Calls SetExpressCheckout
+//' Calls the SetExpressCheckout API call
 //'
 //' The CallShortcutExpressCheckout function is defined in the file PayPalFunctions.php,
 //' it is included at the top of this file.
 //'-------------------------------------------------
 $resArray = CallShortcutExpressCheckout ($paymentAmount, $currencyCodeType, $paymentType, $returnURL, $cancelURL);
-$ack = strtoupper($resArray["RESULT"]);
-if($ack=="0")
+$ack = strtoupper($resArray["ACK"]);
+if($ack=="SUCCESS" || $ack=="SUCCESSWITHWARNING")
 {
 	RedirectToPayPal ( $resArray["TOKEN"] );
 } 
 else  
 {
-	// See Table 4.2 and 4.3 in http://www.paypal.com/en_US/pdf/PayflowPro_Guide.pdf for a list of RESULT values (error codes)
-	//Display a user friendly Error on the page using any of the following error information returned by Payflow
-	$ErrorCode = $ack;
-	$ErrorMsg = $resArray["RESPMSG"];
-
-	echo "SetExpressCheckoutDetails API call failed. ";
-	echo "Error Message: " . $ErrorMsg;
+	//Display a user friendly Error on the page using any of the following error information returned by PayPal
+	$ErrorCode = urldecode($resArray["L_ERRORCODE0"]);
+	$ErrorShortMsg = urldecode($resArray["L_SHORTMESSAGE0"]);
+	$ErrorLongMsg = urldecode($resArray["L_LONGMESSAGE0"]);
+	$ErrorSeverityCode = urldecode($resArray["L_SEVERITYCODE0"]);
+	
+	echo "SetExpressCheckout API call failed. ";
+	echo "Detailed Error Message: " . $ErrorLongMsg;
+	echo "Short Error Message: " . $ErrorShortMsg;
 	echo "Error Code: " . $ErrorCode;
+	echo "Error Severity Code: " . $ErrorSeverityCode;
 }
 ?>
