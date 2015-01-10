@@ -28,8 +28,8 @@ $sql = "
             sc_single_car.single_car_id = $car_ID;";
 
 $car_result = $wpdb->get_results($sql);
- 
-$car_price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto); 
+
+$car_price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto);
 $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
 
 
@@ -69,18 +69,18 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
 
     <table>
         <tbody>
-            
-            
-            
+
+
+
             <tr>
                 <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
                 <td>
-    <?php 
+    <?php
     foreach ($extras as $key => $extras_id) {
         ?>
             <?php
                 $service_fee = get_post_meta($key, '_service_fee', true);
-                $_per_service = get_post_meta($key, '_per_service', true); 
+                $_per_service = get_post_meta($key, '_per_service', true);
                 $service_name = get_the_title($key);
             ?>
             <?php echo $service_name . ', '; ?>
@@ -89,8 +89,8 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
         ?>
                 </td>
             </tr>
-            
-            
+
+
             <tr>
                 <td><?php _e('CAR : ', $this->car_share); ?></td>
                 <td><?php echo $car_price;?></td>
@@ -98,14 +98,14 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
             <tr>
                 <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td>
                 <td></td>
-            </tr>    
-                
+            </tr>
+
                 <?php if (!empty($extras_price)) { ?>
                 <tr>
                     <td><?php _e('EXTRAS : ', $this->car_share); ?></td>
                     <td><?php echo $extras_price; ?></td>
-                </tr> 
-            <?php } ?> 
+                </tr>
+            <?php } ?>
             <tr>
                 <td><?php _e('TOTAL : ', $this->car_share); ?></td>
                 <td></td>
@@ -120,6 +120,11 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
     <form action="" method="post" class="form-horizontal">
         <!-- Address form -->
         <strong><?php _e('Billing Information', $this->car_share); ?></strong>
+
+
+        <?php
+        /*
+
         <!-- full-name input-->
         <div class="control-group">
             <label class="control-label"><?php _e('Full Name', $this->car_share); ?></label>
@@ -447,7 +452,23 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
                     <option value="ZW">Zimbabwe</option>
                 </select>
             </div>
-        </div> 
+        </div>
+         */ ?>
+
+        <?php
+        $checkout_inputs = get_option('sc-checkout-inputs');
+
+        foreach($checkout_inputs as $input_key => $input): ?>
+            <div class="control-group">
+                <label class="control-label"><?php _e($input_key, $this->car_share); ?></label>
+                <div class="controls">
+                    <input id="postal-code" name="<?php echo esc_attr($input_key) ?>" type="text" placeholder="<?php _e('zip or postal code', $this->car_share); ?>"
+                           class="input-xlarge">
+                    <p class="help-block"></p>
+                </div>
+            </div>
+        <?php endforeach; ?>
+
         <button type="submit" class="btn btn-default"><?php _e('Book car', $this->car_share); ?></button>
     </form>
 <?php endif; ?>

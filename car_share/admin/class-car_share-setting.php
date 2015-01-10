@@ -40,7 +40,7 @@ class Car_share_Setting {
     private $version;
 
 
-    private $inputs = array(
+    private $checkout_inputs = array(
         '_name' => 'Fullname',
         '_email' => 'Email address',
         '_phone' => 'Phone',
@@ -91,21 +91,26 @@ class Car_share_Setting {
 
 
     public function checkout_form_setup(){
+        
+        //$screen = get_current_screen();
+        
         if(isset($_POST['save_checkout_form_setup'])){
             $arr_to_save = array();
-            foreach($this->inputs as $input_key => $input_value){
+            foreach($this->checkout_inputs as $input_key => $input_value){
 
                 $enabled = isset($_POST['billing_inputs'][$input_key]['enabled']) && 1 == $_POST['billing_inputs'][$input_key]['enabled'] ? 1 : 0;
                 $required = isset($_POST['billing_inputs'][$input_key]['required']) && 1 == $_POST['billing_inputs'][$input_key]['required'] ? 1 : 0;                
                 
-                $arr_to_save[] = array(
-                    'visible' => $enabled,
+                $arr_to_save[$input_key] = array(
+                    'enabled' => $enabled,
                     'required' => $required,
                 );
             }
+            
+            update_option('sc-checkout-inputs', $arr_to_save);            
         }
 
-        $input_options = array();
+        $input_options = get_option('sc-checkout-inputs');
 
         include_once( 'partials/checkout_form_setup.php' );
         wp_nonce_field(__FILE__, 'checkout_form_nonce' );
