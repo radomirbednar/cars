@@ -15,13 +15,14 @@
 	//' Replace <API_PASSWORD> with your API Password
 	//' Replace <API_SIGNATURE> with your Signature
 	//'------------------------------------
-	$API_UserName="<API_USERNAME>";
-	$API_Password="<API_PASSWORD>";
-	$API_Signature="<API_SIGNATURE>";
+	$API_UserName="cartest2_api1.gmail.com";
+	$API_Password="S8GAJA58DMSS3SX9";
+	$API_Signature="AFcWxV21C7fd0v3bYYYRCpSSRl31AzB5PdTVoISiNiJ.VXP6Uq2I2kRH";
 
 	// BN Code 	is only applicable for partners
-	$sBNCode = "PP-ECWizard";
-	
+	//$sBNCode = "PP-ECWizard";
+ 
+        
 	
 	/*	
 	' Define the PayPal Redirect URLs.  
@@ -88,6 +89,9 @@
 		//' If an error occured, show the resulting errors
 		//'---------------------------------------------------------------------------------------------------------------
 	    $resArray=hash_call("SetExpressCheckout", $nvpstr);
+            
+            
+            
 		$ack = strtoupper($resArray["ACK"]);
 		if($ack=="SUCCESS" || $ack=="SUCCESSWITHWARNING")
 		{
@@ -315,6 +319,8 @@
 		global $sBNCode;
 
 		//setting the curl parameters.
+                
+                
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL,$API_Endpoint);
 		curl_setopt($ch, CURLOPT_VERBOSE, 1);
@@ -325,6 +331,9 @@
 
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
 		curl_setopt($ch, CURLOPT_POST, 1);
+                
+                
+                
 		
 	    //if USE_PROXY constant set to TRUE in Constants.php, then only proxy will be enabled.
 	   //Set proxy name to PROXY_HOST and port number to PROXY_PORT in constants.php 
