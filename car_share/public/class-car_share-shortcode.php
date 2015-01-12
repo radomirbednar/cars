@@ -354,32 +354,18 @@ class Car_share_Shortcode {
                 if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
 
                     //save the transaction information
-                    update_post_meta($post_insert_id, 'car_r_order_status', '1' );  
-                    update_post_meta($post_insert_id, 'car_r_order_info', 'Completed GetExpressCheckoutDetails' );
-    
-            
+                    update_post_meta($post_insert_id, 'car_r_order_status', '1');
+                    update_post_meta($post_insert_id, 'car_r_order_info', 'Completed GetExpressCheckoutDetails');
+
+
                     $buyerName = $httpParsedResponseAr["FIRSTNAME"] . ' ' . $httpParsedResponseAr["LASTNAME"];
                     $buyerEmail = $httpParsedResponseAr["EMAIL"];
 
-                    echo $buyerName;
-                    echo $buyerEmail;
-
-
                     //save the information in database
-
-
-
-                    /*
-                     *
-                     * insert all information in the custom post
-                     *
-                     */
                 } else {
-                    
-                    
-                    update_post_meta($post_insert_id, 'car_r_order_info', 'Failed GetExpressCheckoutDetails' );
-                    
-                    
+
+                    update_post_meta($post_insert_id, 'car_r_order_info', 'Failed GetExpressCheckoutDetails');
+
                     /*
                       echo '<div style="color:red"><b>GetTransactionDetails failed:</b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
                       echo '<pre>';
@@ -391,6 +377,10 @@ class Car_share_Shortcode {
                     $status = 3;
                 }
             } else {
+                
+                
+                update_post_meta($post_insert_id, 'car_r_order_status', '3'); 
+                update_post_meta($post_insert_id, 'car_r_order_info', ''. urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '');
 
                 /*
                   echo '<div style="color:red"><b>Error : </b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
@@ -398,8 +388,7 @@ class Car_share_Shortcode {
                   print_r($httpParsedResponseAr);
                   echo '</pre>';
                  */
-
-             
+ 
             }
         }
     }
