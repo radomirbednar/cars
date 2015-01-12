@@ -35,7 +35,27 @@ class Car_share_Season {
         add_action('save_post', array($this, 'save'));
         
         add_filter('manage_sc-season_posts_columns', array($this, 'column_head'));
-        add_action('manage_sc-season_posts_custom_column', array($this, 'column_content'), 10, 2);        
+        add_action('manage_sc-season_posts_custom_column', array($this, 'column_content'), 10, 2);     
+        
+        add_action('admin_notices', array($this, 'admin_notice'));        
+        add_action('pre_post_update', array($this, 'pre_post_update'));
+    }
+    
+    /**
+     * 
+     */
+    public function pre_post_update(){
+        $a = 1;
+        $b = $a;
+    }
+    
+    /**
+     * 
+     */
+    public function admin_notice(){
+        echo '<div class="error">
+            <p>I am a little yellow notice.</p>
+            </div>';        
     }
 
     public function column_head($defaults){    
