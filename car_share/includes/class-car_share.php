@@ -126,7 +126,7 @@ class Car_share {
         /**
          * Car taxonomies
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-car_share-taxonomy.php';
+        //require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-car_share-taxonomy.php';
 
         /**
          * session post type
