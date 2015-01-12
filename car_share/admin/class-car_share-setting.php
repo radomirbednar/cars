@@ -81,14 +81,12 @@ class Car_share_Setting {
     }
 
 
-    public function checkout_form_setup(){
-        
-        //$screen = get_current_screen();
-        $default_checkout_fields = get_default_checkout_fields();
-        
+    public function checkout_form_setup(){        
+        //$screen = get_current_screen();        
         if(isset($_POST['save_checkout_form_setup'])){
+            $default_fields = get_default_checkout_fields();
             $arr_to_save = array();
-            foreach($default_checkout_fields as $input_key => $input_value){
+            foreach($default_fields as $input_key => $input_value){
 
                 $enabled = isset($_POST['billing_inputs'][$input_key]['enabled']) && 1 == $_POST['billing_inputs'][$input_key]['enabled'] ? 1 : 0;
                 $required = isset($_POST['billing_inputs'][$input_key]['required']) && 1 == $_POST['billing_inputs'][$input_key]['required'] ? 1 : 0;                
@@ -97,12 +95,11 @@ class Car_share_Setting {
                     'enabled' => $enabled,
                     'required' => $required,
                 );
-            }
-            
+            }            
             update_option('sc-checkout-inputs', $arr_to_save);            
         }
 
-        $input_options = get_option('sc-checkout-inputs');
+        $checkout_fields = get_checkout_fields();
 
         include_once( 'partials/checkout_form_setup.php' );
         wp_nonce_field(__FILE__, 'checkout_form_nonce' );

@@ -104,17 +104,15 @@ $total_price = $car_price+$extras_price;
         <strong><?php _e('Billing Information', $this->car_share); ?></strong>
 
         <?php 
-        $default_checkout_fields = get_default_checkout_fields();
-        $checkout_fields_settings = get_option('sc-checkout-inputs');
-        
-        $checkout_fields = array_merge_recursive($default_checkout_fields, $checkout_fields_settings);
+
+        $checkout_fields = get_enabled_checkout_fields();
         
         foreach($checkout_fields as $input_key => $field): ?>
         
             <div class="control-group">
                 <label class="control-label"><?php _e($field['label'], $this->car_share); ?></label>
                 <div class="controls">
-                    <input id="postal-code" name="<?php echo esc_attr($input_key) ?>" type="text" placeholder="<?php _e('zip or postal code', $this->car_share); ?>"
+                    <input id="postal-code" name="<?php echo esc_attr($input_key) ?>" type="text" placeholder="<?php _e($field['placeholder'], $this->car_share); ?>"
                            class="input-xlarge">
                     <p class="help-block"></p>
                 </div>
