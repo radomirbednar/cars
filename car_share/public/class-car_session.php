@@ -44,12 +44,10 @@ class Car_Cart {
      * @return int The price.
      */
    
-       function sc_get_price($single_car_id, DateTime $from, DateTime $to) {        
-        
+       function sc_get_price($single_car_id, DateTime $from, DateTime $to) {     
+     
         global $wpdb; 
-        
-        $car_id = $wpdb->get_var("SELECT parent FROM sc_single_car WHERE single_car_id = '" . (int) $single_car_id . "'");
-        
+        $car_id = $wpdb->get_var("SELECT parent FROM sc_single_car WHERE single_car_id = '" . (int) $single_car_id . "'"); 
         $day_interval = DateInterval::createFromDateString('1 day'); 
         $period = new DatePeriod($from, $day_interval, $to);
         $diff = $to->diff($from);
@@ -60,10 +58,10 @@ class Car_Cart {
          *
          */
         if (empty($category_id)) {
-            // auto nema kategorii, nemam ceny
-        }
-
-        $car_category = new sc_Category($category_id);
+            // the car dont hava a category or the price
+        } 
+        
+        $car_category = new sc_Category($category_id); 
         $category_prices = $car_category->day_prices_indexed_with_dayname();
 
         // find all assigned season

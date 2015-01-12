@@ -13,8 +13,7 @@ $car_category = $Cars_cart_items['car_category'];
 
 $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
 $car_dto_string = $car_dto->format('Y-m-d H:i');
-
-
+ 
 global $wpdb;
 $sql = "
             SELECT DISTINCT *
@@ -31,12 +30,10 @@ $car_result = $wpdb->get_results($sql);
 
 $car_price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto);
 $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
-
-
 ?>
 <?php if (!empty($car_result)): ?>
     <div>
-    <?php _e('1. Search for a car', $this->car_share); ?>
+        <?php _e('1. Search for a car', $this->car_share); ?>
         <?php _e('2. Pick a car', $this->car_share); ?>
         <?php _e('3. Checkout', $this->car_share); ?>
     </div>
@@ -60,7 +57,7 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
         <table>
             <tr>
                 <td>
-        <?php echo $post_thumbnail; ?>
+                    <?php echo $post_thumbnail; ?>
                 </td>
                 <td><?php echo get_the_title($car->ID); ?></td>
             </tr>
@@ -75,32 +72,32 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
             <tr>
                 <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
                 <td>
-    <?php
-    foreach ($extras as $key => $extras_id) {
-        ?>
-            <?php
-                $service_fee = get_post_meta($key, '_service_fee', true);
-                $_per_service = get_post_meta($key, '_per_service', true);
-                $service_name = get_the_title($key);
-            ?>
-            <?php echo $service_name . ', '; ?>
-            <?php
-                }
-        ?>
+                    <?php
+                    foreach ($extras as $key => $extras_id) {
+                        ?>
+                        <?php
+                        $service_fee = get_post_meta($key, '_service_fee', true);
+                        $_per_service = get_post_meta($key, '_per_service', true);
+                        $service_name = get_the_title($key);
+                        ?>
+                        <?php echo $service_name . ', '; ?>
+                        <?php
+                    }
+                    ?>
                 </td>
             </tr>
 
 
             <tr>
                 <td><?php _e('CAR : ', $this->car_share); ?></td>
-                <td><?php echo $car_price;?></td>
+                <td><?php echo $car_price; ?></td>
             </tr>
             <tr>
                 <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td>
                 <td></td>
             </tr>
 
-                <?php if (!empty($extras_price)) { ?>
+            <?php if (!empty($extras_price)) { ?>
                 <tr>
                     <td><?php _e('EXTRAS : ', $this->car_share); ?></td>
                     <td><?php echo $extras_price; ?></td>
@@ -477,4 +474,4 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
 
         <button type="submit" class="btn btn-default"><?php _e('Book car', $this->car_share); ?></button>
     </form>
-<?php endif; ?>
+<?php endif;
