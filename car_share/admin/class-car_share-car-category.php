@@ -35,13 +35,14 @@ class Car_share_CarCategory {
         add_action('add_meta_boxes', array($this, 'add_custom_boxes'));
         add_action('save_post', array($this, 'save'));
 
-        add_action('in_admin_footer', array($this, 'new_season_to_category'));
-
-        add_action('in_admin_footer', array($this, 'new_season_to_category'));
+        //add_action('in_admin_footer', array($this, 'new_season_to_category'));
+        //add_action('in_admin_footer', array($this, 'new_season_to_category'));
 
         add_action('wp_ajax_add_season_to_category', array($this, 'add_season_to_category_callback'));
         add_action('wp_ajax_edit_season_to_category', array($this, 'edit_season_to_category_callback'));
         add_action('wp_ajax_reload_season2category', array($this, 'reload_season2category_callback'));
+        add_action('wp_ajax_new_season_to_category', array($this, 'ajax_new_season_to_category'));
+        add_action('wp_ajax_season2category_days', array($this, 'ajax_season2category_days'));
     }
 
     public function add_custom_boxes() {
@@ -63,16 +64,43 @@ class Car_share_CarCategory {
         );
     }
     
-    public function reload_season2category_callback(){
+    function ajax_season2category_days(){
+        $post_id = $_POST['id'];
         global $wpdb;
         
+        // check if i can apply season, if so, return days, if not, return message
+        
+        $sql = "
+
+        ";
+        
+        
+        include 'partials/car-category/s2c_days_price_inputs.php';
+        die();        
+    }
+    
+    public function ajax_new_season_to_category(){
+        //global $post;
+        $post_id = $_POST['id'];
+        global $wpdb;
+
+        $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-season' AND post_status IN ('publish')";
+        $seasons = $wpdb->get_results($sql);
+
+        include 'partials/car-category/new_season_to_category.php';
+        die();
+    }    
+
+    public function reload_season2category_callback(){
+        global $wpdb;
+
         $car_category_id = $_GET['id'];
 
         $category = new sc_Category($car_category_id);
         $season2category = $category->day_prices_indexed_with_dayname();
 
         include 'partials/car-category/content_assigned_season.php';
-        die();        
+        die();
     }
 
     public function edit_season_to_category_callback(){
@@ -107,12 +135,11 @@ class Car_share_CarCategory {
                     $wpdb->query($sql);
                 }
         }
-        
+
         $category = new sc_Category($post_id);
         $season2category_prices = $category->season_to_category_prices();
 
-        include 'partials/car-category/content_assigned_season.php';        
-        
+        include 'partials/car-category/content_assigned_season.php';
         exit();
     }
 
@@ -127,7 +154,6 @@ class Car_share_CarCategory {
         global $post;
         $category = new sc_Category($post);
         $category_day_prices = $category->day_prices_indexed_with_dayname();
-
         include 'partials/car-category/day_prices.php';
     }
 
@@ -135,18 +161,7 @@ class Car_share_CarCategory {
         global $post;
         $category = new sc_Category($post);
         $season2category_prices = $category->season_to_category_prices();
-
         include 'partials/car-category/season2category.php';
-    }
-
-    public function new_season_to_category(){
-        global $post;
-        global $wpdb;
-
-        $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-season' AND post_status IN ('publish')";
-        $seasons = $wpdb->get_results($sql);
-
-        include 'partials/car-category/new_season_to_category.php';
     }
 
     public function discount_upon_duration_box(){
@@ -160,7 +175,7 @@ class Car_share_CarCategory {
         include 'partials/car-category/discount_upon_duration.php';
         wp_nonce_field(__FILE__, 'car_category_nonce');
     }
- 
+
     public function save() {
         //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
         if (isset($_POST['car_category_nonce']) && wp_verify_nonce($_POST['car_category_nonce'], __FILE__)) {
@@ -182,7 +197,7 @@ class Car_share_CarCategory {
                     $wpdb->query($sql);
                 }
             }
- 
+
             delete_post_meta($post->ID, '_discount_upon_duration');
 
             if(!empty($_POST['_discount_upon_duration'])){

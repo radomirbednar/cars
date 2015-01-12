@@ -1,0 +1,20 @@
+<?php
+$days = get_days_of_week();
+?>    
+<table>
+    <tbody>
+        <tr>
+            <?php foreach ($days as $day_name => $label): ?>
+                <td><?php _e($label, $this->car_share) ?>:</td>
+            <?php endforeach; ?>
+        </tr>
+
+        <tr>
+            <?php foreach ($days as $day_name => $label): ?>
+                <td><input type="number" step="0.01" name="_season_to_category_prices[<?php echo $day_name ?>]" class="day-price" value="<?php echo isset($category_day_prices[$day_name]) ? $category_day_prices[$day_name]->price : 0 ?>"></td>
+                <?php endforeach; ?>
+        </tr>
+    </tbody>
+</table>
+
+<input type="submit" class="button button-primary" value="<?php _e('Save', $this->car_share) ?>">

@@ -4,9 +4,47 @@
     </tbody>
 </table>
 
-<a id="assign-new-season" type="button" class="thickbox button button-primary" href="#TB_inline?width=auto&height=350&inlineId=modal-season2category"><?php _e('Add season', $this->car_share) ?></a>
+
+<div id="season2category-response"></div>
+
+<a id="assign-new-season" type="button" class="button button-primary" href="#"><?php _e('Assign new season', $this->car_share) ?></a>
 
 
+
+<script>
+jQuery(document).ready(function ($) {
+    $( "#assign-new-season" ).click(function(event) {
+        event.preventDefault();
+        var self = $(this);
+        
+        
+        $.ajax({
+            type: 'post',
+            url: ajaxurl,                
+            data: {
+                'id': <?php echo (int) $post->ID ?>,
+                'action': 'new_season_to_category',
+            },
+            beforeSend: function () {
+                self.prop("disabled", true);
+            }
+            }).done(function (ret) {
+                $('#season2category-response').html(ret);
+                //self[0].reset()
+                //$('#TB_closeWindowButton').trigger('click');
+                //$('#content-season2category').html(ret);
+            }).fail(function (ret) {
+
+            }).always(function () {
+                self.prop("disabled", false);
+            });
+    });
+});
+</script>
+
+<?php
+
+/*
 <script>
 
     jQuery(document).ready(function ($) {
@@ -20,43 +58,20 @@
                     type: $(this).attr('method'),
                     url: $(this).attr('action'),
                     data: $(this).serialize(),
-                    beforeSend: function () {                        
+                    beforeSend: function () {
                         self.find(':submit').prop("disabled", true);
                     }
-                }).done(function (ret) {                    
+                }).done(function (ret) {
                     self[0].reset()
                     $('#TB_closeWindowButton').trigger('click');
                     $('#content-season2category').html(ret);
                 }).fail(function (ret) {
-                    
+
                 }).always(function () {
                     self.find(':submit').prop("disabled", false);
                 });
             });
         });
-
-
-/*
-    function reload_season2category(car_category_id){
-        jQuery.ajax({
-            type: "POST",
-            url: ajaxurl,
-            action : 'reload_season2category',
-            data: {
-                'id': car_category_id
-            },
-            beforeSend: function () {
-                //self.find(':submit').attr('disabled','disabled');
-                //self.find(':submit').prop("disabled", true);
-            }
-        }).done(function (ret) {
-            $('#content-season2category').html(ret);
-            //resp.html('<div class="alert alert-success">' + ret + '</div>');
-            //self.find(".clear").val("");
-        }).fail(function (ret) {
-            //resp.html('<div class="alert alert-danger">' + ret.responseText + '</div>');
-        }).always(function () {
-            //self.find(':submit').prop("disabled", false);
-        });
-    }*/
 </script>
+ *
+ */
