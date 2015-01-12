@@ -26,7 +26,7 @@
                     '</td>' +
                     '<td>' +
                     '<label><?php _e('Discount (%) of total amount:', $this->car_share) ?> ' +
-                    '<input type="text" class="small-input" name="_discount_upon_duration[' + key + '][percentage]" value="' + percentage + '">' +
+                    '<input type="number" step="0.1" class="small-input" name="_discount_upon_duration[' + key + '][percentage]" value="' + percentage + '">' +
                     '</label>' +
                     '</td>' +
                     '<td>' +
