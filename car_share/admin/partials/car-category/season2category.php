@@ -13,10 +13,41 @@
 
 <script>
 jQuery(document).ready(function ($) {
+    
+    $('#car_category_assign_season').on('click', '.remove-s2c',function(event) {
+        
+        event.preventDefault();
+        
+        var season_id = $(this).data('season_id');        
+        var self = $(this);
+        
+        $.ajax({
+            type: 'post',
+            url: ajaxurl,                
+            data: {
+                'season_id' : season_id,
+                'id': <?php echo (int) $post->ID ?>,
+                'action': 'delete_season_to_category',
+            },
+            beforeSend: function () {
+                //self.prop("disabled", true);
+            }
+            }).done(function (ret) {
+                self.parents('.s2c-row').remove();
+                //$('#season2category-response').html(ret);
+                //self[0].reset()
+                //$('#TB_closeWindowButton').trigger('click');
+                //$('#content-season2category').html(ret);
+            }).fail(function (ret) {
+
+            }).always(function () {
+                //self.prop("disabled", false);
+            });
+    });
+    
     $( "#assign-new-season" ).click(function(event) {
         event.preventDefault();
         var self = $(this);
-        
         
         $.ajax({
             type: 'post',

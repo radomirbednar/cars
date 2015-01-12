@@ -43,6 +43,7 @@ class Car_share_CarCategory {
         add_action('wp_ajax_reload_season2category', array($this, 'reload_season2category_callback'));
         add_action('wp_ajax_new_season_to_category', array($this, 'ajax_new_season_to_category'));
         add_action('wp_ajax_season2category_days', array($this, 'ajax_season2category_days'));
+        add_action('wp_ajax_delete_season_to_category', array($this, 'ajax_delete_season_to_category'));        
     }
 
     public function add_custom_boxes() {
@@ -64,22 +65,87 @@ class Car_share_CarCategory {
         );
     }
     
-    function ajax_season2category_days(){
-        $post_id = $_POST['id'];
-        global $wpdb;
+    function ajax_delete_season_to_category(){
         
-        // check if i can apply season, if so, return days, if not, return message
+        $category_id = 2;
+        $season_id = 1;
+        
+    }
+
+    /**
+     * 
+     * @global type $wpdb
+     */
+    function ajax_season2category_days() {
+        $post_id = $_POST['id'];
+        $season_id = $_POST['season_id'];
+        global $wpdb;
+
+        $season = new sc_Season($season_id);
+
+        $new_season_from = $season->from();
+        $new_season_to = $season->to();
+        
+        if(empty($new_season_from) || empty($new_season_to)){
+            header("HTTP/1.0 404 Not Found");
+            _e('Please first define season start and end date.', $this->car_share);
+            exit;
+        }
         
         $sql = "
-
+            SELECT
+                season_id
+            FROM
+                day_prices 
+            WHERE
+                car_category_id = '" . (int) $post_id . "'
+            AND
+                season_id = '" . (int) $season_id . "'            
         ";
         
+        $exists = $wpdb->get_var($sql);
         
+        if(!empty($exists)){
+            header("HTTP/1.0 404 Not Found");
+            _e('Please, pick a season which is not applied yet.', $this->car_share);
+            exit;                        
+        }
+
+        //
+        // find all assigned season
+        $sql = "SELECT
+                    ID,
+                    start.meta_value as date_from,
+                    end.meta_value as date_to
+                FROM
+                    $wpdb->posts s
+                JOIN
+                    postmeta_date start ON s.ID = start.post_id AND start.meta_key = '_from'
+                JOIN
+                    postmeta_date end ON s.ID = end.post_id AND end.meta_key = '_to'
+                WHERE
+                    s.post_status NOT IN ('trash') AND s.post_type='sc-season'
+                AND
+                (
+                    (start.meta_value BETWEEN '" . $new_season_from->format('Y-m-d  H:i:s') . "' AND '" . $new_season_to->format('Y-m-d  H:i:s') . "')
+                        OR
+                    ('" . $new_season_from->format('Y-m-d  H:i:s') . "' BETWEEN start.meta_value AND end.meta_value)
+                )
+                GROUP BY s.ID
+                ";
+        
+        $applied_seasons = $wpdb->query();
+        if(!empty($applied_seasons)){
+            header("HTTP/1.0 404 Not Found");
+            _e('You cannot assign two season with overlaping dates.', $this->car_share);
+            exit;            
+        }
+
         include 'partials/car-category/s2c_days_price_inputs.php';
-        die();        
+        die();
     }
-    
-    public function ajax_new_season_to_category(){
+
+    public function ajax_new_season_to_category() {
         //global $post;
         $post_id = $_POST['id'];
         global $wpdb;
@@ -89,9 +155,9 @@ class Car_share_CarCategory {
 
         include 'partials/car-category/new_season_to_category.php';
         die();
-    }    
+    }
 
-    public function reload_season2category_callback(){
+    public function reload_season2category_callback() {
         global $wpdb;
 
         $car_category_id = $_GET['id'];
@@ -103,7 +169,7 @@ class Car_share_CarCategory {
         die();
     }
 
-    public function edit_season_to_category_callback(){
+    public function edit_season_to_category_callback() {
         global $wpdb;
 
         $season_id = $_GET['season_id'];
@@ -116,14 +182,14 @@ class Car_share_CarCategory {
         die();
     }
 
-    public function add_season_to_category_callback(){
+    public function add_season_to_category_callback() {
 
         global $wpdb;
         $post_id = (int) $_POST['_car_category_id'];
 
         // category day prices
-        if(!empty($_POST['_season_to_category_prices'])){
-            foreach ($_POST['_season_to_category_prices'] as $dayname => $price){
+        if (!empty($_POST['_season_to_category_prices'])) {
+            foreach ($_POST['_season_to_category_prices'] as $dayname => $price) {
                 $sql = "
                     REPLACE INTO day_prices (car_category_id, season_id, dayname, price) VALUES (
                         '" . $post_id . "',
@@ -132,8 +198,8 @@ class Car_share_CarCategory {
                         '" . floatval($price) . "'
                     )
                     ";
-                    $wpdb->query($sql);
-                }
+                $wpdb->query($sql);
+            }
         }
 
         $category = new sc_Category($post_id);
@@ -143,32 +209,32 @@ class Car_share_CarCategory {
         exit();
     }
 
-    public function minimum_age_box(){
+    public function minimum_age_box() {
         global $post;
         $minimum_driver_age = get_post_meta($post->ID, '_minimum_driver_age', true);
         $minimum_age_fee = get_post_meta($post->ID, '_minimum_age_fee', true);
         include 'partials/car-category/minimum_driver_age.php';
     }
 
-    public function day_prices_box(){
+    public function day_prices_box() {
         global $post;
         $category = new sc_Category($post);
         $category_day_prices = $category->day_prices_indexed_with_dayname();
         include 'partials/car-category/day_prices.php';
     }
 
-    public function assigned_season_box(){
+    public function assigned_season_box() {
         global $post;
         $category = new sc_Category($post);
         $season2category_prices = $category->season_to_category_prices();
         include 'partials/car-category/season2category.php';
     }
 
-    public function discount_upon_duration_box(){
+    public function discount_upon_duration_box() {
         global $post;
         $discount_upon_duration = get_post_meta($post->ID, '_discount_upon_duration', true);
 
-        if(is_array($discount_upon_duration)){
+        if (is_array($discount_upon_duration)) {
             ksort($discount_upon_duration);
         }
 
@@ -184,8 +250,8 @@ class Car_share_CarCategory {
             global $post;
 
             // category day prices
-            if(!empty($_POST['_category_day_prices'])){
-                foreach ($_POST['_category_day_prices'] as $dayname => $price){
+            if (!empty($_POST['_category_day_prices'])) {
+                foreach ($_POST['_category_day_prices'] as $dayname => $price) {
                     $sql = "
                         REPLACE INTO day_prices (car_category_id, season_id, dayname, price) VALUES (
                             '" . (int) $post->ID . "',
@@ -200,9 +266,9 @@ class Car_share_CarCategory {
 
             delete_post_meta($post->ID, '_discount_upon_duration');
 
-            if(!empty($_POST['_discount_upon_duration'])){
+            if (!empty($_POST['_discount_upon_duration'])) {
                 $arr_to_save = array();
-                foreach($_POST['_discount_upon_duration'] as $discount){
+                foreach ($_POST['_discount_upon_duration'] as $discount) {
                     $days = (int) $discount['days'];
                     $percentage = floatval($discount['percentage']);
                     $arr_to_save[$days] = $percentage;
@@ -216,8 +282,8 @@ class Car_share_CarCategory {
                 '_minimum_age_fee',
             );
 
-            foreach($keys as $key){
-                if(isset($_POST[$key]) && "" != trim($_POST[$key])){
+            foreach ($keys as $key) {
+                if (isset($_POST[$key]) && "" != trim($_POST[$key])) {
                     update_post_meta((int) $post->ID, $key, esc_attr($_POST[$key]));
                 } else {
                     delete_post_meta((int) $post->ID, $key);
@@ -227,4 +293,3 @@ class Car_share_CarCategory {
     }
 
 }
-

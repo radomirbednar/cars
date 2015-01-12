@@ -10,6 +10,8 @@
             <?php endforeach; ?>
         </select>
     </label>
+    
+    <div id="pick-season-response"></div>
 
     <div id="message-place" class="alignleft green"></div>
 </form>
@@ -20,19 +22,27 @@
             
             var self = $(this);
             var id = $(this).data('car_id');
+            
+            var season_id = $(this).val();
+            
+            if('' == season_id){
+                return;
+            }
 
             jQuery.ajax({
                 type: 'post',
                 url: ajaxurl,
                 //dataType: "json",
                 data: {
-                    'id': <?php (int) $post_id ?>,
+                    'season_id' : season_id,
+                    'id': <?php echo (int) $post_id ?>,
                     'action': 'season2category_days',
                 },
                 beforeSend: function () {
                         //self.prop("disabled", true);
                     }
                 }).done(function (ret) {
+                    $('#pick-season-response').html(ret);
                     //var new_element = $('#single_car_box_' + id).after(ret);
                 }).fail(function (ret) {
                     //alert('<?php _e('Create new car failed', $this->car_share) ?>');

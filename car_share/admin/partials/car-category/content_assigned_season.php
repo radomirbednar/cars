@@ -14,7 +14,7 @@ foreach ($season2category_prices as $season_id => $season_price):
     $from = $season->from();
     $to = $season->to();
     ?>
-    <tr>
+    <tr class="s2c-row">        
         <td colspan="7">
             <strong><?php echo get_the_title($season_id) ?></strong>
             ( <?php echo empty($from) ? '' : $from->format(get_option('date_format')) ?> - <?php echo empty($from) ? '' : $to->format(get_option('date_format')) ?> )
@@ -26,7 +26,7 @@ foreach ($season2category_prices as $season_id => $season_price):
             <a href="#" class="remove-s2c" data-season_id="<?php echo $season_id ?>" data-car_category_id="<?php echo $season_price['car_category_id'] ?>">
                 <?php _e('Delete', $this->car_share) ?>
             </a>
-        </td>
+        </td>        
     </tr>
     
     <?php echo $days_row; ?>
