@@ -61,13 +61,10 @@ class Car_share_Shortcode {
             
             
             //get the item title
-            foreach ($car_result as $car){
-                
-                $item_title =  get_the_title($car->ID);
-                
+            foreach ($car_result as $car){ 
+                $item_title =  get_the_title($car->ID);   
             }
-             
-            
+              
             $car_price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto);
             $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
             $total_price = $car_price + $extras_price;
@@ -75,38 +72,46 @@ class Car_share_Shortcode {
             $total_price = money_format('%.2n', $total_price);
  
             $sc_options = get_option('sc-pages');
-            $extras_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
+            $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
 
+            
+            
+            $payment_options;
+            
+            
+            
             if(session_id() == '') { session_start(); } //uncomment this line if PHP < 5.4.0 and comment out line above
 
-            $PayPalMode = 'sandbox'; // sandbox or live
-            
+            $PayPalMode = 'sandbox'; // sandbox or live 
             $PayPalApiUsername = 'cartest3_api1.gmail.com'; //PayPal API Username
             $PayPalApiPassword = '4969WLQ8PATCJT42'; //Paypal API password
-            $PayPalApiSignature = 'AFcWxV21C7fd0v3bYYYRCpSSRl31AJigSRP9es1tjbtC61K0du213F1O'; //Paypal API Signature
-            
+            $PayPalApiSignature = 'AFcWxV21C7fd0v3bYYYRCpSSRl31AJigSRP9es1tjbtC61K0du213F1O'; //Paypal API Signature  
             //currency form the setting
             $PayPalCurrencyCode = 'USD'; //Paypal Currency Code
 
-            $PayPalReturnURL = $extras_car_url; //Point to process.php page
-            $PayPalCancelURL = $extras_car_url; //Cancel URL if user clicks cancel
+            
+            
+            
+            $PayPalReturnURL = $checkout_car_url; //Point to process.php page
+            $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
 
             include_once("paypalsdk/expresscheckout.php");
 
             $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
-
-
+ 
             //Mainly we need 4 variables from product page Item Name, Item Price, Item Number and Item Quantity.
-
-
-            $ItemName = $item_title; //Item Name
-             
+ 
+            $ItemName = $item_title; //Item Name 
             $ItemPrice = $total_price; //Item Price
             $ItemNumber = $car_ID; //Item Number
             
             
             
-            $ItemDesc = "description"; //Item Number
+            
+            
+            
+            $ItemDesc = "description"; //Item Description - extras etc
+            
             $ItemQty = 1; // Item Quantity
             $ItemTotalPrice = ($ItemPrice * $ItemQty); //(Item Price x Quantity = Total) Get total amount of product;
             //Other important variables like tax, shipping cost
