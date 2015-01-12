@@ -119,6 +119,7 @@ class Car_share_CarCategory {
     public function minimum_age_box(){
         global $post;
         $minimum_driver_age = get_post_meta($post->ID, '_minimum_driver_age', true);
+        $minimum_age_fee = get_post_meta($post->ID, '_minimum_age_fee', true);
         include 'partials/car-category/minimum_driver_age.php';
     }
 
@@ -196,7 +197,8 @@ class Car_share_CarCategory {
 
             //
             $keys = array(
-                '_minimum_driver_age'
+                '_minimum_driver_age',
+                '_minimum_age_fee',
             );
 
             foreach($keys as $key){
