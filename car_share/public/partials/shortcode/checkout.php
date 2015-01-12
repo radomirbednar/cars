@@ -107,7 +107,7 @@ $total_price = $car_price+$extras_price;
 
         <?php 
 
-        $checkout_fields = get_checkout_fields();
+        $checkout_fields = get_enabled_checkout_fields();
         
         foreach($checkout_fields as $input_key => $field): ?>
         

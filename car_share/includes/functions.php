@@ -1,5 +1,15 @@
 <?php
 
+function get_enabled_checkout_fields(){
+    $checkout_fields = get_checkout_fields();
+    
+    $checkout_fields = array_filter($checkout_fields, function($field) {
+                            return $field['enabled'] == 1;
+                        }); 
+    
+    return $checkout_fields;
+}
+
 function get_checkout_fields(){
     
     $default_checkout_fields = get_default_checkout_fields();
