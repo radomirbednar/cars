@@ -3,17 +3,17 @@
     <form action="<?php echo admin_url('admin.php') ?>?page=checkout-form-setup" method="post">
         <table class="form-table">
             <tbody>
-                <?php foreach ($default_checkout_fields as $input_key => $field): ?>    
+                <?php foreach ($checkout_fields as $input_key => $field): ?>    
                     <tr>
                         <th>
                             <?php _e($field['label'], $this->car_share) ?>
                         </th>
                         <td>
                             <label>
-                                <input type="checkbox" value="1" name="billing_inputs[<?php echo $input_key ?>][enabled]" <?php echo isset($input_options[$input_key]['enabled']) && 1 == $input_options[$input_key]['enabled'] ? ' checked="checked" ' : '' ?>> <?php _e('Enabled', $this->car_share) ?>
+                                <input type="checkbox" value="1" name="billing_inputs[<?php echo $input_key ?>][enabled]" <?php echo isset($field['enabled']) && 1 == $field['enabled'] ? ' checked="checked" ' : '' ?>> <?php _e('Enabled', $this->car_share) ?>
                             </label><br>
                             <label>
-                                <input type="checkbox" value="1" name="billing_inputs[<?php echo $input_key ?>][required]" <?php echo isset($input_options[$input_key]['required']) && 1 == $input_options[$input_key]['required'] ? ' checked="checked" ' : '' ?>> <?php _e('Required', $this->car_share) ?>
+                                <input type="checkbox" value="1" name="billing_inputs[<?php echo $input_key ?>][required]" <?php echo isset($field['required']) && 1 == $field['required'] ? ' checked="checked" ' : '' ?>> <?php _e('Required', $this->car_share) ?>
                             </label>
                         </td>
                     </tr>    

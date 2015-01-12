@@ -9,7 +9,8 @@ function get_checkout_fields(){
         $checkout_fields_settings = array();
     }
         
-    $checkout_fields = array_merge_recursive($default_checkout_fields, $checkout_fields_settings);        
+    $checkout_fields = array_replace_recursive($default_checkout_fields, $checkout_fields_settings);      
+    return $checkout_fields;
 }
 
 function get_default_checkout_fields(){
