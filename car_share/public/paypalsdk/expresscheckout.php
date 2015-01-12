@@ -13,6 +13,7 @@ class MyPayPal {
 
         // Set the curl parameters.
         $ch = curl_init();
+        
         curl_setopt($ch, CURLOPT_URL, $API_Endpoint);
         curl_setopt($ch, CURLOPT_VERBOSE, 1);
 
@@ -22,8 +23,11 @@ class MyPayPal {
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
+        
+        
 
         // Set the API operation, version, and API signature in the request.
+        
         $nvpreq = "METHOD=$methodName_&VERSION=$version&PWD=$API_Password&USER=$API_UserName&SIGNATURE=$API_Signature$nvpStr_";
 
         // Set the request as a POST FIELD for curl.

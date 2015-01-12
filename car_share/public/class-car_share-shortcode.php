@@ -58,9 +58,7 @@ class Car_share_Shortcode {
 
 
         include_once("paypalsdk/expresscheckout.php");
-
-
-
+ 
         if (isset($_POST['sc-checkout'])) {
 
             // information for the payment
@@ -282,6 +280,7 @@ class Car_share_Shortcode {
                 $padaid = urldecode($httpParsedResponseAr["PAYMENTINFO_0_TRANSACTIONID"]);
                 $padata = '&TOKEN=' . urlencode($token);
                 $paypal = new MyPayPal();
+ 
                 $httpParsedResponseAr = $paypal->PPHttpPost('GetExpressCheckoutDetails', $padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
  
                 $httpParsedResponseAr2 = $paypal->PPHttpPost('GetTransactionDetails',$padaid, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
