@@ -45,11 +45,12 @@ foreach ($season2category_prices as $season_id => $season_price):
     </tr>
 <?php endforeach; ?>
 
-<script>    
+<script> 
+    /*
     jQuery(document).ready(function ($) {
         $( ".edit-s2c" ).click(function(event) {
             event.preventDefault();                       
             tb_show('<?php _e('Edit', $this->car_share) ?>', ajaxurl + '?action=edit_season_to_category&season_id=' + $(this).data('season_id') + '&car_category_id=' + $(this).data('car_category_id')); 
         });
-    });      
+    });*/      
 </script>

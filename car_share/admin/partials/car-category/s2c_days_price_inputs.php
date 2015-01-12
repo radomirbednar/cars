@@ -54,6 +54,40 @@ $days = get_days_of_week();
             });
 
         });
+        
+        //
+        $('#car_category_assign_season').on('click', '.edit-s2c', function (event) {
+            
+            var car_category_id = $(this).data('car_category_id');
+            var season_id = $(this).data('season_id');
+            
+            jQuery.ajax({
+                type: 'post',
+                url: ajaxurl,
+                //dataType: "json",
+                data: {
+                    'car_category_id': car_category_id,
+                    'season_id' : season_id,
+                    'action': 'update_new_season',
+                    'form' : form_data,
+                },
+                beforeSend: function () {
+                    //self.prop("disabled", true);  
+                    $('#season2category-response').html('');
+                }
+            }).done(function (ret) {
+                // reload content
+                $('#content-season2category').html(ret);
+                
+                //var new_element = $('#single_car_box_' + id).after(ret);
+            }).fail(function (ret) {
+                //alert('<?php _e('Create new car failed', $this->car_share) ?>');
+            }).always(function () {
+                //self.prop("disabled", false);
+            });            
+            
+        });
+        
     });
 
 </script>

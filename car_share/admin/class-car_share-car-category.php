@@ -201,6 +201,18 @@ class Car_share_CarCategory {
         die();
     }
 
+    public function ajax_edit_season_to_category() {
+        //global $post;
+        global $wpdb;        
+        
+        
+        $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-season' AND post_status IN ('publish')";
+        $seasons = $wpdb->get_results($sql);
+
+        include 'partials/car-category/new_season_to_category.php';
+        die();
+    }    
+    
     public function ajax_new_season_to_category() {
         //global $post;
         global $wpdb;
