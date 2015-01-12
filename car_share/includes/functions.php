@@ -2,6 +2,14 @@
 
 function get_checkout_fields(){
     
+    $default_checkout_fields = get_default_checkout_fields();
+    $checkout_fields_settings = get_option('sc-checkout-inputs');
+        
+    if(empty($checkout_fields_settings)){
+        $checkout_fields_settings = array();
+    }
+        
+    $checkout_fields = array_merge_recursive($default_checkout_fields, $checkout_fields_settings);        
 }
 
 function get_default_checkout_fields(){
