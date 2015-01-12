@@ -1,7 +1,7 @@
 <?php
 $days = get_days_of_week();
 ?>
-<form id="save-session-to-category" class="update-season2category" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>">
+<!--<form id="save-session-to-category" class="update-season2category" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>">-->
     <input type="hidden" name="action" value="add_season_to_category">
     <input type="hidden" name="_car_category_id" value="<?php echo (int) $post_id ?>">
     <input type="hidden" name="_season_to_category" value="<?php echo (int) $season_id ?>">
@@ -22,5 +22,5 @@ $days = get_days_of_week();
     </table>
 
     <button id="update-season2category" type="submit" class="thickbox button button-primary"><?php _e('Update', $this->car_share) ?></button>
-</form>
+<!--</form>-->
 

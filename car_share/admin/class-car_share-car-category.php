@@ -38,12 +38,13 @@ class Car_share_CarCategory {
         //add_action('in_admin_footer', array($this, 'new_season_to_category'));
         //add_action('in_admin_footer', array($this, 'new_season_to_category'));
         //add_action('wp_ajax_add_season_to_category', array($this, 'add_season_to_category_callback'));
-        add_action('wp_ajax_edit_season_to_category', array($this, 'edit_season_to_category_callback'));
+        //add_action('wp_ajax_edit_season_to_category', array($this, 'edit_season_to_category_callback'));
         add_action('wp_ajax_reload_season2category', array($this, 'reload_season2category_callback'));
         add_action('wp_ajax_new_season_to_category', array($this, 'ajax_new_season_to_category'));
+        add_action('wp_ajax_edit_season_to_category', array($this, 'ajax_edit_season_to_category'));        
         add_action('wp_ajax_season2category_days', array($this, 'ajax_season2category_days'));
         add_action('wp_ajax_delete_season_to_category', array($this, 'ajax_delete_season_to_category'));
-        add_action('wp_ajax_assign_new_season', array($this, 'ajax_assign_new_season'));
+        add_action('wp_ajax_save_season2category', array($this, 'ajax_save_season2category'));
     }
     
     /*
@@ -56,10 +57,10 @@ class Car_share_CarCategory {
         exit();        
     }*/
 
-    public function ajax_assign_new_season() {
+    public function ajax_save_season2category() {
 
         global $wpdb;
-        $post_id = (int) $_POST['id']; //
+        $car_category_id = (int) $_POST['id']; //
         
         $params = array();
         parse_str($_POST['form'], $params);                
@@ -69,7 +70,7 @@ class Car_share_CarCategory {
             foreach ($params['_season_to_category_prices'] as $dayname => $price) {
                 $sql = "
                     REPLACE INTO day_prices (car_category_id, season_id, dayname, price) VALUES (
-                        '" . $post_id . "',
+                        '" . $car_category_id . "',
                         '" . (int) $params['_season_to_category'] . "',
                         '" . esc_sql($dayname) . "',
                         '" . floatval($price) . "'
@@ -79,7 +80,7 @@ class Car_share_CarCategory {
             }
         }
 
-        $category = new sc_Category($post_id);
+        $category = new sc_Category($car_category_id);
         $season2category_prices = $category->season_to_category_prices();
 
         include 'partials/car-category/content_assigned_season.php';
@@ -124,6 +125,7 @@ class Car_share_CarCategory {
         return $wpdb->query($sql);
     }
 
+    
     /**
      *
      * @global type $wpdb
@@ -203,13 +205,14 @@ class Car_share_CarCategory {
 
     public function ajax_edit_season_to_category() {
         //global $post;
-        global $wpdb;        
+        $post_id = $_POST['id']; // category id
+        $season_id = $_POST['season_id'];        
+        //$season = new sc_Season($season_id);
         
+        $car_category = new sc_Category($post_id);
+        $category_day_prices = $car_category->day_prices_indexed_with_dayname($season_id);
         
-        $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-season' AND post_status IN ('publish')";
-        $seasons = $wpdb->get_results($sql);
-
-        include 'partials/car-category/new_season_to_category.php';
+        include 'partials/car-category/s2c_days_price_inputs.php';
         die();
     }    
     
@@ -238,6 +241,7 @@ class Car_share_CarCategory {
         die();
     }
 
+    /*
     public function edit_season_to_category_callback() {
         global $wpdb;
 
@@ -249,7 +253,7 @@ class Car_share_CarCategory {
 
         include 'partials/car-category/edit_s2c.php';
         die();
-    }
+    }*/
 
     /*
       public function add_season_to_category_callback() {

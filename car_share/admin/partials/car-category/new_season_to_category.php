@@ -1,4 +1,4 @@
-<form id="save-session-to-category" class="update-season2category" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>">
+<!--<form id="save-session-to-category" class="update-season2category" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>">-->
     <input type="hidden" name="action" value="add_season_to_category">
     <input type="hidden" name="_car_category_id" value="<?php echo (int) $post_id ?>">
 
@@ -14,14 +14,16 @@
     <div id="pick-season-response"></div>
 
     <div id="message-place" class="alignleft green"></div>
-</form>
+<!--</form>-->
 
 <script>
     jQuery(document).ready(function ($) {
         $('#poststuff').on('change', '#season2category-select', function (event) {
             
+            console.log('onchange');
+            
             var self = $(this);
-            var id = $(this).data('car_id');
+            //var id = $(this).data('car_id');
             
             var season_id = $(this).val();
             
@@ -45,7 +47,6 @@
                     $('#pick-season-response').html(ret);
                     //var new_element = $('#single_car_box_' + id).after(ret);
                 }).fail(function (ret) {
-                    console.log(ret);
                     $('#pick-season-response').html(ret.responseText);
                     //alert('<?php _e('Create new car failed', $this->car_share) ?>');
                 }).always(function () {
