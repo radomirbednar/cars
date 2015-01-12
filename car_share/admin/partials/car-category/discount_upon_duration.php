@@ -33,6 +33,7 @@
                     '<button class="remove-row" type="button"><?php _e("X", $this->car_share) ?></button>' +
                     '</td>' +
                     '</tr>';
+            
             return str;
         }
 
