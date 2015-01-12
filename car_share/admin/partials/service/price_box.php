@@ -1,5 +1,5 @@
 <label><?php _e('Service fee:', $this->car_share) ?>
-    <input class="small-input " type="text" value="<?php echo empty($service_fee) ? 0 : esc_attr($service_fee) ?>" name="_service_fee">
+    <input class="small-input " type="number" step="0.01" value="<?php echo empty($service_fee) ? 0 : esc_attr($service_fee) ?>" name="_service_fee">
 </label>
 <?php
 $values = array(

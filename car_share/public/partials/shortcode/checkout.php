@@ -104,6 +104,29 @@ $total_price = $car_price+$extras_price;
     <form action="" method="post" class="form-horizontal">
         <!-- Address form -->
         <strong><?php _e('Billing Information', $this->car_share); ?></strong>
+
+        <?php 
+        $default_checkout_fields = get_default_checkout_fields();
+        $checkout_fields_settings = get_option('sc-checkout-inputs');
+        
+        $checkout_fields = array_merge_recursive($default_checkout_fields, $checkout_fields_settings);
+        
+        foreach($checkout_fields as $input_key => $field): ?>
+        
+            <div class="control-group">
+                <label class="control-label"><?php _e($field['label'], $this->car_share); ?></label>
+                <div class="controls">
+                    <input id="postal-code" name="<?php echo esc_attr($input_key) ?>" type="text" placeholder="<?php _e('zip or postal code', $this->car_share); ?>"
+                           class="input-xlarge">
+                    <p class="help-block"></p>
+                </div>
+            </div>        
+        
+        <?php endforeach; ?>
+
+        <?php
+        /*
+
         <!-- full-name input-->
         <div class="control-group">
             <label class="control-label"><?php _e('Full Name', $this->car_share); ?></label>
@@ -432,6 +455,10 @@ $total_price = $car_price+$extras_price;
                 </select>
             </div>
         </div>
-        <button type="submit" class="btn btn-default" name="sc-checkout"><?php _e('Book a car', $this->car_share); ?></button>
+         */ ?>
+
+
+
+        <button type="submit" class="btn btn-default"><?php _e('Book car', $this->car_share); ?></button>
     </form>
 <?php endif;
