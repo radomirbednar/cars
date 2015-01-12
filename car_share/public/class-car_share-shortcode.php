@@ -12,6 +12,9 @@ class Car_share_Shortcode {
     public $cars;
     public $extras_car_url;
 
+    private $token_resul;
+    private $customer_id;
+
     public function __construct($car_share, $version) {
 
         $this->car_share = $car_share;
@@ -33,7 +36,6 @@ class Car_share_Shortcode {
 
     public function paypal() {
 
-
         $PayPalMode = 'sandbox'; // sandbox or live
         //paypal options
         $sc_options_paypal = get_option('second_set_arraykey');
@@ -54,8 +56,6 @@ class Car_share_Shortcode {
         $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
 
         include_once("paypalsdk/expresscheckout.php");
-
-
 
 
         if (isset($_POST['sc-checkout']) && isset($_POST['post_nonce_field']) && wp_verify_nonce($_POST['post_nonce_field'], 'post_nonce')) {
@@ -108,16 +108,10 @@ class Car_share_Shortcode {
             } //uncomment this line if PHP < 5.4.0 and comment out line above
 
             $PayPalMode = 'sandbox'; // sandbox or live
-            $PayPalApiUsername = 'cartest3_api1.gmail.com'; //PayPal API Username
-            $PayPalApiPassword = '4969WLQ8PATCJT42'; //Paypal API password
-            $PayPalApiSignature = 'AFcWxV21C7fd0v3bYYYRCpSSRl31AJigSRP9es1tjbtC61K0du213F1O'; //Paypal API Signature
-            //currency form the setting
-            $PayPalCurrencyCode = $currency; //Paypal Currency Code
+        
 
             $PayPalReturnURL = $checkout_car_url; //Point to process.php page
             $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
-
-
 
             $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
 
@@ -176,7 +170,10 @@ class Car_share_Shortcode {
 
 
 
-            ############# set session variable we need later for "DoExpressCheckoutPayment" #######
+            /*
+             *
+             * set session variable we need later for "DoExpressCheckoutPayment"
+             */
             $_SESSION['ItemName'] = $ItemName; //Item Name
             $_SESSION['ItemPrice'] = $ItemPrice; //Item Price
             $_SESSION['ItemNumber'] = $ItemNumber; //Item Number
@@ -185,13 +182,13 @@ class Car_share_Shortcode {
             $_SESSION['ItemTotalPrice'] = $ItemTotalPrice; //(Item Price x Quantity = Total) Get total amount of product;
             $_SESSION['GrandTotal'] = $GrandTotal;
 
- 
+
             //We need to execute the "SetExpressCheckOut" method to obtain paypal token
             $paypal = new MyPayPal();
             $httpParsedResponseAr = $paypal->PPHttpPost('SetExpressCheckout', $padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
- 
+
             //Respond according to message we receive from Paypal
-            if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) { 
+            if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
                 if (empty($_SESSION['post_insert_id'])) {
                     $booking_title = $item_title . '-' . $car_ID;
                     $post_information = array(
@@ -205,8 +202,8 @@ class Car_share_Shortcode {
                         // Update Custom Meta
                         foreach ($checkout_fields as $input_key => $field) {
                             //$field['required'];
-                            update_post_meta($post_insert_id, 'form' . $input_key, esc_attr(strip_tags($_POST[$input_key])));
-                        } 
+                            update_post_meta($post_insert_id, $input_key, esc_attr(strip_tags($_POST[$input_key])));
+                        }
                         //post meta information about booking
                         //nezapomenout smazat na konci veskerou session !!!!!!!
                         $_SESSION['post_insert_id'] = $post_insert_id;
@@ -214,7 +211,7 @@ class Car_share_Shortcode {
                 } else {
 
                     $post_insert_id = $_SESSION['post_insert_id'];
-                    
+
                     $booking_title = $item_title . '-' . $car_ID;
                     $post_information = array(
                         'ID' => $_SESSION['post_insert_id'],
@@ -232,11 +229,11 @@ class Car_share_Shortcode {
                             update_post_meta($post_insert_id, $input_key, esc_attr(strip_tags($_POST[$input_key])));
                         }
                         //nezapomenout smazat na konci veskerou session !!!
-                    } 
-                } 
-                
+                    }
+                }
+
                 $post_insert_id = $_SESSION['post_insert_id'];
-                
+
                 update_post_meta($post_insert_id, 'cart_pick_up', esc_attr(strip_tags($pick_up_location)));
                 update_post_meta($post_insert_id, 'cart_drop_off', esc_attr(strip_tags($drop_off_location)));
                 update_post_meta($post_insert_id, 'cart_date_from', esc_attr(strip_tags($car_dfrom)));
@@ -247,24 +244,32 @@ class Car_share_Shortcode {
                 update_post_meta($post_insert_id, 'cart_car_price', esc_attr(strip_tags($car_price)));
                 update_post_meta($post_insert_id, 'cart_extra_price', esc_attr(strip_tags($extras_price)));
                 update_post_meta($post_insert_id, 'cart_total_price', esc_attr(strip_tags($total_price)));
-                 
-                //set to order status to pending - 2
-                
-                update_post_meta($post_insert_id, 'car_r_order_status', '2' );
 
- 
+                //set to order status to pending - 2
+
+                update_post_meta($post_insert_id, 'car_r_order_status', '2');
+
+
                 //Redirect user to PayPal store with Token received.
                 $paypalurl = 'https://www' . $paypalmode . '.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=' . $httpParsedResponseAr["TOKEN"] . '';
                 header('Location: ' . $paypalurl);
                 exit;
-            } else {
-                /*
+
+
+
+                        } else {
+
+
+               
                   //Show error message
                   echo '<div style="color:red"><b>Error : </b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
                   echo '<pre>';
                   print_r($httpParsedResponseAr);
                   echo '</pre>';
-                 */
+                
+
+
+
             }
         }
 
@@ -275,7 +280,12 @@ class Car_share_Shortcode {
 
             $token = $_GET["token"];
             $payer_id = $_GET["PayerID"];
+            
+            //we store the token like meta for search it after and display the result
+            $this->token = $token;
+            update_post_meta($post_insert_id, 'car_succes_token', $token);
 
+            
             //get session variables
             $ItemName = $_SESSION['ItemName']; //Item Name
             $ItemPrice = $_SESSION['ItemPrice']; //Item Price
@@ -283,7 +293,6 @@ class Car_share_Shortcode {
             $ItemDesc = $_SESSION['ItemDesc']; //Item Number
             $ItemQty = $_SESSION['ItemQty']; // Item Quantity
             $ItemTotalPrice = $_SESSION['ItemTotalPrice']; //(Item Price x Quantity = Total) Get total amount of product;
-
             $GrandTotal = $_SESSION['GrandTotal'];
 
             $padata = '&TOKEN=' . urlencode($token) .
@@ -303,7 +312,6 @@ class Car_share_Shortcode {
                       '&L_PAYMENTREQUEST_0_AMT1='.urlencode($ItemPrice2).
                       '&L_PAYMENTREQUEST_0_QTY1='. urlencode($ItemQty2).
                      */
-
                     '&PAYMENTREQUEST_0_ITEMAMT=' . urlencode($ItemTotalPrice) .
                     '&PAYMENTREQUEST_0_AMT=' . urlencode($GrandTotal) .
                     '&PAYMENTREQUEST_0_CURRENCYCODE=' . urlencode($PayPalCurrencyCode) .
@@ -313,11 +321,11 @@ class Car_share_Shortcode {
             //We need to execute the "DoExpressCheckoutPayment" at this point to Receive payment from user.
             $paypal = new MyPayPal();
             $httpParsedResponseAr = $paypal->PPHttpPost('DoExpressCheckoutPayment', $padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
-
             //Check if everything went ok..
             if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
 
- 
+                $post_insert_id = $_SESSION['post_insert_id'];
+
                 /*
                   //Sometimes Payment are kept pending even when transaction is complete.
                   //hence we need to notify user about it and ask him manually approve the transiction
@@ -325,18 +333,16 @@ class Car_share_Shortcode {
 
                 if ('Completed' == $httpParsedResponseAr["PAYMENTINFO_0_PAYMENTSTATUS"]) {
 
-                     update_post_meta($post_insert_id, 'car_r_order_status', '1' );  
-                     update_post_meta($post_insert_id, 'car_r_order_info', 'Completed DoExpressCheckoutPayment' );
-                    
-                     
+                    update_post_meta($post_insert_id, 'car_r_order_status', '1');
+                    update_post_meta($post_insert_id, 'car_r_order_info', 'Completed DoExpressCheckoutPayment');
+    
                     
                 } elseif ('Pending' == $httpParsedResponseAr["PAYMENTINFO_0_PAYMENTSTATUS"]) {
 
-                    update_post_meta($post_insert_id, 'car_r_order_status', '2' );
-                    update_post_meta($post_insert_id, 'car_r_order_info', 'Pending DoExpressCheckoutPayment' );
-                    
-                    
-                    
+                    update_post_meta($post_insert_id, 'car_r_order_status', '2');
+                    update_post_meta($post_insert_id, 'car_r_order_info', 'Pending DoExpressCheckoutPayment');
+                 
+                            
                 }
 
                 // we can retrive transection details using either GetTransactionDetails or GetExpressCheckoutDetails
@@ -353,17 +359,21 @@ class Car_share_Shortcode {
 
                 if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
 
+                    $post_insert_id = $_SESSION['post_insert_id'];
+
                     //save the transaction information
                     update_post_meta($post_insert_id, 'car_r_order_status', '1');
                     update_post_meta($post_insert_id, 'car_r_order_info', 'Completed GetExpressCheckoutDetails');
-
-
+  
                     $buyerName = $httpParsedResponseAr["FIRSTNAME"] . ' ' . $httpParsedResponseAr["LASTNAME"];
                     $buyerEmail = $httpParsedResponseAr["EMAIL"];
-
+                    
+                     
                     //save the information in database
                 } else {
 
+                    $post_insert_id = $_SESSION['post_insert_id'];
+                    update_post_meta($post_insert_id, 'car_r_order_status', '3');
                     update_post_meta($post_insert_id, 'car_r_order_info', 'Failed GetExpressCheckoutDetails');
 
                     /*
@@ -372,15 +382,13 @@ class Car_share_Shortcode {
                       print_r($httpParsedResponseAr);
                       echo '</pre>';
                      */
-
-
-                    $status = 3;
                 }
             } else {
-                
-                
-                update_post_meta($post_insert_id, 'car_r_order_status', '3'); 
-                update_post_meta($post_insert_id, 'car_r_order_info', ''. urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '');
+
+                $post_insert_id = $_SESSION['post_insert_id'];
+
+                update_post_meta($post_insert_id, 'car_r_order_status', '3');
+                update_post_meta($post_insert_id, 'car_r_order_info', '' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '');
 
                 /*
                   echo '<div style="color:red"><b>Error : </b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
@@ -388,7 +396,6 @@ class Car_share_Shortcode {
                   print_r($httpParsedResponseAr);
                   echo '</pre>';
                  */
- 
             }
         }
     }
