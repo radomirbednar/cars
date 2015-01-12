@@ -73,7 +73,14 @@ function get_default_checkout_fields(){
             'placeholder' => 'zip code',
             'enabled' => 1,
             'required' => 0
+        ),
+        'Flight number' => array(
+            'label' => 'Flight number',
+            'placeholder' => 'Flight number',
+            'enabled' => 1,
+            'required' => 0
         )
+ 
     );    
     
     return $checkout_fields;

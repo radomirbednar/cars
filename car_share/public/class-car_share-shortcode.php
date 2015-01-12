@@ -33,92 +33,113 @@ class Car_share_Shortcode {
 
     public function paypal() {
 
-        if (isset($_POST['sc-checkout'])) {
- 
+
+        $PayPalMode = 'sandbox'; // sandbox or live
+        //paypal options
+        $sc_options_paypal = get_option('second_set_arraykey');
+        $currency = $sc_options_paypal['sc-currency'];
+
+        $PayPalApiUsername = $sc_options_paypal['apiusername-setting'];
+        $PayPalApiPassword = $sc_options_paypal['apipassword-setting'];
+        $PayPalApiSignature = $sc_options_paypal['apisignature-setting'];
+
+        //page options
+        $sc_options = get_option('sc-pages');
+        $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
+
+        //currency form the setting
+        $PayPalCurrencyCode = $currency; //Paypal Currency Code
+
+        $PayPalReturnURL = $checkout_car_url; //Point to process.php page
+        $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
+
+        include_once("paypalsdk/expresscheckout.php");
+
+
+
+
+        if (isset($_POST['sc-checkout']) && isset($_POST['post_nonce_field']) && wp_verify_nonce($_POST['post_nonce_field'], 'post_nonce')) {
+
             // information for the payment
 
             $Cars_cart = new Car_Cart('shopping_cart');
             $Cars_cart_items = $Cars_cart->getItems();
-             
-            $extras = $Cars_cart_items['service']; 
-            
+
+            $extras = $Cars_cart_items['service'];
             $car_ID = $Cars_cart_items['car_ID'];
-            
+
             $pick_up_location = $Cars_cart_items['pick_up_location'];
             $drop_off_location = $Cars_cart_items['drop_off_location'];
 
-            
             $car_dfrom = $Cars_cart_items['car_datefrom'];
             $car_dto = $Cars_cart_items['car_dateto'];
             $car_category = $Cars_cart_items['car_category'];
 
-            
             $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
             $car_dto_string = $car_dto->format('Y-m-d H:i');
-  
+
             $car_result = $Cars_cart->get_ItembyID($car_ID);
-   
-            
-            
+
             //get the item title
-            foreach ($car_result as $car){
-                
-                $item_title =  get_the_title($car->ID);
-                
+            foreach ($car_result as $car) {
+                $item_title = get_the_title($car->ID);
             }
-             
-            
+            //get the extras infos
+
+            foreach ($extras as $key => $extras_id) {
+                $service_fee = get_post_meta($key, '_service_fee', true);
+                $_per_service = get_post_meta($key, '_per_service', true);
+                $service_name = get_the_title($key);
+                $service_name.= $service_name . ', ';
+            }
+
+
             $car_price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto);
             $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
             $total_price = $car_price + $extras_price;
-             
             $total_price = money_format('%.2n', $total_price);
- 
-            $sc_options = get_option('sc-pages');
-            $extras_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
 
-            if(session_id() == '') { session_start(); } //uncomment this line if PHP < 5.4.0 and comment out line above
+            // $payment_options;
+            //insert post before we call paypal
+
+
+            if (session_id() == '') {
+                session_start();
+            } //uncomment this line if PHP < 5.4.0 and comment out line above
 
             $PayPalMode = 'sandbox'; // sandbox or live
-            
             $PayPalApiUsername = 'cartest3_api1.gmail.com'; //PayPal API Username
             $PayPalApiPassword = '4969WLQ8PATCJT42'; //Paypal API password
             $PayPalApiSignature = 'AFcWxV21C7fd0v3bYYYRCpSSRl31AJigSRP9es1tjbtC61K0du213F1O'; //Paypal API Signature
-            
             //currency form the setting
-            $PayPalCurrencyCode = 'USD'; //Paypal Currency Code
+            $PayPalCurrencyCode = $currency; //Paypal Currency Code
 
-            $PayPalReturnURL = $extras_car_url; //Point to process.php page
-            $PayPalCancelURL = $extras_car_url; //Cancel URL if user clicks cancel
+            $PayPalReturnURL = $checkout_car_url; //Point to process.php page
+            $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
 
-            include_once("paypalsdk/expresscheckout.php");
+
 
             $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
 
-
             //Mainly we need 4 variables from product page Item Name, Item Price, Item Number and Item Quantity.
 
-
             $ItemName = $item_title; //Item Name
-             
             $ItemPrice = $total_price; //Item Price
             $ItemNumber = $car_ID; //Item Number
-            
-            
-            
-            $ItemDesc = "description"; //Item Number
+
+            $ItemDesc = "description"; //Item Description - extras etc
             $ItemQty = 1; // Item Quantity
+
             $ItemTotalPrice = ($ItemPrice * $ItemQty); //(Item Price x Quantity = Total) Get total amount of product;
             //Other important variables like tax, shipping cost
-            $TotalTaxAmount = 2.58;  //Sum of tax for all items in this order.
             //Grand total including all tax, insurance, shipping cost and discount
-            $GrandTotal = ($ItemTotalPrice + $TotalTaxAmount );
+            $GrandTotal = ($ItemTotalPrice);
 
             //Parameters for SetExpressCheckout, which will be sent to PayPal
             $padata = '&METHOD=SetExpressCheckout' .
                     '&RETURNURL=' . urlencode($PayPalReturnURL) .
                     '&CANCELURL=' . urlencode($PayPalCancelURL) .
-                    '&PAYMENTREQUEST_0_PAYMENTACTION=' . urlencode("SALE") .
+                    '&PAYMENTREQUEST_0_PAYMENTACTION=' . urlencode("Sale") .
                     '&L_PAYMENTREQUEST_0_NAME0=' . urlencode($ItemName) .
                     '&L_PAYMENTREQUEST_0_NUMBER0=' . urlencode($ItemNumber) .
                     '&L_PAYMENTREQUEST_0_DESC0=' . urlencode($ItemDesc) .
@@ -148,11 +169,12 @@ class Car_share_Shortcode {
                     '&NOSHIPPING=1' . //set 1 to hide buyer's shipping address, in-case products that does not require shipping
 
                     '&PAYMENTREQUEST_0_ITEMAMT=' . urlencode($ItemTotalPrice) .
-                    '&PAYMENTREQUEST_0_TAXAMT=' . urlencode($TotalTaxAmount) .
                     '&PAYMENTREQUEST_0_AMT=' . urlencode($GrandTotal) .
                     '&PAYMENTREQUEST_0_CURRENCYCODE=' . urlencode($PayPalCurrencyCode) .
                     '&LOCALECODE=GB' . //PayPal pages to match the language on your website.
                     '&ALLOWNOTE=0';
+
+
 
             ############# set session variable we need later for "DoExpressCheckoutPayment" #######
             $_SESSION['ItemName'] = $ItemName; //Item Name
@@ -161,32 +183,88 @@ class Car_share_Shortcode {
             $_SESSION['ItemDesc'] = $ItemDesc; //Item Number
             $_SESSION['ItemQty'] = $ItemQty; // Item Quantity
             $_SESSION['ItemTotalPrice'] = $ItemTotalPrice; //(Item Price x Quantity = Total) Get total amount of product;
-            $_SESSION['TotalTaxAmount'] = $TotalTaxAmount;  //Sum of tax for all items in this order.
-
-
             $_SESSION['GrandTotal'] = $GrandTotal;
 
-
+ 
             //We need to execute the "SetExpressCheckOut" method to obtain paypal token
             $paypal = new MyPayPal();
             $httpParsedResponseAr = $paypal->PPHttpPost('SetExpressCheckout', $padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
-
+ 
             //Respond according to message we receive from Paypal
-            if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
+            if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) { 
+                if (empty($_SESSION['post_insert_id'])) {
+                    $booking_title = $item_title . '-' . $car_ID;
+                    $post_information = array(
+                        'post_title' => $booking_title,
+                        'post_type' => 'sc-booking',
+                        'post_status' => 'publish'
+                    );
+                    $post_insert_id = wp_insert_post($post_information);
+                    $checkout_fields = get_enabled_checkout_fields();
+                    if ($post_insert_id) {
+                        // Update Custom Meta
+                        foreach ($checkout_fields as $input_key => $field) {
+                            //$field['required'];
+                            update_post_meta($post_insert_id, 'form' . $input_key, esc_attr(strip_tags($_POST[$input_key])));
+                        } 
+                        //post meta information about booking
+                        //nezapomenout smazat na konci veskerou session !!!!!!!
+                        $_SESSION['post_insert_id'] = $post_insert_id;
+                    }
+                } else {
 
+                    $post_insert_id = $_SESSION['post_insert_id'];
+                    
+                    $booking_title = $item_title . '-' . $car_ID;
+                    $post_information = array(
+                        'ID' => $_SESSION['post_insert_id'],
+                        'post_title' => $booking_title,
+                        'post_type' => 'sc-booking',
+                        'post_status' => 'publish'
+                    );
+                    wp_update_post($post_information);
 
+                    $checkout_fields = get_enabled_checkout_fields();
+                    if ($post_insert_id) {
+                        // Update Custom Meta
+                        foreach ($checkout_fields as $input_key => $field) {
+                            //$field['required'];
+                            update_post_meta($post_insert_id, $input_key, esc_attr(strip_tags($_POST[$input_key])));
+                        }
+                        //nezapomenout smazat na konci veskerou session !!!
+                    } 
+                } 
+                
+                $post_insert_id = $_SESSION['post_insert_id'];
+                
+                update_post_meta($post_insert_id, 'cart_pick_up', esc_attr(strip_tags($pick_up_location)));
+                update_post_meta($post_insert_id, 'cart_drop_off', esc_attr(strip_tags($drop_off_location)));
+                update_post_meta($post_insert_id, 'cart_date_from', esc_attr(strip_tags($car_dfrom)));
+                update_post_meta($post_insert_id, 'cart_date_to', esc_attr(strip_tags($car_dto)));
+                update_post_meta($post_insert_id, 'cart_car_category', esc_attr(strip_tags($car_category)));
+                update_post_meta($post_insert_id, 'cart_car_name', esc_attr(strip_tags($ItemName)));
+                update_post_meta($post_insert_id, 'cart_car_name', esc_attr(strip_tags($car_ID)));
+                update_post_meta($post_insert_id, 'cart_car_price', esc_attr(strip_tags($car_price)));
+                update_post_meta($post_insert_id, 'cart_extra_price', esc_attr(strip_tags($extras_price)));
+                update_post_meta($post_insert_id, 'cart_total_price', esc_attr(strip_tags($total_price)));
+                 
+                //set to order status to pending - 2
+                
+                update_post_meta($post_insert_id, 'car_r_order_status', '2' );
 
+ 
                 //Redirect user to PayPal store with Token received.
                 $paypalurl = 'https://www' . $paypalmode . '.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=' . $httpParsedResponseAr["TOKEN"] . '';
-
                 header('Location: ' . $paypalurl);
                 exit;
             } else {
-                //Show error message
-                echo '<div style="color:red"><b>Error : </b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
-                echo '<pre>';
-                print_r($httpParsedResponseAr);
-                echo '</pre>';
+                /*
+                  //Show error message
+                  echo '<div style="color:red"><b>Error : </b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
+                  echo '<pre>';
+                  print_r($httpParsedResponseAr);
+                  echo '</pre>';
+                 */
             }
         }
 
@@ -205,7 +283,6 @@ class Car_share_Shortcode {
             $ItemDesc = $_SESSION['ItemDesc']; //Item Number
             $ItemQty = $_SESSION['ItemQty']; // Item Quantity
             $ItemTotalPrice = $_SESSION['ItemTotalPrice']; //(Item Price x Quantity = Total) Get total amount of product;
-            $TotalTaxAmount = $_SESSION['TotalTaxAmount'];  //Sum of tax for all items in this order.
 
             $GrandTotal = $_SESSION['GrandTotal'];
 
@@ -228,15 +305,11 @@ class Car_share_Shortcode {
                      */
 
                     '&PAYMENTREQUEST_0_ITEMAMT=' . urlencode($ItemTotalPrice) .
-                    '&PAYMENTREQUEST_0_TAXAMT=' . urlencode($TotalTaxAmount) .
                     '&PAYMENTREQUEST_0_AMT=' . urlencode($GrandTotal) .
                     '&PAYMENTREQUEST_0_CURRENCYCODE=' . urlencode($PayPalCurrencyCode) .
-                    '&SOLUTIONTYPE=Sole&LANDINGPAGE=Billing'
-            ;
+                    '&SOLUTIONTYPE=Sole&LANDINGPAGE=Billing';
 
-
-
-
+            //check if the car is disponible
             //We need to execute the "DoExpressCheckoutPayment" at this point to Receive payment from user.
             $paypal = new MyPayPal();
             $httpParsedResponseAr = $paypal->PPHttpPost('DoExpressCheckoutPayment', $padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
@@ -244,71 +317,78 @@ class Car_share_Shortcode {
             //Check if everything went ok..
             if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
 
-                echo '<h2>Success</h2>';
-                echo 'Your Transaction ID : ' . urldecode($httpParsedResponseAr["PAYMENTINFO_0_TRANSACTIONID"]);
-
+ 
                 /*
                   //Sometimes Payment are kept pending even when transaction is complete.
                   //hence we need to notify user about it and ask him manually approve the transiction
                  */
 
                 if ('Completed' == $httpParsedResponseAr["PAYMENTINFO_0_PAYMENTSTATUS"]) {
-                    echo '<div style="color:green">Payment Received! Your product will be sent to you very soon!</div>';
+
+                     update_post_meta($post_insert_id, 'car_r_order_status', '1' );  
+                     update_post_meta($post_insert_id, 'car_r_order_info', 'Completed DoExpressCheckoutPayment' );
+                    
+                     
+                    
                 } elseif ('Pending' == $httpParsedResponseAr["PAYMENTINFO_0_PAYMENTSTATUS"]) {
-                    echo '<div style="color:red">Transaction Complete, but payment is still pending! ' .
-                    'You need to manually authorize this payment in your <a target="_new" href="http://www.paypal.com">Paypal Account</a></div>';
+
+                    update_post_meta($post_insert_id, 'car_r_order_status', '2' );
+                    update_post_meta($post_insert_id, 'car_r_order_info', 'Pending DoExpressCheckoutPayment' );
+                    
+                    
+                    
                 }
 
                 // we can retrive transection details using either GetTransactionDetails or GetExpressCheckoutDetails
                 // GetTransactionDetails requires a Transaction ID, and GetExpressCheckoutDetails requires Token returned by SetExpressCheckOut
+
+                $padaid = urldecode($httpParsedResponseAr["PAYMENTINFO_0_TRANSACTIONID"]);
                 $padata = '&TOKEN=' . urlencode($token);
                 $paypal = new MyPayPal();
+
                 $httpParsedResponseAr = $paypal->PPHttpPost('GetExpressCheckoutDetails', $padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
+
+                //$httpParsedResponseAr2 = $paypal->PPHttpPost('GetTransactionDetails',$padaid, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
+
 
                 if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
 
-                    echo '<br /><b>Stuff to store in database :</b><br /><pre>';
+                    //save the transaction information
+                    update_post_meta($post_insert_id, 'car_r_order_status', '1');
+                    update_post_meta($post_insert_id, 'car_r_order_info', 'Completed GetExpressCheckoutDetails');
+
+
+                    $buyerName = $httpParsedResponseAr["FIRSTNAME"] . ' ' . $httpParsedResponseAr["LASTNAME"];
+                    $buyerEmail = $httpParsedResponseAr["EMAIL"];
+
+                    //save the information in database
+                } else {
+
+                    update_post_meta($post_insert_id, 'car_r_order_info', 'Failed GetExpressCheckoutDetails');
+
                     /*
-                      #### SAVE BUYER INFORMATION IN DATABASE ###
-                      //see (http://www.sanwebe.com/2013/03/basic-php-mysqli-usage) for mysqli usage
-
-                      $buyerName = $httpParsedResponseAr["FIRSTNAME"].' '.$httpParsedResponseAr["LASTNAME"];
-                      $buyerEmail = $httpParsedResponseAr["EMAIL"];
-
-                      //Open a new connection to the MySQL server
-                      $mysqli = new mysqli('host','username','password','database_name');
-
-                      //Output any connection error
-                      if ($mysqli->connect_error) {
-                      die('Error : ('. $mysqli->connect_errno .') '. $mysqli->connect_error);
-                      }
-
-                      $insert_row = $mysqli->query("INSERT INTO BuyerTable
-                      (BuyerName,BuyerEmail,TransactionID,ItemName,ItemNumber, ItemAmount,ItemQTY)
-                      VALUES ('$buyerName','$buyerEmail','$transactionID','$ItemName',$ItemNumber, $ItemTotalPrice,$ItemQTY)");
-
-                      if($insert_row){
-                      print 'Success! ID of last inserted record is : ' .$mysqli->insert_id .'<br />';
-                      }else{
-                      die('Error : ('. $mysqli->errno .') '. $mysqli->error);
-                      }
-
+                      echo '<div style="color:red"><b>GetTransactionDetails failed:</b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
+                      echo '<pre>';
+                      print_r($httpParsedResponseAr);
+                      echo '</pre>';
                      */
 
-                    echo '<pre>';
-                    print_r($httpParsedResponseAr);
-                    echo '</pre>';
-                } else {
-                    echo '<div style="color:red"><b>GetTransactionDetails failed:</b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
-                    echo '<pre>';
-                    print_r($httpParsedResponseAr);
-                    echo '</pre>';
+
+                    $status = 3;
                 }
             } else {
-                echo '<div style="color:red"><b>Error : </b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
-                echo '<pre>';
-                print_r($httpParsedResponseAr);
-                echo '</pre>';
+                
+                
+                update_post_meta($post_insert_id, 'car_r_order_status', '3'); 
+                update_post_meta($post_insert_id, 'car_r_order_info', ''. urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '');
+
+                /*
+                  echo '<div style="color:red"><b>Error : </b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
+                  echo '<pre>';
+                  print_r($httpParsedResponseAr);
+                  echo '</pre>';
+                 */
+ 
             }
         }
     }
@@ -409,23 +489,20 @@ class Car_share_Shortcode {
     }
 
     public function pick_car_form() {
+
         $sc_options = get_option('sc-pages');
         $this->extras_car_url = isset($sc_options['extras']) ? get_page_link($sc_options['extras']) : '';
+
         $Cars_cart = new Car_Cart('shopping_cart');
         $Cars_cart_items = $Cars_cart->getItems();
-
         //improve for check
-
         $pick_up_location = $Cars_cart_items['pick_up_location'];
         $drop_off_location = $Cars_cart_items['drop_off_location'];
-
         $car_dfrom = $Cars_cart_items['car_datefrom'];
         $car_dto = $Cars_cart_items['car_dateto'];
         $car_category = $Cars_cart_items['car_category'];
-
         $car_dfrom_string = $car_dfrom->format('Y-m-d H:i:s');
         $car_dto_string = $car_dto->format('Y-m-d H:i:s');
-
 
         /*
          * get me all cars from one category
@@ -472,6 +549,7 @@ class Car_share_Shortcode {
                     AND
                     posts.post_status = 'publish'
                     GROUP BY posts.ID";
+
         $this->cars = $wpdb->get_results($sql);
     }
 
