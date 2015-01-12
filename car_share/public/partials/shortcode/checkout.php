@@ -1,4 +1,5 @@
 <?php
+
 $Cars_cart = new Car_Cart('shopping_cart');
 $Cars_cart_items = $Cars_cart->getItems();
 $extras = $Cars_cart_items['service'];
@@ -13,23 +14,14 @@ $car_category = $Cars_cart_items['car_category'];
 
 $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
 $car_dto_string = $car_dto->format('Y-m-d H:i');
+  
+$car_result = $Cars_cart->get_ItembyID($car_ID);
  
-global $wpdb;
-$sql = "
-            SELECT DISTINCT *
-            FROM
-            sc_single_car sc_single_car
-            JOIN
-            $wpdb->posts posts
-            ON
-            posts.ID = sc_single_car.parent
-            WHERE
-            sc_single_car.single_car_id = $car_ID;";
-
-$car_result = $wpdb->get_results($sql);
-
 $car_price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto);
-$extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
+$extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto); 
+ 
+$total_price = $car_price+$extras_price;
+ 
 ?>
 <?php if (!empty($car_result)): ?>
     <div>
@@ -65,10 +57,7 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
     <?php endforeach; ?>
 
     <table>
-        <tbody>
-
-
-
+        <tbody>  
             <tr>
                 <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
                 <td>
@@ -85,9 +74,7 @@ $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
                     }
                     ?>
                 </td>
-            </tr>
-
-
+            </tr> 
             <tr>
                 <td><?php _e('CAR : ', $this->car_share); ?></td>
                 <td><?php echo $car_price; ?></td>
