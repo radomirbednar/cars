@@ -67,9 +67,21 @@ class Car_share_CarCategory {
     
     function ajax_delete_season_to_category(){
         
-        $category_id = 2;
-        $season_id = 1;
+        $category_id = $_POST['id'];
+        $season_id = $_POST['season_id'];
         
+        global $wpdb;
+        
+        $sql = "
+            DELETE FROM
+                day_prices
+            WHERE
+                car_category_id = '" . (int) $category_id . "'
+            AND
+                season_id = '" . (int) $season_id . "'
+        ";
+        
+        return $wpdb->query($sql);        
     }
 
     /**
@@ -126,6 +138,8 @@ class Car_share_CarCategory {
                 WHERE
                     s.post_status NOT IN ('trash') AND s.post_type='sc-season'
                 AND
+                    s.ID != '" . (int) $season_id . "'
+                AND
                 (
                     (start.meta_value BETWEEN '" . $new_season_from->format('Y-m-d  H:i:s') . "' AND '" . $new_season_to->format('Y-m-d  H:i:s') . "')
                         OR
@@ -134,7 +148,8 @@ class Car_share_CarCategory {
                 GROUP BY s.ID
                 ";
         
-        $applied_seasons = $wpdb->query();
+        $applied_seasons = $wpdb->query($sql);
+        
         if(!empty($applied_seasons)){
             header("HTTP/1.0 404 Not Found");
             _e('You cannot assign two season with overlaping dates.', $this->car_share);

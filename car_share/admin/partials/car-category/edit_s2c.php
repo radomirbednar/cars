@@ -20,7 +20,7 @@ $days = get_days_of_week();
             </tr>
         </tbody>
     </table>
-    
+
     <button id="update-season2category" type="submit" class="thickbox button button-primary"><?php _e('Update', $this->car_share) ?></button>
 </form>
 

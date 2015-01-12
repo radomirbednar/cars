@@ -18,6 +18,11 @@ jQuery(document).ready(function ($) {
         
         event.preventDefault();
         
+        var r = confirm("<?php _e('Are you sure?', $this->car_share) ?>");
+        if (r == false) {
+            x = "You pressed OK!";
+        }        
+        
         var season_id = $(this).data('season_id');        
         var self = $(this);
         
@@ -33,13 +38,11 @@ jQuery(document).ready(function ($) {
                 //self.prop("disabled", true);
             }
             }).done(function (ret) {
+                self.parents('.s2c-row').next().next().remove();
+                self.parents('.s2c-row').next().remove();
                 self.parents('.s2c-row').remove();
-                //$('#season2category-response').html(ret);
-                //self[0].reset()
-                //$('#TB_closeWindowButton').trigger('click');
-                //$('#content-season2category').html(ret);
             }).fail(function (ret) {
-
+                
             }).always(function () {
                 //self.prop("disabled", false);
             });
