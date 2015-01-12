@@ -33,64 +33,42 @@ class Car_share_Season {
 
         add_action('add_meta_boxes', array($this, 'add_custom_boxes'));
         add_action('save_post', array($this, 'save'));
-        
+
         add_filter('manage_sc-season_posts_columns', array($this, 'column_head'));
-        add_action('manage_sc-season_posts_custom_column', array($this, 'column_content'), 10, 2);     
-        
-        add_action('admin_notices', array($this, 'admin_notice'));        
-        add_action('pre_post_update', array($this, 'pre_post_update'));
-    }
-    
-    /**
-     * 
-     */
-    public function pre_post_update(){
-        $a = 1;
-        $b = $a;
-    }
-    
-    /**
-     * 
-     */
-    public function admin_notice(){
-        echo '<div class="error">
-            <p>I am a little yellow notice.</p>
-            </div>';        
+        add_action('manage_sc-season_posts_custom_column', array($this, 'column_content'), 10, 2);
     }
 
-    public function column_head($defaults){    
+    public function column_head($defaults) {
         $defaults['date_from'] = __('From', $this->car_share);
         $defaults['date_to'] = __('To', $this->car_share);
         return $defaults;
     }
-    
-    public function column_content($column_name, $post_id){
-        
-        switch($column_name){
+
+    public function column_content($column_name, $post_id) {
+
+        switch ($column_name) {
             case 'date_from':
                 $from = get_date_meta($post_id, '_from');
-                if(!empty($from)){
+                if (!empty($from)) {
                     echo $from->format(get_option('date_format'));
                 }
                 break;
             case 'date_to':
                 $to = get_date_meta($post_id, '_to');
-                if(!empty($to)){
+                if (!empty($to)) {
                     echo $to->format(get_option('date_format'));
                 }
-                break;            
-        }        
+                break;
+        }
     }
-    
-    public function add_custom_boxes() { 
+
+    public function add_custom_boxes() {
         add_meta_box(
                 'season_date_box', __('Date interval', $this->car_share), array($this, 'date_box'), 'sc-season'
         );
-
     }
-    
 
-    public function date_box(){
+    public function date_box() {
         global $post;
         $session = new sc_Season($post);
         $date_from = $session->from();
@@ -100,28 +78,28 @@ class Car_share_Season {
         wp_nonce_field(__FILE__, 'season_nonce');
     }
 
-
-    public function save() { 
+    public function save() {
         //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
         if (isset($_POST['season_nonce']) && wp_verify_nonce($_POST['season_nonce'], __FILE__)) {
-            
+
             global $post;
             global $wpdb;
 
             $date_from = DateTime::createFromFormat('d.m.Y', $_POST['_from']);
             $date_to = DateTime::createFromFormat('d.m.Y', $_POST['_to']);
 
-            if(!empty($date_from)){
+            if (!empty($date_from)) {
                 update_date_meta($post->ID, '_from', $date_from);
             } else {
                 delete_date_meta($post->ID, '_from');
             }
 
-            if(!empty($date_to)){
+            if (!empty($date_to)) {
                 update_date_meta($post->ID, '_to', $date_to);
             } else {
                 delete_date_meta($post->ID, '_to');
             }
         }
-    } 
+    }
+
 }
