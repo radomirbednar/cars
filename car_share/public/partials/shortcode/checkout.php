@@ -63,14 +63,12 @@ $total_price = $car_price+$extras_price;
                 <td>
                     <?php
                     foreach ($extras as $key => $extras_id) {
-                        ?>
-                        <?php
+                       
                         $service_fee = get_post_meta($key, '_service_fee', true);
                         $_per_service = get_post_meta($key, '_per_service', true);
-                        $service_name = get_the_title($key);
-                        ?>
-                        <?php echo $service_name . ', '; ?>
-                        <?php
+                        $service_name = get_the_title($key); 
+                        echo $service_name . ', ';  
+                       
                     }
                     ?>
                 </td>
@@ -459,6 +457,6 @@ $total_price = $car_price+$extras_price;
 
 
 
-        <button type="submit" class="btn btn-default"><?php _e('Book car', $this->car_share); ?></button>
+        <button type="submit" class="btn btn-default" name="sc-checkout"><?php _e('Book car', $this->car_share); ?></button>
     </form>
 <?php endif;

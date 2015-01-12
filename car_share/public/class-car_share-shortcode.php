@@ -34,85 +34,94 @@ class Car_share_Shortcode {
     public function paypal() {
 
         if (isset($_POST['sc-checkout'])) {
- 
+
             // information for the payment
 
             $Cars_cart = new Car_Cart('shopping_cart');
             $Cars_cart_items = $Cars_cart->getItems();
-             
-            $extras = $Cars_cart_items['service']; 
-            
+
+            $extras = $Cars_cart_items['service'];
             $car_ID = $Cars_cart_items['car_ID'];
-            
+
             $pick_up_location = $Cars_cart_items['pick_up_location'];
             $drop_off_location = $Cars_cart_items['drop_off_location'];
 
-            
             $car_dfrom = $Cars_cart_items['car_datefrom'];
             $car_dto = $Cars_cart_items['car_dateto'];
             $car_category = $Cars_cart_items['car_category'];
 
-            
+
             $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
             $car_dto_string = $car_dto->format('Y-m-d H:i');
-  
+
             $car_result = $Cars_cart->get_ItembyID($car_ID);
-   
-            
-            
+
             //get the item title
-            foreach ($car_result as $car){ 
-                $item_title =  get_the_title($car->ID);   
+            foreach ($car_result as $car) {
+                $item_title = get_the_title($car->ID);
             }
-              
+            //get the extras infos
+
+            foreach ($extras as $key => $extras_id) {
+
+                $service_fee = get_post_meta($key, '_service_fee', true);
+                $_per_service = get_post_meta($key, '_per_service', true);
+                $service_name = get_the_title($key);
+                $service_name.= $service_name . ', ';
+            }
+
+
+
+
+
             $car_price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto);
             $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
             $total_price = $car_price + $extras_price;
-             
+
             $total_price = money_format('%.2n', $total_price);
- 
+
+            //page options
             $sc_options = get_option('sc-pages');
+
+            //paypal options
+            $sc_options_paypal = get_option('second_set_arraykey');
+            $currency = $sc_options_paypal['sc-currency'];
+
+
             $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
 
-            
-            
+
             $payment_options;
-            
-            
-            
-            if(session_id() == '') { session_start(); } //uncomment this line if PHP < 5.4.0 and comment out line above
+
+
+            if (session_id() == '') {
+                session_start();
+            } //uncomment this line if PHP < 5.4.0 and comment out line above
 
             $PayPalMode = 'sandbox'; // sandbox or live 
             $PayPalApiUsername = 'cartest3_api1.gmail.com'; //PayPal API Username
             $PayPalApiPassword = '4969WLQ8PATCJT42'; //Paypal API password
             $PayPalApiSignature = 'AFcWxV21C7fd0v3bYYYRCpSSRl31AJigSRP9es1tjbtC61K0du213F1O'; //Paypal API Signature  
             //currency form the setting
-            $PayPalCurrencyCode = 'USD'; //Paypal Currency Code
-
-            
-            
-            
+            $PayPalCurrencyCode = $currency; //Paypal Currency Code
+ 
             $PayPalReturnURL = $checkout_car_url; //Point to process.php page
             $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
 
             include_once("paypalsdk/expresscheckout.php");
 
             $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
- 
+
             //Mainly we need 4 variables from product page Item Name, Item Price, Item Number and Item Quantity.
- 
+
             $ItemName = $item_title; //Item Name 
             $ItemPrice = $total_price; //Item Price
             $ItemNumber = $car_ID; //Item Number
-            
-            
-            
-            
-            
-            
-            $ItemDesc = "description"; //Item Description - extras etc
-            
+ 
+            $ItemDesc = "description"; //Item Description - extras etc 
             $ItemQty = 1; // Item Quantity
+            
+            
             $ItemTotalPrice = ($ItemPrice * $ItemQty); //(Item Price x Quantity = Total) Get total amount of product;
             //Other important variables like tax, shipping cost
             $TotalTaxAmount = 2.58;  //Sum of tax for all items in this order.
