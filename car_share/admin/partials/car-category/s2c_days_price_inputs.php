@@ -17,7 +17,7 @@ $days = get_days_of_week();
     </tbody>
 </table>
 
-<input type="submit" id="assign_new_season" class="button button-primary" value="<?php _e('Save', $this->car_share) ?>">
+<button id="assign_new_season" class="button button-primary" type="button"><?php _e('Save', $this->car_share) ?></button>
 
 <script>
     jQuery(document).ready(function ($) {
@@ -39,9 +39,13 @@ $days = get_days_of_week();
                     'form' : form_data,
                 },
                 beforeSend: function () {
-                    self.prop("disabled", true);                    
+                    self.prop("disabled", true);  
+                    $('#season2category-response').html('');
                 }
             }).done(function (ret) {
+                // reload content
+                $('#content-season2category').html(ret);
+                
                 //var new_element = $('#single_car_box_' + id).after(ret);
             }).fail(function (ret) {
                 //alert('<?php _e('Create new car failed', $this->car_share) ?>');

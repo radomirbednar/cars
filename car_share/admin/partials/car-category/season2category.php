@@ -7,8 +7,8 @@
 
 <div id="season2category-response"></div>
 
-<a id="assign-new-season" type="button" class="button button-primary" href="#"><?php _e('Assign new season', $this->car_share) ?></a>
-
+<a id="assign-new-season" type="button" class="button button-primary alignright" href="#"><?php _e('Assign new season', $this->car_share) ?></a>
+<div class="clear"></div>
 
 
 <script>
@@ -51,6 +51,8 @@ jQuery(document).ready(function ($) {
     $( "#assign-new-season" ).click(function(event) {
         event.preventDefault();
         var self = $(this);
+        
+        $('#season2category-response').html('');
         
         $.ajax({
             type: 'post',

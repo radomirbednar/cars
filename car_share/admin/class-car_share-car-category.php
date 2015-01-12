@@ -45,22 +45,32 @@ class Car_share_CarCategory {
         add_action('wp_ajax_delete_season_to_category', array($this, 'ajax_delete_season_to_category'));
         add_action('wp_ajax_assign_new_season', array($this, 'ajax_assign_new_season'));
     }
+    
+    /*
+    public function ajax_reload_s2c_content(){
+        global $post;
+        $category = new sc_Category($post);
+        $season2category_prices = $category->season_to_category_prices();
+        
+        include 'partials/car-category/content_assigned_season.php';
+        exit();        
+    }*/
 
     public function ajax_assign_new_season() {
 
         global $wpdb;
-        $post_id = (int) $_POST['_car_category_id'];
+        $post_id = (int) $_POST['id']; //
         
         $params = array();
         parse_str($_POST['form'], $params);                
 
         // category day prices
-        if (!empty($_POST['_season_to_category_prices'])) {
-            foreach ($_POST['_season_to_category_prices'] as $dayname => $price) {
+        if (!empty($params['_season_to_category_prices'])) {
+            foreach ($params['_season_to_category_prices'] as $dayname => $price) {
                 $sql = "
                     REPLACE INTO day_prices (car_category_id, season_id, dayname, price) VALUES (
                         '" . $post_id . "',
-                        '" . (int) $_POST['_season_to_category'] . "',
+                        '" . (int) $params['_season_to_category'] . "',
                         '" . esc_sql($dayname) . "',
                         '" . floatval($price) . "'
                     )
