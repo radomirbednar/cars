@@ -11,7 +11,7 @@
             <?php _e($location->post_title) ?>
         </label>
     <?php endforeach; ?>
-    <div class="clear"></div>
+    <div class="clear"></div> 
 <?php endif; ?>
 
 <?php if (!empty($locations)): ?>
