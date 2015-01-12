@@ -50,6 +50,9 @@ class Car_share_CarCategory {
 
         global $wpdb;
         $post_id = (int) $_POST['_car_category_id'];
+        
+        $params = array();
+        parse_str($_POST['form'], $params);                
 
         // category day prices
         if (!empty($_POST['_season_to_category_prices'])) {
@@ -190,9 +193,10 @@ class Car_share_CarCategory {
 
     public function ajax_new_season_to_category() {
         //global $post;
-        $post_id = $_POST['id'];
         global $wpdb;
-
+        $post_id = $_POST['id'];
+        
+        
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-season' AND post_status IN ('publish')";
         $seasons = $wpdb->get_results($sql);
 
