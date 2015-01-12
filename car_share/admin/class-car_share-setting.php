@@ -39,9 +39,6 @@ class Car_share_Setting {
      */
     private $version;
 
-
-
-
     /**
      * Initialize the class and set its properties.
      *
@@ -80,29 +77,28 @@ class Car_share_Setting {
         add_submenu_page($this->car_share, __('Checkout form setup', $this->car_share), __('Checkout form setup', $this->car_share), 'manage_options', 'checkout-form-setup', array($this, 'checkout_form_setup'));
     }
 
-
-    public function checkout_form_setup(){        
-        //$screen = get_current_screen();        
-        if(isset($_POST['save_checkout_form_setup'])){
+    public function checkout_form_setup() {
+        //$screen = get_current_screen();
+        if (isset($_POST['save_checkout_form_setup'])) {
             $default_fields = get_default_checkout_fields();
             $arr_to_save = array();
-            foreach($default_fields as $input_key => $input_value){
+            foreach ($default_fields as $input_key => $input_value) {
 
                 $enabled = isset($_POST['billing_inputs'][$input_key]['enabled']) && 1 == $_POST['billing_inputs'][$input_key]['enabled'] ? 1 : 0;
-                $required = isset($_POST['billing_inputs'][$input_key]['required']) && 1 == $_POST['billing_inputs'][$input_key]['required'] ? 1 : 0;                
-                
+                $required = isset($_POST['billing_inputs'][$input_key]['required']) && 1 == $_POST['billing_inputs'][$input_key]['required'] ? 1 : 0;
+
                 $arr_to_save[$input_key] = array(
                     'enabled' => $enabled,
                     'required' => $required,
                 );
-            }            
-            update_option('sc-checkout-inputs', $arr_to_save);            
+            }
+            update_option('sc-checkout-inputs', $arr_to_save);
         }
 
         $checkout_fields = get_checkout_fields();
 
         include_once( 'partials/checkout_form_setup.php' );
-        wp_nonce_field(__FILE__, 'checkout_form_nonce' );
+        wp_nonce_field(__FILE__, 'checkout_form_nonce');
     }
 
     /**
@@ -134,7 +130,7 @@ class Car_share_Setting {
 
 // add_settings_section( $id, $title, $callback, $page )
         add_settings_section(
-                'additional-settings-section', 'Additional Settings', array($this, 'print_additional_settings_section_info'), 'test-plugin-additional-settings-section'
+                'additional-settings-section', 'Payment Options', array($this, 'print_additional_settings_section_info'), 'test-plugin-additional-settings-section'
         );
 
 // add_settings_field( $id, $title, $callback, $page, $section, $args )
@@ -145,6 +141,34 @@ class Car_share_Setting {
         add_settings_field(
                 'currency-setting', 'Currency Setting', array($this, 'create_currency_another_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
         );
+
+
+
+        add_settings_field(
+                'apiusername-setting', 'API Username', array($this, 'create_apiusername_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
+        );
+
+
+        add_settings_field(
+                'apipassword-setting', 'API Password', array($this, 'create_apipassword_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
+        );
+
+
+        add_settings_field(
+                'apisignature-setting', 'API Signature', array($this, 'create_apisignature_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
+        );
+
+
+        add_settings_field(
+                'paypalemail-setting', 'PayPal Email', array($this, 'create_paypalemail_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
+        );
+
+        add_settings_field(
+                'paypalsandbox-setting', 'PayPal Sandbox', array($this, 'create_paypalsandbox_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
+        );
+
+
+
 
 // register_setting( $option_group, $option_name, $sanitize_callback )
         register_setting('additional-settings-group', 'second_set_arraykey', array($this, 'plugin_additional_settings_validate'));
@@ -171,41 +195,88 @@ class Car_share_Setting {
         ?> />
         <?php
            }
+
            function plugin_main_settings_validate($arr_input) {
                $options = get_option('car_plugin_options_arraykey');
                $options['notemail'] = trim($arr_input['notemail']);
                $options['showcategory'] = trim($arr_input['showcategory']);
                return $options;
            }
+
            function print_additional_settings_section_info() {
                echo '<p>Additional Settings Description.</p>';
            }
+
            function create_input_another_setting() {
                $options = get_option('second_set_arraykey');
                ?><input type="text" name="second_set_arraykey[sc-unit]" value="<?php echo $options['sc-unit']; ?>" /><?php
-           }
-           function create_currency_another_setting() {
-               $options = get_option('second_set_arraykey');
-               include_once( 'partials/currencies.php' );
-               echo "<select name='second_set_arraykey[sc-currency]'>";
-               foreach ($currencies as $currency_code => $currency_details) {
-                   $selected = "";
-                   if ($options['sc-currency'] == $currency_code) {
-                       $selected = " selected ";
-                   }
-                   echo "<option value='" . esc_attr($currency_code) . "'" . esc_attr($selected) . ">" . esc_html($currency_details['name']) . "</option>";
-               }
-               echo "</select>";
+    }
+
+    function create_currency_another_setting() {
+        $options = get_option('second_set_arraykey');
+        include_once( 'partials/currencies.php' );
+        echo "<select name='second_set_arraykey[sc-currency]'>";
+        foreach ($currencies as $currency_code => $currency_details) {
+            $selected = "";
+            if ($options['sc-currency'] == $currency_code) {
+                $selected = " selected ";
             }
-
-        function plugin_additional_settings_validate($arr_input) {
-
-            $options = get_option('second_set_arraykey');
-            $options['sc-unit'] = trim($arr_input['sc-unit']);
-            $options['sc-currency'] = trim($arr_input['sc-currency']);
-
-            return $options;
+            echo "<option value='" . esc_attr($currency_code) . "'" . esc_attr($selected) . ">" . esc_html($currency_details['name']) . "</option>";
         }
+        echo "</select>";
+    }
+
+    function create_apiusername_setting() {
+        $options = get_option('second_set_arraykey');
+        ?><input type="text" name="second_set_arraykey[apiusername-setting]" value="<?php echo $options['apiusername-setting']; ?>" /><?php
+    }
+
+    function create_apipassword_setting() {
+
+
+        $options = get_option('second_set_arraykey');
+        ?><input type="text" name="second_set_arraykey[apipassword-setting]" value="<?php echo $options['apipassword-setting']; ?>" /><?php
+    }
+
+    function create_apisignature_setting() {
+
+        $options = get_option('second_set_arraykey');
+        ?><input type="text" name="second_set_arraykey[apisignature-setting]" value="<?php echo $options['apisignature-setting']; ?>" /><?php
+    }
+
+    function create_paypalemail_setting() {
+
+        $options = get_option('second_set_arraykey');
+        ?><input type="text" name="second_set_arraykey[paypalemail_setting]" value="<?php echo $options['paypalemail_setting']; ?>" /><?php
+    }
+
+    function create_paypalsandbox_setting() {
+
+
+        $options = get_option('second_set_arraykey');
+        ?>
+        <input type="checkbox" name="second_set_arraykey[paypalsandbox-setting]" value="1" <?php
+        if (isset($options['paypalsandbox-setting']) && ($options['paypalsandbox-setting'] == 1)) {
+            echo 'checked';
+        }
+        ?> />
+        <?php
+    }
+
+    function plugin_additional_settings_validate($arr_input) {
+
+        $options = get_option('second_set_arraykey');
+        $options['sc-unit'] = trim($arr_input['sc-unit']);
+        $options['sc-currency'] = trim($arr_input['sc-currency']);
+
+        $options['apiusername-setting'] = trim($arr_input['apiusername-setting']);
+        $options['apisignature-setting'] = trim($arr_input['apisignature-setting']);
+        $options['apipassword-setting'] = trim($arr_input['apipassword-setting']);
+        $options['paypalemail_setting'] = trim($arr_input['paypalemail_setting']);
+        $options['paypalsandbox-setting'] = trim($arr_input['paypalsandbox-setting']);
+
+        return $options;
+    }
 
     /**
      * Add settings action link to the plugins page.

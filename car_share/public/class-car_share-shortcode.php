@@ -31,38 +31,36 @@ class Car_share_Shortcode {
         }
     }
 
-    
-    
-    
-    
-    
     public function paypal() {
 
-  
-            $PayPalMode = 'sandbox'; // sandbox or live
-            $PayPalApiUsername = 'cartest3_api1.gmail.com'; //PayPal API Username
-            $PayPalApiPassword = '4969WLQ8PATCJT42'; //Paypal API password
-            $PayPalApiSignature = 'AFcWxV21C7fd0v3bYYYRCpSSRl31AJigSRP9es1tjbtC61K0du213F1O'; //Paypal API Signature
- 
-             //page options
-            $sc_options = get_option('sc-pages');
-            $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
 
-            //paypal options
-            $sc_options_paypal = get_option('second_set_arraykey');
-            $currency = $sc_options_paypal['sc-currency'];
-            
-            //currency form the setting
-            $PayPalCurrencyCode = $currency; //Paypal Currency Code
-
-            $PayPalReturnURL = $checkout_car_url; //Point to process.php page
-            $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
-            
-            
-             include_once("paypalsdk/expresscheckout.php");
-            
-       
+        $PayPalMode = 'sandbox'; // sandbox or live
+         
+        //paypal options
+        $sc_options_paypal = get_option('second_set_arraykey');
+        $currency = $sc_options_paypal['sc-currency'];
         
+        $PayPalApiUsername = $sc_options_paypal['apiusername-setting']; 
+        $PayPalApiPassword = $sc_options_paypal['apipassword-setting']; 
+        $PayPalApiSignature = $sc_options_paypal['apisignature-setting'];
+       
+        //page options
+        $sc_options = get_option('sc-pages');
+        $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
+
+      
+
+        //currency form the setting
+        $PayPalCurrencyCode = $currency; //Paypal Currency Code
+
+        $PayPalReturnURL = $checkout_car_url; //Point to process.php page
+        $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
+
+
+        include_once("paypalsdk/expresscheckout.php");
+
+
+
         if (isset($_POST['sc-checkout'])) {
 
             // information for the payment
@@ -79,7 +77,7 @@ class Car_share_Shortcode {
             $car_dfrom = $Cars_cart_items['car_datefrom'];
             $car_dto = $Cars_cart_items['car_dateto'];
             $car_category = $Cars_cart_items['car_category'];
- 
+
             $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
             $car_dto_string = $car_dto->format('Y-m-d H:i');
 
@@ -101,9 +99,9 @@ class Car_share_Shortcode {
 
             $car_price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto);
             $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
-            $total_price = $car_price + $extras_price; 
+            $total_price = $car_price + $extras_price;
             $total_price = money_format('%.2n', $total_price);
- 
+
 
             $payment_options;
 
@@ -122,7 +120,7 @@ class Car_share_Shortcode {
             $PayPalReturnURL = $checkout_car_url; //Point to process.php page
             $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
 
-           
+
 
             $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
 
@@ -134,7 +132,7 @@ class Car_share_Shortcode {
 
             $ItemDesc = "description"; //Item Description - extras etc
             $ItemQty = 1; // Item Quantity
- 
+
             $ItemTotalPrice = ($ItemPrice * $ItemQty); //(Item Price x Quantity = Total) Get total amount of product;
             //Other important variables like tax, shipping cost
             //Grand total including all tax, insurance, shipping cost and discount
@@ -185,14 +183,14 @@ class Car_share_Shortcode {
             $_SESSION['ItemNumber'] = $ItemNumber; //Item Number
             $_SESSION['ItemDesc'] = $ItemDesc; //Item Number
             $_SESSION['ItemQty'] = $ItemQty; // Item Quantity
-            $_SESSION['ItemTotalPrice'] = $ItemTotalPrice; //(Item Price x Quantity = Total) Get total amount of product; 
+            $_SESSION['ItemTotalPrice'] = $ItemTotalPrice; //(Item Price x Quantity = Total) Get total amount of product;
             $_SESSION['GrandTotal'] = $GrandTotal;
 
             //We need to execute the "SetExpressCheckOut" method to obtain paypal token
             $paypal = new MyPayPal();
             $httpParsedResponseAr = $paypal->PPHttpPost('SetExpressCheckout', $padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
 
-     
+
             //Respond according to message we receive from Paypal
             if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
 
@@ -264,11 +262,12 @@ class Car_share_Shortcode {
 
                 echo '<h2>Success</h2>';
                 echo 'Your Transaction ID : ' . urldecode($httpParsedResponseAr["PAYMENTINFO_0_TRANSACTIONID"]);
-
+                
+                 
                 /*
                   //Sometimes Payment are kept pending even when transaction is complete.
                   //hence we need to notify user about it and ask him manually approve the transiction
-                 */
+                */
 
                 if ('Completed' == $httpParsedResponseAr["PAYMENTINFO_0_PAYMENTSTATUS"]) {
                     echo '<div style="color:green">Payment Received! Your product will be sent to you very soon!</div>';
@@ -279,34 +278,61 @@ class Car_share_Shortcode {
 
                 // we can retrive transection details using either GetTransactionDetails or GetExpressCheckoutDetails
                 // GetTransactionDetails requires a Transaction ID, and GetExpressCheckoutDetails requires Token returned by SetExpressCheckOut
+                
+                $padaid = urldecode($httpParsedResponseAr["PAYMENTINFO_0_TRANSACTIONID"]);
                 $padata = '&TOKEN=' . urlencode($token);
                 $paypal = new MyPayPal();
                 $httpParsedResponseAr = $paypal->PPHttpPost('GetExpressCheckoutDetails', $padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
-
+ 
+                $httpParsedResponseAr2 = $paypal->PPHttpPost('GetTransactionDetails',$padaid, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
+                
+                
+                 
+                var_dump($httpParsedResponseAr2);
+                 
                 if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
 
                     //save the transaction information
 
                     $buyerName = $httpParsedResponseAr["FIRSTNAME"] . ' ' . $httpParsedResponseAr["LASTNAME"];
                     $buyerEmail = $httpParsedResponseAr["EMAIL"];
+ 
 
+                    $email = $httpParsedResponseAr2["EMAIL"]; // ' Email address of payer.
+                    $payerId = $httpParsedResponseAr2["PAYERID"]; // ' Unique PayPal customer account identification number.
+                    $payerStatus = $httpParsedResponseAr2["PAYERSTATUS"]; // ' Status of payer. Character length and limitations: 10 single-byte alphabetic characters.
+                    $salutation = $httpParsedResponseAr2["SALUTATION"]; // ' Payer's salutation.
+                    $firstName = $httpParsedResponseAr2["FIRSTNAME"]; // ' Payer's first name.
+                    $middleName = $httpParsedResponseAr2["MIDDLENAME"]; // ' Payer's middle name.
+                    $lastName = $httpParsedResponseAr2["LASTNAME"]; // ' Payer's last name.
+                    $suffix = $httpParsedResponseAr2["SUFFIX"]; // ' Payer's suffix.
+                    $cntryCode = $httpParsedResponseAr2["COUNTRYCODE"]; // ' Payer's country of residence in the form of ISO standard 3166 two-character country codes.
+                    $business = $httpParsedResponseAr2["BUSINESS"]; // ' Payer's business name.
+                    $shipToName = $httpParsedResponseAr2["SHIPTONAME"]; // ' Person's name associated with this address.
+                    $shipToStreet = $httpParsedResponseAr2["SHIPTOSTREET"]; // ' First street address.
+                    $shipToStreet2 = $httpParsedResponseAr2["SHIPTOSTREET2"]; // ' Second street address.
+                    $shipToCity = $httpParsedResponseAr2["SHIPTOCITY"]; // ' Name of city.
+                    $shipToState = $httpParsedResponseAr2["SHIPTOSTATE"]; // ' State or province
+                    $shipToCntryCode = $httpParsedResponseAr2["SHIPTOCOUNTRYCODE"]; // ' Country code.
+                    $shipToZip = $httpParsedResponseAr2["SHIPTOZIP"]; // ' U.S. Zip code or other country-specific postal code.
+                    $addressStatus = $httpParsedResponseAr2["ADDRESSSTATUS"]; // ' Status of street address on file with PayPal
+                    $invoiceNumber = $httpParsedResponseAr2["INVNUM"]; // ' Your own invoice or tracking number, as set by you in the element of the same name in SetExpressCheckout request .
+                    $phonNumber = $httpParsedResponseAr2["PHONENUM"]; // ' Payer's contact telephone number. Note:  PayPal returns a contact telephone number only if your Merchant account profile settings require that the buyer enter one.
 
  
+                    echo $buyerName;
+                    echo $buyerEmail;
+ 
                     /*
-
-
-                      $insert_row = $mysqli->query("INSERT INTO BuyerTable
-                      (BuyerName,BuyerEmail,TransactionID,ItemName,ItemNumber, ItemAmount,ItemQTY)
-                      VALUES ('$buyerName','$buyerEmail','$transactionID','$ItemName',$ItemNumber, $ItemTotalPrice,$ItemQTY)");
-
-                      if($insert_row){
-                      print 'Success! ID of last inserted record is : ' .$mysqli->insert_id .'<br />';
-                      }else{
-                      die('Error : ('. $mysqli->errno .') '. $mysqli->error);
-                      }
-                     *
-                     *
-                     */
+                     * 
+                     * insert all information in the custom post
+                     * 
+                     */ 
+  
+                    exit();
+                    
+                    
+                    
                 } else {
                     echo '<div style="color:red"><b>GetTransactionDetails failed:</b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
                     echo '<pre>';
