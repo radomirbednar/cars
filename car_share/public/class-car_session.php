@@ -153,8 +153,6 @@ class Car_Cart {
         return $total_price;
     } 
      
-
-    
     function sc_get_extras_price(DateTime $from, DateTime $to) {
  
         global $wpdb;
@@ -185,12 +183,35 @@ class Car_Cart {
         } 
         return $extras_prices; 
     }
-
+    
+    function get_ItembyID($car_ID)
+    {    
+      global $wpdb;
+            $sql = "
+            SELECT DISTINCT *
+            FROM
+            sc_single_car sc_single_car
+            JOIN
+            $wpdb->posts posts
+            ON
+            posts.ID = sc_single_car.parent
+            WHERE
+            sc_single_car.single_car_id = $car_ID;"; 
+            $car_result = $wpdb->get_results($sql);       
+     return $car_result;        
+    } 
+    
+    
+ 
     /**
      * getItemName() - Get the name of an item.
      *
      * @param string $order_code The order code of the item.
      */
+    
+    
+    
+    
     function setItemId($id_code) {
         $this->items['car_ID'] = $id_code;
     }
