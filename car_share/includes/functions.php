@@ -1,39 +1,59 @@
 <?php
 
+function get_checkout_fields(){
+    
+}
+
 function get_default_checkout_fields(){
     
     $checkout_fields = array(
         '_name' => array(
             'label' => 'Fullname',
-            'placeholder' => 'full name'
+            'placeholder' => 'full name',
+            'enabled' => 1,
+            'required' => 1
         ),
         '_email' => array(
             'label' => 'Email address',
-            'placeholder' => 'Email address'
+            'placeholder' => 'Email address',
+            'enabled' => 1,
+            'required' => 1
         ),
         '_phone' => array(
             'label' => 'Phone',
-            'placeholder' => 'Telephone number'
+            'placeholder' => 'Telephone number',
+            'enabled' => 1,
+            'required' => 1
         ),
         '_address_1' => array(
             'label' => 'Address 1',
-            'placeholder' => 'address line 1'
+            'placeholder' => 'address line 1',
+            'enabled' => 1,
+            'required' => 0
         ),
         '_address_2' => array(
             'label' => 'Address 2',
-            'placeholder' => 'address line 2'
+            'placeholder' => 'address line 2',
+            'enabled' => 1,
+            'required' => 0
         ),
         '_city' => array(
             'label' => 'City',
-            'placeholder' => 'city'
+            'placeholder' => 'city',
+            'enabled' => 1,
+            'required' => 0
         ),
         '_country' => array(
             'label' => 'Country',
-            'placeholder' => 'state / province / region'
+            'placeholder' => 'state / province / region',
+            'enabled' => 1,
+            'required' => 0
         ),
         '_zip' => array(
             'label' => 'Zip',
-            'placeholder' => 'state / province / region'
+            'placeholder' => 'zip code',
+            'enabled' => 1,
+            'required' => 0
         )
     );    
     
