@@ -504,19 +504,17 @@ class Car_share_Shortcode {
         $car_category = $Cars_cart_items['car_category'];
         $car_dfrom_string = $car_dfrom->format('Y-m-d H:i:s');
         $car_dto_string = $car_dto->format('Y-m-d H:i:s');
-
-        
-         
+ 
         /*
          * get me all cars from one category
          */
-
-        global $wpdb;
-        if ($car_category != '') {
+ 
+        global $wpdb; 
+        if ($car_category != '') {  
             $category_and = "AND wp_postmeta.meta_value = '$car_category'";
         } else {
             $category_and = '';
-        }
+        } 
         $sql = "SELECT
                     *
                     FROM
