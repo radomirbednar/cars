@@ -285,9 +285,9 @@ class Car_share_CarCategory {
 
     public function young_driver_surcharge() {
         global $post;
-        $minimum_driver_age = get_post_meta($post->ID, '_minimum_driver_age', true);
-        $minimum_age_fee = get_post_meta($post->ID, '_surcharge_active', true);
-        $active = get_post_meta($post->ID, '_driver_surcharge', true);
+        $surcharge_age = get_post_meta($post->ID, '_surcharge_age', true);
+        $surcharge_fee = get_post_meta($post->ID, '_surcharge_fee', true);
+        $surcharge_active = get_post_meta($post->ID, '_surcharge_active', true);
         include 'partials/car-category/minimum_driver_age.php';
     }
 
@@ -353,8 +353,8 @@ class Car_share_CarCategory {
 
             //
             $keys = array(
-                '_minimum_driver_age',
-                '_surcharge_active',
+                '_surcharge_age',                
+                '_surcharge_fee',
             );
 
             foreach ($keys as $key) {
@@ -363,6 +363,12 @@ class Car_share_CarCategory {
                 } else {
                     delete_post_meta((int) $post->ID, $key);
                 }
+            }
+            
+            if(isset($_POST['_surcharge_active']) && 1 == $_POST['_surcharge_active']){
+                update_post_meta((int) $post->ID, '_surcharge_active', 1);
+            } else{
+                delete_post_meta((int) $post->ID, '_surcharge_active');
             }
         }
     }
