@@ -1,12 +1,10 @@
 <?php
-
-    $Cars_cart = new Car_Cart('shopping_cart');
-    $Cars_cart_items = $Cars_cart->getItems();
-
-     
+$Cars_cart = new Car_Cart('shopping_cart');
+$Cars_cart_items = $Cars_cart->getItemSearch();
+ 
 if (!empty($_SESSION['TOKEN'])) {
-  
-    $token_value = ($_SESSION['TOKEN']);   
+
+    $token_value = ($_SESSION['TOKEN']);
     $args = array(
         'post_type' => 'sc-booking',
         'meta_query' => array(
@@ -16,100 +14,98 @@ if (!empty($_SESSION['TOKEN'])) {
             )
         )
     );
-     
-    $my_query = new WP_Query($args); 
+
+    $my_query = new WP_Query($args);
     if ($my_query->have_posts()) {
         while ($my_query->have_posts()) {
-            $my_query->the_post(); 
-            $meta_values = get_post_custom(get_the_ID());                     
-            $car_order = $meta_values["car_r_order_status"][0]; 
+            $my_query->the_post();
+            $meta_values = get_post_custom(get_the_ID());
+            $car_order = $meta_values["car_r_order_status"][0];
             $post_ID = get_the_ID();
-            
-             
-            foreach($meta_values as $key=>$value)
-            {           
+ 
+            foreach ($meta_values as $key => $value) {
                 echo $key;
-                echo $value[0]; 
-            } 
-        
-            $cart_car_ID = get_post_meta($post_ID, 'cart_car_ID'  );
-            $paypal_payed_amt = get_post_meta($post_ID, 'amt');
-            
-            
+                echo $value[0];
+            }
+
+            $cart_car_ID = get_post_meta($post_ID, 'cart_car_ID');
+            $paypal_payed_amt = get_post_meta($post_ID, 'amt'); 
             $pick_up_location = get_post_meta($post_ID, 'cart_pick_up');
             $drop_off_location = get_post_meta($post_ID, 'cart_drop_off');
-      
- 
-              
-            } // end while
+        } // end while
     } // end if
-    wp_reset_postdata(); 
- 
-    if($car_order == '1')
-    { 
-      _e('Thank your for your booking we are send you all information to your email:', $this->car_share);  
-    }  
-    elseif($car_order == '2')
-    { 
-      _e('Thank you. Your booking is pending now we are send you all information to your email:', $this->car_share);     
-    }   
-    elseif($car_order == '3') { 
-      _e('There are something wrong. Payment failed', $this->car_share);   
+    wp_reset_postdata();
+
+    if ($car_order == '1') {
+        _e('Thank your for your booking we are send you all information to your email:', $this->car_share);
+    } elseif ($car_order == '2') {
+        _e('Thank you. Your booking is pending now we are send you all information to your email:', $this->car_share);
+    } elseif ($car_order == '3') {
+        _e('There are something wrong. Payment failed', $this->car_share);
     }
-       
-    ?> 
-            <table>
-                <tr>
-                    <td><?php _e('FROM', $this->car_share); ?></td>                     
-                    <td><?php echo get_the_title($pick_up_location[0]); ?></td> 
-                    <td><?php echo $car_dfrom_string; ?></td>
-                </tr>
-                <tr>
-                    <td><?php _e('TO', $this->car_share); ?></td> 
-                    <td><?php echo get_the_title($drop_off_location[0]); ?></td> 
-                    <td><?php echo $car_dto_string; ?></td>
-                </tr>
-                <tr>
-                    <td>
-                        
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>
-                        
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>
-                        
-                    </td>
-                </tr>     
-            </table>
+    ?>
+    <table>
+        <tr>
+            <td><?php _e('FROM', $this->car_share); ?></td>
+            <td><?php echo get_the_title($pick_up_location[0]); ?></td>
+            <td><?php echo $car_dfrom_string; ?></td>
+        </tr>
+        <tr>
+            <td><?php _e('TO', $this->car_share); ?></td>
+            <td><?php echo get_the_title($drop_off_location[0]); ?></td>
+            <td><?php echo $car_dto_string; ?></td>
+        </tr>
+        
+        
+        
+        <tr>
+           <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
+           <td></td>
            
- <?php
- 
-    //  $car_result = $Cars_cart->get_ItembyID($car_ID); 
+           
+        </tr>
+
+        <tr>
+            <td>
+
+                
+                
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+
+                
+                
+                
+            </td>
+        </tr>
+    </table>
+
+    <?php
+    //  $car_result = $Cars_cart->get_ItembyID($car_ID);
     //we have the information about the token
     //Unset all of the session variables.
  
-  
-      $_SESSION = array();
-      // Finally, destroy the session.
-      session_destroy(); 
-   
- 
-    
-} elseif (!empty($Cars_cart_items)) {
- 
+    $_SESSION = array();
+    // Finally, destroy the session.
+    session_destroy();
+} 
+
+
+elseif (!empty($Cars_cart_items)) {
+
     if (!empty($Cars_cart_items['service'])) {
         $extras = $Cars_cart_items['service'];
     }
     if (!empty($Cars_cart_items['car_ID'])) {
         $car_ID = $Cars_cart_items['car_ID'];
+        
         $car_result = $Cars_cart->get_ItembyID($car_ID);
-        if (!empty($Cars_cart_items['car_datefrom']) && !empty($Cars_cart_items['car_dateto'])) {
+        
+        
+        if (!empty($Cars_cart_items['car_datefrom']) && !empty($Cars_cart_items['car_dateto'])) {     
             $car_dfrom = $Cars_cart_items['car_datefrom'];
             $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
             $car_dto = $Cars_cart_items['car_dateto'];
@@ -117,6 +113,8 @@ if (!empty($_SESSION['TOKEN'])) {
             $car_price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto);
             $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
             $total_price = $car_price + $extras_price;
+        
+            
         }
     }
     if (!empty($Cars_cart_items['pick_up_location'])) {
@@ -124,16 +122,26 @@ if (!empty($_SESSION['TOKEN'])) {
     }
     if (!empty($Cars_cart_items['drop_off_location'])) {
         $drop_off_location = $Cars_cart_items['drop_off_location'];
-    }
- 
+    } 
     //cart category
-    if (!empty($Cars_cart_items['car_category'])) {
-        $car_category = $Cars_cart_items['car_category'];
-    }
      
-    ?>
-    <?php if (!empty($car_result)) { ?>
+    if (!empty($Cars_cart_items['car_category'])) {
+        
+        $car_category = $Cars_cart_items['car_category']; 
     
+         
+    }
+    
+    
+    
+    
+ 
+    
+    
+    ?>
+
+
+    <?php if (!empty($car_result)) { ?>
         <?php foreach ($car_result as $car): ?>
             <?php $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail'); ?>
             <strong><?php _e('Review your booking', $this->car_share); ?></strong>
@@ -149,11 +157,10 @@ if (!empty($_SESSION['TOKEN'])) {
                     <td><?php echo $car_dto_string; ?></td>
                 </tr>
             </table>
-
             <table>
                 <tr>
                     <td>
-                        <?php echo $post_thumbnail; ?>
+            <?php echo $post_thumbnail; ?>
                     </td>
                     <td><?php echo get_the_title($car->ID); ?></td>
                 </tr>
@@ -162,18 +169,17 @@ if (!empty($_SESSION['TOKEN'])) {
 
         <table>
             <tbody>
-                <?php if (!empty($Cars_cart_items['service'])) { ?>
+        <?php if (!empty($Cars_cart_items['service'])) { ?>
                     <tr>
                         <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
                         <td>
-                            <?php
-                            foreach ($extras as $key => $extras_id) {
-
-                                $service_fee = get_post_meta($key, '_service_fee', true);
-                                $_per_service = get_post_meta($key, '_per_service', true);
-                                $service_name = get_the_title($key);
-                                echo $service_name . ', ';
-                                ?>
+            <?php
+            foreach ($extras as $key => $extras_id) { 
+                $service_fee = get_post_meta($key, '_service_fee', true);
+                $_per_service = get_post_meta($key, '_per_service', true);
+                $service_name = get_the_title($key);
+                echo $service_name . ', ';
+                ?>
                             </td>
                         </tr>
                         <?php
@@ -184,27 +190,24 @@ if (!empty($_SESSION['TOKEN'])) {
                     <td><?php _e('CAR : ', $this->car_share); ?></td>
                     <td><?php echo $car_price; ?></td>
                 </tr>
-                
-                <?php       
-                
-            
-                $surcharge_active = get_post_meta($car_category, '_surcharge_active', true);
-                
-                if(1 == $surcharge_active):
-                    
-                    $surcharge_age = get_post_meta($car_category, '_surcharge_age', true);
-                
-                ?>
-                
-                <tr>
-                    <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td>
-                    <td>
-                        <label>
-                            <input id="apply-surcharge" type="checkbox" name="apply_surcharge" value="1">
-                            <?php printf(__('I am under %d.', $this->car_share), $surcharge_age); ?>
-                        </label>
-                    </td>
-                </tr>
+
+                        <?php
+                        $surcharge_active = get_post_meta($car_category, '_surcharge_active', true);
+
+                        if (1 == $surcharge_active):
+
+                            $surcharge_age = get_post_meta($car_category, '_surcharge_age', true);
+                            ?>
+
+                    <tr>
+                        <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td>
+                        <td>
+                            <label>
+                                <input id="apply-surcharge" type="checkbox" name="apply_surcharge" value="1">
+            <?php printf(__('I am under %d.', $this->car_share), $surcharge_age); ?>
+                            </label>
+                        </td>
+                    </tr>
                 <?php endif; ?>
 
                 <?php if (!empty($extras_price)) { ?>
@@ -228,20 +231,20 @@ if (!empty($_SESSION['TOKEN'])) {
             <!-- Address form -->
             <strong><?php _e('Billing Information', $this->car_share); ?></strong>
 
-            <?php
-            $checkout_fields = get_enabled_checkout_fields();
+        <?php
+        $checkout_fields = get_enabled_checkout_fields();
 
-            foreach ($checkout_fields as $input_key => $field):
-                ?>
+        foreach ($checkout_fields as $input_key => $field):
+            ?>
                 <div class="control-group">
                     <label class="control-label"><?php _e($field['label'], $this->car_share); ?></label>
                     <div class="controls">
                         <input id="postal-code" name="<?php echo esc_attr($input_key) ?>" type="text" placeholder="<?php _e($field['placeholder'], $this->car_share); ?>"
-                        <?php
-                        if ($field['required']) {
-                            echo "required";
-                        }
-                        ?>  class="input-xlarge">
+            <?php
+            if ($field['required']) {
+                echo "required";
+            }
+            ?>  class="input-xlarge">
                         <p class="help-block"></p>
                     </div>
                 </div>
@@ -582,19 +585,13 @@ if (!empty($_SESSION['TOKEN'])) {
 
             <button type="submit" class="btn btn-default" name="sc-checkout"><?php _e('Book car', $this->car_share); ?></button>
         </form>
-        <?php
-    } else {
-        
-        
-        _e('Please go back and chose a car.', $this->car_share);
- 
-     
-        
-    }
-} else {
+            <?php
+        } else {
 
-    _e('Please go back and chose a car.', $this->car_share);
-      
-      
-}
-?>
+            _e('Please go back and chose a car.', $this->car_share);
+        }
+    } else {
+
+        _e('Please go back and chose a car.', $this->car_share);
+    }
+?> 

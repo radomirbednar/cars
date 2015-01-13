@@ -588,7 +588,9 @@ class Car_share_Shortcode {
     }
 
     public function pick_car($atts) {
+        
         $this->pick_car_form();
+        
         ob_start();
         include_once( 'partials/shortcode/pick_car.php' );
         return ob_get_clean();

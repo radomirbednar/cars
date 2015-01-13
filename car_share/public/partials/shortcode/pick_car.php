@@ -16,23 +16,23 @@
                 $number_of_suitcases = esc_attr($number_of_suitcases);
                 $transmission = esc_attr($transmission);
                 //predefinovane informace k autu 
+                
                 $Cars_cart = new Car_Cart('shopping_cart');
                 $Cars_cart_items = $Cars_cart->getItems(); 
+                
                 //improve for sanitize 
                 $pick_up_location = $Cars_cart_items['pick_up_location'];
                 $drop_off_location = $Cars_cart_items['drop_off_location']; 
                 $car_dfrom = $Cars_cart_items['car_datefrom'];
                 $car_dto = $Cars_cart_items['car_dateto'];   
                 $car_category = $Cars_cart_items['car_category'];   
-        
-                if(!empty($car_category))
-                {
-                    //car category from car post id     
-                    $car_category = get_post_meta( $car->ID, '_car_category' );    
-                    $this->items['car_category'] = $car_category;   
+         
+                if(empty($car_category))
+                {    
+                    $Cars_cart->setItemCategory($car->ID);
+                    $Cars_cart->save(); 
                 } 
-                
-                
+  
             ?> 
             <?php echo $post_thumbnail; ?> 
             <h2><?php echo get_the_title($car->ID) ?></h2> 
