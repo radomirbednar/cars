@@ -38,7 +38,11 @@ if (!empty($_SESSION['TOKEN'])) {
             
             $pick_up_location = get_post_meta($post_ID, 'cart_pick_up');
             $drop_off_location = get_post_meta($post_ID, 'cart_drop_off');
+            
+            echo $pick_up_location;
  
+            
+            
               
             } // end while
     } // end if
@@ -96,7 +100,7 @@ if (!empty($_SESSION['TOKEN'])) {
       $_SESSION = array();
       // Finally, destroy the session.
       session_destroy(); 
-   
+ 
  
     
 } elseif (!empty($Cars_cart_items)) {
@@ -129,11 +133,7 @@ if (!empty($_SESSION['TOKEN'])) {
     }
     ?>
     <?php if (!empty($car_result)) { ?>
-        <div>
-            <?php _e('1. Search for a car', $this->car_share); ?>
-            <?php _e('2. Pick a car', $this->car_share); ?>
-            <?php _e('3. Checkout', $this->car_share); ?>
-        </div>
+    
         <?php foreach ($car_result as $car): ?>
             <?php $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail'); ?>
             <strong><?php _e('Review your booking', $this->car_share); ?></strong>

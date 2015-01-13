@@ -2,11 +2,6 @@
     <?php if ( get_option('permalink_structure') ) { $sc_pr = '?'; }
           else { $sc_pr = '&'; }      
     ?> 
-    <div> 
-        <?php _e('1. Search for a car', $this->car_share); ?>
-        <?php _e('2. Pick a car', $this->car_share); ?>
-        <?php _e('3. Pick a car', $this->car_share); ?> 
-    </div>
     <?php foreach ($this->cars as $car): ?>  
           <div class="col-md-12">  
             <?php  

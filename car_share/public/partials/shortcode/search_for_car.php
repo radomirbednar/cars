@@ -1,10 +1,4 @@
-<div>
-    <?php _e('1. Search for a car', $this->car_share); ?>
-    <?php _e('2. Pick a car', $this->car_share); ?>
-    <?php _e('3. Pick a car', $this->car_share); ?>
-</div>
 <?php echo $this->warning; ?>
-
 <form name="car_share_search_form" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
     <div class="form-group">
         <label><?php _e('Pickup location:', $this->car_share) ?></label>
