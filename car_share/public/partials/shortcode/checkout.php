@@ -65,12 +65,16 @@ if (!empty($_SESSION['TOKEN'])) {
                 <tr>
                     <td><?php _e('FROM', $this->car_share); ?></td>                     
                     <td><?php echo get_the_title($pick_up_location[0]); ?></td> 
-                    <td><?php echo $car_dfrom_string; ?></td>
+                    <td>
+                        <?php echo $car_dfrom_string; ?>
+                    </td>
                 </tr>
                 <tr>
                     <td><?php _e('TO', $this->car_share); ?></td> 
                     <td><?php echo get_the_title($drop_off_location[0]); ?></td> 
-                    <td><?php echo $car_dto_string; ?></td>
+                    <td>
+                        <?php echo $car_dto_string; ?>
+                    </td>
                 </tr>
                 <tr>
                     <td>

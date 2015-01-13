@@ -66,6 +66,14 @@ class Car_share_Admin {
 
         add_action('wp_ajax_delete_single_car', array($this, 'delete_single_car_ajax'));
         add_action('wp_ajax_create_single_car', array($this, 'create_single_car_ajax'));
+
+        add_action( 'admin_init', array($this, 'admin_init'));
+    }
+
+    public function admin_init(){
+        if ( current_user_can( 'delete_posts' ) ){
+               add_action( 'delete_post', array($this, 'cleaning'), 10 );
+        }
     }
 
     public function create_single_car_ajax() {
@@ -93,7 +101,7 @@ class Car_share_Admin {
             }
 
             if (isset($params['car'][$id]['status'])) {
-                foreach ($params['car'][$id]['status'] as $val) {                    
+                foreach ($params['car'][$id]['status'] as $val) {
 
                     $from_string = $val['from'] . ' ' . sprintf("%02s", $val['from_hour']) . ':' . sprintf("%02s", $val['from_min']);
                     $date_from = DateTime::createFromFormat('d.m.Y H:i', $from_string);
@@ -286,9 +294,9 @@ class Car_share_Admin {
 
         $sql = "SELECT * FROM sc_single_car_status WHERE single_car_id = '" . (int) $car_id . "' ORDER BY single_car_status_id ASC";
         $statuses = $wpdb->get_results($sql);
-        
+
         $sql = "SELECT spz FROM sc_single_car WHERE single_car_id = '" . (int) $car_id . "'";
-        $spz = $wpdb->get_var($sql); 
+        $spz = $wpdb->get_var($sql);
 
         include 'partials/car/single_car.php';
     }
@@ -386,14 +394,14 @@ class Car_share_Admin {
                         $wpdb->query($sql);
                         $single_car_id = $wpdb->insert_id;
                     }
-                    
+
                     $sql = "
                         INSERT INTO sc_single_car (single_car_id, spz) VALUES (
                             '" . (int) $single_car_id . "',
-                            '" . esc_sql($car['spz']) . "'    
+                            '" . esc_sql($car['spz']) . "'
                         ) ON DUPLICATE KEY UPDATE spz = '" . esc_sql($car['spz']) .  "'";
-                    
-                    $wpdb->query($sql);                    
+
+                    $wpdb->query($sql);
 
                     foreach ($car as $key => $attribute) {
                         switch ($key) {
@@ -519,6 +527,18 @@ class Car_share_Admin {
         }
 
         return Car_share_Admin::$single_cars;
+    }
+
+    /**
+     *
+     */
+    public function cleaning(){
+
+        global $post;
+
+        $x = 1;
+        $y = $x;
+
     }
 
 }
