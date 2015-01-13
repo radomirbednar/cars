@@ -80,6 +80,7 @@ class Car_share_Setting {
     public function checkout_form_setup() {
         //$screen = get_current_screen();
         if (isset($_POST['save_checkout_form_setup'])) {
+            
             $default_fields = get_default_checkout_fields();
             $arr_to_save = array();
             foreach ($default_fields as $input_key => $input_value) {
