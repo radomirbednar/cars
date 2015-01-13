@@ -45,3 +45,14 @@
 h4 {
     margin-bottom: 0.5em;
 }
+.s2c-row td,
+.s2c-row th {
+    background: #f5f5f5;
+}
+.new-edit-s2c {
+    background: #f5f5f5;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);    
+}

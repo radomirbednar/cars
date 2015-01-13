@@ -183,7 +183,7 @@ function get_date_meta($post_id, $meta_key) {
 }
 
 function update_date_meta($post_id, $meta_key, DateTime $date) {
-    //$from->format('Y-m-d H:i:s')
+    
     global $wpdb;
     $sql = "
         REPLACE INTO postmeta_date (post_id, meta_key, meta_value) VALUES (

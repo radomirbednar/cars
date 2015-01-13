@@ -1,35 +1,57 @@
-<?php
-$days = get_days_of_week();
+<!--<form id="save-session-to-category" class="update-season2category" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>">-->
+    <input type="hidden" name="action" value="add_season_to_category">
+    <input type="hidden" name="_car_category_id" value="<?php echo (int) $post_id ?>">
 
-
-?>
-<div id="modal-season2category" style="display: none;">
-    <form id="save-session-to-category" class="update-season2category" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>">
-        <input type="hidden" name="action" value="add_season_to_category">    
-        <input type="hidden" name="_car_category_id" value="<?php echo (int) $post->ID ?>">    
-        <select name="_season_to_category">
+    <label>
+        <select id="season2category-select" name="_season_to_category">
+            <option value=""><?php _e('--Pick a season--', $this->car_share) ?></option>
             <?php foreach ($seasons as $season): ?>
                 <option value="<?php echo $season->ID ?>"><?php _e($season->post_title, $this->car_share) ?></option>
             <?php endforeach; ?>
         </select>
+    </label>
+    
+    <div id="pick-season-response"></div>
 
-        <table>
-            <tbody>
-                <tr>
-                    <?php foreach ($days as $day_name => $label): ?>
-                        <td><?php _e($label, $this->car_share) ?>:</td>
-                    <?php endforeach; ?>
-                </tr>
+    <div id="message-place" class="alignleft green"></div>
+<!--</form>-->
 
-                <tr>
-                    <?php foreach ($days as $day_name => $label): ?>
-                        <td><input type="number" step="0.01" name="_season_to_category_prices[<?php echo $day_name ?>]" class="day-price" value="<?php echo isset($category_day_prices[$day_name]) ? $category_day_prices[$day_name]->price : 0 ?>"></td>
-                    <?php endforeach; ?>
-                </tr>
-            </tbody>
-        </table>
-        <input type="submit" class="button button-primary" value="<?php _e('Save', $this->car_share) ?>">
-        <div id="message-place" class="alignleft green"></div>    
-    </form>
-</div>
+<script>
+    jQuery(document).ready(function ($) {
+        $('#poststuff').on('change', '#season2category-select', function (event) {
+            
+            console.log('onchange');
+            
+            var self = $(this);
+            //var id = $(this).data('car_id');
+            
+            var season_id = $(this).val();
+            
+            if('' == season_id){
+                return;
+            }
 
+            jQuery.ajax({
+                type: 'post',
+                url: ajaxurl,
+                //dataType: "json",
+                data: {
+                    'season_id' : season_id,
+                    'id': <?php echo (int) $post_id ?>,
+                    'action': 'season2category_days',
+                },
+                beforeSend: function () {
+                        //self.prop("disabled", true);
+                    }
+                }).done(function (ret) {
+                    $('#pick-season-response').html(ret);
+                    //var new_element = $('#single_car_box_' + id).after(ret);
+                }).fail(function (ret) {
+                    $('#pick-season-response').html(ret.responseText);
+                    //alert('<?php _e('Create new car failed', $this->car_share) ?>');
+                }).always(function () {
+                    //self.prop("disabled", false);
+                });            
+        });
+    });
+</script>
