@@ -532,12 +532,12 @@ class Car_share_Admin {
     /**
      *
      */
-    public function cleaning(){
+    public function cleaning($post_id){
 
-        global $post;
+        //global $post;
         
         if(in_array($post->post_type, array('sc-booking', 'sc-season')) ){        
-            delete_all_date_metas($post->ID);            
+            delete_all_date_metas($post_id);            
         }
     }
 

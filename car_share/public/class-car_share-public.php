@@ -257,8 +257,8 @@ class Car_share_Public {
                 'search_items' => __('Search car booking', $this->car_share),
                 'menu_name' => __('Car booking', $this->car_share)
             ),
-            'public' => true,
-            'publicly_queryable' => true,
+            'public' => false,
+            //'publicly_queryable' => true,
             'show_ui' => true,
             'supports' => array(
                 'thumbnail',

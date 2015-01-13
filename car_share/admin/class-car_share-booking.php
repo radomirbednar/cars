@@ -66,6 +66,10 @@ class Car_share_Booking {
  */
     
     public function add_custom_boxes() { 
+        
+        add_meta_box(                 
+                'booking_date_interval', __('Date Interval', $this->car_share), array($this, 'booking_date_interval'), 'sc-booking'
+        );         
          
         add_meta_box(
                  
@@ -77,6 +81,15 @@ class Car_share_Booking {
         );         
         */  
      }
+     
+     public function booking_date_interval(){
+         global $post;
+         
+         $from = get_date_meta($post->ID, '_from');
+         $to = get_date_meta($post->ID, '_to');
+         
+         include 'partials/booking/interval.php';
+     }
     
     
     
@@ -85,10 +98,7 @@ class Car_share_Booking {
         
         global $post;         
         
-        // get_default_checkout_fields
-        
-        
-      
+        // get_default_checkout_fields     
         
         
         $custom_fields = get_post_custom($post->ID);

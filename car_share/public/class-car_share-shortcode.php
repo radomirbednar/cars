@@ -511,41 +511,53 @@ class Car_share_Shortcode {
         } else {
             $category_and = '';
         }
-        $sql = "SELECT
-                    *
-                    FROM
-                    $wpdb->posts posts
-                    JOIN
-                    wp_postmeta wp_postmeta
-                    ON
-                    wp_postmeta.post_id = posts.ID
-                    JOIN
-                    sc_single_car sc_single_car
-                    ON
-                    sc_single_car.parent = posts.ID
-                    JOIN
-                    sc_single_car_location sc_location
-                    ON
-                    sc_location.single_car_id = sc_single_car.single_car_id
-                    JOIN
-                    sc_single_car_location sc_locationto
-                    ON
-                    sc_locationto.single_car_id = sc_single_car.single_car_id
-                    WHERE sc_single_car.single_car_id NOT IN
+        $sql = "
+            SELECT
+                *
+            FROM
+                $wpdb->posts posts
+            JOIN
+                wp_postmeta wp_postmeta
+            ON
+                wp_postmeta.post_id = posts.ID
+            JOIN
+                sc_single_car sc_single_car
+            ON
+                sc_single_car.parent = posts.ID
+            JOIN
+                sc_single_car_location sc_location
+            ON
+                sc_location.single_car_id = sc_single_car.single_car_id
+            JOIN
+                sc_single_car_location sc_locationto
+            ON
+                sc_locationto.single_car_id = sc_single_car.single_car_id
+            WHERE 
+                sc_single_car.single_car_id NOT IN
                     (
-                    SELECT single_car_id FROM sc_single_car_status WHERE
-                    '$car_dto_string' >= date_from AND date_to >= '$car_dfrom_string'
+                        SELECT 
+                            single_car_id 
+                        FROM 
+                            sc_single_car_status 
+                        WHERE
+                            '$car_dto_string' >= date_from
+                        AND 
+                            date_to >= '$car_dfrom_string'
                     )
-                    $category_and
-                    AND
+
+
+
+                $category_and
+                AND
                     posts.post_type = 'sc-car'
-                    AND
+                AND
                     (sc_location.location_id = '$pick_up_location' AND sc_location.location_type = '1')
-                    AND
+                AND
                     (sc_locationto.location_id = '$drop_off_location' AND sc_locationto.location_type = '2')
-                    AND
+                AND
                     posts.post_status = 'publish'
-                    GROUP BY posts.ID";
+                GROUP BY 
+                    posts.ID";
 
         $this->cars = $wpdb->get_results($sql);
     }
