@@ -6,8 +6,7 @@
      
 if (!empty($_SESSION['TOKEN'])) {
   
-    $token_value = ($_SESSION['TOKEN']);  
-    
+    $token_value = ($_SESSION['TOKEN']);   
     $args = array(
         'post_type' => 'sc-booking',
         'meta_query' => array(
@@ -29,35 +28,58 @@ if (!empty($_SESSION['TOKEN'])) {
             {           
                 echo $key;
                 echo $value[0]; 
-            }
+            } 
+        
+            $cart_car_ID = get_post_meta(get_the_ID(), 'cart_car_ID'  );
+            $paypal_payed_amt = get_post_meta(get_the_ID(), 'amt');
             
-            
-            
-            
-   
-        } // end while
+ 
+             
+            } // end while
     } // end if
     wp_reset_postdata(); 
+
+    
+    if($car_order == '1')
+    { 
+      _e('Thank your for your booking we are send you all information to your email:', $this->car_share);  
+    }  
+    elseif($car_order == '2')
+    { 
+      _e('Thank you. Your booking is pending now we are send you all information to your email:', $this->car_share);     
+    }   
+    elseif($car_order == '3') { 
+      _e('There are something wrong. Payment failed', $this->car_share);   
+    }
+    
+    
+         
+    ?>
  
-    
-  //  $car_result = $Cars_cart->get_ItembyID($car_ID);
-    
-    
-    
-    
-    
-    
+            <table>
+                <tr>
+                    <td><?php _e('FROM', $this->car_share); ?></td>
+                    <td><?php echo get_the_title($pick_up_location); ?></td>
+                    <td><?php echo $car_dfrom_string; ?></td>
+                </tr>
+                <tr>
+                    <td><?php _e('TO', $this->car_share); ?></td>
+                    <td><?php echo get_the_title($drop_off_location); ?></td>
+                    <td><?php echo $car_dto_string; ?></td>
+                </tr>
+            </table>
+ 
+ <?php
+ 
+    //  $car_result = $Cars_cart->get_ItembyID($car_ID); 
     //we have the information about the token
     //Unset all of the session variables.
  
-      $_SESSION = array();
+    /*  $_SESSION = array();
       // Finally, destroy the session.
-      session_destroy();
+      session_destroy();*/
    
-    
-    
-    
-    
+ 
     
 } elseif (!empty($Cars_cart_items)) {
     
