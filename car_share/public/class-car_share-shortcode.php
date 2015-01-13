@@ -35,36 +35,41 @@ class Car_share_Shortcode {
 
     public function paypal() {
  
-        $PayPalMode = 'sandbox'; // sandbox or live
-        //paypal options
-        
-        $sc_options_paypal = get_option('second_set_arraykey'); 
-        $currency = $sc_options_paypal['sc-currency'];
+        $sc_options_paypal = get_option('second_set_arraykey');
+ 
+        if(!empty($sc_options_paypal['apiusername-setting'])){
+            $PayPalApiUsername = $sc_options_paypal['apiusername-setting'];
+        }
+        if(!empty($sc_options_paypal['apipassword-setting'])){
+            $PayPalApiPassword = $sc_options_paypal['apipassword-setting'];
+        }
+        if(!empty($sc_options_paypal['apisignature-setting'])){
+            $PayPalApiSignature = $sc_options_paypal['apisignature-setting'];
+        } 
+           //paypal options
+          $PayPalMode = 'sandbox'; // sandbox or live
+          if(!empty($sc_options_paypal['paypalsandbox-setting'])){
 
-         
-        if(!empty($sc_options_paypal['apiusername-setting'])){   
-            $PayPalApiUsername = $sc_options_paypal['apiusername-setting'];  
+            if($sc_options_paypal['paypalsandbox-setting']=='0')
+            {
+               $PayPalMode = 'live';
+            }
         }
-        if(!empty($sc_options_paypal['apipassword-setting'])){       
-            $PayPalApiPassword = $sc_options_paypal['apipassword-setting']; 
-        }
-        if(!empty($sc_options_paypal['apisignature-setting'])){ 
-            $PayPalApiSignature = $sc_options_paypal['apisignature-setting']; 
-        }
-        
-         
-        //page options
+  
+              //page options
         $sc_options = get_option('sc-pages');
         $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
-
-        //currency form the setting
-        $PayPalCurrencyCode = $currency; //Paypal Currency Code 
+ 
+         //currency form the setting
+        $currency = $sc_options_paypal['sc-currency'];
+        $PayPalCurrencyCode = $currency; //Paypal Currency Code
+ 
+        //paypal return point from setting
         $PayPalReturnURL = $checkout_car_url; //Point to process.php page
         $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
 
         include_once("paypalsdk/expresscheckout.php");
-
-
+ 
         if (isset($_POST['sc-checkout']) && isset($_POST['post_nonce_field']) && wp_verify_nonce($_POST['post_nonce_field'], 'post_nonce')) {
 
             // information for the payment
@@ -187,8 +192,10 @@ class Car_share_Shortcode {
                     if ($post_insert_id) {
                         // Update Custom Meta
                         foreach ($checkout_fields as $input_key => $field) {
+                             
                             //$field['required'];
                             update_post_meta($post_insert_id, $input_key, esc_attr(strip_tags($_POST[$input_key])));
+                         
                         }
                         //post meta information about booking
                         //nezapomenout smazat na konci veskerou session !!!!!!!
@@ -289,7 +296,7 @@ class Car_share_Shortcode {
             $paypal = new MyPayPal();
             $httpParsedResponseAr = $paypal->PPHttpPost('DoExpressCheckoutPayment', $padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
             //Check if everything went ok..
- 
+
             if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
 
                 $post_insert_id = $_SESSION['post_insert_id'];
@@ -319,28 +326,28 @@ class Car_share_Shortcode {
                 $httpParsedResponseAr = $paypal->PPHttpPost('GetExpressCheckoutDetails', $padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
 
                 //$httpParsedResponseAr2 = $paypal->PPHttpPost('GetTransactionDetails',$padaid, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
- 
+
                 if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
 
                     $post_insert_id = $_SESSION['post_insert_id'];
-                    
+
                     $buyerName = $httpParsedResponseAr["FIRSTNAME"] . ' ' . $httpParsedResponseAr["LASTNAME"];
                     $buyerEmail = $httpParsedResponseAr["EMAIL"];
-                    
+
                     $payerid = $httpParsedResponseAr["PAYERID"];
                     $responseamt = $httpParsedResponseAr["AMT"];
                     $checkoutstatur = $httpParsedResponseAr["CHECKOUTSTATUS"];
-                    
+
 
                     //save the transaction information
                     update_post_meta($post_insert_id, 'car_r_order_status', '1');
                     update_post_meta($post_insert_id, 'car_r_order_info', 'Completed GetExpressCheckoutDetails');
-                    
+
                     update_post_meta($post_insert_id, 'payerid', $payerid);
                     update_post_meta($post_insert_id, 'responseamt', $responseamt);
                     update_post_meta($post_insert_id, 'checkoutstaus', $checkoutstatur);
                     //muzeme ukladat i dalsi hodnoty
- 
+
                     //save the information in database
                 } else {
 
