@@ -185,10 +185,25 @@ if (!empty($_SESSION['TOKEN'])) {
                     <td><?php _e('CAR : ', $this->car_share); ?></td>
                     <td><?php echo $car_price; ?></td>
                 </tr>
+                
+                <?php                 
+                $surcharge_active = get_post_meta($car_category, '_surcharge_active', true);
+                
+                if(1 == $surcharge_active):
+                    
+                    $surcharge_age = get_post_meta($car_category, '_surcharge_age', true);
+                ?>
+                
                 <tr>
                     <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td>
-                    <td></td>
+                    <td>
+                        <label>
+                            <input id="apply-surcharge" type="checkbox" name="apply_surcharge" value="1">
+                            <?php printf(__('I am under %d.', $this->car_share), $surcharge_age); ?>
+                        </label>
+                    </td>
                 </tr>
+                <?php endif; ?>
 
                 <?php if (!empty($extras_price)) { ?>
                     <tr>
