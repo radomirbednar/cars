@@ -15,7 +15,20 @@
 
 <div class="wrap">
 <?php screen_icon(); ?>
-    <h2>Settings</h2>
+    <h2><?php _e('Settings', $this->car_share) ?></h2>
+    
+    <form method="post" action="options.php">
+        <?php
+        // This prints out all hidden setting fields
+        // settings_fields( $option_group )
+        settings_fields( 'deposit-setting-group' );
+        // do_settings_sections( $page )
+        do_settings_sections( 'car-share-deposit-settings-section' );         
+        submit_button(__('Save Changes', $this->car_share));
+        ?>
+    </form>
+    
+    
     <form method="post" action="options.php">
     <?php
     // This prints out all hidden setting fields

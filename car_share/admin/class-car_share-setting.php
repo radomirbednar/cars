@@ -80,6 +80,7 @@ class Car_share_Setting {
     public function checkout_form_setup() {
         //$screen = get_current_screen();
         if (isset($_POST['save_checkout_form_setup'])) {
+            
             $default_fields = get_default_checkout_fields();
             $arr_to_save = array();
             foreach ($default_fields as $input_key => $input_value) {
@@ -111,6 +112,26 @@ class Car_share_Setting {
     }
 
     function register_settings() {
+
+        /**
+         * Deposit setting subsection
+         */
+        add_settings_section(
+                'main-settings-demand-deposit', __('Deposit setting', $this->car_share), array($this, 'print_demand_deposit_section_info'), 'car-share-deposit-settings-section'
+        );
+
+        add_settings_field(
+                'deposit_amount_field', __('Deposit amount (%)', $this->car_share), array($this, 'create_input_deposit_amount'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
+        );
+
+        add_settings_field(
+                'deposit_active_field', __('Demand deposit', $this->car_share), array($this, 'create_input_deposit_active'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
+        );
+
+        register_setting('deposit-setting-group', 'deposit_setting', array($this, 'deposit_settings_validate'));
+
+
+
 
 // add_settings_section( $id, $title, $callback, $page )
         add_settings_section(
@@ -164,8 +185,27 @@ class Car_share_Setting {
         register_setting('additional-settings-group', 'second_set_arraykey', array($this, 'plugin_additional_settings_validate'));
     }
 
+    function print_demand_deposit_section_info() {
+        echo '<p>' . _e('Deposit setting.', $this->car_share) . '</p>';
+    }
+
     function print_main_settings_section_info() {
-        echo '<p>General Setting.</p>';
+        echo '<p>' . _e('General Setting.', $this->car_share) . '</p>';
+    }
+
+    // deposit section inputs
+    public function create_input_deposit_amount() {
+        $options = get_option('deposit_setting');
+        ?>
+        <input type="number" step="0.01" max="100" name="deposit_setting[deposit_amount]" value="<?php echo isset($options['deposit_amount']) ? $options['deposit_amount'] : '' ?>">
+        <?php
+    }
+
+    public function create_input_deposit_active() {
+        $options = get_option('deposit_setting');
+        ?>
+        <input type="checkbox" name="deposit_setting[deposit_active]" value="1" <?php echo isset($options['deposit_active']) && 1 == $options['deposit_active'] ? 'checked="checked" ' : '' ?> />                
+        <?php
     }
 
     function create_input_some_setting() {
@@ -183,7 +223,20 @@ class Car_share_Setting {
             echo 'checked';
         }
         ?> />
-        <?php
+               <?php
+           }
+
+           
+           
+           /**
+            * 
+            * 
+            * @param type $arr_input
+            */
+           function deposit_settings_validate($arr_input) {
+               $arr_input['deposit_amount'] = floatval($arr_input['deposit_amount']);
+               $arr_input['deposit_active'] = floatval($arr_input['deposit_active']);
+               return $arr_input;
            }
 
            function plugin_main_settings_validate($arr_input) {
@@ -298,7 +351,7 @@ class Car_share_Setting {
      */
 
     public function my_plugin_install_function() {
-
+        
     }
 
 }

@@ -179,7 +179,7 @@ function get_date_meta($post_id, $meta_key) {
     global $wpdb;
     $sql = "SELECT meta_value FROM postmeta_date WHERE post_id = '" . (int) $post_id . "' AND meta_key = '" . esc_sql($meta_key) . "'";
     $date_string = $wpdb->get_var($sql);
-    return DateTime::createFromFormat('Y-m-d', $date_string);
+    return DateTime::createFromFormat('Y-m-d H:i:s', $date_string);
 }
 
 function update_date_meta($post_id, $meta_key, DateTime $date) {
@@ -189,7 +189,7 @@ function update_date_meta($post_id, $meta_key, DateTime $date) {
         REPLACE INTO postmeta_date (post_id, meta_key, meta_value) VALUES (
             '" . (int) $post_id . "',
             '" . esc_sql($meta_key) . "',
-            '" . $date->format('Y-m-d') . "'
+            '" . $date->format('Y-m-d H:i:s') . "'
         )
     ";
 
