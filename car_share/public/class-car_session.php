@@ -13,7 +13,7 @@ class Car_Cart {
      * @param string $name The name of the cart.
      */
 
-    function __construct($name) {
+    public function __construct($name) {
         $hash = sha1('whatsthecallme063214056*');
         $this->cart_name = $name . $hash;
         $this->items = empty($_SESSION[$this->cart_name]) ? array() : $_SESSION[$this->cart_name];
@@ -25,15 +25,25 @@ class Car_Cart {
      * @param string $order_code The order code of the item.
      * @param int $quantity The quantity.
      */
-    function setItemSearch($pick_up_location, $drop_off_location, $car_datefrom, $car_dateto, $car_category) {
+    public function setItemSearch($pick_up_location, $drop_off_location, $car_datefrom, $car_dateto, $car_category) {
         $this->items['pick_up_location'] = $pick_up_location;
         $this->items['drop_off_location'] = $drop_off_location;
         $this->items['car_datefrom'] = $car_datefrom;
         $this->items['car_dateto'] = $car_dateto;
         $this->items['car_category'] = $car_category;
     }
-
-    function getItemSearch() {
+     
+    public function setItemCategory($carID) {
+         
+          //car category from car post id     
+        $car_category = get_post_meta( $carID, '_car_category' );    
+        $this->items['car_category'] = $car_category;   
+        
+        
+         
+    } 
+    
+    public function getItemSearch() {
         return $this->items;
     }
 
@@ -44,7 +54,7 @@ class Car_Cart {
      * @return int The price.
      */
    
-       function sc_get_price($single_car_id, DateTime $from, DateTime $to) {     
+    public function sc_get_price($single_car_id, DateTime $from, DateTime $to) {     
      
         global $wpdb; 
         $car_id = $wpdb->get_var("SELECT parent FROM sc_single_car WHERE single_car_id = '" . (int) $single_car_id . "'"); 
@@ -153,7 +163,7 @@ class Car_Cart {
         return $total_price;
     } 
      
-    function sc_get_extras_price(DateTime $from, DateTime $to) {
+    public function sc_get_extras_price(DateTime $from, DateTime $to) {
  
         global $wpdb;
          
@@ -184,7 +194,7 @@ class Car_Cart {
         return $extras_prices; 
     }
     
-    function get_ItembyID($car_ID)
+    public function get_ItembyID($car_ID)
     {    
       global $wpdb;
             $sql = "
@@ -200,23 +210,18 @@ class Car_Cart {
             $car_result = $wpdb->get_results($sql);       
      return $car_result;        
     } 
-    
-    
- 
+     
     /**
      * getItemName() - Get the name of an item.
      *
      * @param string $order_code The order code of the item.
      */
-    
-    
-    
-    
-    function setItemId($id_code) {
+     
+    public function setItemId($id_code) {
         $this->items['car_ID'] = $id_code;
     }
 
-    function setItemService($service) {
+    public function setItemService($service) {
         $this->items['service'] = $service;
     }
 
@@ -225,7 +230,7 @@ class Car_Cart {
      *
      * @return array The items.
      */
-    function getItems() {
+    public function getItems() {
         return $this->items;
     }
 
@@ -234,7 +239,7 @@ class Car_Cart {
      *
      * @return bool True if there are items.
      */
-    function hasItems() {
+    public function hasItems() {
         return (bool) $this->items;
     }
 
@@ -244,7 +249,7 @@ class Car_Cart {
      * @param string $order_code The order code.
      * @return int The quantity.
      */
-    function getItemQuantity($order_code) {
+    public function getItemQuantity($order_code) {
         return (int) $this->items[$order_code];
     }
 
@@ -252,7 +257,7 @@ class Car_Cart {
      * clean() - Cleanup the cart contents. If any items have a
      *           quantity less than one, remove them.
      */
-    function clean() {
+    public function clean() {
 
         foreach ($this->items as $order_code => $quantity) {
             if ($quantity < 1)
@@ -263,7 +268,7 @@ class Car_Cart {
     /**
      * save() - Saves the cart to a session variable.
      */
-    function save() {
+    public function save() {
         $_SESSION[$this->cart_name] = $this->items;
     }
 
