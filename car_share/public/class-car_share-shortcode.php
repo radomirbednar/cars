@@ -222,8 +222,13 @@ class Car_share_Shortcode {
 
                 update_post_meta($post_insert_id, 'cart_pick_up', esc_attr(strip_tags($pick_up_location)));
                 update_post_meta($post_insert_id, 'cart_drop_off', esc_attr(strip_tags($drop_off_location)));
-                update_post_meta($post_insert_id, 'cart_date_from', esc_attr(strip_tags($car_dfrom)));
-                update_post_meta($post_insert_id, 'cart_date_to', esc_attr(strip_tags($car_dto)));
+                
+                
+                update_date_meta($post_insert_id, '_from', $car_dfrom);
+                update_date_meta($post_insert_id, '_to', $car_dto);
+                
+               //update_post_meta($post_insert_id, 'cart_date_from', esc_attr(($car_dfrom)));
+                //update_post_meta($post_insert_id, 'cart_date_to', esc_attr(($car_dto)));
                 update_post_meta($post_insert_id, 'cart_car_category', esc_attr(strip_tags($car_category)));
                 update_post_meta($post_insert_id, 'cart_car_name', esc_attr(strip_tags($ItemName)));
                 update_post_meta($post_insert_id, 'cart_car_ID', esc_attr(strip_tags($car_ID)));

@@ -74,7 +74,7 @@ function get_default_checkout_fields(){
             'enabled' => 1,
             'required' => 0
         ),
-        'Flight number' => array(
+        '_flight_number' => array(
             'label' => 'Flight number',
             'placeholder' => 'Flight number',
             'enabled' => 1,
