@@ -90,7 +90,7 @@ class Car_share_CarCategory {
     public function add_custom_boxes() {
 
         add_meta_box(
-                'car_category_miminum_age', __('Minimum driver age', $this->car_share), array($this, 'minimum_age_box'), 'sc-car-category'
+                'car_category_young_driver_surcharge', __('Young driver surcharge ', $this->car_share), array($this, 'young_driver_surcharge'), 'sc-car-category'
         );
 
         add_meta_box(
@@ -283,10 +283,11 @@ class Car_share_CarCategory {
       exit();
       } */
 
-    public function minimum_age_box() {
+    public function young_driver_surcharge() {
         global $post;
         $minimum_driver_age = get_post_meta($post->ID, '_minimum_driver_age', true);
-        $minimum_age_fee = get_post_meta($post->ID, '_minimum_age_fee', true);
+        $minimum_age_fee = get_post_meta($post->ID, '_surcharge_active', true);
+        $active = get_post_meta($post->ID, '_driver_surcharge', true);
         include 'partials/car-category/minimum_driver_age.php';
     }
 
@@ -353,7 +354,7 @@ class Car_share_CarCategory {
             //
             $keys = array(
                 '_minimum_driver_age',
-                '_minimum_age_fee',
+                '_surcharge_active',
             );
 
             foreach ($keys as $key) {
