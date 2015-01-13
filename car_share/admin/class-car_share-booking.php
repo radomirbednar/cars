@@ -44,10 +44,7 @@ class Car_share_Booking {
         
     }
     
-    
-    
-            
-            
+   
             
 /*
     public function column_head($defaults){            
@@ -72,33 +69,53 @@ class Car_share_Booking {
          
         add_meta_box(
                  
-                'booking_box', __('Code', $this->car_share), array($this, 'voucher_code_box'), 'sc-voucher'
-        );
-        
-        
-        
+                'booking_box', __('Booking Info', $this->car_share), array($this, 'booking_info_box'), 'sc-booking'
+        ); 
+        /*     
         add_meta_box(
                 'voucher_discount_box', __('Discount (percentage)', $this->car_share), array($this, 'voucher_discount_box'), 'sc-voucher'
-        );        
-    }
+        );         
+        */  
+     }
     
-    public function voucher_code_box(){ 
+    
+    
+    
+    public function booking_info_box(){ 
         
-        global $post;        
+        global $post;         
+        
+        // get_default_checkout_fields
+        
+        
+      
+        
+        
+        $custom_fields = get_post_custom($post->ID);
+        
+ 
+        
+        $my_custom_field = $custom_fields;
          
-        $voucher_code = get_post_meta($post->ID, '_voucher_code', true);      
+        foreach ( $my_custom_field as $key => $value ) {
+            echo $key . " => " . $value[0] . "<br />";
+        }
+        
+        
+        
+        /*$voucher_code = get_post_meta($post->ID, '_voucher_code', true);      
          
         include 'partials/voucher/code.php';
-        
+        */ 
         wp_nonce_field(__FILE__, 'voucher_nonce');
     }
     
-    public function voucher_discount_box(){
-        global $post;        
-        $discount = get_post_meta($post->ID, '_discount', true);        
-        include 'partials/voucher/discount.php';        
-    }
+     
 
+    
+    
+    
+    
     public function save() { 
         //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
         if (isset($_POST['voucher_nonce']) && wp_verify_nonce($_POST['voucher_nonce'], __FILE__)) {

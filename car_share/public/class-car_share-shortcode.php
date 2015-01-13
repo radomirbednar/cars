@@ -337,8 +337,7 @@ class Car_share_Shortcode {
                     $payerid = $httpParsedResponseAr["PAYERID"];
                     $responseamt = $httpParsedResponseAr["AMT"];
                     $checkoutstatur = $httpParsedResponseAr["CHECKOUTSTATUS"];
-
-
+ 
                     //save the transaction information
                     update_post_meta($post_insert_id, 'car_r_order_status', '1');
                     update_post_meta($post_insert_id, 'car_r_order_info', 'Completed GetExpressCheckoutDetails');
@@ -348,6 +347,11 @@ class Car_share_Shortcode {
                     update_post_meta($post_insert_id, 'checkoutstaus', $checkoutstatur);
                     //muzeme ukladat i dalsi hodnoty
 
+                    
+                    
+                    
+                    
+                    
                     //save the information in database
                 } else {
 
@@ -483,13 +487,16 @@ class Car_share_Shortcode {
     }
 
     public function pick_car_form() {
+        
+        
 
         $sc_options = get_option('sc-pages');
         $this->extras_car_url = isset($sc_options['extras']) ? get_page_link($sc_options['extras']) : '';
-
+ 
+        
         $Cars_cart = new Car_Cart('shopping_cart');
         $Cars_cart_items = $Cars_cart->getItems();
-        //improve for check
+          
         $pick_up_location = $Cars_cart_items['pick_up_location'];
         $drop_off_location = $Cars_cart_items['drop_off_location'];
         $car_dfrom = $Cars_cart_items['car_datefrom'];
@@ -498,6 +505,8 @@ class Car_share_Shortcode {
         $car_dfrom_string = $car_dfrom->format('Y-m-d H:i:s');
         $car_dto_string = $car_dto->format('Y-m-d H:i:s');
 
+        
+         
         /*
          * get me all cars from one category
          */
