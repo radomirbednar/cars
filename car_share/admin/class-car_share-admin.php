@@ -535,10 +535,10 @@ class Car_share_Admin {
     public function cleaning(){
 
         global $post;
-
-        $x = 1;
-        $y = $x;
-
+        
+        if(in_array($post->post_type, array('sc-booking', 'sc-season')) ){        
+            delete_all_date_metas($post->ID);            
+        }
     }
 
 }

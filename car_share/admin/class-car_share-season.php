@@ -85,8 +85,8 @@ class Car_share_Season {
             global $post;
             global $wpdb;
 
-            $date_from = DateTime::createFromFormat('d.m.Y', $_POST['_from']);
-            $date_to = DateTime::createFromFormat('d.m.Y', $_POST['_to']);
+            $date_from = DateTime::createFromFormat('d.m.Y H:i:s', $_POST['_from'] . ' 00:00:00');
+            $date_to = DateTime::createFromFormat('d.m.Y H:i:s', $_POST['_to'] . ' 23:59:59');
 
             if (!empty($date_from)) {
                 update_date_meta($post->ID, '_from', $date_from);
