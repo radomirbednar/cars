@@ -345,13 +345,7 @@ class Car_share_Shortcode {
                     update_post_meta($post_insert_id, 'payerid', $payerid);
                     update_post_meta($post_insert_id, 'responseamt', $responseamt);
                     update_post_meta($post_insert_id, 'checkoutstaus', $checkoutstatur);
-                    //muzeme ukladat i dalsi hodnoty
-
-                    
-                    
-                    
-                    
-                    
+                    //muzeme ukladat i dalsi hodnoty                  
                     //save the information in database
                 } else {
 
