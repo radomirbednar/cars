@@ -23,6 +23,8 @@ if (!empty($_SESSION['TOKEN'])) {
             $my_query->the_post(); 
             $meta_values = get_post_custom(get_the_ID());                     
             $car_order = $meta_values["car_r_order_status"][0]; 
+            $post_ID = get_the_ID();
+            
              
             foreach($meta_values as $key=>$value)
             {           
@@ -30,16 +32,18 @@ if (!empty($_SESSION['TOKEN'])) {
                 echo $value[0]; 
             } 
         
-            $cart_car_ID = get_post_meta(get_the_ID(), 'cart_car_ID'  );
-            $paypal_payed_amt = get_post_meta(get_the_ID(), 'amt');
+            $cart_car_ID = get_post_meta($post_ID, 'cart_car_ID'  );
+            $paypal_payed_amt = get_post_meta($post_ID, 'amt');
             
+            
+            $pick_up_location = get_post_meta($post_ID, 'cart_pick_up');
+            $drop_off_location = get_post_meta($post_ID, 'cart_drop_off');
  
-             
+              
             } // end while
     } // end if
     wp_reset_postdata(); 
-
-    
+ 
     if($car_order == '1')
     { 
       _e('Thank your for your booking we are send you all information to your email:', $this->car_share);  
@@ -51,41 +55,52 @@ if (!empty($_SESSION['TOKEN'])) {
     elseif($car_order == '3') { 
       _e('There are something wrong. Payment failed', $this->car_share);   
     }
-    
-    
-         
-    ?>
- 
+       
+    ?> 
             <table>
                 <tr>
-                    <td><?php _e('FROM', $this->car_share); ?></td>
-                    <td><?php echo get_the_title($pick_up_location); ?></td>
+                    <td><?php _e('FROM', $this->car_share); ?></td>                     
+                    <td><?php echo get_the_title($pick_up_location); ?></td> 
                     <td><?php echo $car_dfrom_string; ?></td>
                 </tr>
                 <tr>
-                    <td><?php _e('TO', $this->car_share); ?></td>
-                    <td><?php echo get_the_title($drop_off_location); ?></td>
+                    <td><?php _e('TO', $this->car_share); ?></td> 
+                    <td><?php echo get_the_title($drop_off_location); ?></td> 
                     <td><?php echo $car_dto_string; ?></td>
                 </tr>
+                <tr>
+                    <td>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        
+                    </td>
+                </tr>     
             </table>
- 
+           
  <?php
  
     //  $car_result = $Cars_cart->get_ItembyID($car_ID); 
     //we have the information about the token
     //Unset all of the session variables.
  
-    /*  $_SESSION = array();
+      $_SESSION = array();
       // Finally, destroy the session.
-      session_destroy();*/
+      session_destroy(); 
    
  
     
 } elseif (!empty($Cars_cart_items)) {
-    
-    
-    
-
+ 
     if (!empty($Cars_cart_items['service'])) {
         $extras = $Cars_cart_items['service'];
     }
