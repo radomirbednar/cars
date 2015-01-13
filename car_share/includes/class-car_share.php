@@ -52,6 +52,7 @@ class Car_share {
     const DROP_OFF_LOCATION = 2;
     const UNAVAILABLE = 0;
     const RENTED = 1;
+    const BOOKED = 2;
 
     /**
      * The current version of the plugin.
