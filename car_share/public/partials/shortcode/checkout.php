@@ -38,11 +38,8 @@ if (!empty($_SESSION['TOKEN'])) {
             
             $pick_up_location = get_post_meta($post_ID, 'cart_pick_up');
             $drop_off_location = get_post_meta($post_ID, 'cart_drop_off');
-            
-            var_dump($pick_up_location);
+      
  
-            
-            
               
             } // end while
     } // end if
@@ -97,11 +94,11 @@ if (!empty($_SESSION['TOKEN'])) {
     //we have the information about the token
     //Unset all of the session variables.
  
-    /*
+  
       $_SESSION = array();
       // Finally, destroy the session.
       session_destroy(); 
-    */
+   
  
     
 } elseif (!empty($Cars_cart_items)) {
@@ -128,10 +125,12 @@ if (!empty($_SESSION['TOKEN'])) {
     if (!empty($Cars_cart_items['drop_off_location'])) {
         $drop_off_location = $Cars_cart_items['drop_off_location'];
     }
-
+ 
+    //cart category
     if (!empty($Cars_cart_items['car_category'])) {
         $car_category = $Cars_cart_items['car_category'];
     }
+     
     ?>
     <?php if (!empty($car_result)) { ?>
     
@@ -186,12 +185,15 @@ if (!empty($_SESSION['TOKEN'])) {
                     <td><?php echo $car_price; ?></td>
                 </tr>
                 
-                <?php                 
+                <?php       
+                
+            
                 $surcharge_active = get_post_meta($car_category, '_surcharge_active', true);
                 
                 if(1 == $surcharge_active):
                     
                     $surcharge_age = get_post_meta($car_category, '_surcharge_age', true);
+                
                 ?>
                 
                 <tr>
@@ -582,10 +584,17 @@ if (!empty($_SESSION['TOKEN'])) {
         </form>
         <?php
     } else {
+        
+        
         _e('Please go back and chose a car.', $this->car_share);
+ 
+     
+        
     }
 } else {
 
     _e('Please go back and chose a car.', $this->car_share);
+      
+      
 }
 ?>

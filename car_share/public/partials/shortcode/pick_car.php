@@ -22,9 +22,15 @@
                 $pick_up_location = $Cars_cart_items['pick_up_location'];
                 $drop_off_location = $Cars_cart_items['drop_off_location']; 
                 $car_dfrom = $Cars_cart_items['car_datefrom'];
-                $car_dto = $Cars_cart_items['car_dateto'];
-                $car_category = $Cars_cart_items['car_category'];  
-   
+                $car_dto = $Cars_cart_items['car_dateto'];   
+                $car_category = $Cars_cart_items['car_category'];   
+        
+                if(!empty($car_category))
+                {
+                    //car category from car post id     
+                    $car_category = get_post_meta( $car->ID, '_car_category' );    
+                    $this->items['car_category'] = $car_category;   
+                } 
                 
                 
             ?> 
