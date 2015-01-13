@@ -140,36 +140,26 @@ class Car_share_Setting {
 
         add_settings_field(
                 'currency-setting', 'Currency Setting', array($this, 'create_currency_another_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
-        );
-
-
-
+        ); 
+        add_settings_field(
+                'payablenow-setting', 'Payable Setting', array($this, 'create_payable_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
+        ); 
         add_settings_field(
                 'apiusername-setting', 'API Username', array($this, 'create_apiusername_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
-        );
-
-
+        ); 
         add_settings_field(
                 'apipassword-setting', 'API Password', array($this, 'create_apipassword_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
-        );
-
-
+        ); 
         add_settings_field(
                 'apisignature-setting', 'API Signature', array($this, 'create_apisignature_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
-        );
-
-
+        ); 
         add_settings_field(
                 'paypalemail-setting', 'PayPal Email', array($this, 'create_paypalemail_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
-        );
-
+        ); 
         add_settings_field(
                 'paypalsandbox-setting', 'PayPal Sandbox', array($this, 'create_paypalsandbox_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
         );
-
-
-
-
+  
 // register_setting( $option_group, $option_name, $sanitize_callback )
         register_setting('additional-settings-group', 'second_set_arraykey', array($this, 'plugin_additional_settings_validate'));
     }
@@ -210,6 +200,14 @@ class Car_share_Setting {
            function create_input_another_setting() {
                $options = get_option('second_set_arraykey');
                ?><input type="text" name="second_set_arraykey[sc-unit]" value="<?php echo $options['sc-unit']; ?>" /><?php
+           }
+
+           function create_payable_setting() {
+               $options = get_option('second_set_arraykey');
+               
+               ?>
+               <input type="text" name="second_set_arraykey[payablenow-setting]" value="<?php if(!empty($options['payablenow-setting'])){echo $options['payablenow-setting'];} ?>" />   
+               <?php
     }
 
     function create_currency_another_setting() {
@@ -274,6 +272,8 @@ class Car_share_Setting {
         $options['apipassword-setting'] = trim($arr_input['apipassword-setting']);
         $options['paypalemail_setting'] = trim($arr_input['paypalemail_setting']);
         $options['paypalsandbox-setting'] = trim($arr_input['paypalsandbox-setting']);
+ 
+        $options['payablenow-setting'] = trim($arr_input['payablenow-setting']);
 
         return $options;
     }
