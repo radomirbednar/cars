@@ -34,23 +34,31 @@ class Car_share_Shortcode {
     }
 
     public function paypal() {
-
+ 
         $PayPalMode = 'sandbox'; // sandbox or live
         //paypal options
-        $sc_options_paypal = get_option('second_set_arraykey');
+        
+        $sc_options_paypal = get_option('second_set_arraykey'); 
         $currency = $sc_options_paypal['sc-currency'];
 
-        $PayPalApiUsername = $sc_options_paypal['apiusername-setting'];
-        $PayPalApiPassword = $sc_options_paypal['apipassword-setting'];
-        $PayPalApiSignature = $sc_options_paypal['apisignature-setting'];
-
+         
+        if(!empty($sc_options_paypal['apiusername-setting'])){   
+            $PayPalApiUsername = $sc_options_paypal['apiusername-setting'];  
+        }
+        if(!empty($sc_options_paypal['apipassword-setting'])){       
+            $PayPalApiPassword = $sc_options_paypal['apipassword-setting']; 
+        }
+        if(!empty($sc_options_paypal['apisignature-setting'])){ 
+            $PayPalApiSignature = $sc_options_paypal['apisignature-setting']; 
+        }
+        
+         
         //page options
         $sc_options = get_option('sc-pages');
         $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
 
         //currency form the setting
-        $PayPalCurrencyCode = $currency; //Paypal Currency Code
-
+        $PayPalCurrencyCode = $currency; //Paypal Currency Code 
         $PayPalReturnURL = $checkout_car_url; //Point to process.php page
         $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
 

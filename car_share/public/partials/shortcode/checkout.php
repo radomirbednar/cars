@@ -39,7 +39,7 @@ if (!empty($_SESSION['TOKEN'])) {
             $pick_up_location = get_post_meta($post_ID, 'cart_pick_up');
             $drop_off_location = get_post_meta($post_ID, 'cart_drop_off');
             
-            echo $pick_up_location;
+            var_dump($pick_up_location);
  
             
             
@@ -64,12 +64,12 @@ if (!empty($_SESSION['TOKEN'])) {
             <table>
                 <tr>
                     <td><?php _e('FROM', $this->car_share); ?></td>                     
-                    <td><?php echo get_the_title($pick_up_location); ?></td> 
+                    <td><?php echo get_the_title($pick_up_location[0]); ?></td> 
                     <td><?php echo $car_dfrom_string; ?></td>
                 </tr>
                 <tr>
                     <td><?php _e('TO', $this->car_share); ?></td> 
-                    <td><?php echo get_the_title($drop_off_location); ?></td> 
+                    <td><?php echo get_the_title($drop_off_location[0]); ?></td> 
                     <td><?php echo $car_dto_string; ?></td>
                 </tr>
                 <tr>
@@ -97,10 +97,11 @@ if (!empty($_SESSION['TOKEN'])) {
     //we have the information about the token
     //Unset all of the session variables.
  
+    /*
       $_SESSION = array();
       // Finally, destroy the session.
       session_destroy(); 
- 
+    */
  
     
 } elseif (!empty($Cars_cart_items)) {
