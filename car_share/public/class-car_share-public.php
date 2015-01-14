@@ -309,7 +309,7 @@ class Car_share_Public {
         $Cars_cart = new Car_Cart('shopping_cart');
         $Cars_cart_items = $Cars_cart->getItemSearch();   
         
-        
+        $x = 1;
         
         
         

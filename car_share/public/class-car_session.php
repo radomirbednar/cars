@@ -33,6 +33,11 @@ class Car_Cart {
         $this->items['car_category'] = $car_category;
     }
      
+    public function setYoungDriverSurcharte(){
+        $this->items['young_driver_surcharge'] = $pick_up_location;
+    }
+    
+    
     public function setItemCategory($carID) {
          
           //car category from car post id     
