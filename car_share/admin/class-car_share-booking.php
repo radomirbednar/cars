@@ -57,18 +57,23 @@ class Car_share_Booking {
     }
 
     public function column_content($column_name, $post_id){
+        
+        $booking = new sc_Booking($post_id);
+        
         switch($column_name){
             case 'from':
-                $from = get_date_meta($post_id, '_from');
-                echo empty($from) ? '' : $from->format(get_option('date_format'));
-                echo ' - ';
-                echo empty($from) ? '' : $from->format(get_option('time_format'));
+                if(!empty($booking->from())){
+                    echo $booking->from()->format(get_option('date_format'));
+                    echo ' - ';
+                    echo $booking->from()->format(get_option('time_format'));
+                }
                 break;
             case 'to':
-                $to = get_date_meta($post_id, '_to');
-                echo empty($to) ? '' : $to->format(get_option('date_format'));
-                echo ' - ';
-                echo empty($to) ? '' : $to->format(get_option('time_format'));
+                if(!empty($booking->to())){
+                    echo $booking->to()->format(get_option('date_format'));
+                    echo ' - ';
+                    echo $booking->to()->format(get_option('time_format'));
+                }
                 break;
         }
     }
@@ -94,8 +99,9 @@ class Car_share_Booking {
      public function booking_date_interval(){
          global $post;
 
-         $from = get_date_meta($post->ID, '_from');
-         $to = get_date_meta($post->ID, '_to');
+         //$from = get_date_meta($post->ID, '_from');
+         //$to = get_date_meta($post->ID, '_to');
+         $booking = new sc_Booking($post);
 
          include 'partials/booking/interval.php';
      }

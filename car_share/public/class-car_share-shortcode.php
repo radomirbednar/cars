@@ -510,6 +510,10 @@ class Car_share_Shortcode {
         } else {
             $category_and = '';
         }
+        
+        $sc_setting = get_option('sc_setting');
+        $car_block_time = isset($sc_setting['car_block_interval']) ? floor(floatval($sc_setting['car_block_interval']) * 60) : 0; 
+        
         $sql = "
             SELECT
                 *
@@ -539,9 +543,21 @@ class Car_share_Shortcode {
                         FROM 
                             sc_single_car_status 
                         WHERE
-                            '$car_dto_string' >= date_from
-                        AND 
-                            date_to >= '$car_dfrom_string'
+                            (
+                                    '$car_dto_string' >= date_from
+                                AND 
+                                    date_to >= '$car_dfrom_string'
+                                AND 
+                                    status != '" . car_share::STATUS_BOOKED . "'
+                            )
+                        OR 
+                            (
+                                    '$car_dto_string' > date_from
+                                AND 
+                                    DATE_ADD(date_to, INTERVAL $car_block_time MINUTE) > '$car_dfrom_string'
+                                AND 
+                                    status = '" . car_share::STATUS_BOOKED . "'
+                            )
                     )
 
                 $category_and
