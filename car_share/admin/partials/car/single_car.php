@@ -9,7 +9,7 @@
 require_once('calendar_class.php');
 $calendar = new donatj\SimpleCalendar();
 $calendar->setStartOfWeek('Monday');
- 
+
 //get all date from this car id
 //$car_id
 
@@ -21,26 +21,32 @@ $sqlcalendar = "SELECT
                 sc_single_car_status
                 WHERE
                 single_car_id = $car_id;
-                "; 
+                ";
 
-    $calendar_result = $wpdb->get_results($sqlcalendar);
-        //sc_single_car_status
-    $calendar_result = array_filter($calendar_result);
+$calendar_result = $wpdb->get_results($sqlcalendar);
+//sc_single_car_status
+$calendar_result = array_filter($calendar_result);
 
-    if (!empty($calendar_result)) {
+if (!empty($calendar_result)) { 
+    foreach ($calendar_result as $calendar_events) { 
         
-        foreach ($calendar_result as $calendar_events) { 
+        $e_date_from = $calendar_events->date_from;
+        $e_date_to = $calendar_events->date_to;
+        $e_date_status = $calendar_events->status;
 
-            $e_date_from = $calendar_events->date_from;
-            $e_date_to = $calendar_events->date_to;
-            $e_date_status = $calendar_events->status;
-            $calendar->addDailyHtml('<span class="booked">Booked</span>', $e_date_from, $e_date_to);
-     
+        if ($e_date_status == Car_share::STATUS_UNAVAILABLE) {
+            $cal_status = '<span class="unavailable">Unavailable</span>';
         }
+        if ($e_date_status == Car_share::STATUS_RENTED) {
+            $cal_status = '<span class="rented">Rented</span>';
+        }
+        if ($e_date_status == Car_share::STATUS_BOOKED) {
+            $cal_status = '<span class="booked">Booked</span>';
+        }
+        $calendar->addDailyHtml($cal_status, $e_date_from, $e_date_to);
     }
- 
+} 
 $calendar->show(true);
-
 
 ?>
 <?php if (!empty($locations)): ?>
@@ -50,9 +56,9 @@ $calendar->show(true);
             <input type="checkbox" name="car[<?php echo $car_id ?>][pickup_location][]" value="<?php echo $location->ID ?>" <?php echo isset($pickup_location) && in_array($location->ID, $pickup_location) ? ' checked="checked" ' : '' ?>>
         <?php _e($location->post_title) ?>
         </label>
-        <?php endforeach; ?>
+    <?php endforeach; ?>
     <div class="clear"></div>
-<?php endif; ?>
+    <?php endif; ?>
 
 <?php if (!empty($locations)): ?>
     <h2><?php _e('Drop-off Location:', $this->car_share) ?></h2>
@@ -61,9 +67,9 @@ $calendar->show(true);
             <input type="checkbox" name="car[<?php echo $car_id ?>][dropoff_location][]" value="<?php echo $location->ID ?>" <?php echo isset($dropoff_location) && in_array($location->ID, $dropoff_location) ? ' checked="checked" ' : '' ?>>
         <?php _e($location->post_title) ?>
         </label>
-        <?php endforeach; ?>
+    <?php endforeach; ?>
     <div class="clear"></div>
-<?php endif; ?>
+    <?php endif; ?>
 
 <h2><?php _e('Status', $this->car_share) ?></h2>
 
@@ -74,10 +80,10 @@ $calendar->show(true);
 <?php _e('Note', $this->car_share) ?>
             </td>
             <td>
-                <?php _e('From', $this->car_share) ?>
+<?php _e('From', $this->car_share) ?>
             </td>
             <td>
-                <?php _e('To', $this->car_share) ?>
+<?php _e('To', $this->car_share) ?>
             </td>
             <th></th>
         </tr>

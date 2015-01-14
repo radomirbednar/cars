@@ -5,7 +5,7 @@
 .label-inline {
     margin-right: 10px;
 }
-.small-input, 
+.small-input,
 .form-field input[type="text"] {
     width: 100px;
 }
@@ -30,12 +30,12 @@
     font-weight: bold;
     color: white;
     background-color: #e40000;
-    border-radius: 50%;    
+    border-radius: 50%;
 }
 
 .inline-label {
     -webkit-border-radius: 3px 3px 3px 3px;
-    border-radius: 3px 3px 3px 3px;  
+    border-radius: 3px 3px 3px 3px;
     background-color: #f7f7f7;
     border: 1px solid #ccc;
     padding: 2px 3px;
@@ -54,43 +54,68 @@ h4 {
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #e5e5e5;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);    
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
 
-
-
 table.SimpleCalendar {
-  font-family: Arial;
-  border-collapse: collapse; }
-  table.SimpleCalendar th {
-    background: #C9E9F0;
-    color: #0092B4;
+    font-family: Arial;
+    border-collapse: collapse; }
+table.SimpleCalendar th {
+    background: #727272;
+    color: #fff;
     font-size: 11px;
     padding: 3px;
-    border: 1px solid #bbb;
+    border: 1px solid #B6B6B6;
     border-top: none; }
-  table.SimpleCalendar tbody td {
+table.SimpleCalendar tbody td {
     vertical-align: top;
     width: 60px;
     height: 60px;
     border: 1px solid #bbb;
     background: #e6e6e6; }
-    table.SimpleCalendar tbody td time {
-      font-size: .7em;
-      display: block;
-      background: white;
-      padding: 2px;
-      text-align: right;
-      font-weight: bold; }
-    table.SimpleCalendar tbody td.SCsuffix, table.SimpleCalendar tbody td.SCprefix {
-      background: white; }
-    table.SimpleCalendar tbody td div.event {
-      color: #355;
-      font-size: .65em;
-      padding: 5px;
-      line-height: 1em;
-      border-bottom: 1px solid #bbb;
-      background: #858585;
-      color: white; }
-  table.SimpleCalendar tbody td.today {
+table.SimpleCalendar tbody td time {
+    font-size: .7em;
+    display: block;
+    background: white;
+    padding: 2px;
+    text-align: right;
+    font-weight: bold; }
+table.SimpleCalendar tbody td.SCsuffix, table.SimpleCalendar tbody td.SCprefix {
+    background: white; }
+table.SimpleCalendar tbody td div.event {
+    font-size: .8em;
+    line-height: 1em;
+    color: #fff; }
+table.SimpleCalendar tbody td div.event span.unavailable {
+    background: #E91E63;
+    border: 1px solid #C2185B;
+    display:block;
+    height: 40px;
+    padding: 5px;
+
+}
+table.SimpleCalendar tbody td div.event span.booked {
+
+    background: #8BC34A;
+    border: 1px solid #689F38;
+    display:block;
+    height: 40px;
+    padding: 5px;
+}
+table.SimpleCalendar tbody td div.event span.rented {
+
+    background: #00BCD4;
+    border: 1px solid #0097A7;
+    display:block;
+    height: 40px;
+    padding: 5px;
+}
+
+
+
+table.SimpleCalendar tbody td.today {
     background: #d2d2d2; }
+
+
+
+
