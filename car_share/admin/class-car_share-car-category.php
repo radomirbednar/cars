@@ -89,8 +89,13 @@ class Car_share_CarCategory {
 
     public function add_custom_boxes() {
 
+        /*
         add_meta_box(
                 'car_category_block_interval', __('Car block interval', $this->car_share), array($this, 'car_block_interval_box'), 'sc-car-category'
+        );    */    
+        
+        add_meta_box(
+                'car_category_different_location_return_price', __('Car block interval', $this->car_share), array($this, 'different_location_return_price_box'), 'sc-car-category'
         );        
         
         add_meta_box(
@@ -286,12 +291,18 @@ class Car_share_CarCategory {
       include 'partials/car-category/content_assigned_season.php';
       exit();
       } */
-
+/*
     public function car_block_interval_box(){
         
         global $post;
         
         
+    }*/
+    
+    public function different_location_return_price_box(){
+        global $post;
+        $different_location_price = get_post_meta($post_id, '_different_location_price', true);
+        include 'partials/car-category/different_location_price.php';
     }
     
     public function young_driver_surcharge_box() {
