@@ -89,8 +89,17 @@ class Car_share_CarCategory {
 
     public function add_custom_boxes() {
 
+        /*
         add_meta_box(
-                'car_category_young_driver_surcharge', __('Young driver surcharge ', $this->car_share), array($this, 'young_driver_surcharge'), 'sc-car-category'
+                'car_category_block_interval', __('Car block interval', $this->car_share), array($this, 'car_block_interval_box'), 'sc-car-category'
+        );    */    
+        
+        add_meta_box(
+                'car_category_different_location_return_price', __('Price for return to different location', $this->car_share), array($this, 'different_location_return_price_box'), 'sc-car-category'
+        );        
+        
+        add_meta_box(
+                'car_category_young_driver_surcharge', __('Young driver surcharge ', $this->car_share), array($this, 'young_driver_surcharge_box'), 'sc-car-category'
         );
 
         add_meta_box(
@@ -282,8 +291,22 @@ class Car_share_CarCategory {
       include 'partials/car-category/content_assigned_season.php';
       exit();
       } */
-
-    public function young_driver_surcharge() {
+/*
+    public function car_block_interval_box(){
+        
+        global $post;
+        
+        
+    }*/
+    
+    public function different_location_return_price_box($post_id){
+        //global $post;
+        $location_price = get_post_meta($post_id, '_location_price', true);
+        $apply_location_price = get_post_meta($post_id, '_apply_location_price', true);
+        include 'partials/car-category/different_location_price.php';
+    }
+    
+    public function young_driver_surcharge_box() {
         global $post;
         $surcharge_age = get_post_meta($post->ID, '_surcharge_age', true);
         $surcharge_fee = get_post_meta($post->ID, '_surcharge_fee', true);
@@ -355,6 +378,7 @@ class Car_share_CarCategory {
             $keys = array(
                 '_surcharge_age',                
                 '_surcharge_fee',
+                '_location_price'
             );
 
             foreach ($keys as $key) {
@@ -365,10 +389,17 @@ class Car_share_CarCategory {
                 }
             }
             
-            if(isset($_POST['_surcharge_active']) && 1 == $_POST['_surcharge_active']){
-                update_post_meta((int) $post->ID, '_surcharge_active', 1);
-            } else{
-                delete_post_meta((int) $post->ID, '_surcharge_active');
+            $checkboxes = array(
+                //'_apply_location_price',
+                '_surcharge_active'
+            );
+            
+            foreach($checkboxes as $index){
+                if(isset($_POST[$index]) && 1 == $_POST[$index]){
+                    update_post_meta((int) $post->ID, $index, 1);
+                } else{
+                    delete_post_meta((int) $post->ID, $index);
+                }
             }
         }
     }
