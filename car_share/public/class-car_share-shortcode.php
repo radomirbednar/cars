@@ -544,9 +544,6 @@ class Car_share_Shortcode {
                         AND 
                             date_to >= '$car_dfrom_string'
                     )
-
-
-
                 $category_and
                 AND
                     posts.post_type = 'sc-car'
