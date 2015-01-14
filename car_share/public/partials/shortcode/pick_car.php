@@ -5,6 +5,7 @@
     <?php foreach ($this->cars as $car): ?>  
           <div class="col-md-12">  
             <?php  
+             
                 $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail');
                 //predefinovane informace k autu
                 $number_of_seats = get_post_meta($car->ID, '_number_of_seats', true);
@@ -15,11 +16,9 @@
                 $number_of_doors = esc_attr($number_of_doors);
                 $number_of_suitcases = esc_attr($number_of_suitcases);
                 $transmission = esc_attr($transmission);
-                //predefinovane informace k autu 
-                
+                //predefinovane informace k autu  
                 $Cars_cart = new Car_Cart('shopping_cart');
-                $Cars_cart_items = $Cars_cart->getItems(); 
-                
+                $Cars_cart_items = $Cars_cart->getItems();  
                 //improve for sanitize 
                 $pick_up_location = $Cars_cart_items['pick_up_location'];
                 $drop_off_location = $Cars_cart_items['drop_off_location']; 
@@ -27,11 +26,7 @@
                 $car_dto = $Cars_cart_items['car_dateto'];   
                 $car_category = $Cars_cart_items['car_category'];   
          
-                if(empty($car_category))
-                {    
-                    $Cars_cart->setItemCategory($car->ID);
-                    $Cars_cart->save(); 
-                } 
+                
   
             ?> 
             <?php echo $post_thumbnail; ?> 
