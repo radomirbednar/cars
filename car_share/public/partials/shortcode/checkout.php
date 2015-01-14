@@ -178,7 +178,7 @@ if (!empty($_SESSION['TOKEN'])) {
                 if (empty($car_category)) {
 
                     // get car category from the car-ID because we need this here
-                    $car_category = get_post_meta($car->ID, '_car_category');
+                    $car_category = get_post_meta($car->ID, '_car_category', true);
                 }
 
                 $surcharge_active = get_post_meta($car_category, '_surcharge_active', true);
