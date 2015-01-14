@@ -129,7 +129,7 @@ class Car_share_Setting {
         );
         
         add_settings_field(
-                'block_car_field', __('Block car interval', $this->car_share), array($this, 'create_input_block_car_interval'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
+                'block_car_field', __('Block car interval (hours)', $this->car_share), array($this, 'create_input_block_car_interval'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
         );        
 
         register_setting('deposit-setting-group', 'sc_setting', array($this, 'sc_settings_validate'));
