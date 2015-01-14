@@ -1,5 +1,23 @@
 <?php
 
+function get_booking_fields(){
+    
+    $arr = array(
+        'cart_pick_up' => 'Pick up location',
+        'cart_drop_off' => 'Drop off location',
+        'cart_car_category' => 'Car category',
+        'cart_car_name' => 'Car name',
+        'cart_car_ID' => 'Car ID',
+        'cart_car_price' => 'Car Price',
+        'cart_extra_price' => 'Extra Price',
+        'cart_total_price' => 'Total Price',
+        'cart_order_status' => 'Order statua',
+    );
+    
+    return $arr;
+    
+}
+
 function get_enabled_checkout_fields(){
     $checkout_fields = get_checkout_fields();
     
