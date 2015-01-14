@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The dashboard-specific functionality of the plugin.
  *
@@ -67,13 +66,158 @@ class Car_share_Admin {
         add_action('wp_ajax_delete_single_car', array($this, 'delete_single_car_ajax'));
         add_action('wp_ajax_create_single_car', array($this, 'create_single_car_ajax'));
 
-        add_action( 'admin_init', array($this, 'admin_init'));
+
+        add_action('wp_ajax_calendar_single_car', array($this, 'calendar_single_car_ajax'));
+
+        add_action('admin_init', array($this, 'admin_init'));
     }
 
-    public function admin_init(){
-        if ( current_user_can( 'delete_posts' ) ){
-               add_action( 'delete_post', array($this, 'cleaning'), 10 );
+    public function admin_init() {
+        if (current_user_can('delete_posts')) {
+            add_action('delete_post', array($this, 'cleaning'), 10);
         }
+    }
+
+    public function calendar_single_car_ajax($car_id) {
+
+        if (isset($_POST['calendar_id'])) {
+
+            $car_id = (int) $_POST['calendar_id'];
+            $date_info = $_POST['date_info'];
+
+            $today = DateTime::createFromFormat('m-d-Y H:i:s', $date_info);
+            $nextm = clone $today;
+            $nextm->modify('first day of next month');
+            $stringnextm = $nextm->format("m-d-Y H:i:s");
+            $lastm = clone $today;
+            $lastm->modify('first day of last month');
+            $stringlastm = $lastm->format("m-d-Y H:i:s");
+            $today_string = $today->format('F Y');
+        
+            
+        } else {
+
+            //$timestamp = strtotime('now');
+            //$date = date("Y-m-d H:i:s");
+
+            $today = new DateTime();
+            $nextm = clone $today;
+            $nextm->modify('first day of next month');
+            $stringnextm = $nextm->format("m-d-Y H:i:s");
+            $lastm = clone $today;
+            $lastm->modify('first day of last month');
+            $stringlastm = $lastm->format("m-d-Y H:i:s");
+            $today_string = $today->format('F Y');
+        }
+
+        //$timestamp = strtotime('now');
+        //$date = date("Y-m-d H:i:s");
+        ?>
+
+            <div class="<?php echo $car_id; ?>"> 
+            <a href="#" data-car-prew="<?php echo $stringlastm; ?>" class="cal_prew" ><?php _e('<< Prew', $this->car_share) ?></a>
+            <a href="#" data-car-next="<?php echo $stringnextm; ?>" class="cal_next"><?php _e('Next >>', $this->car_share) ?></a>
+            <span id="calendar-date"><?php echo $today_string; ?></span>
+ 
+        <?php
+        
+        require_once('calendar_class.php'); 
+        $calendar = new donatj\SimpleCalendar(); 
+         if (isset($_POST['calendar_id'])) { 
+            $calendar = new donatj\SimpleCalendar($today_string);             
+         }
+                            
+        $calendar->setStartOfWeek('Monday');
+//get all date from this car id
+//$car_id
+
+        if (false === strpos($car_id, 'new_car')) {
+            global $wpdb;
+            $sqlcalendar = "SELECT
+                *
+                FROM
+                sc_single_car_status
+                WHERE
+                single_car_id = $car_id;
+                ";
+
+            $calendar_result = $wpdb->get_results($sqlcalendar);
+//sc_single_car_status
+            $calendar_result = array_filter($calendar_result);
+
+            if (!empty($calendar_result)) {
+                foreach ($calendar_result as $calendar_events) {
+
+                    $e_date_from = $calendar_events->date_from;
+                    $e_date_to = $calendar_events->date_to;
+                    $e_date_status = $calendar_events->status;
+
+                    if ($e_date_status == Car_share::STATUS_UNAVAILABLE) {
+                        $cal_status = '<span class="unavailable">Unavailable</span>';
+                    }
+                    if ($e_date_status == Car_share::STATUS_RENTED) {
+                        $cal_status = '<span class="rented">Rented</span>';
+                    }
+                    if ($e_date_status == Car_share::STATUS_BOOKED) {
+                        $cal_status = '<span class="booked">Booked</span>';
+                    }
+                    $calendar->addDailyHtml($cal_status, $e_date_from, $e_date_to);
+                }
+            }
+        }
+        $calendar->show(true);
+        ?>
+        </div>
+
+
+        <script> 
+            (function($) {
+                'use strict';
+                $(document).ready(function($) {
+                    //get calendar id
+                    $(".cal_prew").click(function(event) {
+                        event.preventDefault();
+                        var id = $(this).parent().attr("class");
+                        var date_info = $(this).attr("data-car-prew");
+                        var data = {
+                            'action': 'calendar_single_car',
+                            'calendar_id': id,
+                            'date_info': date_info
+                                    // We pass php values differently!
+                        };
+                        // We can also pass the url value separately from ajaxurl for front end AJAX implementations
+                        $.post(ajaxurl, data, function(response) {
+
+                            $('.' + id + '').replaceWith(response);
+
+                        });
+                    });
+                    $(".cal_next").click(function(event) {
+                        event.preventDefault();
+                        var id = $(this).parent().attr("class");
+                        var date_info = $(this).attr("data-car-next");
+                        var data = {
+                            'action': 'calendar_single_car',
+                            'calendar_id': id,
+                            'date_info': date_info
+                                    // We pass php values differently!
+                        };
+                        // We can also pass the url value separately from ajaxurl for front end AJAX implementations
+                        $.post(ajaxurl, data, function(response) {
+
+                            $('.' + id + '').replaceWith(response);
+
+                        });
+                    });
+
+                });
+            })(jQuery);
+        </script>
+
+
+
+
+        <?php
     }
 
     public function create_single_car_ajax() {
@@ -97,7 +241,8 @@ class Car_share_Admin {
 
             if (isset($params['car'][$id]['dropoff_location'])) {
                 foreach ($params['car'][$id]['dropoff_location'] as $val) {
-                    $dropoff_location[] = $val;                }
+                    $dropoff_location[] = $val;
+                }
             }
 
             if (isset($params['car'][$id]['status'])) {
@@ -106,18 +251,20 @@ class Car_share_Admin {
                     $from_string = $val['from'] . ' ' . sprintf("%02s", $val['from_hour']) . ':' . sprintf("%02s", $val['from_min']);
                     $date_from = DateTime::createFromFormat('d.m.Y H:i', $from_string);
 
-                    $to_string = $val['to'] . ' ' . sprintf("%02s", $val['to_hour']) . ':' . sprintf("%02s", $val['to_min']);;
+                    $to_string = $val['to'] . ' ' . sprintf("%02s", $val['to_hour']) . ':' . sprintf("%02s", $val['to_min']);
+                    ;
                     $date_to = DateTime::createFromFormat('d.m.Y H:i', $to_string);
 
-                    if(!empty($date_from)){
+                    if (!empty($date_from)) {
                         $val['date_from'] = $date_from->format('Y-m-d H:i:s');
                     }
 
-                    if(!empty($date_to)){
+                    if (!empty($date_to)) {
                         $val['date_to'] = $date_to->format('Y-m-d H:i:s');
                     }
 
-                    $statuses[] = $val;                }
+                    $statuses[] = $val;
+                }
             }
         }
 
@@ -129,19 +276,21 @@ class Car_share_Admin {
 
         //ob_start();
         include 'partials/car/single_car_box.php';
+
+
+
         //$html = ob_get_contents();
         //ob_end_clean();
-
         //array_walk ( $statuses , '(array)');
         /*
-        $return = array(
-            'html' => $html,
-            'car_status' => $statuses,
-            'car_id' => $car_id
-        );
+          $return = array(
+          'html' => $html,
+          'car_status' => $statuses,
+          'car_id' => $car_id
+          );
 
-        echo json_encode($return);
-        */
+          echo json_encode($return);
+         */
         die();
     }
 
@@ -189,10 +338,6 @@ class Car_share_Admin {
          * class.
          */
         wp_enqueue_style($this->car_share, plugin_dir_url(__FILE__) . 'css/car_share-admin.css', array(), $this->version, 'all');
-
-        //wp_register_style('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css');
-        //wp_enqueue_style( 'jquery-ui' );
-        //wp_enqueue_style($this->car_share . 'jquery-ui', plugin_dir_url(__FILE__) . 'css/datepicker/css/datepicker.css', array(), $this->version, 'all');
         wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
     }
 
@@ -214,7 +359,7 @@ class Car_share_Admin {
          * between the defined hooks and the functions defined in this
          * class.
          */
-        wp_enqueue_script($this->car_share, plugin_dir_url(__FILE__) . 'js/car_share-admin.js', array('jquery'), $this->version, false);
+        wp_enqueue_script($this->car_share, plugin_dir_url(__FILE__) . 'js/car_share-admin.js', array('jquery'), $this->version, true);
         wp_enqueue_script('jquery-ui-datepicker', false, array('jquery'));
     }
 
@@ -249,9 +394,9 @@ class Car_share_Admin {
         );
 
         /*
-        add_meta_box(
-                'add_new_single_car_box', __('Add new single car', $this->car_share), array($this, 'add_new_single_car_box'), 'sc-car', 'side'
-        );  */
+          add_meta_box(
+          'add_new_single_car_box', __('Add new single car', $this->car_share), array($this, 'add_new_single_car_box'), 'sc-car', 'side'
+          ); */
 
         add_meta_box(
                 'service_price_box', __('Price', $this->car_share), array($this, 'service_price_box'), 'sc-service'
@@ -262,7 +407,7 @@ class Car_share_Admin {
         );
     }
 
-    function add_new_single_car_box(){
+    function add_new_single_car_box() {
         include 'partials/car/add_new_single_car.php';
     }
 
@@ -399,7 +544,7 @@ class Car_share_Admin {
                         INSERT INTO sc_single_car (single_car_id, spz) VALUES (
                             '" . (int) $single_car_id . "',
                             '" . esc_sql($car['spz']) . "'
-                        ) ON DUPLICATE KEY UPDATE spz = '" . esc_sql($car['spz']) .  "'";
+                        ) ON DUPLICATE KEY UPDATE spz = '" . esc_sql($car['spz']) . "'";
 
                     $wpdb->query($sql);
 
@@ -414,22 +559,8 @@ class Car_share_Admin {
                                     $date_to = DateTime::createFromFormat('d.m.Y H i', $date_to_string);
 
                                     if (!empty($date_from) && !empty($date_to)) {
-                                        
-                                        sc_Car::insertStatus($single_car_id, $date_from, $date_to, $car_status['status']);
-                                        
-                                        /*
-                                        $sql = "
-                                            INSERT INTO
-                                                sc_single_car_status (single_car_id, date_from, date_to, status)
-                                            VALUES (
-                                                '" . (int) $single_car_id . "',
-                                                '" . (empty($date_from) ? "" : $date_from->format('Y-m-d H:i:s')) . "',
-                                                '" . (empty($date_to) ? "" : $date_to->format('Y-m-d H:i:s')) . "',
-                                                '" . (int) $car_status['status'] . "'
-                                            )";
 
-                                        $wpdb->query($sql);
-                                        */
+                                        sc_Car::insertStatus($single_car_id, $date_from, $date_to, $car_status['status']);
                                     }
                                 }
                                 break;
@@ -537,12 +668,11 @@ class Car_share_Admin {
     /**
      *
      */
-    public function cleaning($post_id){
+    public function cleaning($post_id) {
 
         //global $post;
-        
-        //if(in_array($post->post_type, array('sc-booking', 'sc-season')) ){        
-            delete_all_date_metas($post_id);            
+        //if(in_array($post->post_type, array('sc-booking', 'sc-season')) ){
+        delete_all_date_metas($post_id);
         //}
     }
 
