@@ -301,21 +301,21 @@ class Car_share_Setting {
 
     // deposit section inputs
     public function create_input_deposit_amount() {
-        $options = get_option('sc_setting');
+        $sc_setting = get_option('sc_setting');
         ?>
-        <input type="number" step="0.01" max="100" name="sc_setting[deposit_amount]" value="<?php echo isset($options['deposit_amount']) ? $options['deposit_amount'] : '' ?>">
+        <input type="number" step="0.01" max="100" name="sc_setting[deposit_amount]" value="<?php echo isset($sc_setting['deposit_amount']) ? $sc_setting['deposit_amount'] : '' ?>">
         <?php
     }
 
     public function create_input_deposit_active() {
-        $options = get_option('sc_setting');
+        $sc_setting = get_option('sc_setting');
         ?>
-        <input type="checkbox" name="sc_setting[deposit_active]" value="1" <?php echo isset($options['deposit_active']) && 1 == $options['deposit_active'] ? 'checked="checked" ' : '' ?> />
+        <input type="checkbox" name="sc_setting[deposit_active]" value="1" <?php echo isset($sc_setting['deposit_active']) && 1 == $sc_setting['deposit_active'] ? 'checked="checked" ' : '' ?> />
         <?php
     }
     
     function create_input_block_car_interval(){
-        $options = get_option('sc_setting');
+        $sc_setting = get_option('sc_setting');
         ?><input type="number" step="0.05" name="sc_setting[car_block_interval]" value="<?php echo isset($sc_setting['car_block_interval']) ? floatval($sc_setting['car_block_interval']) : '0' ?>" />
         <?php        
     }    
@@ -344,7 +344,8 @@ class Car_share_Setting {
      */
     function sc_settings_validate($arr_input) {
         $arr_input['deposit_amount'] = floatval($arr_input['deposit_amount']);
-        $arr_input['deposit_active'] = floatval($arr_input['deposit_active']);
+        $arr_input['deposit_active'] = intval($arr_input['deposit_active']);
+        $arr_input['car_block_interval'] = floatval($arr_input['car_block_interval']);
         return $arr_input;
     }
 
