@@ -95,7 +95,7 @@ class Car_share_CarCategory {
         );    */    
         
         add_meta_box(
-                'car_category_different_location_return_price', __('Car block interval', $this->car_share), array($this, 'different_location_return_price_box'), 'sc-car-category'
+                'car_category_different_location_return_price', __('Price for return to different location', $this->car_share), array($this, 'different_location_return_price_box'), 'sc-car-category'
         );        
         
         add_meta_box(
@@ -299,9 +299,10 @@ class Car_share_CarCategory {
         
     }*/
     
-    public function different_location_return_price_box(){
-        global $post;
-        $different_location_price = get_post_meta($post_id, '_different_location_price', true);
+    public function different_location_return_price_box($post_id){
+        //global $post;
+        $location_price = get_post_meta($post_id, '_location_price', true);
+        $apply_location_price = get_post_meta($post_id, '_apply_location_price', true);
         include 'partials/car-category/different_location_price.php';
     }
     
@@ -377,6 +378,7 @@ class Car_share_CarCategory {
             $keys = array(
                 '_surcharge_age',                
                 '_surcharge_fee',
+                '_location_price'
             );
 
             foreach ($keys as $key) {
@@ -387,10 +389,17 @@ class Car_share_CarCategory {
                 }
             }
             
-            if(isset($_POST['_surcharge_active']) && 1 == $_POST['_surcharge_active']){
-                update_post_meta((int) $post->ID, '_surcharge_active', 1);
-            } else{
-                delete_post_meta((int) $post->ID, '_surcharge_active');
+            $checkboxes = array(
+                '_apply_location_price',
+                '_surcharge_active'
+            );
+            
+            foreach($checkboxes as $index){
+                if(isset($_POST[$index]) && 1 == $_POST[$index]){
+                    update_post_meta((int) $post->ID, $index, 1);
+                } else{
+                    delete_post_meta((int) $post->ID, $index);
+                }
             }
         }
     }
