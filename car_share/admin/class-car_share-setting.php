@@ -129,26 +129,21 @@ class Car_share_Setting {
         );
 
         register_setting('deposit-setting-group', 'deposit_setting', array($this, 'deposit_settings_validate'));
-
-
-
-
-
-// add_settings_section( $id, $title, $callback, $page )
+ 
+        // add_settings_section( $id, $title, $callback, $page )
         add_settings_section(
                 'main-settings-section', 'General Settings', array($this, 'print_main_settings_section_info'), 'car-plugin-main-settings-section'
         );
-// add_settings_field( $id, $title, $callback, $page, $section, $args )
+        // add_settings_field( $id, $title, $callback, $page, $section, $args )
         add_settings_field(
                 'notemail', 'Notification Email:', array($this, 'create_input_some_setting'), 'car-plugin-main-settings-section', 'main-settings-section'
         );
         add_settings_field(
                 'showcategory', 'Show category:', array($this, 'create_input_some_show_cat'), 'car-plugin-main-settings-section', 'main-settings-section'
         );
-// register_setting( $option_group, $option_name, $sanitize_callback )
-
-
-
+        // register_setting( $option_group, $option_name, $sanitize_callback )
+ 
+        
         add_settings_field(
                 'companyname-setting', 'Company Name:', array($this, 'create_name_setting'), 'car-plugin-main-settings-section', 'main-settings-section'
         );
@@ -184,10 +179,10 @@ class Car_share_Setting {
         add_settings_field(
                 'email-setting', 'Contact Email:', array($this, 'create_input_email'), 'car-plugin-main-settings-section', 'main-settings-section'
         );
-
-
-
-
+ 
+        
+        
+        
         register_setting('main-settings-group', 'car_plugin_options_arraykey', array($this, 'plugin_main_settings_validate'));
 
 // add_settings_section( $id, $title, $callback, $page )
@@ -288,17 +283,7 @@ class Car_share_Setting {
         ?><input type="text" name="car_plugin_options_arraykey[email-setting]" value="<?php echo isset($options['email-setting']) ? $options['email-setting'] : '' ?>" />
         <?php
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
+      
     function print_demand_deposit_section_info() {
         echo '<p>' . _e('Deposit setting.', $this->car_share) . '</p>';
     }
@@ -340,9 +325,8 @@ class Car_share_Setting {
         <?php
     }
 
-    /**
-     *
-     *
+     
+    /** 
      * @param type $arr_input
      */
     function deposit_settings_validate($arr_input) {
@@ -354,7 +338,17 @@ class Car_share_Setting {
     function plugin_main_settings_validate($arr_input) {
         $options = get_option('car_plugin_options_arraykey');
         $options['notemail'] = trim($arr_input['notemail']);
-        $options['showcategory'] = trim($arr_input['showcategory']);
+        $options['showcategory'] = trim($arr_input['showcategory']); 
+        $options['companyname-setting'] = trim($arr_input['companyname-setting']); 
+        $options['streetaddress-setting'] = trim($arr_input['streetaddress-setting']);
+        $options['city-setting'] = trim($arr_input['city-setting']);
+        $options['state-setting'] = trim($arr_input['state-setting']);
+        $options['country-setting'] = trim($arr_input['country-setting']); 
+        $options['zip-setting'] = trim($arr_input['zip-setting']);
+        $options['phone-setting'] = trim($arr_input['phone-setting']);
+        $options['fax-setting'] = trim($arr_input['fax-setting']);
+        $options['email-setting'] = trim($arr_input['email-setting']);
+         
         return $options;
     }
 

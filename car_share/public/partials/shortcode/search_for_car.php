@@ -2,6 +2,8 @@
 <form name="car_share_search_form" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">  
     <?php $count_posts = wp_count_posts( 'sc-location' )->publish; ?>  
     <?php echo $count_posts; ?> 
+    
+    
     <?php if($count_posts > 1){ ?> 
     <div class="form-group">
         <label><?php _e('Pickup location:', $this->car_share) ?></label>
@@ -12,8 +14,7 @@
                 'post_status' => 'publish',
                 'posts_per_page' => -1,
                 'orderby' => 'title',
-                'order' => 'ASC' 
-                
+                'order' => 'ASC'  
             );
             $query = new WP_Query($args); 
             ?> 
@@ -30,7 +31,7 @@
         </select>
     </div>
     <label for="returnlocationcheck"><?php _e('Returning to different location', $this->car_share) ?></label>
-    <input type="checkbox" name="returnlocation" id="returnlocationcheck" />
+    <input type="checkbox" name="returnlocation" id="returnlocationcheck" /> 
     <div class="form-group" id="car_drop_of_location">
         <label><?php _e('Drop off location:', $this->car_share) ?></label>
         <select class="form-control" name="drop_off_location">
@@ -55,6 +56,31 @@
             ?>
         </select>
     </div>  
+    <?php } else { ?> 
+     
+        <?php
+            $args = array(
+                'post_type' => 'sc-location',
+                'post_status' => 'publish',
+                'posts_per_page' => -1,
+                'orderby' => 'title',
+                'order' => 'ASC' 
+            );
+            $query = new WP_Query($args);
+
+            if ($query->have_posts()) :
+                while ($query->have_posts()) : $query->the_post();
+                    ?>
+                    <input type="hidden" name="pick_up_location" value="<?php the_ID(); ?>"/> 
+                    <input type="hidden" name="drop_off_location" value="<?php the_ID(); ?>"/>
+     
+                    <?php
+                endwhile;
+                wp_reset_postdata();
+            endif;
+            ?>
+      
+     
     <?php } ?> 
     <div class="form-group">
         <label for="car_datefrom"><?php _e('Pick-up date and time:', $this->car_share); ?></label>
