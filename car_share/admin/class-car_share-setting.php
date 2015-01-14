@@ -80,7 +80,7 @@ class Car_share_Setting {
     public function checkout_form_setup() {
         //$screen = get_current_screen();
         if (isset($_POST['save_checkout_form_setup'])) {
-            
+
             $default_fields = get_default_checkout_fields();
             $arr_to_save = array();
             foreach ($default_fields as $input_key => $input_value) {
@@ -130,10 +130,10 @@ class Car_share_Setting {
 
         register_setting('deposit-setting-group', 'deposit_setting', array($this, 'deposit_settings_validate'));
 
- 
-        
-        
-        
+
+
+
+
 // add_settings_section( $id, $title, $callback, $page )
         add_settings_section(
                 'main-settings-section', 'General Settings', array($this, 'print_main_settings_section_info'), 'car-plugin-main-settings-section'
@@ -144,76 +144,50 @@ class Car_share_Setting {
         );
         add_settings_field(
                 'showcategory', 'Show category:', array($this, 'create_input_some_show_cat'), 'car-plugin-main-settings-section', 'main-settings-section'
-        ); 
+        );
 // register_setting( $option_group, $option_name, $sanitize_callback )
 
+
+
         add_settings_field(
-                'companyname-setting', 'Company Name:', array($this, 'create_input_name_setting'), 'car-plugin-main-settings-section', 'main-settings-section'
-        ); 
-        
+                'companyname-setting', 'Company Name:', array($this, 'create_name_setting'), 'car-plugin-main-settings-section', 'main-settings-section'
+        );
+
         add_settings_field(
                 'streetaddress-setting', 'Street Address:', array($this, 'create_input_street_setting'), 'car-plugin-main-settings-section', 'main-settings-section'
-        ); 
-        
+        );
+
         add_settings_field(
                 'city-setting', 'City:', array($this, 'create_input_city_setting'), 'car-plugin-main-settings-section', 'main-settings-section'
-        ); 
-        
-     /*   add_settings_field(
+        );
+
+        add_settings_field(
                 'state-setting', 'State:', array($this, 'create_input_state_setting'), 'car-plugin-main-settings-section', 'main-settings-section'
-        ); 
-        
+        );
+
         add_settings_field(
                 'country-setting', 'Country:', array($this, 'create_input_country'), 'car-plugin-main-settings-section', 'main-settings-section'
-        ); 
-        
+        );
+
         add_settings_field(
                 'zip-setting', 'Zip / Post code:', array($this, 'create_input_zip'), 'car-plugin-main-settings-section', 'main-settings-section'
-        ); 
-        
+        );
+
         add_settings_field(
                 'phone-setting', 'Phone :', array($this, 'create_input_phone'), 'car-plugin-main-settings-section', 'main-settings-section'
-        ); 
-        
+        );
+
         add_settings_field(
                 'fax-setting', 'Fax:', array($this, 'create_input_fax'), 'car-plugin-main-settings-section', 'main-settings-section'
-        ); 
-        
+        );
+
         add_settings_field(
                 'email-setting', 'Contact Email:', array($this, 'create_input_email'), 'car-plugin-main-settings-section', 'main-settings-section'
-        ); */
-        
-        
-        function create_input_name_setting() {
-            
-        $options = get_option('car_plugin_options_arraykey');
-        
-        ?><input type="text" name="car_plugin_options_arraykey[companyname-setting]" value="<?php echo isset($options['companyname-setting']) ? $options['companyname-setting'] : '' ?>" />
-        <?php
-        }
-        
-        
-        function create_input_street_setting() {
-            
-        $options = get_option('car_plugin_options_arraykey');
-        
-        ?><input type="text" name="car_plugin_options_arraykey[streetaddress-setting]" value="<?php echo isset($options['streetaddress-setting']) ? $options['streetaddress-setting'] : '' ?>" />
-        <?php
-        }
-        
-        function create_input_city_setting() {
-            
-        $options = get_option('car_plugin_options_arraykey');
-        
-        ?><input type="text" name="car_plugin_options_arraykey[city-setting]" value="<?php echo isset($options['city-setting']) ? $options['streetaddress-setting'] : '' ?>" />
-        <?php
-        }
-        
-        
-        
-        
- 
-        
+        );
+
+
+
+
         register_setting('main-settings-group', 'car_plugin_options_arraykey', array($this, 'plugin_main_settings_validate'));
 
 // add_settings_section( $id, $title, $callback, $page )
@@ -228,29 +202,102 @@ class Car_share_Setting {
 
         add_settings_field(
                 'currency-setting', 'Currency Setting', array($this, 'create_currency_another_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
-        ); 
+        );
         add_settings_field(
                 'payablenow-setting', 'Payable Setting', array($this, 'create_payable_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
-        ); 
+        );
         add_settings_field(
                 'apiusername-setting', 'API Username', array($this, 'create_apiusername_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
-        ); 
+        );
         add_settings_field(
                 'apipassword-setting', 'API Password', array($this, 'create_apipassword_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
-        ); 
+        );
         add_settings_field(
                 'apisignature-setting', 'API Signature', array($this, 'create_apisignature_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
-        ); 
+        );
         add_settings_field(
                 'paypalemail-setting', 'PayPal Email', array($this, 'create_paypalemail_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
-        ); 
+        );
         add_settings_field(
                 'paypalsandbox-setting', 'PayPal Sandbox', array($this, 'create_paypalsandbox_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
         );
-  
+
 // register_setting( $option_group, $option_name, $sanitize_callback )
         register_setting('additional-settings-group', 'second_set_arraykey', array($this, 'plugin_additional_settings_validate'));
     }
+
+    function create_name_setting() {
+
+        $options = get_option('car_plugin_options_arraykey');
+        ?><input type="text" name="car_plugin_options_arraykey[companyname-setting]" value="<?php echo isset($options['companyname-setting']) ? $options['companyname-setting'] : '' ?>" />
+        <?php
+    }
+
+    function create_input_street_setting() {
+
+        $options = get_option('car_plugin_options_arraykey');
+        ?><input type="text" name="car_plugin_options_arraykey[streetaddress-setting]" value="<?php echo isset($options['streetaddress-setting']) ? $options['streetaddress-setting'] : '' ?>" />
+        <?php
+    }
+
+    function create_input_city_setting() {
+
+        $options = get_option('car_plugin_options_arraykey');
+        ?><input type="text" name="car_plugin_options_arraykey[city-setting]" value="<?php echo isset($options['city-setting']) ? $options['streetaddress-setting'] : '' ?>" />
+        <?php
+    }
+      
+    function create_input_country() {
+
+        $options = get_option('car_plugin_options_arraykey');
+        ?><input type="text" name="car_plugin_options_arraykey[country-setting]" value="<?php echo isset($options['country-setting']) ? $options['country-setting'] : '' ?>" />
+        <?php
+    }
+
+    function create_input_state_setting() {
+
+        $options = get_option('car_plugin_options_arraykey');
+        ?><input type="text" name="car_plugin_options_arraykey[state-setting]" value="<?php echo isset($options['state-setting']) ? $options['state-setting'] : '' ?>" />
+        <?php
+    }
+
+    function create_input_zip() {
+
+        $options = get_option('car_plugin_options_arraykey');
+        ?><input type="text" name="car_plugin_options_arraykey[zip-setting]" value="<?php echo isset($options['zip-setting']) ? $options['zip-setting'] : '' ?>" />
+        <?php
+    }
+     
+    function create_input_phone() {
+
+        $options = get_option('car_plugin_options_arraykey');
+        ?><input type="text" name="car_plugin_options_arraykey[phone-setting]" value="<?php echo isset($options['phone-setting']) ? $options['phone-setting'] : '' ?>" />
+        <?php
+    }
+
+    function create_input_fax() {
+
+        $options = get_option('car_plugin_options_arraykey');
+        ?><input type="text" name="car_plugin_options_arraykey[fax-setting]" value="<?php echo isset($options['fax-setting']) ? $options['fax-setting'] : '' ?>" />
+        <?php
+    }
+
+    function create_input_email() {
+
+        $options = get_option('car_plugin_options_arraykey');
+        ?><input type="text" name="car_plugin_options_arraykey[email-setting]" value="<?php echo isset($options['email-setting']) ? $options['email-setting'] : '' ?>" />
+        <?php
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     function print_demand_deposit_section_info() {
         echo '<p>' . _e('Deposit setting.', $this->car_share) . '</p>';
@@ -271,7 +318,7 @@ class Car_share_Setting {
     public function create_input_deposit_active() {
         $options = get_option('deposit_setting');
         ?>
-        <input type="checkbox" name="deposit_setting[deposit_active]" value="1" <?php echo isset($options['deposit_active']) && 1 == $options['deposit_active'] ? 'checked="checked" ' : '' ?> />                
+        <input type="checkbox" name="deposit_setting[deposit_active]" value="1" <?php echo isset($options['deposit_active']) && 1 == $options['deposit_active'] ? 'checked="checked" ' : '' ?> />
         <?php
     }
 
@@ -290,44 +337,43 @@ class Car_share_Setting {
             echo 'checked';
         }
         ?> />
-               <?php
-           }
+        <?php
+    }
 
-           
-           
-           /**
-            * 
-            * 
-            * @param type $arr_input
-            */
-           function deposit_settings_validate($arr_input) {
-               $arr_input['deposit_amount'] = floatval($arr_input['deposit_amount']);
-               $arr_input['deposit_active'] = floatval($arr_input['deposit_active']);
-               return $arr_input;
-           }
+    /**
+     *
+     *
+     * @param type $arr_input
+     */
+    function deposit_settings_validate($arr_input) {
+        $arr_input['deposit_amount'] = floatval($arr_input['deposit_amount']);
+        $arr_input['deposit_active'] = floatval($arr_input['deposit_active']);
+        return $arr_input;
+    }
 
-           function plugin_main_settings_validate($arr_input) {
-               $options = get_option('car_plugin_options_arraykey');
-               $options['notemail'] = trim($arr_input['notemail']);
-               $options['showcategory'] = trim($arr_input['showcategory']);
-               return $options;
-           }
+    function plugin_main_settings_validate($arr_input) {
+        $options = get_option('car_plugin_options_arraykey');
+        $options['notemail'] = trim($arr_input['notemail']);
+        $options['showcategory'] = trim($arr_input['showcategory']);
+        return $options;
+    }
 
-           function print_additional_settings_section_info() {
-               echo '<p>Additional Settings Description.</p>';
-           }
+    function print_additional_settings_section_info() {
+        echo '<p>Additional Settings Description.</p>';
+    }
 
-           function create_input_another_setting() {
-               $options = get_option('second_set_arraykey');
-               ?><input type="text" name="second_set_arraykey[sc-unit]" value="<?php echo isset($options['sc-unit']) ? $options['sc-unit'] : '' ?>" /><?php
+    function create_input_another_setting() {
+        $options = get_option('second_set_arraykey');
+        ?><input type="text" name="second_set_arraykey[sc-unit]" value="<?php echo isset($options['sc-unit']) ? $options['sc-unit'] : '' ?>" /><?php
            }
 
            function create_payable_setting() {
                $options = get_option('second_set_arraykey');
-               
                ?>
-               <input type="text" name="second_set_arraykey[payablenow-setting]" value="<?php if(!empty($options['payablenow-setting'])){echo $options['payablenow-setting'];} ?>" />   
-               <?php
+        <input type="text" name="second_set_arraykey[payablenow-setting]" value="<?php if (!empty($options['payablenow-setting'])) {
+            echo $options['payablenow-setting'];
+        } ?>" />
+        <?php
     }
 
     function create_currency_another_setting() {
@@ -369,7 +415,7 @@ class Car_share_Setting {
     }
 
     function create_paypalsandbox_setting() {
- 
+
         $options = get_option('second_set_arraykey');
         ?>
         <input type="checkbox" name="second_set_arraykey[paypalsandbox-setting]" value="1" <?php
@@ -382,18 +428,18 @@ class Car_share_Setting {
 
     function plugin_additional_settings_validate($arr_input) {
 
+        
         $options = get_option('second_set_arraykey');
         $options['sc-unit'] = trim($arr_input['sc-unit']);
-        $options['sc-currency'] = trim($arr_input['sc-currency']);
-
+        $options['sc-currency'] = trim($arr_input['sc-currency']); 
         $options['apiusername-setting'] = trim($arr_input['apiusername-setting']);
         $options['apisignature-setting'] = trim($arr_input['apisignature-setting']);
         $options['apipassword-setting'] = trim($arr_input['apipassword-setting']);
         $options['paypalemail_setting'] = trim($arr_input['paypalemail_setting']);
-        $options['paypalsandbox-setting'] = trim($arr_input['paypalsandbox-setting']);
- 
+        $options['paypalsandbox-setting'] = trim($arr_input['paypalsandbox-setting']); 
         $options['payablenow-setting'] = trim($arr_input['payablenow-setting']);
 
+        
         return $options;
     }
 
@@ -417,7 +463,7 @@ class Car_share_Setting {
      */
 
     public function my_plugin_install_function() {
-        
+
     }
 
 }
