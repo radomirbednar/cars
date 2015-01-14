@@ -193,44 +193,46 @@ if (!empty($_SESSION['TOKEN'])) {
                     ?>
 
                 <script>
-                    jQuery(document).ready(function ($) {                    
-                        
-                        function refrest_checkout_prices(){
+                    jQuery(document).ready(function ($) {
 
-                                $.ajax({
-                                    type: 'post',
-                                    dataType: 'json',
-                                    url: '<?php echo admin_url('admin-ajax.php'); ?>',
-                                    data: {
-                                        'action': 'refresh_checkout_price'
-                                    },
-                                    beforeSend: function () {
-                                        //self.prop("disabled", true);
-                                    }
-                                }).done(function (ret) {
-                                    $('#price-total').html(ret.total);
-                                    $('#price-payable-now').html(ret.paypable_now);
-                                }).fail(function (ret) {
+                        function refrest_checkout_prices() {
 
-                                }).always(function () {
-                                    //self.prop("disabled", false);
-                                });                        
+                            $.ajax({
+                                type: 'post',
+                                dataType: 'json',
+                                url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                                data: {
+                                    'action': 'refresh_checkout_price'
+                                },
+                                beforeSend: function () {
+                                    //self.prop("disabled", true);
+                                }
+                            }).done(function (ret) {
+                                $('#price-total').html(ret.total);
+                                $('#price-payable-now').html(ret.paypable_now);
+                            }).fail(function (ret) {
 
-                        }                        
-                        
-                        $( "#apply-surcharge" ).click(function() {
-                          refrest_checkout_prices();
-                        });                    
+                            }).always(function () {
+                                //self.prop("disabled", false);
+                            });
+
+                        }
+
+                        $("#apply-surcharge").click(function () {
+                            refrest_checkout_prices();
+                        });
                     });
                 </script>
 
                 <tr>
                     <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td>
                     <td>
-                        <label>
-                            <input id="apply-surcharge" type="checkbox" name="apply_surcharge" value="1">
-                            <?php printf(__('I am under %d.', $this->car_share), $surcharge_age); ?>
-                        </label>
+                        <form id="surcharge-form" method="" action="">
+                            <label>
+                                <input id="apply-surcharge" type="checkbox" name="apply_surcharge" value="1">
+                                <?php printf(__('I am under %d.', $this->car_share), $surcharge_age); ?>
+                            </label>
+                        </form>
                     </td>
                 </tr>
             <?php endif; ?>

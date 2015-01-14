@@ -81,14 +81,19 @@ class Car_share_Booking {
 
     public function add_custom_boxes() {
 
+        /*
         add_meta_box(
                 'booking_date_interval', __('Date Interval', $this->car_share), array($this, 'booking_date_interval'), 'sc-booking'
-        );
+        );*/
 
         add_meta_box(
-
-                'booking_box', __('Booking Info', $this->car_share), array($this, 'booking_info_box'), 'sc-booking'
+                'booking_customer_box', __('Customer info', $this->car_share), array($this, 'customer_info_box'), 'sc-booking'
         );
+        
+        add_meta_box(
+                'booking_info_box', __('Booking info', $this->car_share), array($this, 'booking_info_box'), 'sc-booking'
+        );        
+        
         /*
         add_meta_box(
                 'voucher_discount_box', __('Discount (percentage)', $this->car_share), array($this, 'voucher_discount_box'), 'sc-voucher'
@@ -96,6 +101,7 @@ class Car_share_Booking {
         */
      }
 
+     /*
      public function booking_date_interval(){
          global $post;
 
@@ -104,35 +110,36 @@ class Car_share_Booking {
          $booking = new sc_Booking($post);
 
          include 'partials/booking/interval.php';
+     }*/
+
+     public function booking_info_box(){
+         
+        global $post;
+        
+        $fields_to_show     = array();
+        $custom_fields      = get_post_custom($post->ID); 
+        
+                 
+         
      }
 
 
-
-
-    public function booking_info_box(){
+    public function customer_info_box(){
 
         global $post;
 
-        // get_default_checkout_fields
-
-
-        $custom_fields = get_post_custom($post->ID);
-
-
-
-        $my_custom_field = $custom_fields;
-
-        foreach ( $my_custom_field as $key => $value ) {
-            echo $key . " => " . $value[0] . "<br />";
+        $fields_to_show     = array();
+        $default_fields     = get_default_checkout_fields();
+        $custom_fields      = get_post_custom($post->ID);      
+        
+        foreach($default_fields as $field_key => $field){            
+            if(isset($custom_fields[$field_key])){
+                $field['value'] = $custom_fields[$field_key][0];
+                $fields_to_show[] = $field;
+            }            
         }
-
-
-
-        /*$voucher_code = get_post_meta($post->ID, '_voucher_code', true);
-
-        include 'partials/voucher/code.php';
-        */
-        wp_nonce_field(__FILE__, 'voucher_nonce');
+        
+        include 'partials/booking/customer_info_box.php';
     }
 
 
