@@ -481,16 +481,15 @@ class Car_share_Shortcode {
     }
 
     public function pick_car_form() {
-        
-        
-
+ 
         $sc_options = get_option('sc-pages');
         $this->extras_car_url = isset($sc_options['extras']) ? get_page_link($sc_options['extras']) : '';
- 
-        
+         
         $Cars_cart = new Car_Cart('shopping_cart');
         $Cars_cart_items = $Cars_cart->getItems();
-          
+   
+        var_dump($Cars_cart_items);
+        
         $pick_up_location = $Cars_cart_items['pick_up_location'];
         $drop_off_location = $Cars_cart_items['drop_off_location'];
         $car_dfrom = $Cars_cart_items['car_datefrom'];
@@ -570,10 +569,8 @@ class Car_share_Shortcode {
                         AND                        
                             '$car_dto_string' >= bfrom.meta_value
                         AND 
-                            bto.meta_value >= '$car_dfrom_string'                        
-                            
-                    )
-
+                            bto.meta_value >= '$car_dfrom_string'                               
+                    ) 
                 $category_and
                 AND
                     posts.post_type = 'sc-car'
@@ -596,6 +593,9 @@ class Car_share_Shortcode {
         if (isset($_GET['chcar'])) {
             $id_code = sanitize_text_field($_GET['chcar']);
             $Cars_cart = new Car_Cart('shopping_cart');
+            
+          
+             
             $Cars_cart->setItemId($id_code);
             $Cars_cart->save();
         }
@@ -622,8 +622,7 @@ class Car_share_Shortcode {
 
     public function pick_car($atts) {
         
-        $this->pick_car_form();
-        
+        $this->pick_car_form(); 
         ob_start();
         include_once( 'partials/shortcode/pick_car.php' );
         return ob_get_clean();

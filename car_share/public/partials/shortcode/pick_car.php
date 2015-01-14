@@ -26,11 +26,7 @@
                 $car_dto = $Cars_cart_items['car_dateto'];   
                 $car_category = $Cars_cart_items['car_category'];   
          
-                if(empty($car_category))
-                {    
-                    $Cars_cart->setItemCategory($car->ID);
-                    $Cars_cart->save(); 
-                } 
+                
   
             ?> 
             <?php echo $post_thumbnail; ?> 

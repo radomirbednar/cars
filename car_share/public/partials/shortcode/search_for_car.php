@@ -56,8 +56,7 @@
             ?>
         </select>
     </div>  
-    <?php } else { ?> 
-     
+    <?php } else { ?>  
         <?php
             $args = array(
                 'post_type' => 'sc-location',
@@ -78,9 +77,7 @@
                 endwhile;
                 wp_reset_postdata();
             endif;
-            ?>
-      
-     
+            ?> 
     <?php } ?> 
     <div class="form-group">
         <label for="car_datefrom"><?php _e('Pick-up date and time:', $this->car_share); ?></label>
