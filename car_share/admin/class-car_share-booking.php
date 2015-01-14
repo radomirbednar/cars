@@ -96,7 +96,7 @@ class Car_share_Booking {
 
          //$from = get_date_meta($post->ID, '_from');
          //$to = get_date_meta($post->ID, '_to');
-         $booking = sc_Booking($post);
+         $booking = new sc_Booking($post);
 
          include 'partials/booking/interval.php';
      }

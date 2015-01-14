@@ -28,15 +28,15 @@ class sc_Booking {
     }
 
     public function from() {        
-        if(!empty($this->data['date_from'])){
-            return DateTime::createFromFormat('d.m.Y H:i', $this->data['date_from']);
+        if(!empty($this->data->date_from)){
+            return DateTime::createFromFormat('Y-m-d H:i:s', $this->data->date_from);
         }
         return false;
     }
 
     public function to() {        
-        if($this->data['date_to']){
-            return DateTime::createFromFormat('d.m.Y H:i', $this->data['date_to']);
+        if(!empty($this->data->date_to)){
+            return DateTime::createFromFormat('Y-m-d H:i:s', $this->data->date_to);
         }
         return false;
     }
