@@ -5,7 +5,7 @@
 
     function statusTableRow(car_id, key, from_date, from_hour, from_min, to_date, to_hour, to_min) {
         
-        console.log(from_date);
+        //console.log(from_date);
         
         var str = '<tr class="item">' +
                 '<td>' +
