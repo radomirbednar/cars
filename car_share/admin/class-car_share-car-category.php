@@ -299,10 +299,10 @@ class Car_share_CarCategory {
         
     }*/
     
-    public function different_location_return_price_box($post_id){
+    public function different_location_return_price_box($post){
         //global $post;
-        $location_price = get_post_meta($post_id, '_location_price', true);
-        $apply_location_price = get_post_meta($post_id, '_apply_location_price', true);
+        $location_price = get_post_meta($post->ID, '_location_price', true);
+        //$apply_location_price = get_post_meta($post_id, '_apply_location_price', true);
         include 'partials/car-category/different_location_price.php';
     }
     
