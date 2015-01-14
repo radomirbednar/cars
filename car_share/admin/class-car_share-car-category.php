@@ -90,7 +90,11 @@ class Car_share_CarCategory {
     public function add_custom_boxes() {
 
         add_meta_box(
-                'car_category_young_driver_surcharge', __('Young driver surcharge ', $this->car_share), array($this, 'young_driver_surcharge'), 'sc-car-category'
+                'car_category_block_interval', __('Car block interval', $this->car_share), array($this, 'car_block_interval_box'), 'sc-car-category'
+        );        
+        
+        add_meta_box(
+                'car_category_young_driver_surcharge', __('Young driver surcharge ', $this->car_share), array($this, 'young_driver_surcharge_box'), 'sc-car-category'
         );
 
         add_meta_box(
@@ -283,7 +287,14 @@ class Car_share_CarCategory {
       exit();
       } */
 
-    public function young_driver_surcharge() {
+    public function car_block_interval_box(){
+        
+        global $post;
+        
+        
+    }
+    
+    public function young_driver_surcharge_box() {
         global $post;
         $surcharge_age = get_post_meta($post->ID, '_surcharge_age', true);
         $surcharge_fee = get_post_meta($post->ID, '_surcharge_fee', true);
