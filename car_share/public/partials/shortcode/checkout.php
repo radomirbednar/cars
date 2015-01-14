@@ -207,11 +207,15 @@ if (!empty($_SESSION['TOKEN'])) {
                 <?php } ?>
                 <tr>
                     <td><?php _e('TOTAL : ', $this->car_share); ?></td>
-                    <td></td>
+                    <td>
+                        <span id="price-total" class="price"></span>
+                    </td>
                 </tr>
                 <tr>
                     <td><?php _e('PAYABLE NOW : ', $this->car_share); ?></td>
-                    <td></td>
+                    <td>
+                        <span id="price-payable-now" class="price"></span>
+                    </td>
                 </tr>
             </tbody>
         </table>
