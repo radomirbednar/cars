@@ -390,7 +390,7 @@ class Car_share_CarCategory {
             }
             
             $checkboxes = array(
-                '_apply_location_price',
+                //'_apply_location_price',
                 '_surcharge_active'
             );
             
