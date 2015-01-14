@@ -14,6 +14,7 @@ $calendar->setStartOfWeek('Monday');
 //$car_id
 
 global $wpdb;
+
 $sqlcalendar = "SELECT
                 *
                 FROM
@@ -21,11 +22,13 @@ $sqlcalendar = "SELECT
                 WHERE
                 single_car_id = $car_id;
                 "; 
+
     $calendar_result = $wpdb->get_results($sqlcalendar);
         //sc_single_car_status
     $calendar_result = array_filter($calendar_result);
 
     if (!empty($calendar_result)) {
+        
         foreach ($calendar_result as $calendar_events) { 
 
             $e_date_from = $calendar_events->date_from;
