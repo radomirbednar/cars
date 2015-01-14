@@ -1,5 +1,5 @@
 <?php
-$transsition_options = Car::getTransmissionOptions();
+$transsition_options = sc_Car::getTransmissionOptions();
 ?>
 
 <table>

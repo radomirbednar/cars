@@ -10,8 +10,8 @@
         var str = '<tr class="item">' +
                 '<td>' +
                 '<select name="car[' + car_id + '][status][' + status_key + '][status]">'+
-                '<option value="<?php echo Car_share::UNAVAILABLE ?>"><?php _e('Unavailable', $this->car_share) ?></option>' +
-                '<option value="<?php echo Car_share::RENTED ?>"><?php _e('Rented', $this->car_share) ?></option>' +
+                '<option value="<?php echo Car_share::STATUS_UNAVAILABLE ?>"><?php _e('Unavailable', $this->car_share) ?></option>' +
+                '<option value="<?php echo Car_share::STATUS_RENTED ?>"><?php _e('Rented', $this->car_share) ?></option>' +
                 '</select>' +
                 '</td>' +
                 '<td>' +

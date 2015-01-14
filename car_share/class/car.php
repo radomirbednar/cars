@@ -1,6 +1,6 @@
 <?php
 
-class Car {
+class sc_Car {
 
     
     
@@ -26,6 +26,24 @@ class Car {
         return $arr;        
     }
 
+    public static function insertStatus($single_car_id, DateTime $from, $to, $status, $booking_id = 0){
+
+        global $wpdb;
+        
+        $sql = "
+        INSERT INTO
+            sc_single_car_status (single_car_id, date_from, date_to, status, booking_id)
+        VALUES (
+            '" . (int) $single_car_id . "',
+            '" . (empty($from) ? "" : $from->format('Y-m-d H:i:s')) . "',
+            '" . (empty($to) ? "" : $to->format('Y-m-d H:i:s')) . "',
+            '" . (int) $status . "',
+            '" . (int) $booking_id . "'
+        )";
+
+        $wpdb->query($sql);        
+        
+    }
     
 }
 

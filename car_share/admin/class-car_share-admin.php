@@ -414,6 +414,10 @@ class Car_share_Admin {
                                     $date_to = DateTime::createFromFormat('d.m.Y H i', $date_to_string);
 
                                     if (!empty($date_from) && !empty($date_to)) {
+                                        
+                                        sc_Car::insertStatus($single_car_id, $date_from, $date_to, $car_status['status']);
+                                        
+                                        /*
                                         $sql = "
                                             INSERT INTO
                                                 sc_single_car_status (single_car_id, date_from, date_to, status)
@@ -425,6 +429,7 @@ class Car_share_Admin {
                                             )";
 
                                         $wpdb->query($sql);
+                                        */
                                     }
                                 }
                                 break;
@@ -536,9 +541,9 @@ class Car_share_Admin {
 
         //global $post;
         
-        if(in_array($post->post_type, array('sc-booking', 'sc-season')) ){        
+        //if(in_array($post->post_type, array('sc-booking', 'sc-season')) ){        
             delete_all_date_metas($post_id);            
-        }
+        //}
     }
 
 }
