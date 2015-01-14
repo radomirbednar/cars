@@ -102,8 +102,8 @@ class Car_Cart {
 
         $applied_sessions = array();
         foreach ((array) $seasons as $session) {
-            $begin = DateTime::createFromFormat('Y-m-d H:i:s', $session->date_from . ' 00:00:00');
-            $end = DateTime::createFromFormat('Y-m-d H:i:s', $session->date_to . ' 23:59:59');        
+            $begin = DateTime::createFromFormat('Y-m-d H:i:s', $session->date_from);
+            $end = DateTime::createFromFormat('Y-m-d H:i:s', $session->date_to);        
 
             $season_prices = $car_category->day_prices_indexed_with_dayname($session->ID);
 

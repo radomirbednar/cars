@@ -231,8 +231,10 @@ class Car_share_Shortcode {
                 update_post_meta($post_insert_id, 'cart_drop_off', esc_attr(strip_tags($drop_off_location)));
                 
                 
-                update_date_meta($post_insert_id, '_from', $car_dfrom);
-                update_date_meta($post_insert_id, '_to', $car_dto);
+                sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);
+                
+                //update_date_meta($post_insert_id, '_from', $car_dfrom);
+                //update_date_meta($post_insert_id, '_to', $car_dto);
                 
                //update_post_meta($post_insert_id, 'cart_date_from', esc_attr(($car_dfrom)));
                 //update_post_meta($post_insert_id, 'cart_date_to', esc_attr(($car_dto)));
@@ -541,36 +543,7 @@ class Car_share_Shortcode {
                         AND 
                             date_to >= '$car_dfrom_string'
                     )
-                
-                AND 
-                    sc_single_car.single_car_id NOT IN (
-                        SELECT 
-                            pm.meta_value
-                        FROM 
-                            $wpdb->postmeta pm
-                        JOIN
-                            $wpdb->posts b 
-                        JOIN
-                            postmeta_date as bfrom
-                        ON
-                            bfrom.post_id = b.ID
-                        JOIN
-                            postmeta_date as bto
-                        ON
-                            bto.post_id = b.ID
-                        WHERE
-                            pm.meta_key = 'cart_car_ID'
-                        AND
-                            b.ID = pm.post_id
-                        AND
-                            b.post_type = 'sc-booking'
-                        AND
-                            b.post_status NOT IN ('thrash')
-                        AND                        
-                            '$car_dto_string' >= bfrom.meta_value
-                        AND 
-                            bto.meta_value >= '$car_dfrom_string'                               
-                    ) 
+
                 $category_and
                 AND
                     posts.post_type = 'sc-car'

@@ -114,10 +114,10 @@ class Car_share_Setting {
     function register_settings() {
 
         /**
-         * Deposit setting subsection
+         * Rent car subsection
          */
         add_settings_section(
-                'main-settings-demand-deposit', __('Deposit setting', $this->car_share), array($this, 'print_demand_deposit_section_info'), 'car-share-deposit-settings-section'
+                'main-settings-demand-deposit', __('Rent car setting', $this->car_share), array($this, 'print_demand_deposit_section_info'), 'car-share-deposit-settings-section'
         );
 
         add_settings_field(
@@ -127,9 +127,16 @@ class Car_share_Setting {
         add_settings_field(
                 'deposit_active_field', __('Demand deposit', $this->car_share), array($this, 'create_input_deposit_active'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
         );
+        
+        add_settings_field(
+                'block_car_field', __('Block car interval (hours)', $this->car_share), array($this, 'create_input_block_car_interval'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
+        );        
 
-        register_setting('deposit-setting-group', 'deposit_setting', array($this, 'deposit_settings_validate'));
+        register_setting('deposit-setting-group', 'sc_setting', array($this, 'sc_settings_validate'));
  
+        
+        
+        
         // add_settings_section( $id, $title, $callback, $page )
         add_settings_section(
                 'main-settings-section', 'General Settings', array($this, 'print_main_settings_section_info'), 'car-plugin-main-settings-section'
@@ -285,7 +292,7 @@ class Car_share_Setting {
     }
       
     function print_demand_deposit_section_info() {
-        echo '<p>' . _e('Deposit setting.', $this->car_share) . '</p>';
+        echo '<p>' . _e('Rent car setting.', $this->car_share) . '</p>';
     }
 
     function print_main_settings_section_info() {
@@ -294,18 +301,24 @@ class Car_share_Setting {
 
     // deposit section inputs
     public function create_input_deposit_amount() {
-        $options = get_option('deposit_setting');
+        $sc_setting = get_option('sc_setting');
         ?>
-        <input type="number" step="0.01" max="100" name="deposit_setting[deposit_amount]" value="<?php echo isset($options['deposit_amount']) ? $options['deposit_amount'] : '' ?>">
+        <input type="number" step="0.01" max="100" name="sc_setting[deposit_amount]" value="<?php echo isset($sc_setting['deposit_amount']) ? $sc_setting['deposit_amount'] : '' ?>">
         <?php
     }
 
     public function create_input_deposit_active() {
-        $options = get_option('deposit_setting');
+        $sc_setting = get_option('sc_setting');
         ?>
-        <input type="checkbox" name="deposit_setting[deposit_active]" value="1" <?php echo isset($options['deposit_active']) && 1 == $options['deposit_active'] ? 'checked="checked" ' : '' ?> />
+        <input type="checkbox" name="sc_setting[deposit_active]" value="1" <?php echo isset($sc_setting['deposit_active']) && 1 == $sc_setting['deposit_active'] ? 'checked="checked" ' : '' ?> />
         <?php
     }
+    
+    function create_input_block_car_interval(){
+        $sc_setting = get_option('sc_setting');
+        ?><input type="number" step="0.05" name="sc_setting[car_block_interval]" value="<?php echo isset($sc_setting['car_block_interval']) ? floatval($sc_setting['car_block_interval']) : '0' ?>" />
+        <?php        
+    }    
 
     function create_input_some_setting() {
         $options = get_option('car_plugin_options_arraykey');
@@ -329,9 +342,10 @@ class Car_share_Setting {
     /** 
      * @param type $arr_input
      */
-    function deposit_settings_validate($arr_input) {
+    function sc_settings_validate($arr_input) {
         $arr_input['deposit_amount'] = floatval($arr_input['deposit_amount']);
-        $arr_input['deposit_active'] = floatval($arr_input['deposit_active']);
+        $arr_input['deposit_active'] = intval($arr_input['deposit_active']);
+        $arr_input['car_block_interval'] = floatval($arr_input['car_block_interval']);
         return $arr_input;
     }
 

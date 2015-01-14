@@ -116,13 +116,15 @@ if (!empty($statuses)):
 
                 var row = statusTableRow(
                         '<?php echo $car_id ?>',
-        <?php echo $status_key ?>,
+                        '<?php echo $status_key ?>',
                         '<?php echo empty($date_from) ? '' : $date_from->format('d.m.Y') ?>',
                         '<?php echo empty($date_from) ? '' : $date_from->format('H') ?>',
                         '<?php echo empty($date_from) ? '' : $date_from->format('i') ?>',
                         '<?php echo empty($date_to) ? '' : $date_to->format('d.m.Y') ?>',
                         '<?php echo empty($date_to) ? '' : $date_to->format('H') ?>',
-                        '<?php echo empty($date_to) ? '' : $date_to->format('i') ?>');
+                        '<?php echo empty($date_to) ? '' : $date_to->format('i') ?>',
+                        '<?php echo $status->status ?>'
+                        );
 
                 $('#post-body').find("#car-status-<?php echo $car_id ?> tbody").append(row);
 

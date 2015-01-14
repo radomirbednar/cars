@@ -50,9 +50,10 @@ class Car_share {
 
     const PICK_UP_LOCATION = 1;
     const DROP_OFF_LOCATION = 2;
-    const UNAVAILABLE = 0;
-    const RENTED = 1;
-    const BOOKED = 2;
+    
+    const STATUS_UNAVAILABLE = 0;    
+    const STATUS_RENTED = 1;
+    const STATUS_BOOKED = 3;
 
     /**
      * The current version of the plugin.

@@ -3,16 +3,30 @@
     var status_key = 0;
     var new_car_key = 1;
 
-    function statusTableRow(car_id, key, from_date, from_hour, from_min, to_date, to_hour, to_min) {
+    function statusTableRow(car_id, key, from_date, from_hour, from_min, to_date, to_hour, to_min, selected_status) {
         
-        console.log(from_date);
+        console.log(selected_status);
+        //console.log(from_date);                
+        <?php               
+        $statuses = array(
+            Car_share::STATUS_UNAVAILABLE => 'Unavailable',
+            Car_share::STATUS_RENTED => 'Rented',
+        );
         
+        ?>
         var str = '<tr class="item">' +
                 '<td>' +
-                '<select name="car[' + car_id + '][status][' + status_key + '][status]">'+
-                '<option value="<?php echo Car_share::UNAVAILABLE ?>"><?php _e('Unavailable', $this->car_share) ?></option>' +
-                '<option value="<?php echo Car_share::RENTED ?>"><?php _e('Rented', $this->car_share) ?></option>' +
-                '</select>' +
+                '<select name="car[' + car_id + '][status][' + status_key + '][status]">';
+    
+                <?php foreach($statuses as $key => $label): ?>
+                    
+                    str += '<option value="<?php echo $key ?>" ';
+                    str += <?php echo $key ?> == selected_status ? ' selected="selected" ' : '';
+                    str += '><?php _e($label, $this->car_share) ?></option>';                    
+                    
+                <?php endforeach; ?>    
+                
+        str +='</select>' +
                 '</td>' +
                 '<td>' +
                 '<input id="status-date-from-' + car_id + '_'+ status_key +'" class="status-date-from" type="text" name="car[' + car_id + '][status][' + status_key + '][from]" value="' + from_date + '">' +
@@ -183,7 +197,7 @@
         // add new status
         $('.postbox-container').on('click', '.add-status', function (event) {
             var car_id = $(this).data('car_id');
-            var row = statusTableRow(car_id, status_key, '', '', '', '', '', '');
+            var row = statusTableRow(car_id, status_key, '', '', '', '', '', '', '');
             $(this).parents('.status').find('tbody').append(row);
             var element = $(this).parents('.status').find('tbody').find('.item:last');
             apply_datepicker(element);
