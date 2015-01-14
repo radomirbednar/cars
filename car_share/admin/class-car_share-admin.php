@@ -160,7 +160,7 @@ class Car_share_Admin {
         $sql = "DELETE FROM sc_single_car_location WHERE single_car_id = '" . (int) $id . "'";
         $wpdb->query($sql);
 
-        $sql = "DELETE FROM sc_single_car_status WHERE single_car_id = '" . (int) $id . "'";
+        $sql = "DELETE FROM sc_single_car_status WHERE single_car_id = '" . (int) $id . "' AND status != '" . Car_share::STATUS_BOOKED . "'";
         $wpdb->query($sql);
 
         die();
@@ -378,7 +378,7 @@ class Car_share_Admin {
             $wpdb->query($sql);
 
             // clean
-            $sql = "DELETE FROM sc_single_car_status WHERE single_car_id IN (SELECT single_car_id FROM sc_single_car WHERE parent = '" . $post->ID . "')";
+            $sql = "DELETE FROM sc_single_car_status WHERE AND status != '" . Car_share::STATUS_BOOKED . "' AND single_car_id IN (SELECT single_car_id FROM sc_single_car WHERE parent = '" . $post->ID . "')";
             $wpdb->query($sql);
 
             if (!empty($_POST['car'])) {
