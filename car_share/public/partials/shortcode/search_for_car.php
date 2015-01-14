@@ -6,7 +6,11 @@
             <?php
             $args = array(
                 'post_type' => 'sc-location',
-                'post_status' => 'publish'
+                'post_status' => 'publish',
+                'posts_per_page' => -1,
+                'orderby' => 'title',
+                'order' => 'ASC' 
+                
             );
             $query = new WP_Query($args);
             ?>
@@ -31,7 +35,10 @@
             <?php
             $args = array(
                 'post_type' => 'sc-location',
-                'post_status' => 'publish'
+                'post_status' => 'publish',
+                'posts_per_page' => -1,
+                'orderby' => 'title',
+                'order' => 'ASC' 
             );
             $query = new WP_Query($args);
 

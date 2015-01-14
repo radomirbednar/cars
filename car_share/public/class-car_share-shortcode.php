@@ -544,6 +544,38 @@ class Car_share_Shortcode {
                         AND 
                             date_to >= '$car_dfrom_string'
                     )
+                
+                AND 
+                    sc_single_car.single_car_id NOT IN (
+                        SELECT 
+                            pm.meta_value
+                        FROM 
+                            $wpdb->postmeta pm
+                        JOIN
+                            $wpdb->posts b 
+                        JOIN
+                            postmeta_date as bfrom
+                        ON
+                            bfrom.post_id = b.ID
+                        JOIN
+                            postmeta_date as bto
+                        ON
+                            bto.post_id = b.ID
+                        WHERE
+                            pm.meta_key = 'cart_car_ID'
+                        AND
+                            b.ID = pm.post_id
+                        AND
+                            b.post_type = 'sc-booking'
+                        AND
+                            b.post_status NOT IN ('thrash')
+                        AND                        
+                            '$car_dto_string' >= bfrom.meta_value
+                        AND 
+                            bto.meta_value >= '$car_dfrom_string'                        
+                            
+                    )
+
                 $category_and
                 AND
                     posts.post_type = 'sc-car'

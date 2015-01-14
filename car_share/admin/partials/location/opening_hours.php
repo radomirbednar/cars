@@ -32,8 +32,10 @@ $days = get_days_of_week();
             </td>
             <td>
                 <select name="open[<?php echo $day_name ?>][to][hour]">
-                <?php for($i = 0; $i < 25; $i++): ?>
-                    <option value="<?php echo $i ?>" <?php echo isset($day_opening_hours->to_hour) && $i == $day_opening_hours->to_hour ? ' selected="selected" ' : '' ?>><?php echo sprintf('%02d', $i) ?></option>
+                <?php for($i = 0; $i < 25; $i++): 
+                    $selected = isset($day_opening_hours->to_hour) && $i == $day_opening_hours->to_hour ? $day_opening_hours->to_hour : 24;
+                    ?>                    
+                    <option value="<?php echo $i ?>" <?php echo $i == $selected ? ' selected="selected" ' : '' ?>><?php echo sprintf('%02d', $i) ?></option>
                 <?php endfor; ?>
                 </select> 
                 :
