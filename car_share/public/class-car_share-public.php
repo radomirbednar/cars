@@ -307,7 +307,9 @@ class Car_share_Public {
     function ajax_refresh_checkout_price(){
         
         $Cars_cart = new Car_Cart('shopping_cart');
-        $Cars_cart_items = $Cars_cart->getItemSearch();        
+        $Cars_cart_items = $Cars_cart->getItemSearch();   
+        
+        
         
         
         

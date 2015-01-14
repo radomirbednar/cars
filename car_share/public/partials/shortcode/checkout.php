@@ -193,27 +193,34 @@ if (!empty($_SESSION['TOKEN'])) {
                     ?>
 
                 <script>
-                    jQuery(document).ready(function ($) {
+                    jQuery(document).ready(function ($) {                    
                         
-                        $('#car_category_assign_season').on('click', '.remove-s2c', function (event) {
+                        function refrest_checkout_prices(){
 
-                            $.ajax({
-                                type: 'post',
-                                url: '<?php echo admin_url('admin-ajax.php'); ?>',
-                                data: {
-                                    'action': 'refresh_checkout_price'
-                                },
-                                beforeSend: function () {
-                                    //self.prop("disabled", true);
-                                }
-                            }).done(function (ret) {
+                                $.ajax({
+                                    type: 'post',
+                                    dataType: 'json',
+                                    url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                                    data: {
+                                        'action': 'refresh_checkout_price'
+                                    },
+                                    beforeSend: function () {
+                                        //self.prop("disabled", true);
+                                    }
+                                }).done(function (ret) {
+                                    $('#price-total').html(ret.total);
+                                    $('#price-payable-now').html(ret.paypable_now);
+                                }).fail(function (ret) {
 
-                            }).fail(function (ret) {
+                                }).always(function () {
+                                    //self.prop("disabled", false);
+                                });                        
 
-                            }).always(function () {
-                                //self.prop("disabled", false);
-                            });
-                        });
+                        }                        
+                        
+                        $( "#apply-surcharge" ).click(function() {
+                          refrest_checkout_prices();
+                        });                    
                     });
                 </script>
 
