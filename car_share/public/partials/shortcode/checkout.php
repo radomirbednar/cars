@@ -143,7 +143,7 @@ if (!empty($_SESSION['TOKEN'])) {
             <table>
                 <tr>
                     <td>
-            <?php echo $post_thumbnail; ?>
+                        <?php echo $post_thumbnail; ?>
                     </td>
                     <td><?php echo get_the_title($car->ID); ?></td>
                 </tr>
@@ -152,48 +152,48 @@ if (!empty($_SESSION['TOKEN'])) {
 
         <table>
             <tbody>
-        <?php if (!empty($Cars_cart_items['service'])) { ?>
+                <?php if (!empty($Cars_cart_items['service'])) { ?>
                     <tr>
                         <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
                         <td>
-            <?php
-            foreach ($extras as $key => $extras_id) {
-                $service_fee = get_post_meta($key, '_service_fee', true);
-                $_per_service = get_post_meta($key, '_per_service', true);
-                $service_name = get_the_title($key);
-                echo $service_name . ', ';
-                ?>
+                            <?php
+                            foreach ($extras as $key => $extras_id) {
+                                $service_fee = get_post_meta($key, '_service_fee', true);
+                                $_per_service = get_post_meta($key, '_per_service', true);
+                                $service_name = get_the_title($key);
+                                echo $service_name . ', ';
+                                ?>
                             </td>
                         </tr>
-                <?php
-            }
-        }
-        ?>
+                        <?php
+                    }
+                }
+                ?>
                 <tr>
                     <td><?php _e('CAR : ', $this->car_share); ?></td>
                     <td><?php echo $car_price; ?></td>
                 </tr>
 
-        <?php
-        if (empty($car_category)) {
+                <?php
+                if (empty($car_category)) {
 
-            // get car category from the car-ID because we need this here
-            $car_category = get_post_meta($car->ID, '_car_category');
-        }
+                    // get car category from the car-ID because we need this here
+                    $car_category = get_post_meta($car->ID, '_car_category');
+                }
 
-        $surcharge_active = get_post_meta($car_category, '_surcharge_active', true);
+                $surcharge_active = get_post_meta($car_category, '_surcharge_active', true);
 
-        if (1 == $surcharge_active):
+                if (1 == $surcharge_active):
 
-            $surcharge_age = get_post_meta($car_category, '_surcharge_age', true);
-            ?>
+                    $surcharge_age = get_post_meta($car_category, '_surcharge_age', true);
+                    ?>
 
                     <tr>
                         <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td>
                         <td>
                             <label>
                                 <input id="apply-surcharge" type="checkbox" name="apply_surcharge" value="1">
-                    <?php printf(__('I am under %d.', $this->car_share), $surcharge_age); ?>
+                                <?php printf(__('I am under %d.', $this->car_share), $surcharge_age); ?>
                             </label>
                         </td>
                     </tr>
@@ -204,7 +204,7 @@ if (!empty($_SESSION['TOKEN'])) {
                         <td><?php _e('EXTRAS : ', $this->car_share); ?></td>
                         <td><?php echo $extras_price; ?></td>
                     </tr>
-        <?php } ?>
+                <?php } ?>
                 <tr>
                     <td><?php _e('TOTAL : ', $this->car_share); ?></td>
                     <td></td>
@@ -220,20 +220,20 @@ if (!empty($_SESSION['TOKEN'])) {
             <!-- Address form -->
             <strong><?php _e('Billing Information', $this->car_share); ?></strong>
 
-                <?php
-                $checkout_fields = get_enabled_checkout_fields();
+            <?php
+            $checkout_fields = get_enabled_checkout_fields();
 
-                foreach ($checkout_fields as $input_key => $field):
-                    ?>
+            foreach ($checkout_fields as $input_key => $field):
+                ?>
                 <div class="control-group">
                     <label class="control-label"><?php _e($field['label'], $this->car_share); ?></label>
                     <div class="controls">
                         <input id="postal-code" name="<?php echo esc_attr($input_key) ?>" type="text" placeholder="<?php _e($field['placeholder'], $this->car_share); ?>"
-            <?php
-            if ($field['required']) {
-                echo "required";
-            }
-            ?>  class="input-xlarge">
+                        <?php
+                        if ($field['required']) {
+                            echo "required";
+                        }
+                        ?>  class="input-xlarge">
                         <p class="help-block"></p>
                     </div>
                 </div>
@@ -574,13 +574,13 @@ if (!empty($_SESSION['TOKEN'])) {
 
             <button type="submit" class="btn btn-default" name="sc-checkout"><?php _e('Book car', $this->car_share); ?></button>
         </form>
-            <?php
-        } else {
-
-            _e('Please go back and chose a car.', $this->car_share);
-        }
+        <?php
     } else {
 
         _e('Please go back and chose a car.', $this->car_share);
     }
-    ?>
+} else {
+
+    _e('Please go back and chose a car.', $this->car_share);
+}
+?>

@@ -1,9 +1,6 @@
 <?php echo $this->warning; ?>
 <form name="car_share_search_form" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">  
-    <?php $count_posts = wp_count_posts( 'sc-location' )->publish; ?>  
-    <?php echo $count_posts; ?> 
-    
-    
+    <?php $count_posts = wp_count_posts( 'sc-location' )->publish; ?>    
     <?php if($count_posts > 1){ ?> 
     <div class="form-group">
         <label><?php _e('Pickup location:', $this->car_share) ?></label>
@@ -43,8 +40,7 @@
                 'orderby' => 'title',
                 'order' => 'ASC' 
             );
-            $query = new WP_Query($args);
-
+            $query = new WP_Query($args); 
             if ($query->have_posts()) :
                 while ($query->have_posts()) : $query->the_post();
                     ?>
@@ -57,22 +53,20 @@
         </select>
     </div>  
     <?php } else { ?>  
-        <?php
-            $args = array(
+    <?php
+            $args = array( 
                 'post_type' => 'sc-location',
                 'post_status' => 'publish',
                 'posts_per_page' => -1,
                 'orderby' => 'title',
                 'order' => 'ASC' 
             );
-            $query = new WP_Query($args);
-
+            $query = new WP_Query($args); 
             if ($query->have_posts()) :
                 while ($query->have_posts()) : $query->the_post();
                     ?>
                     <input type="hidden" name="pick_up_location" value="<?php the_ID(); ?>"/> 
-                    <input type="hidden" name="drop_off_location" value="<?php the_ID(); ?>"/>
-     
+                    <input type="hidden" name="drop_off_location" value="<?php the_ID(); ?>"/> 
                     <?php
                 endwhile;
                 wp_reset_postdata();
@@ -96,8 +90,7 @@
                 <option value="<?php echo $i; ?>"><?php echo $i; ?>:00 </option>
             <?php endfor ?>
         </select>
-    </div>
-
+    </div> 
     <?php $options = get_option('car_plugin_options_arraykey'); ?>
     <?php if ($options['showcategory'] == 1) { ?>
         <div class="form-group">
@@ -124,4 +117,4 @@
     <?php } ?>
     <!-- Standard button -->
     <button type="submit" class="btn btn-default"><?php _e('SEARCH', $this->car_share); ?></button>
-</form>
+</form> 
