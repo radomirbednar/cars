@@ -544,9 +544,9 @@ class Car_share_Shortcode {
                             sc_single_car_status 
                         WHERE
                             (
-                                    '$car_dto_string' >= date_from
+                                    '$car_dto_string' > date_from
                                 AND 
-                                    date_to >= '$car_dfrom_string'
+                                    date_to > '$car_dfrom_string'
                                 AND 
                                     status != '" . car_share::STATUS_BOOKED . "'
                             )
