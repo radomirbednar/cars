@@ -4,26 +4,50 @@
 </label>
 
 
+<h2><?php _e('Calendar:', $this->car_share) ?></h2>
 <?php
+require_once('calendar_class.php');
+$calendar = new donatj\SimpleCalendar();
+$calendar->setStartOfWeek('Monday');
  
-    include('calendar_class.php'); 
-    $cal = new Calendar();
-    
-    $day_name_lengh=3;
-    
-    echo $cal->getMonthHTML(true, true, $day_name_lengh,false);
+//get all date from this car id
+//$car_id
+
+global $wpdb;
+$sqlcalendar = "SELECT
+                *
+                FROM
+                sc_single_car_status
+                WHERE
+                single_car_id = $car_id;
+                "; 
+    $calendar_result = $wpdb->get_results($sqlcalendar);
+        //sc_single_car_status
+    $calendar_result = array_filter($calendar_result);
+
+    if (!empty($calendar_result)) {
+        foreach ($calendar_result as $calendar_events) { 
+
+            $e_date_from = $calendar_events->date_from;
+            $e_date_to = $calendar_events->date_to;
+            $e_date_status = $calendar_events->status;
+            $calendar->addDailyHtml('<span class="booked">Booked</span>', $e_date_from, $e_date_to);
+     
+        }
+    }
+ 
+$calendar->show(true);
+
 
 ?>
-
-
 <?php if (!empty($locations)): ?>
     <h2><?php _e('Pick-up location:', $this->car_share) ?></h2>
     <?php foreach ($locations as $location): ?>
         <label class="inline-label">
             <input type="checkbox" name="car[<?php echo $car_id ?>][pickup_location][]" value="<?php echo $location->ID ?>" <?php echo isset($pickup_location) && in_array($location->ID, $pickup_location) ? ' checked="checked" ' : '' ?>>
-            <?php _e($location->post_title) ?>
+        <?php _e($location->post_title) ?>
         </label>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
     <div class="clear"></div>
 <?php endif; ?>
 
@@ -32,9 +56,9 @@
     <?php foreach ($locations as $location): ?>
         <label class="inline-label">
             <input type="checkbox" name="car[<?php echo $car_id ?>][dropoff_location][]" value="<?php echo $location->ID ?>" <?php echo isset($dropoff_location) && in_array($location->ID, $dropoff_location) ? ' checked="checked" ' : '' ?>>
-            <?php _e($location->post_title) ?>
+        <?php _e($location->post_title) ?>
         </label>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
     <div class="clear"></div>
 <?php endif; ?>
 
@@ -44,7 +68,7 @@
     <thead>
         <tr>
             <td>
-                <?php _e('Note', $this->car_share) ?>
+<?php _e('Note', $this->car_share) ?>
             </td>
             <td>
                 <?php _e('From', $this->car_share) ?>

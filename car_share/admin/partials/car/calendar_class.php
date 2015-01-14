@@ -1,266 +1,161 @@
 <?php
 
-define('LANG_CAL_WEEK', 'week');
+namespace donatj;
 
 /**
- * A Generic Calender Class
- * It Generates an Array of weeks and days as well as other properties of the calendar given month and year
+ * Simple Calendar
  *
- * An Example HTML generation is included in function Calendar->getHTML()
- * To get custom HTML, use the Calendar->days property. It is an array of weeks that contains arrays of days
- *
- * @copyright Creative-Commons 2.0
- * @author gabe@fijiwebdesign.com - Please send me your suggestions
- * @version $Id$
- *
- * Feel free to use as you wish, if you do show attribution please link to http://www.fijiwebdesign.com/
- *
- * Parts based on the following works and subject to their terms:
- * http://scripts.franciscocharrua.com/php-calendar.php
- * http://keithdevens.com/software/php_calendar/
+ * @author Jesse G. Donat <donatj@gmail.com>
+ * @link http://donatstudios.com
+ * @license http://opensource.org/licenses/mit-license.php
  *
  */
-class Calendar {
+class SimpleCalendar {
 
     /**
-     * Construct
+     * Array of Week Day Names
      *
-     * @param $str_date Any String formatted date understood by strtotime()
-     * @link http://www.php.net/manual/en/function.strtotime.php
+     * @var array
      */
-    function Calendar($str_date = 'now') {
+    public $wday_names = false;
+    private $now;
+    private $daily_html = array();
+    private $offset = 0;
 
-        $this->time = strtotime($str_date);
-        $this->date = getDate($this->time);
-
-        // use current month and year if not supplied
-        $month = $this->date['mon'];
-        $year = $this->date['year'];
-
-        // get the dates for the start of this month and next month
-        // we don't worry about month=13 as mktime() will take care of this
-        $this_month = getDate(mktime(0, 0, 0, $month, 1, $year));
-        $next_month = getDate(mktime(0, 0, 0, $month + 1, 1, $year));
-
-        // http://scripts.franciscocharrua.com/php-calendar.php
-        $this->day = $this_month["mday"];
-        $this->month = $this_month["mon"];
-        $this->month_name = $this_month["month"];
-        $this->year = $this_month["year"];
-        $this->first_day_offset = $this_month["wday"];
-        $this->days_count = round(($next_month[0] - $this_month[0]) / (60 * 60 * 24));
-        $this->days = array();
-
-        // fill in days
-        $week = 1;
-        for ($i = 0; $i < $this->days_count + $this->first_day_offset; $i++) {
-            if ($i < $this->first_day_offset) {
-                $this->days[$week][] = null;
-            } else {
-                $this->days[$week][] = $i - $this->first_day_offset + 1;
-            }
-            if ($i % 7 == 6) {
-                $week++;
-            }
-        } 
-        // localized day names
-        $this->day_names = $this->_getFullDayNames();
+    /**
+     * Constructor - Calls the setDate function
+     *
+     * @see setDate
+     * @param null|string $date_string
+     */
+    function __construct($date_string = null) {
+        $this->setDate($date_string);
     }
 
     /**
-     * Return the week number a day lies in
-     * @return Int
+     * Sets the date for the calendar
+     *
+     * @param null|string $date_string Date string parsed by strtotime for the calendar date. If null set to current timestamp.
      */
-    function getWeekNumberByDay($day) {
-        $i = $this->first_day_offset + $day;
-        return ceil($i / 7);
-    }
-
-    /**
-     * Return the week number that today lies in
-     * @return Int
-     */
-    function getCurrentWeekNumber() {
-        $day = $this->date['mday'];
-        return $this->getWeekNumberByDay($day);
-    }
-
-    /**
-     * Return the Array representing the calendar days
-     * @return Array
-     */
-    function getCalenderMonthDays() {
-        return $this->days;
-    }
-
-    /**
-     * Return the first day of the month
-     * @return Int
-     */
-    function getCalenderMonthStart() {
-        return $this->days[0];
-    }
-
-    /**
-     * Return the last day of the month
-     * @return Int
-     */
-    function getCalenderMonthEnd($week) {
-        return $this->days[count($this->days) - 1];
-    }
-
-    /**
-     * Return the Array representing the days in the given week
-     * @param Int Week number
-     * @return Array
-     */
-    function getCalenderWeekDays($week) {
-        if (isset($this->days[$week])) {
-            return $this->days[$week];
+    public function setDate($date_string = null) {
+        if ($date_string) {
+            $this->now = getdate(strtotime($date_string));
+        } else {
+            $this->now = getdate();
         }
-        return false;
     }
 
     /**
-     * Return the first day of the given week
-     * @param Int Week number
-     * @return Int
+     * Add a daily event to the calendar
+     *
+     * @param string $html The raw HTML to place on the calendar for this event
+     * @param string $start_date_string Date string for when the event starts
+     * @param null|string $end_date_string Date string for when the event ends. Defaults to start date
      */
-    function getCalenderWeekStart($week) {
-        if (isset($this->days[$week])) {
+    public function addDailyHtml($html, $start_date_string, $end_date_string = null) {
+        static $htmlCount = 0;
+        $start_date = strtotime($start_date_string);
+        if ($end_date_string) {
+            $end_date = strtotime($end_date_string);
+        } else {
+            $end_date = $start_date;
+        }
+        $working_date = $start_date;
+        do {
+            $tDate = getdate($working_date);
+            $working_date += 86400;
+            $this->daily_html[$tDate['year']][$tDate['mon']][$tDate['mday']][$htmlCount] = $html;
+        } while ($working_date < $end_date + 1);
+        $htmlCount++;
+    }
+
+    /**
+     * Clear all daily events for the calendar
+     */
+    public function clearDailyHtml() {
+        $this->daily_html = array();
+    }
+
+    /**
+     * Sets the first day of the week
+     *
+     * @param int|string $offset Day to start on, ex: "Monday" or 0-6 where 0 is Sunday
+     */
+    public function setStartOfWeek($offset) {
+        if (is_int($offset)) {
+            $this->offset = $offset % 7;
+        } else {
+            $this->offset = date('N', strtotime($offset)) % 7;
+        }
+    }
+
+    /**
+     * Returns/Outputs the Calendar
+     *
+     * @param bool $echo Whether to echo resulting calendar
+     * @return string HTML of the Calendar
+     */
+    public function show($echo = true) {
+        if ($this->wday_names) {
+            $wdays = $this->wday_names;
+        } else {
+            $today = (86400 * (date("N")));
+            $wdays = array();
             for ($i = 0; $i < 7; $i++) {
-                if ($this->days[$week][$i]) {
-                    return $this->days[$week][$i];
+                $wdays[] = strftime('%a', time() - $today + ($i * 86400));
+            }
+        }
+        $this->array_rotate($wdays, $this->offset);
+        $wday = date('N', mktime(0, 0, 1, $this->now['mon'], 1, $this->now['year'])) - $this->offset;
+        $no_days = cal_days_in_month(CAL_GREGORIAN, $this->now['mon'], $this->now['year']);
+        $out = '<table cellpadding="0" cellspacing="0" class="SimpleCalendar"><thead><tr>';
+        for ($i = 0; $i < 7; $i++) {
+            $out .= '<th>' . $wdays[$i] . '</th>';
+        }
+        $out .= "</tr></thead>\n<tbody>\n<tr>";
+        $wday = ($wday + 7) % 7;
+        if ($wday == 7) {
+            $wday = 0;
+        } else {
+            $out .= str_repeat('<td class="SCprefix">&nbsp;</td>', $wday);
+        }
+        $count = $wday + 1;
+        for ($i = 1; $i <= $no_days; $i++) {
+            $out .= '<td' . ($i == $this->now['mday'] && $this->now['mon'] == date('n') && $this->now['year'] == date('Y') ? ' class="today"' : '') . '>';
+            $datetime = mktime(0, 0, 1, $this->now['mon'], $i, $this->now['year']);
+            $out .= '<time datetime="' . date('Y-m-d', $datetime) . '">' . $i . '</time>';
+            $dHtml_arr = false;
+            if (isset($this->daily_html[$this->now['year']][$this->now['mon']][$i])) {
+                $dHtml_arr = $this->daily_html[$this->now['year']][$this->now['mon']][$i];
+            }
+            if (is_array($dHtml_arr)) {
+                foreach ($dHtml_arr as $dHtml) {
+                    $out .= '<div class="event">' . $dHtml . '</div>';
                 }
             }
+            $out .= "</td>";
+            if ($count > 6) {
+                $out .= "</tr>\n" . ($i != $count ? '<tr>' : '');
+                $count = 0;
+            }
+            $count++;
         }
-        return false;
+        $out .= ($count != 1 ? str_repeat('<td class="SCsuffix">&nbsp;</td>', 8 - $count) : '') . "</tr>\n</tbody></table>\n";
+        if ($echo) {
+            echo $out;
+        }
+        return $out;
     }
 
-    /**
-     * Return the last day of the given week
-     * @param Int Week number
-     * @return Int
-     */
-    function getCalenderWeekEnd($week) {
-        if (isset($this->days[$week])) {
-            for ($i = 6; $i >= 0; $i--) {
-                if ($this->days[$week][$i]) {
-                    return $this->days[$week][$i];
-                }
-            }
+    private function array_rotate(&$data, $steps) {
+        $count = count($data);
+        if ($steps < 0) {
+            $steps = $count + $steps;
         }
-        return false;
-    }
-
-    /**
-     * Generate a HTML display of the calendar month
-     * @return String HTML
-     * @param $header Bool[optional] Show the year and month header
-     * @param $day_names String[optional] Show the day names
-     * @param $day_name_lengh Int[optional] Length of day names
-     * @param $callback Function[optional] A callback function to call when each day is rendered to the calendar
-     */
-    
-    function getMonthHTML($header, $day_names, $day_name_lengh, $callback) {
-        $days =  $this->getCalenderMonthDays();
-        $html[] = '<table class="calendar"><tbody>';
-        // print year and month
-        if ($header) {
-            $html[] = '<tr class="header">';
-            $html[] = '<th colspan="7" align="center">' . $this->month_name . ' ' . $this->year . '</th>';
-            $html[] = '</tr>';
+        $steps = $steps % $count;
+        for ($i = 0; $i < $steps; $i++) {
+            array_push($data, array_shift($data));
         }
-        // print the day names
-        if ($day_names) {
-            $html[] = '<tr class="day_names">';
-            for ($i = 1; $i <= 7; $i++) {
-                $name = $this->getDayName($i, $day_name_lengh);
-                $html[] = '<th class="day_name ' . $name . '">' . $name . '</th>';
-            }
-            $html[] = '</tr>';
-        }
-        // print the calendar days
-        foreach ($days as $i => $week) {
-            $html[] = '<tr class="week week' . $i . '">';
-            foreach ($week as $j => $day) {
-                if ($callback) {
-                    $day = $callback($day, $i);
-                }
-                $html[] = '<td class="day ' . $day_names[$j % 7] . '" rel="day' . $j . '">' . $day . '</td>';
-            }
-            $html[] = '</tr>';
-        }
-        $html[] = '<tbody></table>';
-        return implode("\n", $html);
-    }
-
-    /**
-     * Generate a HTML display of the calendar week
-     * @return String HTML
-     * @param $week Int The week number
-     * @param $header Bool[optional] Show the year and month header
-     * @param $day_names String[optional] Show the day names
-     * @param $day_name_lengh Int[optional] Length of day names
-     * @param $callback Function[optional] A callback function to call when each day is rendered
-     */
-    function getWeekHTML($week, $header = true, $day_names = true, $day_name_lengh = 3, $callback = false) {
-        $days = & $this->getCalenderWeekDays($week);
-        $html[] = '<table class="calendar"><tbody>';
-        // print year and month
-        if ($header) {
-            $html[] = '<tr class="header">';
-            $html[] = '<th colspan="7" align="center">' . $this->month_name . ' ' . $this->year . ': ' . ucfirst(LANG_CAL_WEEK) . ' ' . $week . '</th>';
-            $html[] = '</tr>';
-        }
-        // print the day names
-        if ($day_names) {
-            $html[] = '<tr class="day_names">';
-            for ($i = 1; $i <= 7; $i++) {
-                $name = $this->getDayName($i, $day_name_lengh);
-                $html[] = '<th class="day_name ' . $name . '">' . $name . '</th>';
-            }
-            $html[] = '</tr>';
-        }
-        // print the calendar days
-        $html[] = '<tr class="week week' . $week . '">';
-        foreach ($days as $i => $day) {
-            if ($callback) {
-                $day = $callback($day, $i);
-            }
-            $html[] = '<td class="day ' . $day_names[$j % 7] . '" rel="day' . $j . '">' . $day . '</td>';
-        }
-        $html[] = '</tr>';
-        $html[] = '<tbody></table>';
-        return implode("\n", $html);
-    }
-
-    /**
-     * Returns localized full day names
-     * @private
-     * @author http://keithdevens.com/software/php_calendar/
-     * @return Array
-     */
-    function _getFullDayNames() {
-        $day_names = array();
-        for ($n = 1, $t = 3 * 86400; $n <= 7; $n++, $t+=86400) {
-            $day_names[$n] = ucfirst(gmstrftime('%A', $t));
-        }
-        return $day_names;
-    }
-
-    /**
-     * Retrieve a Day name given the date
-     * @return String
-     * @param $date Int Day of month, eg: 3 or 31
-     */
-    function getDayName($date, $len = null) {
-        $i = ($date + $this->first_day_offset) % 7;
-        $i = $i ? $i : 7; // 7%7 = 0. Which should be 7 as we start count at 1
-
-        return $len ? substr($this->day_names[$i], 0, $len) : $this->day_names[$i];
     }
 
 }
-
-?>
