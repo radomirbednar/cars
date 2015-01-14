@@ -231,8 +231,10 @@ class Car_share_Shortcode {
                 update_post_meta($post_insert_id, 'cart_drop_off', esc_attr(strip_tags($drop_off_location)));
                 
                 
-                update_date_meta($post_insert_id, '_from', $car_dfrom);
-                update_date_meta($post_insert_id, '_to', $car_dto);
+                sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);
+                
+                //update_date_meta($post_insert_id, '_from', $car_dfrom);
+                //update_date_meta($post_insert_id, '_to', $car_dto);
                 
                //update_post_meta($post_insert_id, 'cart_date_from', esc_attr(($car_dfrom)));
                 //update_post_meta($post_insert_id, 'cart_date_to', esc_attr(($car_dto)));
