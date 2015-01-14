@@ -132,6 +132,9 @@ class Car_share_Booking {
             }            
         }
         
+        $booking = new sc_Booking($post);
+        
+        include 'partials/booking/interval.php';
         include 'partials/booking/field_list.php';
      }
 
