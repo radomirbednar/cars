@@ -183,41 +183,74 @@ if (!empty($_SESSION['TOKEN'])) {
 
                 $surcharge_active = get_post_meta($car_category, '_surcharge_active', true);
 
+
+                /**
+                 * young driver surcharge
+                 */
                 if (1 == $surcharge_active):
 
                     $surcharge_age = get_post_meta($car_category, '_surcharge_age', true);
                     ?>
 
-                    <tr>
-                        <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td>
-                        <td>
-                            <label>
-                                <input id="apply-surcharge" type="checkbox" name="apply_surcharge" value="1">
-                                <?php printf(__('I am under %d.', $this->car_share), $surcharge_age); ?>
-                            </label>
-                        </td>
-                    </tr>
-                <?php endif; ?>
+                <script>
+                    jQuery(document).ready(function ($) {
+                        
+                        $('#car_category_assign_season').on('click', '.remove-s2c', function (event) {
 
-                <?php if (!empty($extras_price)) { ?>
-                    <tr>
-                        <td><?php _e('EXTRAS : ', $this->car_share); ?></td>
-                        <td><?php echo $extras_price; ?></td>
-                    </tr>
-                <?php } ?>
+                            $.ajax({
+                                type: 'post',
+                                url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                                data: {
+                                    'action': 'refresh_checkout_price'
+                                },
+                                beforeSend: function () {
+                                    //self.prop("disabled", true);
+                                }
+                            }).done(function (ret) {
+
+                            }).fail(function (ret) {
+
+                            }).always(function () {
+                                //self.prop("disabled", false);
+                            });
+                        });
+                    });
+                </script>
+
                 <tr>
-                    <td><?php _e('TOTAL : ', $this->car_share); ?></td>
+                    <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td>
                     <td>
-                        <span id="price-total" class="price"></span>
+                        <label>
+                            <input id="apply-surcharge" type="checkbox" name="apply_surcharge" value="1">
+                            <?php printf(__('I am under %d.', $this->car_share), $surcharge_age); ?>
+                        </label>
                     </td>
                 </tr>
+            <?php endif; ?>
+
+            <?php if (!empty($extras_price)) { ?>
                 <tr>
-                    <td><?php _e('PAYABLE NOW : ', $this->car_share); ?></td>
-                    <td>
-                        <span id="price-payable-now" class="price"></span>
-                    </td>
+                    <td><?php _e('EXTRAS : ', $this->car_share); ?></td>
+                    <td><?php echo $extras_price; ?></td>
                 </tr>
-            </tbody>
+            <?php } ?>
+            <tr>
+                <td><?php _e('TOTAL : ', $this->car_share); ?></td>
+                <td>
+                    <span id="price-total" class="price">
+
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td><?php _e('PAYABLE NOW : ', $this->car_share); ?></td>
+                <td>
+                    <span id="price-payable-now" class="price">
+
+                    </span>
+                </td>
+            </tr>
+        </tbody>
         </table>
 
         <form action="" method="post" class="form-horizontal">

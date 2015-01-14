@@ -51,6 +51,9 @@ class Car_share_Public {
 
         $this->car_share = $car_share;
         $this->version = $version;
+        
+        add_action('wp_ajax_nopriv_refresh_checkout_price', array($this, 'ajax_refresh_checkout_price'));
+        add_action('wp_ajax_refresh_checkout_price', array($this, 'ajax_refresh_checkout_price'));
 
         //shordcode for the page Search for a car
         /* add_shortcode('searchforacar', array($this, 'car_share_searchforacar'));*/
@@ -299,4 +302,15 @@ class Car_share_Public {
 
         register_post_type('sc-voucher', $args);                   
     }  
+    
+    
+    function ajax_refresh_checkout_price(){
+        
+        $Cars_cart = new Car_Cart('shopping_cart');
+        $Cars_cart_items = $Cars_cart->getItemSearch();        
+        
+        
+        
+    }
+    
 }
