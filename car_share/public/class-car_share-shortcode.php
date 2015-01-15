@@ -221,23 +221,15 @@ class Car_share_Shortcode {
                             //$field['required'];
                             update_post_meta($post_insert_id, $input_key, esc_attr(strip_tags($_POST[$input_key])));
                         }
-                        //nezapomenout smazat na konci veskerou session !!!
+                        //nezapomenout smazat na konci veskerou session !
                     }
                 }
 
                 $post_insert_id = $_SESSION['post_insert_id'];
 
                 update_post_meta($post_insert_id, 'cart_pick_up', esc_attr(strip_tags($pick_up_location)));
-                update_post_meta($post_insert_id, 'cart_drop_off', esc_attr(strip_tags($drop_off_location)));
-                
-                
-                sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);
-                
-                //update_date_meta($post_insert_id, '_from', $car_dfrom);
-                //update_date_meta($post_insert_id, '_to', $car_dto);
-                
-               //update_post_meta($post_insert_id, 'cart_date_from', esc_attr(($car_dfrom)));
-                //update_post_meta($post_insert_id, 'cart_date_to', esc_attr(($car_dto)));
+                update_post_meta($post_insert_id, 'cart_drop_off', esc_attr(strip_tags($drop_off_location))); 
+                sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id); 
                 update_post_meta($post_insert_id, 'cart_car_category', esc_attr(strip_tags($car_category)));
                 update_post_meta($post_insert_id, 'cart_car_name', esc_attr(strip_tags($ItemName)));
                 update_post_meta($post_insert_id, 'cart_car_ID', esc_attr(strip_tags($car_ID)));
@@ -245,7 +237,10 @@ class Car_share_Shortcode {
                 update_post_meta($post_insert_id, 'cart_extra_price', esc_attr(strip_tags($extras_price)));
                 update_post_meta($post_insert_id, 'cart_total_price', esc_attr(strip_tags($total_price)));
                 //set to order status to pending - 2
-                update_post_meta($post_insert_id, 'car_r_order_status', '2');
+                update_post_meta($post_insert_id, 'car_r_order_status', '2'); 
+                 
+                //odeslani informace obchodnikovi o objednavce - protoze objednavku ukladame uz v tomto kroku
+                     
                 //Redirect user to PayPal store with Token received.
                 $paypalurl = 'https://www' . $paypalmode . '.paypal.com/cgi-bin/webscr?cmd=_express-checkout&useraction=commit&token=' . $httpParsedResponseAr["TOKEN"] . '';
                 header('Location: ' . $paypalurl);
@@ -301,9 +296,9 @@ class Car_share_Shortcode {
 
             if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
 
-                $post_insert_id = $_SESSION['post_insert_id'];
+                  $post_insert_id = $_SESSION['post_insert_id'];
 
-                /*
+                 /*
                   //Sometimes Payment are kept pending even when transaction is complete.
                   //hence we need to notify user about it and ask him manually approve the transiction
                  */
@@ -312,10 +307,37 @@ class Car_share_Shortcode {
 
                     update_post_meta($post_insert_id, 'car_r_order_status', '1');
                     update_post_meta($post_insert_id, 'car_r_order_info', 'Completed DoExpressCheckoutPayment');
+  
+                    //send email here
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                     
+                    
+                 
                 } elseif ('Pending' == $httpParsedResponseAr["PAYMENTINFO_0_PAYMENTSTATUS"]) {
 
                     update_post_meta($post_insert_id, 'car_r_order_status', '2');
                     update_post_meta($post_insert_id, 'car_r_order_info', 'Pending DoExpressCheckoutPayment');
+ 
+                    //send email here
+                    
+                    
+                    
+                    
+                    
+                    
+                     
+                    
                 }
 
                 // we can retrive transection details using either GetTransactionDetails or GetExpressCheckoutDetails
@@ -340,8 +362,7 @@ class Car_share_Shortcode {
                     $responseamt = $httpParsedResponseAr["AMT"];
                     $checkoutstatur = $httpParsedResponseAr["CHECKOUTSTATUS"];
  
-                    //save the transaction information
-                    update_post_meta($post_insert_id, 'car_r_order_status', '1');
+                    //save the transaction information                    
                     update_post_meta($post_insert_id, 'car_r_order_info', 'Completed GetExpressCheckoutDetails');
 
                     update_post_meta($post_insert_id, 'payerid', $payerid);
@@ -353,8 +374,9 @@ class Car_share_Shortcode {
 
                     $post_insert_id = $_SESSION['post_insert_id'];
                     update_post_meta($post_insert_id, 'car_r_order_status', '3');
-                    update_post_meta($post_insert_id, 'car_r_order_info', 'Failed GetExpressCheckoutDetails');
-
+                    update_post_meta($post_insert_id, 'car_r_order_info', 'Failed GetExpressCheckoutDetails');                  
+ 
+                    //delete meta !!!                    
                     /*
                       echo '<div style="color:red"><b>GetTransactionDetails failed:</b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
                       echo '<pre>';
@@ -377,13 +399,16 @@ class Car_share_Shortcode {
             }
 
              if(!empty($httpParsedResponseAr["TOKEN"]))
-            {
+               {
+      
                 $token = urldecode($httpParsedResponseAr["TOKEN"]);
                 $_SESSION['TOKEN'] = $token;
                 update_post_meta($post_insert_id, 'car_succes_token', $token);
                 wp_redirect($checkout_car_url);
                 exit();
-            }
+       
+                
+               }
         }
     }
 
@@ -490,7 +515,7 @@ class Car_share_Shortcode {
         $Cars_cart = new Car_Cart('shopping_cart');
         $Cars_cart_items = $Cars_cart->getItems();
    
-        var_dump($Cars_cart_items);
+    
         
         $pick_up_location = $Cars_cart_items['pick_up_location'];
         $drop_off_location = $Cars_cart_items['drop_off_location'];

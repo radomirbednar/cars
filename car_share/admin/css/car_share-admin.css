@@ -53,21 +53,15 @@
 }
 .remove-row:hover {
     background-color: #ed4444;
-}
-
+} 
 .cal_prew, .cal_next
 {
     
-}
-
- 
+} 
 .cal_prew:hover, .cal_next:hover
 {
  
-}
-
-
-
+} 
 .inline-label {
     -webkit-border-radius: 3px 3px 3px 3px;
     border-radius: 3px 3px 3px 3px;
