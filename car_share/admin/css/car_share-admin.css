@@ -146,6 +146,9 @@ table.SimpleCalendar tbody td.today {
 
 //menu icons
 
-#adminmenu .menu-icon-sc-location div.wp-menu-image:before {
-content: '\f145';
-} 
+.menu-icon-sc-location, .menu-icon-sc-season, .menu-icon-sc-car-category, .menu-icon-sc-car, .menu-icon-sc-service,.menu-icon-sc-voucher, .menu-icon-sc-booking, .dashicons-admin-generic 
+{
+    
+    background:#CDDC39 !important;
+    
+}
