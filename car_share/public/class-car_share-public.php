@@ -311,6 +311,9 @@ class Car_share_Public {
         
         $apply_surcharge = $_POST['apply_surcharge'];
         
+        
+        $total_price = $Cars_cart->getTotalPrice();
+        
         $x = 1;
         
         

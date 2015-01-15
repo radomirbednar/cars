@@ -38,14 +38,10 @@ class Car_Cart {
     }
     
     
-    public function setItemCategory($carID) {
-         
+    public function setItemCategory($carID) {         
           //car category from car post id     
         $car_category = get_post_meta( $carID, '_car_category' );    
-        $this->items['car_category'] = $car_category;   
-        
-        
-         
+        $this->items['car_category'] = $car_category;            
     } 
     
     public function getItemSearch() {
@@ -59,10 +55,11 @@ class Car_Cart {
      * @return int The price.
      */
    
-    public function sc_get_price($single_car_id, DateTime $from, DateTime $to) {     
+    public function get_car_price($single_car_id, DateTime $from, DateTime $to) {     
      
         global $wpdb; 
-        $car_id = $wpdb->get_var("SELECT parent FROM sc_single_car WHERE single_car_id = '" . (int) $single_car_id . "'"); 
+        //$car_id = $wpdb->get_var("SELECT parent FROM sc_single_car WHERE single_car_id = '" . (int) $single_car_id . "'"); 
+        $car_id = sc_car::get_parent_by_single_id($single_car_id);
         $day_interval = DateInterval::createFromDateString('1 day'); 
         $period = new DatePeriod($from, $day_interval, $to);
         $diff = $to->diff($from);
@@ -73,7 +70,7 @@ class Car_Cart {
          *
          */
         if (empty($category_id)) {
-            // the car dont hava a category or the price
+            // the car dont have a category or the price
         } 
         
         $car_category = new sc_Category($category_id); 
@@ -167,7 +164,33 @@ class Car_Cart {
         //
         return $total_price;
     } 
-     
+    
+    public function getTotalPrice(){
+        
+        $total_price = 0;
+        
+        $car_price = $this->get_car_price($this->items['car_ID'], $this->items['car_datefrom'],$this->items['car_dateto']);
+        $surcharge_price = $this->get_driver_surchage_price();
+        $extra_price = $this->sc_get_extras_price($this->items['car_datefrom'], $this->items['car_dateto']);
+
+        $total_price = flaotval($car_price) + floatval($surcharge_price) + floatval($extra_price);
+        
+        return $total_price;
+        
+    }
+    
+    public function getPayableNowPrice(){
+        $total_price = $this->getTotalPrice();
+    }
+    
+    public function get_driver_surchage_price(){
+        
+        
+        
+    }
+    
+
+
     public function sc_get_extras_price(DateTime $from, DateTime $to) {
  
         global $wpdb;
@@ -199,21 +222,32 @@ class Car_Cart {
         return $extras_prices; 
     }
     
-    public function get_ItembyID($car_ID)
+    
+    
+    /**
+     * 
+     * @global type $wpdb
+     * @param type $single_car_id single_car_id v tabuli sc_single_car
+     * @return type
+     */
+    public function get_ItembyID($single_car_id)
     {    
-      global $wpdb;
-            $sql = "
-            SELECT DISTINCT *
+        global $wpdb;
+      
+        $sql = "
+            SELECT DISTINCT 
+                *
             FROM
-            sc_single_car sc_single_car
+                sc_single_car sc_single_car
             JOIN
-            $wpdb->posts posts
+                $wpdb->posts posts
             ON
-            posts.ID = sc_single_car.parent
+                posts.ID = sc_single_car.parent
             WHERE
-            sc_single_car.single_car_id = $car_ID;"; 
-            $car_result = $wpdb->get_results($sql);       
-     return $car_result;        
+                sc_single_car.single_car_id = '" . (int) $single_car_id . "'"; 
+        
+        $car_result = $wpdb->get_results($sql);       
+        return $car_result;        
     } 
      
     /**
@@ -229,6 +263,10 @@ class Car_Cart {
     public function setItemService($service) {
         $this->items['service'] = $service;
     }
+    
+    public function setYoungDriverSurcharge($value) {
+        $this->items['young_driver_surcharge'] = $value;
+    }    
 
     /**
      * getItems() - Get all items.

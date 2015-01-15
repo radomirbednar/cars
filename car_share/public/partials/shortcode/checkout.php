@@ -89,6 +89,7 @@ if (!empty($_SESSION['TOKEN'])) {
     $_SESSION = array();
     // Finally, destroy the session.
     session_destroy();
+    
 } elseif (!empty($Cars_cart_items)) {
 
     if (!empty($Cars_cart_items['service'])) {
@@ -105,7 +106,7 @@ if (!empty($_SESSION['TOKEN'])) {
             $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
             $car_dto = $Cars_cart_items['car_dateto'];
             $car_dto_string = $car_dto->format('Y-m-d H:i');
-            $car_price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto);
+            $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
             $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
             $total_price = $car_price + $extras_price;
         }
@@ -120,7 +121,7 @@ if (!empty($_SESSION['TOKEN'])) {
 
     if (!empty($Cars_cart_items['car_category'])) {
         $car_category = $Cars_cart_items['car_category'];
-    }
+    } 
     ?>
 
 
@@ -179,6 +180,7 @@ if (!empty($_SESSION['TOKEN'])) {
 
                     // get car category from the car-ID because we need this here
                     $car_category = get_post_meta($car->ID, '_car_category', true);
+                    //$Cars_cart_items['car_category'] = $car_category;
                 }
 
                 $surcharge_active = get_post_meta($car_category, '_surcharge_active', true);
@@ -238,7 +240,10 @@ if (!empty($_SESSION['TOKEN'])) {
                         </form>
                     </td>
                 </tr>
-            <?php endif; ?>
+            <?php 
+            endif; 
+            //--------------------------------------------------------------------------
+            ?>
 
             <?php if (!empty($extras_price)) { ?>
                 <tr>
