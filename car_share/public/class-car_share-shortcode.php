@@ -104,8 +104,7 @@ class Car_share_Shortcode {
                 $service_name = get_the_title($key);
                 $service_name.= $service_name . ', ';
             }
-
-
+ 
             $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
             $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
             $total_price = $car_price + $extras_price;
@@ -191,11 +190,9 @@ class Car_share_Shortcode {
                     $checkout_fields = get_enabled_checkout_fields();
                     if ($post_insert_id) {
                         // Update Custom Meta
-                        foreach ($checkout_fields as $input_key => $field) {
-                             
+                        foreach ($checkout_fields as $input_key => $field) { 
                             //$field['required'];
-                            update_post_meta($post_insert_id, $input_key, esc_attr(strip_tags($_POST[$input_key])));
-                         
+                            update_post_meta($post_insert_id, $input_key, esc_attr(strip_tags($_POST[$input_key]))); 
                         }
                         //post meta information about booking
                         //nezapomenout smazat na konci veskerou session !!!!!!!
@@ -203,8 +200,7 @@ class Car_share_Shortcode {
                     }
                 } else {
 
-                    $post_insert_id = $_SESSION['post_insert_id'];
-
+                    $post_insert_id = $_SESSION['post_insert_id']; 
                     $booking_title = $item_title . '-' . $car_ID;
                     $post_information = array(
                         'ID' => $_SESSION['post_insert_id'],
@@ -235,16 +231,31 @@ class Car_share_Shortcode {
                 update_post_meta($post_insert_id, 'cart_car_ID', esc_attr(strip_tags($car_ID)));
                 update_post_meta($post_insert_id, 'cart_car_price', esc_attr(strip_tags($car_price)));
                 update_post_meta($post_insert_id, 'cart_extra_price', esc_attr(strip_tags($extras_price)));
-                update_post_meta($post_insert_id, 'cart_total_price', esc_attr(strip_tags($total_price)));
-                update_post_meta($post_insert_id, 'cart_extras', esc_attr(strip_tags($extras)));
-                
-                
-                
+                update_post_meta($post_insert_id, 'cart_total_price', esc_attr(strip_tags($total_price))); 
+                update_post_meta($post_insert_id, 'cart_extras',($extras));                
                 //set to order status to pending - 2
                 update_post_meta($post_insert_id, 'car_r_order_status', '2'); 
+       
+                //odeslani informace obchodnikovi o objednavce - protoze objednavku ukladame uz v tomto kroku   
                  
-                //odeslani informace obchodnikovi o objednavce - protoze objednavku ukladame uz v tomto kroku
-                     
+                 
+                $email_client_content = ""; 
+                
+                
+                
+                
+                
+                
+                
+                 
+                $email_store_content = "";
+                
+                
+                
+                
+                
+                
+                 
                 //Redirect user to PayPal store with Token received.
                 $paypalurl = 'https://www' . $paypalmode . '.paypal.com/cgi-bin/webscr?cmd=_express-checkout&useraction=commit&token=' . $httpParsedResponseAr["TOKEN"] . '';
                 header('Location: ' . $paypalurl);
@@ -314,18 +325,11 @@ class Car_share_Shortcode {
   
                     //send email here
                     
+               
+        
                     
                     
                     
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                     
                     
                  
                 } elseif ('Pending' == $httpParsedResponseAr["PAYMENTINFO_0_PAYMENTSTATUS"]) {

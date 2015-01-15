@@ -28,7 +28,10 @@ if (!empty($_SESSION['TOKEN'])) {
             $cart_car_ID = get_post_meta($post_ID, 'cart_car_ID');
             $paypal_payed_amt = get_post_meta($post_ID, 'amt');
             $pick_up_location = get_post_meta($post_ID, 'cart_pick_up');
-            $drop_off_location = get_post_meta($post_ID, 'cart_drop_off');
+         
+            $drop_off_location = get_post_meta($post_ID, 'cart_drop_off');     
+            $extras = get_post_meta($post_ID, 'cart_extras');
+            
                 
             } // end while
     } // end if
@@ -74,27 +77,25 @@ if (!empty($_SESSION['TOKEN'])) {
  
     <tr> 
         <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
-        <td>
+        <td> 
+            <?php //var_dump($extras);
+            
+            
+                
             
             
             
-            
-            
+            ?> 
         </td> 
     </tr>
     <tr>
         <td>
-
-
-
-
+ 
         </td>
     </tr>
     <tr>
         <td>
-
-
-
+ 
         </td>
     </tr>
     </table>
