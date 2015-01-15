@@ -322,8 +322,7 @@ class Car_share_Public {
             'paypable_now' => $paypable_now
         );
 
-        echo json_encode($return);
-        
+        echo json_encode($return);        
         die();        
     }
     
