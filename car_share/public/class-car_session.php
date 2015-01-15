@@ -187,6 +187,28 @@ class Car_Cart {
         return $this->total_price;        
     }
     
+    public function getDifferentLocationPrice(){
+        
+        $price = 0;
+        
+        $items = $this->getItems();
+        
+        $pick_up_location = $items['pick_up_location'];
+        $drop_off_location = $items['drop_off_location'];
+        
+        if($pick_up_location != $drop_off_location){
+            
+            $active = get_post_meta($pick_up_location, '_apply_location_price', true);
+            
+            if(1 == $active){                
+                $price = get_post_meta($pick_up_location, '_location_price', true);                
+                $price = floatval($price);
+            }
+        }
+        
+        return $price;        
+    }
+    
     public function getPaypablePrice(){
         //$total_price = $this->getTotalPrice();
         $payable_price = $this->total_price;
