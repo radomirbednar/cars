@@ -144,4 +144,8 @@ table.SimpleCalendar tbody td.today {
 
 
 
+//menu icons
 
+#adminmenu .menu-icon-sc-location div.wp-menu-image:before {
+content: '\f145';
+} 

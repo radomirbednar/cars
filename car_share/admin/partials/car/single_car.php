@@ -1,14 +1,9 @@
 <label>
     <?php _e('Vehicle registration plate:', $this->car_share) ?>
     <input type="text" name="car[<?php echo $car_id ?>][spz]" value="<?php echo isset($spz) ? esc_attr($spz) : '' ?>">
-</label>
-
-<h2><?php _e('Calendar:', $this->car_share) ?></h2>
- 
-
+</label> 
+<h2><?php _e('Calendar:', $this->car_share) ?></h2> 
  <?php $this->calendar_single_car_ajax($car_id); ?> 
- 
-  
 <?php if (!empty($locations)): ?>
     <h2><?php _e('Pick-up location:', $this->car_share) ?></h2>
     <?php foreach ($locations as $location): ?>
@@ -47,8 +42,8 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-
+    <tbody> 
+    <?php //the_content(); ?> 
     </tbody>
     <tfoot>
         <tr>
@@ -59,8 +54,7 @@
     </tfoot>
 </table>
 
-<hr>
-
+<hr> 
 <button id="delete-car-<?php echo $car_id ?>" data-car_id="<?php echo $car_id ?>" type="button" class="delete-car alignright button button-primary"><?php _e('Delete', $this->car_share) ?></button>
 <button id="clone-car-<?php echo $car_id ?>" data-car_id="<?php echo $car_id ?>" type="button" class="clone-car alignright button button-primary"><?php _e('Clone', $this->car_share) ?></button>
 <button id="new-car-<?php echo $car_id ?>" data-car_id="<?php echo $car_id ?>" type="button" class="new-car alignright button button-primary"><?php _e('New', $this->car_share) ?></button>
