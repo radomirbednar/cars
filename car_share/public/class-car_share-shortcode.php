@@ -91,7 +91,7 @@ class Car_share_Shortcode {
             $car_dto_string = $car_dto->format('Y-m-d H:i');
 
             $car_result = $Cars_cart->get_ItembyID($car_ID);
-
+            
             //get the item title
             foreach ($car_result as $car) {
                 $item_title = get_the_title($car->ID);
@@ -236,6 +236,10 @@ class Car_share_Shortcode {
                 update_post_meta($post_insert_id, 'cart_car_price', esc_attr(strip_tags($car_price)));
                 update_post_meta($post_insert_id, 'cart_extra_price', esc_attr(strip_tags($extras_price)));
                 update_post_meta($post_insert_id, 'cart_total_price', esc_attr(strip_tags($total_price)));
+                update_post_meta($post_insert_id, 'cart_extras', esc_attr(strip_tags($extras)));
+                
+                
+                
                 //set to order status to pending - 2
                 update_post_meta($post_insert_id, 'car_r_order_status', '2'); 
                  
@@ -629,8 +633,7 @@ class Car_share_Shortcode {
             //remove when zero
             $service = array_filter($_POST['service']);
             $Cars_cart = new Car_Cart('shopping_cart');
-            $Cars_cart->setItemService($service);
-            
+            $Cars_cart->setItemService($service); 
             $Cars_cart->save();
         }
     }

@@ -71,11 +71,16 @@ if (!empty($_SESSION['TOKEN'])) {
         </td>
         <td><?php echo get_the_title($cart_car_ID); ?></td>
     </tr>
-
  
     <tr> 
         <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
-        <td></td> 
+        <td>
+            
+            
+            
+            
+            
+        </td> 
     </tr>
     <tr>
         <td>
@@ -141,21 +146,18 @@ if (!empty($_SESSION['TOKEN'])) {
     //  $car_result = $Cars_cart->get_ItembyID($car_ID);
     //we have the information about the token
     //Unset all of the session variables.
-    /*   $_SESSION = array();
+       $_SESSION = array();
       // Finally, destroy the session.
       session_destroy();
-     */
+                
 } elseif (!empty($Cars_cart_items)) {
 
     if (!empty($Cars_cart_items['service'])) {
         $extras = $Cars_cart_items['service'];
     }
     if (!empty($Cars_cart_items['car_ID'])) {
-        $car_ID = $Cars_cart_items['car_ID'];
-
-        $car_result = $Cars_cart->get_ItembyID($car_ID);
-
-
+        $car_ID = $Cars_cart_items['car_ID']; 
+        $car_result = $Cars_cart->get_ItembyID($car_ID); 
         if (!empty($Cars_cart_items['car_datefrom']) && !empty($Cars_cart_items['car_dateto'])) {
             $car_dfrom = $Cars_cart_items['car_datefrom'];
             $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
