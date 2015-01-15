@@ -427,7 +427,13 @@ class Car_share_Shortcode {
 
             if (isset($_POST['car_category'])) {
                 $car_category = sanitize_text_field($_POST['car_category']);
-            } else {
+            } else {                
+                 
+                /*
+                 * nemam aktivni vyber kategorie?
+                 * 
+                 */ 
+                
                 $car_category = '';
             }
 

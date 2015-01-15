@@ -196,13 +196,16 @@ if (!empty($_SESSION['TOKEN'])) {
                     jQuery(document).ready(function ($) {
 
                         function refrest_checkout_prices() {
+                            
+                            var apply_surcharge = $('#apply-surcharge').val();
 
                             $.ajax({
                                 type: 'post',
                                 dataType: 'json',
                                 url: '<?php echo admin_url('admin-ajax.php'); ?>',
                                 data: {
-                                    'action': 'refresh_checkout_price'
+                                    'action': 'refresh_checkout_price',
+                                    'apply_surcharge' : apply_surcharge
                                 },
                                 beforeSend: function () {
                                     //self.prop("disabled", true);

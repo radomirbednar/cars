@@ -309,6 +309,8 @@ class Car_share_Public {
         $Cars_cart = new Car_Cart('shopping_cart');
         $Cars_cart_items = $Cars_cart->getItemSearch();   
         
+        $apply_surcharge = $_POST['apply_surcharge'];
+        
         $x = 1;
         
         
