@@ -337,23 +337,27 @@ class Car_share_Public {
     function ajax_apply_voucher(){
         
         $Cars_cart = new Car_Cart('shopping_cart');
-
-        $voucher = $_POST['voucher'];
-
-        $Cars_cart->applyVoucher($voucher);
+        $voucher = trim($_POST['voucher']);
+        
+        try {
+            $Cars_cart->applyVoucher($voucher);
+        } catch (Exception $e) {
+            
+        }    
+        
         $Cars_cart->save();
 
-        //$Cars_cart_items = $Cars_cart->getItemSearch();
+            //$Cars_cart_items = $Cars_cart->getItemSearch();
 
-        $total_price = $Cars_cart->getTotalPrice();
-        $paypable_now = round($Cars_cart->getPaypablePrice(), 1);
+            $total_price = $Cars_cart->getTotalPrice();
+            $paypable_now = round($Cars_cart->getPaypablePrice(), 1);
 
-        $return = array(
-            'total_price' => $total_price,
-            'paypable_now' => $paypable_now
-        );
+            $return = array(
+                'total_price' => $total_price,
+                'paypable_now' => $paypable_now
+            );
 
-        echo json_encode($return);
+            echo json_encode($return);
         die();        
         
     }

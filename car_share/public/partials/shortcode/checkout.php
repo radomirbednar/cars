@@ -341,17 +341,17 @@ if (!empty($_SESSION['TOKEN'])) {
                     jQuery('#voucher-form').submit(function (e) {
                         e.preventDefault();
                         
-                            $.ajax({
-                                type: 'post',
-                                dataType: 'json',
-                                url: '<?php echo admin_url('admin-ajax.php'); ?>',
-                                data: {
-                                    'action': 'apply_voucher',
-                                    'apply_surcharge': apply_surcharge
-                                },
-                                beforeSend: function () {
+                        $.ajax({
+                            type: 'post',
+                            dataType: 'json',
+                            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                            data: {
+                                'action': 'apply_voucher',
+                                'voucher': $('#voucher-code').val()
+                            },
+                            beforeSend: function () {
                                     //self.prop("disabled", true);
-                                }
+                            }
                             }).done(function (ret) {
                                 $('#price-total').html(ret.total_price);
                                 $('#price-payable-now').html(ret.paypable_now);
@@ -359,8 +359,7 @@ if (!empty($_SESSION['TOKEN'])) {
 
                             }).always(function () {
                                 //self.prop("disabled", false);
-                            });                        
-                            
+                        }); 
                     });                        
                 })
             </script>
@@ -368,7 +367,7 @@ if (!empty($_SESSION['TOKEN'])) {
                 <td><?php _e('Voucher : ', $this->car_share); ?></td>
                 <td>
                     <form id="voucher-form" method="post" action="">
-                        <input type="text" name="voucher" value="">
+                        <input id="voucher-code" type="text" name="voucher" value="">
                         <button type="submit" class="btn btn-default" name="voucher"><?php _e('Apply voucher', $this->car_share); ?></button>
                     </form>
                 </td>

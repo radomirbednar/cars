@@ -168,16 +168,21 @@ class Car_Cart {
     
     public function getTotalPrice(){
         
-        //$total_price = 0;
-        
+        //$total_price = 0;        
         $car_price = $this->get_car_price($this->items['car_ID'], $this->items['car_datefrom'],$this->items['car_dateto']);
         $surcharge_price = $this->get_driver_surchage_price();
         $extra_price = $this->sc_get_extras_price($this->items['car_datefrom'], $this->items['car_dateto']);
 
         $this->total_price = floatval($car_price) + floatval($surcharge_price) + floatval($extra_price);
-        //$total_price
-        return $this->total_price;
         
+        // apply vouhcer if any
+        if(!empty($this->items['voucher_discount'])){                        
+            $percentage_discount = $this->items['voucher_discount'];            
+            $this->total_price = $this->total_price - $this->total_price * $percentage_discount / 100;            
+        }        
+        
+        //$total_price
+        return $this->total_price;        
     }
     
     public function getPaypablePrice(){
@@ -219,8 +224,6 @@ class Car_Cart {
         
         return $surcharge_price;        
     }
-    
-
 
     public function sc_get_extras_price(DateTime $from, DateTime $to) {
  
@@ -300,7 +303,39 @@ class Car_Cart {
     }    
     
     public function applyVoucher($voucher){
-        $this->items['apply_surcharge'] = $voucher;
+        
+        global $wpdb;
+        
+        //unset($_SESSION[$this->cart_name]['voucher_id']);
+        //unset($_SESSION[$this->cart_name]['voucher_code']);
+        //unset($_SESSION[$this->cart_name]['voucher_discount']);
+        
+        unset($this->items['voucher_id']);
+        unset($this->items['voucher_code']);
+        unset($this->items['voucher_discount']);
+        
+        //$this->save();        
+        $sql = "
+            SELECT 
+                post_id 
+            FROM 
+                $wpdb->postmeta
+            WHERE 
+                meta_key = '_voucher_code' 
+            AND 
+                meta_value='" . esc_sql($voucher) . "'";
+        
+        $voucher_id = $wpdb->get_var($sql);
+        
+        if(empty($voucher_id)){
+            throw new Exception('Sorry, this voucher does not exist.');
+        }
+        
+        $voucher_discount = get_post_meta($voucher_id, '_discount', true);
+        
+        $this->items['voucher_id'] = $voucher_id;
+        $this->items['voucher_code'] = $voucher;
+        $this->items['voucher_discount'] = floatval($voucher_discount);
     }
 
     /**
