@@ -173,7 +173,7 @@ class Car_Cart {
         $surcharge_price = $this->get_driver_surchage_price();
         $extra_price = $this->sc_get_extras_price($this->items['car_datefrom'], $this->items['car_dateto']);
 
-        $total_price = flaotval($car_price) + floatval($surcharge_price) + floatval($extra_price);
+        $total_price = floatval($car_price) + floatval($surcharge_price) + floatval($extra_price);
         
         return $total_price;
         
@@ -194,9 +194,9 @@ class Car_Cart {
             
             if(!empty($category_id)){
                 
-                $surcharge_active = get_post_meta($car_category, '_surcharge_active', true);
+                $surcharge_active = get_post_meta($category_id, '_surcharge_active', true);
                 if(1 == $surcharge_active){
-                    $surcharge_fee = get_post_meta($post->ID, '_surcharge_fee', true);
+                    $surcharge_fee = get_post_meta($category_id, '_surcharge_fee', true);
                     
                     $surcharge_price += floatval($surcharge_fee);
                 }                

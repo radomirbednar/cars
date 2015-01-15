@@ -316,10 +316,16 @@ class Car_share_Public {
         
         $total_price = $Cars_cart->getTotalPrice();
         
-        $x = 1;
+        $paypable_now = 22;
         
+        $return = array(
+            'total_price' => $total_price,
+            'paypable_now' => $paypable_now
+        );
+
+        echo json_encode($return);
         
-        
+        die();        
     }
     
 }

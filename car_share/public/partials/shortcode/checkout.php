@@ -199,7 +199,9 @@ if (!empty($_SESSION['TOKEN'])) {
 
                         function refrest_checkout_prices() {
                             
-                            var apply_surcharge = $('#apply-surcharge').val();
+                            var apply_surcharge = $('#apply-surcharge').is(':checked') ? 1 : 0;
+                            
+                            console.log(apply_surcharge);
 
                             $.ajax({
                                 type: 'post',
@@ -213,7 +215,7 @@ if (!empty($_SESSION['TOKEN'])) {
                                     //self.prop("disabled", true);
                                 }
                             }).done(function (ret) {
-                                $('#price-total').html(ret.total);
+                                $('#price-total').html(ret.total_price);
                                 $('#price-payable-now').html(ret.paypable_now);
                             }).fail(function (ret) {
 
