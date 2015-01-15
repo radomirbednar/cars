@@ -337,13 +337,11 @@ class Car_Cart {
             if ($quantity < 1)
                 unset($this->items[$order_code]);
         }
-    }
-
+    } 
     /**
      * save() - Saves the cart to a session variable.
      */
     public function save() {
         $_SESSION[$this->cart_name] = $this->items;
-    }
-
-}
+    } 
+} 

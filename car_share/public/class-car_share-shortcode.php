@@ -23,9 +23,8 @@ class Car_share_Shortcode {
         add_shortcode('sc-pick_car', array($this, 'pick_car'));
         add_shortcode('sc-extras', array($this, 'extras'));
         add_shortcode('sc-checkout', array($this, 'checkout'));
-        add_action('plugins_loaded', array($this, 'search_for_car_form'));
-
-
+        
+        add_action('plugins_loaded', array($this, 'search_for_car_form')); 
         add_action('plugins_loaded', array($this, 'paypal'));
 
         if (!isset($_SESSION)) {
@@ -35,8 +34,8 @@ class Car_share_Shortcode {
 
     public function paypal() {
  
-        $sc_options_paypal = get_option('second_set_arraykey');
- 
+        $sc_options_paypal = get_option('second_set_arraykey'); 
+        
         if(!empty($sc_options_paypal['apiusername-setting'])){
             $PayPalApiUsername = $sc_options_paypal['apiusername-setting'];
         }
@@ -46,9 +45,9 @@ class Car_share_Shortcode {
         if(!empty($sc_options_paypal['apisignature-setting'])){
             $PayPalApiSignature = $sc_options_paypal['apisignature-setting'];
         } 
-           //paypal options
-          $PayPalMode = 'sandbox'; // sandbox or live
-          if(!empty($sc_options_paypal['paypalsandbox-setting'])){
+        //paypal options
+        $PayPalMode = 'sandbox'; // sandbox or live
+        if(!empty($sc_options_paypal['paypalsandbox-setting'])){
 
             if($sc_options_paypal['paypalsandbox-setting']=='0')
             {
@@ -56,7 +55,7 @@ class Car_share_Shortcode {
             }
         }
   
-              //page options
+        //page options
         $sc_options = get_option('sc-pages');
         $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
  
@@ -70,8 +69,8 @@ class Car_share_Shortcode {
 
         include_once("paypalsdk/expresscheckout.php");
  
-        if (isset($_POST['sc-checkout']) && isset($_POST['post_nonce_field']) && wp_verify_nonce($_POST['post_nonce_field'], 'post_nonce')) {
-
+  
+        if (isset($_POST['sc-checkout']) && isset($_POST['post_nonce_field']) && wp_verify_nonce($_POST['post_nonce_field'], 'post_nonce')) { 
             // information for the payment
 
             $Cars_cart = new Car_Cart('shopping_cart');
@@ -96,15 +95,14 @@ class Car_share_Shortcode {
             foreach ($car_result as $car) {
                 $item_title = get_the_title($car->ID);
             }
-            //get the extras infos
-
+            //get the extras infos 
             foreach ($extras as $key => $extras_id) {
                 $service_fee = get_post_meta($key, '_service_fee', true);
                 $_per_service = get_post_meta($key, '_per_service', true);
                 $service_name = get_the_title($key);
                 $service_name.= $service_name . ', ';
-            }
- 
+            } 
+           
             $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
             $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
             
@@ -158,10 +156,11 @@ class Car_share_Shortcode {
                     '&LOCALECODE=GB' . //PayPal pages to match the language on your website.
                     '&ALLOWNOTE=0';
 
-            /*
-             *
+            /* 
              * set session variable we need later for "DoExpressCheckoutPayment"
              */
+            
+            
             $_SESSION['ItemName'] = $ItemName; //Item Name
             $_SESSION['ItemPrice'] = $ItemPrice; //Item Price
             $_SESSION['ItemNumber'] = $ItemNumber; //Item Number
@@ -239,14 +238,22 @@ class Car_share_Shortcode {
                 //set to order status to pending - 2
                 update_post_meta($post_insert_id, 'car_r_order_status', '2');  
                 //odeslani informace obchodnikovi o objednavce - protoze objednavku ukladame uz v tomto kroku   
-                   
-                 
-                $email_client_content = ""; 
-        
-                $email_store_content = "";
+  
                 
-                 
-                  
+                
+                
+                $email_client_content = ""; 
+         
+                
+                
+                
+                
+                $email_store_content = "";
+   
+                
+                
+                
+                
                 //Redirect user to PayPal store with Token received.
                 $paypalurl = 'https://www' . $paypalmode . '.paypal.com/cgi-bin/webscr?cmd=_express-checkout&useraction=commit&token=' . $httpParsedResponseAr["TOKEN"] . '';
                 header('Location: ' . $paypalurl);
@@ -260,7 +267,7 @@ class Car_share_Shortcode {
             }
         }
 
-//Paypal redirects back to this page using ReturnURL, We should receive TOKEN and Payer ID
+        //Paypal redirects back to this page using ReturnURL, We should receive TOKEN and Payer ID
 
         if (isset($_GET["token"]) && isset($_GET["PayerID"])) {
             //we will be using these two variables to execute the "DoExpressCheckoutPayment"
