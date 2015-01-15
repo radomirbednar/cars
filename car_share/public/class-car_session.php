@@ -172,10 +172,14 @@ class Car_Cart {
         $car_price = $this->get_car_price($this->items['car_ID'], $this->items['car_datefrom'],$this->items['car_dateto']);
         // 
         $surcharge_price = $this->get_driver_surchage_price($car_price);
+        
+        //
+        $different_location_price = $this->getDifferentLocationPrice();
+        
         //
         $extra_price = $this->sc_get_extras_price($this->items['car_datefrom'], $this->items['car_dateto']);
 
-        $this->total_price = floatval($car_price) + floatval($surcharge_price) + floatval($extra_price);
+        $this->total_price = floatval($car_price) + floatval($surcharge_price) + floatval($extra_price) + floatval($different_location_price);
         
         // apply vouhcer if any
         if(!empty($this->items['voucher_discount'])){                        
@@ -187,6 +191,10 @@ class Car_Cart {
         return $this->total_price;        
     }
     
+    /**
+     * 
+     * @return type
+     */
     public function getDifferentLocationPrice(){
         
         $price = 0;
@@ -198,12 +206,12 @@ class Car_Cart {
         
         if($pick_up_location != $drop_off_location){
             
-            $active = get_post_meta($pick_up_location, '_apply_location_price', true);
-            
-            if(1 == $active){                
-                $price = get_post_meta($pick_up_location, '_location_price', true);                
-                $price = floatval($price);
-            }
+            $car_id = sc_Car::get_parent_by_single_id($items['car_ID']);
+            $category_id = (int)get_post_meta($car_id, '_car_category', true);     
+            //$active = get_post_meta($category_id, '_apply_location_price', true);            
+            $diff_locationi_price = get_post_meta($category_id, '_location_price', true);
+            $price = floatval($diff_locationi_price);
+
         }
         
         return $price;        

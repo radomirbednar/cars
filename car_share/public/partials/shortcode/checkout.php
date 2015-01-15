@@ -223,11 +223,12 @@ if (!empty($_SESSION['TOKEN'])) {
                 $_per_service = get_post_meta($key, '_per_service', true);
                 $service_name = get_the_title($key);
                 echo $service_name . ', ';
+            }
                 ?>
                             </td>
                         </tr>
                 <?php
-            }
+            
         }
         ?>
                 <tr>
@@ -254,10 +255,7 @@ if (!empty($_SESSION['TOKEN'])) {
              *
              */
             ?>
-
-
-
-                <script>
+            <script>
                     jQuery(document).ready(function ($) {
 
                         function refrest_checkout_prices() {
@@ -314,6 +312,29 @@ if (!empty($_SESSION['TOKEN'])) {
                 </tr>
         <?php } 
         
+        
+        /**
+         * different location price
+         */
+        
+        $different_location_price = $Cars_cart->getDifferentLocationPrice();
+        
+        if(!empty($different_location_price)):
+        ?>
+                
+                <tr>
+                    <td>
+                        <?php _e('Different location price:', $this->car_share) ?>
+                    </td>
+                    <td>
+                        <?php echo $different_location_price; ?>
+                    </td>
+                </tr>   
+        <?php
+        endif;
+                
+                
+                
         
         /**
          * Total price and payable now price
