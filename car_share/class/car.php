@@ -45,5 +45,21 @@ class sc_Car {
         
     }
     
+    public static function get_parent_by_single_id($single_car_id){
+        
+        global $wpdb;
+        
+        $sql = "
+            SELECT 
+                parent 
+            FROM 
+                sc_single_car 
+            WHERE 
+                single_car_id = '" . (int) $single_car_id . "'";
+        
+        return $wpdb->get_var($sql);
+        
+    }
+    
 }
 

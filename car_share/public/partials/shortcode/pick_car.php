@@ -32,7 +32,7 @@
             <?php echo $post_thumbnail; ?> 
             <h2><?php echo get_the_title($car->ID) ?></h2> 
             <h3><?php _e('Price: ', $this->car_share); ?> 
-                <?php $price = $Cars_cart->sc_get_price($car->single_car_id, $car_dfrom, $car_dto); ?> 
+                <?php $price = $Cars_cart->get_car_price($car->single_car_id, $car_dfrom, $car_dto); ?> 
                 <?php if(!empty($price)){ echo $price;}?>  
             </h3> 
             <table>

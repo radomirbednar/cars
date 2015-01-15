@@ -106,7 +106,7 @@ class Car_share_Shortcode {
             }
 
 
-            $car_price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto);
+            $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
             $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
             $total_price = $car_price + $extras_price;
             $total_price = money_format('%.2n', $total_price);
@@ -452,7 +452,13 @@ class Car_share_Shortcode {
 
             if (isset($_POST['car_category'])) {
                 $car_category = sanitize_text_field($_POST['car_category']);
-            } else {
+            } else {                
+                 
+                /*
+                 * nemam aktivni vyber kategorie?
+                 * 
+                 */ 
+                
                 $car_category = '';
             }
 
@@ -624,6 +630,7 @@ class Car_share_Shortcode {
             $service = array_filter($_POST['service']);
             $Cars_cart = new Car_Cart('shopping_cart');
             $Cars_cart->setItemService($service);
+            
             $Cars_cart->save();
         }
     }

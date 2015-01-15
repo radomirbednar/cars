@@ -165,7 +165,7 @@ if (!empty($_SESSION['TOKEN'])) {
             $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
             $car_dto = $Cars_cart_items['car_dateto'];
             $car_dto_string = $car_dto->format('Y-m-d H:i');
-            $car_price = $Cars_cart->sc_get_price($car_ID, $car_dfrom, $car_dto);
+            $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
             $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
             $total_price = $car_price + $extras_price;
         }
@@ -180,7 +180,7 @@ if (!empty($_SESSION['TOKEN'])) {
 
     if (!empty($Cars_cart_items['car_category'])) {
         $car_category = $Cars_cart_items['car_category'];
-    }
+    } 
     ?>
 
 
@@ -260,13 +260,16 @@ if (!empty($_SESSION['TOKEN'])) {
                     jQuery(document).ready(function($) {
 
                         function refrest_checkout_prices() {
+                            
+                            var apply_surcharge = $('#apply-surcharge').val();
 
                             $.ajax({
                                 type: 'post',
                                 dataType: 'json',
                                 url: '<?php echo admin_url('admin-ajax.php'); ?>',
                                 data: {
-                                    'action': 'refresh_checkout_price'
+                                    'action': 'refresh_checkout_price',
+                                    'apply_surcharge' : apply_surcharge
                                 },
                                 beforeSend: function() {
                                     //self.prop("disabled", true);

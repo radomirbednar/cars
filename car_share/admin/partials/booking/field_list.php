@@ -11,7 +11,7 @@
                         case 'cart_pick_up':
                         case 'cart_drop_off':
                         case 'cart_car_category':    
-                            echo get_the_title($field['value']);
+                            echo empty($field['value']) ? '-' : get_the_title($field['value']);
                             break;
                         default:
                             echo empty($field['value']) ? '-' : esc_attr($field['value']);
