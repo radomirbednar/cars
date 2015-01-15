@@ -159,7 +159,7 @@ class Car_share_Booking {
         foreach($default_fields as $field_key => $field){            
             if(isset($custom_fields[$field_key])){
                 $field['value'] = $custom_fields[$field_key][0];
-                $fields_to_show[] = $field;
+                $fields_to_show[$field_key] = $field;
             }            
         }
         

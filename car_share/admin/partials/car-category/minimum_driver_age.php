@@ -18,7 +18,7 @@
         </tr>
         <tr>
             <td>
-                <label for="minimum_age_fee"><?php _e('Fee:', $this->car_share) ?></label>
+                <label for="minimum_age_fee"><?php _e('Increase price (percentage):', $this->car_share) ?></label>
             </td>
             <td>
                 <input id="minimum_age_fee" class="small-input" type="number" step="0.01" name="_surcharge_fee" value="<?php echo empty($surcharge_fee) ? 0 :  floatval($surcharge_fee) ?>">
