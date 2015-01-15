@@ -11,7 +11,8 @@ function get_booking_fields(){
         'cart_car_price' => 'Car Price',
         'cart_extra_price' => 'Extra Price',
         'cart_total_price' => 'Total Price',
-        'cart_order_status' => 'Order statua',
+        '_checkout_payable_price' => 'Payable price',
+        'cart_order_status' => 'Order status',
     );
     
     return $arr;

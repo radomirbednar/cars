@@ -211,8 +211,7 @@ class Car_Cart {
                 
                 $surcharge_active = get_post_meta($category_id, '_surcharge_active', true);
                 if(1 == $surcharge_active){
-                    $surcharge_fee = get_post_meta($category_id, '_surcharge_fee', true);
-                    
+                    $surcharge_fee = get_post_meta($category_id, '_surcharge_fee', true);                    
                     $surcharge_price += floatval($surcharge_fee);
                 }                
             }            
