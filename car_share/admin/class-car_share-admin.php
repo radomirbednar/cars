@@ -93,8 +93,8 @@ class Car_share_Admin {
             $lastm->modify('first day of last month');
             $stringlastm = $lastm->format("m-d-Y H:i:s");
             $today_string = $today->format('F Y');
-        
-            
+
+
         } else {
 
             //$timestamp = strtotime('now');
@@ -114,21 +114,21 @@ class Car_share_Admin {
         //$date = date("Y-m-d H:i:s");
         ?>
 
-            <div class="<?php echo $car_id; ?>"> 
+            <div class="<?php echo $car_id; ?>">
             <a href="#" data-car-prew="<?php echo $stringlastm; ?>" class="cal_prew" ><?php _e('<< Prew', $this->car_share) ?></a>
-            
+
             <span id="calendar-date"><?php echo $today_string; ?></span>
             <a href="#" data-car-next="<?php echo $stringnextm; ?>" class="cal_next"><?php _e('Next >>', $this->car_share) ?></a>
-            
- 
+
+
         <?php
-        
-        require_once('calendar_class.php'); 
-        $calendar = new donatj\SimpleCalendar(); 
-         if (isset($_POST['calendar_id'])) { 
-            $calendar = new donatj\SimpleCalendar($today_string);             
+
+        require_once('calendar_class.php');
+        $calendar = new donatj\SimpleCalendar();
+         if (isset($_POST['calendar_id'])) {
+            $calendar = new donatj\SimpleCalendar($today_string);
          }
-                            
+
         $calendar->setStartOfWeek('Monday');
 //get all date from this car id
 //$car_id
@@ -172,7 +172,7 @@ class Car_share_Admin {
         </div>
 
 
-        <script> 
+        <script>
             (function($) {
                 'use strict';
                 $(document).ready(function($) {
@@ -215,7 +215,7 @@ class Car_share_Admin {
                 });
             })(jQuery);
         </script>
- 
+
         <?php
     }
 
@@ -671,6 +671,13 @@ class Car_share_Admin {
 
         //global $post;
         //if(in_array($post->post_type, array('sc-booking', 'sc-season')) ){
+        global $wpdb;
+
+        if(!empty($post_id)){
+            $sql = " DELETE FROM  sc_single_car_status WHERE status = '" . Car_share::STATUS_BOOKED . "' AND booking_id = '" . $post_id . "'";
+            $wpdb->query($sql);
+        }
+
         delete_all_date_metas($post_id);
         //}
     }
