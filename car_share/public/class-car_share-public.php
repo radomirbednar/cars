@@ -117,7 +117,7 @@ class Car_share_Public {
         // locations
         $args = array(
             
-            'menu_icon' => 'dashicons-calendar',
+            'menu_icon' => 'dashicons-location',
             'labels' => array(
                 'name' => __('Location', $this->car_share),
                 'singular_name' => __('Location', $this->car_share),
@@ -146,6 +146,9 @@ class Car_share_Public {
         
          // season
         $args = array(
+            
+            'menu_icon' => 'dashicons-calendar-alt',
+            
             'labels' => array(
                 'name' => __('Season', $this->car_share),
                 'singular_name' => __('Season', $this->car_share),
@@ -174,6 +177,7 @@ class Car_share_Public {
         
         // category
         $args = array(
+            'menu_icon' => 'dashicons-category',
             'labels' => array(
                 'name' => __('Car category', $this->car_share),
                 'singular_name' => __('Car category', $this->car_share),
@@ -203,6 +207,7 @@ class Car_share_Public {
 
         // cars
         $args = array(
+             'menu_icon' => 'dashicons-performance',
             'labels' => array(
                 'name' => __('Cars', $this->car_share),
                 'singular_name' => __('Car', $this->car_share),
@@ -233,6 +238,7 @@ class Car_share_Public {
 
         // service
         $args = array(
+             'menu_icon' => 'dashicons-smiley',
             'labels' => array(
                 'name' => __('Service', $this->car_share),
                 'singular_name' => __('Service', $this->car_share),
@@ -262,6 +268,8 @@ class Car_share_Public {
         
         // voucher
         $args = array(
+            
+            'menu_icon' => 'dashicons-nametag',
             'labels' => array(
                 'name' => __('Voucher', $this->car_share),
                 'singular_name' => __('Voucher', $this->car_share),
@@ -291,6 +299,7 @@ class Car_share_Public {
         
          // order
         $args = array(
+            'menu_icon' => 'dashicons-cart',
             'labels' => array(
                 'name' => __('Booking', $this->car_share),
                 'singular_name' => __('Booking', $this->car_share),
