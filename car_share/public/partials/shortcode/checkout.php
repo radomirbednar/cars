@@ -261,7 +261,7 @@ if (!empty($_SESSION['TOKEN'])) {
                             
                             var apply_surcharge = $('#apply-surcharge').is(':checked') ? 1 : 0;
                             
-                            console.log(apply_surcharge);
+                            //console.log(apply_surcharge);
 
                             $.ajax({
                                 type: 'post',

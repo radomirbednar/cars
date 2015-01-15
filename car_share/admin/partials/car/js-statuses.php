@@ -5,7 +5,7 @@
 
     function statusTableRow(car_id, key, from_date, from_hour, from_min, to_date, to_hour, to_min, selected_status) {
         
-        console.log(selected_status);
+        //console.log(selected_status);
         //console.log(from_date);                
         <?php               
         $statuses = array(
