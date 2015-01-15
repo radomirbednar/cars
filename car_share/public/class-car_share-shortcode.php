@@ -110,9 +110,11 @@ class Car_share_Shortcode {
             }
 
             $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
+            $yound_surcharge_fee = $Cars_cart->get_driver_surchage_price($car_price);
             $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
-
-            $total_price = $Cars_cart->getTotalPrice();
+            $location_price = $Cars_cart->getDifferentLocationPrice();
+            
+            $total_price = $Cars_cart->getTotalPrice();            
             $total_price = money_format('%.2n', $total_price);
 
             $payable_price = $Cars_cart->getPaypablePrice();
@@ -228,8 +230,12 @@ class Car_share_Shortcode {
                 }
 
                 $post_insert_id = $_SESSION['post_insert_id'];
-
-                sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);
+                
+                sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);  
+                
+                
+                update_post_meta($post_insert_id, '_yound_surcharge_fee', floatval($yound_surcharge_fee));
+                update_post_meta($post_insert_id, '_checkout_location_price', floatval($location_price));
                 update_post_meta($post_insert_id, '_checkout_payable_price', floatval($payable_price));
                 update_post_meta($post_insert_id, 'cart_pick_up', esc_attr(strip_tags($pick_up_location)));
                 update_post_meta($post_insert_id, 'cart_drop_off', esc_attr(strip_tags($drop_off_location)));

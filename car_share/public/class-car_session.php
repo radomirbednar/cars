@@ -172,10 +172,14 @@ class Car_Cart {
         $car_price = $this->get_car_price($this->items['car_ID'], $this->items['car_datefrom'],$this->items['car_dateto']);
         // 
         $surcharge_price = $this->get_driver_surchage_price($car_price);
+        
+        //
+        $different_location_price = $this->getDifferentLocationPrice();
+        
         //
         $extra_price = $this->sc_get_extras_price($this->items['car_datefrom'], $this->items['car_dateto']);
 
-        $this->total_price = floatval($car_price) + floatval($surcharge_price) + floatval($extra_price);
+        $this->total_price = floatval($car_price) + floatval($surcharge_price) + floatval($extra_price) + floatval($different_location_price);
         
         // apply vouhcer if any
         if(!empty($this->items['voucher_discount'])){                        
@@ -185,6 +189,37 @@ class Car_Cart {
         
         //$total_price
         return $this->total_price;        
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getDifferentLocationPrice(){
+        
+        unset($this->items['different_location_price']);
+        
+        $price = 0;
+        
+        $items = $this->getItems();
+        
+        $pick_up_location = $items['pick_up_location'];
+        $drop_off_location = $items['drop_off_location'];
+        
+        if($pick_up_location != $drop_off_location){
+            
+            $car_id = sc_Car::get_parent_by_single_id($items['car_ID']);
+            $category_id = (int)get_post_meta($car_id, '_car_category', true);     
+            //$active = get_post_meta($category_id, '_apply_location_price', true);            
+            $diff_locationi_price = get_post_meta($category_id, '_location_price', true);
+            $price = floatval($diff_locationi_price);
+            
+            $this->items['different_location_price'] = $price;
+            $this->save();
+
+        }
+        
+        return $price;        
     }
     
     public function getPaypablePrice(){
@@ -197,7 +232,8 @@ class Car_Cart {
             
             $deposit_percentage = floatval($sc_setting['deposit_amount']);
             
-            $payable_price = $payable_price * $deposit_percentage / 100;            
+            $payable_price = $payable_price * $deposit_percentage / 100; 
+            
         }
         
         return $payable_price;        
