@@ -56,27 +56,36 @@ class Car_share_Booking {
         return $defaults;
     }
 
-    public function column_content($column_name, $post_id){
-        
+    
+    
+    
+     public function column_content($column_name, $post_id){
+       
+            
         $booking = new sc_Booking($post_id);
+        
+        $booking_from = $booking->from();
+        $booking_to = $booking->to();
         
         switch($column_name){
             case 'from':
-                if(!empty($booking->from())){
-                    echo $booking->from()->format(get_option('date_format'));
+                if(!empty($booking_from)){
+                    echo $booking_from->format(get_option('date_format'));
                     echo ' - ';
-                    echo $booking->from()->format(get_option('time_format'));
+                    echo $booking_from->format(get_option('time_format'));
                 }
                 break;
             case 'to':
-                if(!empty($booking->to())){
-                    echo $booking->to()->format(get_option('date_format'));
+                if(!empty($booking_to)){
+                    echo $booking_to->format(get_option('date_format'));
                     echo ' - ';
-                    echo $booking->to()->format(get_option('time_format'));
+                    echo $booking_to->format(get_option('time_format'));
                 }
                 break;
-        }
-    }
+        } 
+            
+         
+    } 
 
 
     public function add_custom_boxes() {
