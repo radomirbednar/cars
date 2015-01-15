@@ -170,7 +170,9 @@ class Car_Cart {
         
         //$total_price = 0;        
         $car_price = $this->get_car_price($this->items['car_ID'], $this->items['car_datefrom'],$this->items['car_dateto']);
-        $surcharge_price = $this->get_driver_surchage_price();
+        // 
+        $surcharge_price = $this->get_driver_surchage_price($car_price);
+        //
         $extra_price = $this->sc_get_extras_price($this->items['car_datefrom'], $this->items['car_dateto']);
 
         $this->total_price = floatval($car_price) + floatval($surcharge_price) + floatval($extra_price);
@@ -201,7 +203,7 @@ class Car_Cart {
         return $payable_price;        
     }
     
-    public function get_driver_surchage_price(){        
+    public function get_driver_surchage_price($car_price){        
         
         $surcharge_price = 0;
         
@@ -216,8 +218,9 @@ class Car_Cart {
                 
                 $surcharge_active = get_post_meta($category_id, '_surcharge_active', true);
                 if(1 == $surcharge_active){
-                    $surcharge_fee = get_post_meta($category_id, '_surcharge_fee', true);                    
-                    $surcharge_price += floatval($surcharge_fee);
+                    $surcharge_percentage = get_post_meta($category_id, '_surcharge_fee', true);                    
+                    //$surcharge_price += floatval($surcharge_fee);
+                    $surcharge_price = $car_price * $surcharge_percentage / 100;
                 }                
             }            
         }
