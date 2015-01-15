@@ -48,9 +48,7 @@ if (!empty($_SESSION['TOKEN'])) {
         _e('There are something wrong. Payment failed', $this->car_share);
     }
     ?>
-
-
-    
+ 
     <table> 
         <th><td><strong><?php _e('Booking details:', $this->car_share); ?></strong></td></th>      
     <tr>
@@ -75,11 +73,9 @@ if (!empty($_SESSION['TOKEN'])) {
     </tr>
 
  
-    <tr>
+    <tr> 
         <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
-        <td></td>
-
-
+        <td></td> 
     </tr>
     <tr>
         <td>
