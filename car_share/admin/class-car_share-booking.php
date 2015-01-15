@@ -116,11 +116,23 @@ class Car_share_Booking {
          
         global $post;
         
+        $booking_fields     = get_booking_fields();
         $fields_to_show     = array();
         $custom_fields      = get_post_custom($post->ID); 
         
-                 
-         
+        foreach($booking_fields as $key => $label){
+            
+            if(isset($custom_fields[$key])){            
+                $field = array(
+                    'label' => $label,
+                    'value' => $custom_fields[$key][0],
+                );
+                
+                $fields_to_show[$key] = $field; 
+            }            
+        }
+        
+        include 'partials/booking/field_list.php';
      }
 
 
@@ -139,7 +151,7 @@ class Car_share_Booking {
             }            
         }
         
-        include 'partials/booking/customer_info_box.php';
+        include 'partials/booking/field_list.php';
     }
 
 
