@@ -149,6 +149,16 @@ table.SimpleCalendar tbody td.today {
 .menu-icon-sc-location, .menu-icon-sc-season, .menu-icon-sc-car-category, .menu-icon-sc-car, .menu-icon-sc-service,.menu-icon-sc-voucher, .menu-icon-sc-booking, .dashicons-admin-generic 
 {
     
-    background:#CDDC39 !important;
+    background: #CDDC39!important;
     
+}
+.menu-icon-sc-location
+{
+    
+    border-top: 1px solid #00BCD4;
+}
+.menu-icon-generic
+{
+    
+  border-bottom: 1px solid #00BCD4;  
 }
