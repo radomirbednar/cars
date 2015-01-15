@@ -51,9 +51,12 @@ class Car_share_Public {
 
         $this->car_share = $car_share;
         $this->version = $version;
-        
+
         add_action('wp_ajax_nopriv_refresh_checkout_price', array($this, 'ajax_refresh_checkout_price'));
         add_action('wp_ajax_refresh_checkout_price', array($this, 'ajax_refresh_checkout_price'));
+
+        add_action('wp_ajax_apply_voucher', array($this, 'ajax_apply_voucher'));
+        add_action('wp_ajax_apply_voucher', array($this, 'ajax_apply_voucher'));
 
         //shordcode for the page Search for a car
         /* add_shortcode('searchforacar', array($this, 'car_share_searchforacar'));*/
@@ -98,15 +101,15 @@ class Car_share_Public {
          * between the defined hooks and the functions defined in this
          * class.
          */
-        
+
         /*
-         * WE NEED DAPICKER 
+         * WE NEED DAPICKER
          */
-        
-        wp_enqueue_script('jquery-ui-datepicker', array('jquery-ui-core'), $this->version, true); 
+
+        wp_enqueue_script('jquery-ui-datepicker', array('jquery-ui-core'), $this->version, true);
         wp_enqueue_script($this->car_share, plugin_dir_url(__FILE__) . 'js/car_share-public.js', array('jquery'), $this->version, true);
-    } 
-    /** 
+    }
+    /**
      */
     public function register_custom_post() {
 
@@ -217,7 +220,7 @@ class Car_share_Public {
         );
 
         register_post_type('sc-season', $args);
-        
+
         // typ auta
         $args = array(
             'labels' => array(
@@ -244,8 +247,8 @@ class Car_share_Public {
             'hierarchical' => false
         );
 
-        register_post_type('sc-car-category', $args);        
-        
+        register_post_type('sc-car-category', $args);
+
         // order
         $args = array(
             'labels' => array(
@@ -272,8 +275,8 @@ class Car_share_Public {
             'hierarchical' => false
         );
 
-        register_post_type('sc-booking', $args);                
-        
+        register_post_type('sc-booking', $args);
+
         // voucher
         $args = array(
             'labels' => array(
@@ -300,31 +303,59 @@ class Car_share_Public {
             'hierarchical' => false
         );
 
-        register_post_type('sc-voucher', $args);                   
-    }  
-    
-    
+        register_post_type('sc-voucher', $args);
+    }
+
+
     function ajax_refresh_checkout_price(){
-        
-        $Cars_cart = new Car_Cart('shopping_cart');     
-        
+
+        $Cars_cart = new Car_Cart('shopping_cart');
+
         $apply_surcharge = $_POST['apply_surcharge'];
-        
+
         $Cars_cart->applySurcharge($apply_surcharge);
         $Cars_cart->save();
-        
-        //$Cars_cart_items = $Cars_cart->getItemSearch(); 
-             
-        $total_price = $Cars_cart->getTotalPrice();        
+
+        //$Cars_cart_items = $Cars_cart->getItemSearch();
+
+        $total_price = $Cars_cart->getTotalPrice();
         $paypable_now = round($Cars_cart->getPaypablePrice(), 1);
-        
+
         $return = array(
             'total_price' => $total_price,
             'paypable_now' => $paypable_now
         );
 
-        echo json_encode($return);        
-        die();        
+        echo json_encode($return);
+        die();
     }
-    
+
+
+    /**
+     *
+     */
+    function ajax_apply_voucher(){
+
+        $Cars_cart = new Car_Cart('shopping_cart');
+        $voucher = trim($_POST['voucher']);
+
+        $voucher_result = $Cars_cart->applyVoucher($voucher);
+
+        $Cars_cart->save();
+
+        $total_price = $Cars_cart->getTotalPrice();
+        $paypable_now = round($Cars_cart->getPaypablePrice(), 1);
+        
+        $message = $voucher_result ? sprintf(__('You have %s %% percent discount', $this->car_share), $Cars_cart->getVoucherDiscount()) : __('Invalid voucher', $this->car_share);
+        
+        $return = array(
+            'total_price' => $total_price,
+            'paypable_now' => $paypable_now,
+            'message' => $message,
+        );
+
+        echo json_encode($return);
+        die();
+    }
+
 }

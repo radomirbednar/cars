@@ -261,8 +261,6 @@ if (!empty($_SESSION['TOKEN'])) {
 
                             var apply_surcharge = $('#apply-surcharge').is(':checked') ? 1 : 0;
 
-                            //console.log(apply_surcharge);
-
                             $.ajax({
                                 type: 'post',
                                 dataType: 'json',
@@ -282,7 +280,6 @@ if (!empty($_SESSION['TOKEN'])) {
                             }).always(function () {
                                 //self.prop("disabled", false);
                             });
-
                         }
 
                         $("#apply-surcharge").click(function () {
@@ -337,6 +334,49 @@ if (!empty($_SESSION['TOKEN'])) {
                     </span>
                 </td>
             </tr>
+            
+            <!-- voucher -->
+            <script>
+                jQuery(document).ready(function ($) {
+                    jQuery('#voucher-form').submit(function (e) {
+                        e.preventDefault();
+                        
+                        $.ajax({
+                            type: 'post',
+                            dataType: 'json',
+                            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                            data: {
+                                'action': 'apply_voucher',
+                                'voucher': $('#voucher-code').val()
+                            },
+                            beforeSend: function () {
+                                    //self.prop("disabled", true);
+                            }
+                            }).done(function (ret) {
+                                $('#price-total').html(ret.total_price);
+                                $('#price-payable-now').html(ret.paypable_now);
+                                $('#voucher-message').html(ret.message);
+                            }).fail(function (ret) {
+
+                            }).always(function () {
+                                //self.prop("disabled", false);
+                        }); 
+                    });                        
+                })
+            </script>
+            <tr>
+                <td><?php _e('Voucher : ', $this->car_share); ?></td>
+                <td>
+                    <form id="voucher-form" method="post" action="">
+                        <input id="voucher-code" type="text" name="voucher" value="">
+                        <button type="submit" class="btn btn-default" name="voucher"><?php _e('Apply voucher', $this->car_share); ?></button>
+                    </form>
+                    <div id="voucher-message"></div>
+                </td>
+            </tr>
+            <!-- /voucher -->
+            
+            
         </tbody>
         </table>
 
