@@ -183,10 +183,27 @@ class Car_Cart {
         $total_price = $this->getTotalPrice();
     }
     
-    public function get_driver_surchage_price(){
+    public function get_driver_surchage_price(){        
         
+        $surcharge_price = 0;
         
+        if(isset($this->items['apply_surcharge']) && 1 == $this->items['apply_surcharge']){
+            
+            $car_id = sc_Car::get_parent_by_single_id($this->items['car_ID']);
+            $category_id = (int)get_post_meta($car_id, '_car_category', true); 
+            
+            if(!empty($category_id)){
+                
+                $surcharge_active = get_post_meta($car_category, '_surcharge_active', true);
+                if(1 == $surcharge_active){
+                    $surcharge_fee = get_post_meta($post->ID, '_surcharge_fee', true);
+                    
+                    $surcharge_price += floatval($surcharge_fee);
+                }                
+            }            
+        }
         
+        return $surcharge_price;        
     }
     
 
@@ -264,8 +281,8 @@ class Car_Cart {
         $this->items['service'] = $service;
     }
     
-    public function setYoungDriverSurcharge($value) {
-        $this->items['young_driver_surcharge'] = $value;
+    public function applySurcharge($value) {
+        $this->items['apply_surcharge'] = $value;
     }    
 
     /**
