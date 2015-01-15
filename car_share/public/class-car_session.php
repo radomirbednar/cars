@@ -328,7 +328,8 @@ class Car_Cart {
         $voucher_id = $wpdb->get_var($sql);
         
         if(empty($voucher_id)){
-            throw new Exception('Sorry, this voucher does not exist.');
+            //throw new Exception('Sorry, this voucher does not exist.');
+            return false;
         }
         
         $voucher_discount = get_post_meta($voucher_id, '_discount', true);
@@ -336,6 +337,8 @@ class Car_Cart {
         $this->items['voucher_id'] = $voucher_id;
         $this->items['voucher_code'] = $voucher;
         $this->items['voucher_discount'] = floatval($voucher_discount);
+        
+        return true;
     }
 
     /**
@@ -345,6 +348,10 @@ class Car_Cart {
      */
     public function getItems() {
         return $this->items;
+    }
+    
+    public function getVoucherDiscount(){
+        return $this->items['voucher_discount'];
     }
 
     /**

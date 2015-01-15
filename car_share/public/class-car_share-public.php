@@ -332,34 +332,30 @@ class Car_share_Public {
 
 
     /**
-     * 
+     *
      */
     function ajax_apply_voucher(){
-        
+
         $Cars_cart = new Car_Cart('shopping_cart');
         $voucher = trim($_POST['voucher']);
-        
-        try {
-            $Cars_cart->applyVoucher($voucher);
-        } catch (Exception $e) {
-            
-        }    
-        
+
+        $voucher_result = $Cars_cart->applyVoucher($voucher);
+
         $Cars_cart->save();
 
-            //$Cars_cart_items = $Cars_cart->getItemSearch();
-
-            $total_price = $Cars_cart->getTotalPrice();
-            $paypable_now = round($Cars_cart->getPaypablePrice(), 1);
-
-            $return = array(
-                'total_price' => $total_price,
-                'paypable_now' => $paypable_now
-            );
-
-            echo json_encode($return);
-        die();        
+        $total_price = $Cars_cart->getTotalPrice();
+        $paypable_now = round($Cars_cart->getPaypablePrice(), 1);
         
+        $message = $voucher_result ? sprintf(__('You have %s %% percent discount', $this->car_share), $Cars_cart->getVoucherDiscount()) : __('Invalid voucher', $this->car_share);
+        
+        $return = array(
+            'total_price' => $total_price,
+            'paypable_now' => $paypable_now,
+            'message' => $message,
+        );
+
+        echo json_encode($return);
+        die();
     }
-    
+
 }

@@ -355,6 +355,7 @@ if (!empty($_SESSION['TOKEN'])) {
                             }).done(function (ret) {
                                 $('#price-total').html(ret.total_price);
                                 $('#price-payable-now').html(ret.paypable_now);
+                                $('#voucher-message').html(ret.message);
                             }).fail(function (ret) {
 
                             }).always(function () {
@@ -370,6 +371,7 @@ if (!empty($_SESSION['TOKEN'])) {
                         <input id="voucher-code" type="text" name="voucher" value="">
                         <button type="submit" class="btn btn-default" name="voucher"><?php _e('Apply voucher', $this->car_share); ?></button>
                     </form>
+                    <div id="voucher-message"></div>
                 </td>
             </tr>
             <!-- /voucher -->
