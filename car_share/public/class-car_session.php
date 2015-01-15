@@ -298,6 +298,10 @@ class Car_Cart {
     public function applySurcharge($value) {
         $this->items['apply_surcharge'] = $value;
     }    
+    
+    public function applyVoucher($voucher){
+        $this->items['apply_surcharge'] = $voucher;
+    }
 
     /**
      * getItems() - Get all items.
