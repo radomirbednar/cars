@@ -200,9 +200,11 @@ class Car_Cart {
         
         $surcharge_price = 0;
         
-        if(isset($this->items['apply_surcharge']) && 1 == $this->items['apply_surcharge']){
+        $items = $this->getItems();
+        
+        if(isset($items['apply_surcharge']) && 1 == $items['apply_surcharge']){
             
-            $car_id = sc_Car::get_parent_by_single_id($this->items['car_ID']);
+            $car_id = sc_Car::get_parent_by_single_id($items['car_ID']);
             $category_id = (int)get_post_meta($car_id, '_car_category', true); 
             
             if(!empty($category_id)){

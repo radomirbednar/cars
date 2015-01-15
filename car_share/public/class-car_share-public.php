@@ -306,14 +306,15 @@ class Car_share_Public {
     
     function ajax_refresh_checkout_price(){
         
-        $Cars_cart = new Car_Cart('shopping_cart');
-        $Cars_cart_items = $Cars_cart->getItemSearch();   
+        $Cars_cart = new Car_Cart('shopping_cart');     
         
         $apply_surcharge = $_POST['apply_surcharge'];
         
         $Cars_cart->applySurcharge($apply_surcharge);
+        $Cars_cart->save();
         
-        
+        //$Cars_cart_items = $Cars_cart->getItemSearch(); 
+             
         $total_price = $Cars_cart->getTotalPrice();        
         $paypable_now = round($Cars_cart->getPaypablePrice(), 1);
         

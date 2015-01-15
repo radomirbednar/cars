@@ -113,12 +113,9 @@ class Car_share_Shortcode {
             $total_price = money_format('%.2n', $total_price);
             
             $payable_price = $Cars_cart->getPaypablePrice();
-            
-            
 
             // $payment_options;
             //insert post before we call paypal
-
 
             if (session_id() == '') {
                 session_start();
