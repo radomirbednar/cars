@@ -26,34 +26,47 @@
 .overvies-table td {
     padding-right: 20px;
 }
-.remove-row { 
-	padding: 6px 15px;
-	font-size: 14px;
-	line-height: 100%;
-	text-shadow: 0 1px rgba(0, 0, 0, 0.4);
-	color: #fff;
-	display:inline-block;
-	vertical-align: middle;
-	text-align: center;
-	cursor: pointer;
-	font-weight: bold;
-	transition: background 0.1s ease-in-out;
-	-webkit-transition: background 0.1s ease-in-out;
-	-moz-transition: background 0.1s ease-in-out;
-	-ms-transition: background 0.1s ease-in-out;
-	-o-transition: background 0.1s ease-in-out;
-	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
-	color: #fff;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-        background-color: #f06060;
-	box-shadow: 0px 3px 0px 0px #cd1313; 
-        border:none;
+.remove-row {
+    padding: 6px 15px;
+    font-size: 14px;
+    line-height: 100%;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.4);
+    color: #fff;
+    display:inline-block;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.1s ease-in-out;
+    -webkit-transition: background 0.1s ease-in-out;
+    -moz-transition: background 0.1s ease-in-out;
+    -ms-transition: background 0.1s ease-in-out;
+    -o-transition: background 0.1s ease-in-out;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+    color: #fff;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #f06060;
+    box-shadow: 0px 3px 0px 0px #cd1313;
+    border:none;
 }
 .remove-row:hover {
-	background-color: #ed4444;
+    background-color: #ed4444;
 }
+
+.cal_prew, .cal_next
+{
+    
+}
+
+ 
+.cal_prew:hover, .cal_next:hover
+{
+ 
+}
+
+
 
 .inline-label {
     -webkit-border-radius: 3px 3px 3px 3px;

@@ -116,8 +116,10 @@ class Car_share_Admin {
 
             <div class="<?php echo $car_id; ?>"> 
             <a href="#" data-car-prew="<?php echo $stringlastm; ?>" class="cal_prew" ><?php _e('<< Prew', $this->car_share) ?></a>
-            <a href="#" data-car-next="<?php echo $stringnextm; ?>" class="cal_next"><?php _e('Next >>', $this->car_share) ?></a>
+            
             <span id="calendar-date"><?php echo $today_string; ?></span>
+            <a href="#" data-car-next="<?php echo $stringnextm; ?>" class="cal_next"><?php _e('Next >>', $this->car_share) ?></a>
+            
  
         <?php
         
@@ -213,10 +215,7 @@ class Car_share_Admin {
                 });
             })(jQuery);
         </script>
-
-
-
-
+ 
         <?php
     }
 
