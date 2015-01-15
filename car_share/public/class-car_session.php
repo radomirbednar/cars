@@ -317,13 +317,20 @@ class Car_Cart {
         //$this->save();        
         $sql = "
             SELECT 
-                post_id 
+                vm.post_id 
             FROM 
-                $wpdb->postmeta
+                $wpdb->postmeta as vm
+            JOIN
+                $wpdb->posts as p
+            ON
+                p.ID = vm.post_id
             WHERE 
-                meta_key = '_voucher_code' 
+                vm.meta_key = '_voucher_code' 
             AND 
-                meta_value='" . esc_sql($voucher) . "'";
+                vm.meta_value='" . esc_sql($voucher) . "'
+            AND
+                p.post_status = 'publish'
+            ";
         
         $voucher_id = $wpdb->get_var($sql);
         
