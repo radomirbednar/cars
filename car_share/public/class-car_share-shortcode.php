@@ -107,12 +107,14 @@ class Car_share_Shortcode {
  
             $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
             $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
-            $total_price = $car_price + $extras_price;
+            
+            $total_price = $Cars_cart->getTotalPrice();            
             $total_price = money_format('%.2n', $total_price);
+            
+            $payable_price = $Cars_cart->getPaypablePrice();
 
             // $payment_options;
             //insert post before we call paypal
-
 
             if (session_id() == '') {
                 session_start();
@@ -128,7 +130,7 @@ class Car_share_Shortcode {
             //Mainly we need 4 variables from product page Item Name, Item Price, Item Number and Item Quantity.
 
             $ItemName = $item_title; //Item Name
-            $ItemPrice = $total_price; //Item Price
+            $ItemPrice = $payable_price; //Item Price
             $ItemNumber = $car_ID; //Item Number
 
             $ItemDesc = "description"; //Item Description - extras etc
@@ -222,10 +224,12 @@ class Car_share_Shortcode {
                 }
 
                 $post_insert_id = $_SESSION['post_insert_id'];
-
-                update_post_meta($post_insert_id, 'cart_pick_up', esc_attr(strip_tags($pick_up_location)));
-                update_post_meta($post_insert_id, 'cart_drop_off', esc_attr(strip_tags($drop_off_location))); 
+                
                 sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id); 
+
+                update_post_meta($post_insert_id, '_checkout_payable_price', floatval($payable_price));
+                update_post_meta($post_insert_id, 'cart_pick_up', esc_attr(strip_tags($pick_up_location)));
+                update_post_meta($post_insert_id, 'cart_drop_off', esc_attr(strip_tags($drop_off_location)));                 
                 update_post_meta($post_insert_id, 'cart_car_category', esc_attr(strip_tags($car_category)));
                 update_post_meta($post_insert_id, 'cart_car_name', esc_attr(strip_tags($ItemName)));
                 update_post_meta($post_insert_id, 'cart_car_ID', esc_attr(strip_tags($car_ID)));

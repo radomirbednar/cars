@@ -4,6 +4,7 @@ class Car_Cart {
 
     private $cart_name;       // The name of the cart/session variable
     private $items = array(); // The array for storing items in the cart
+    private $total_price;
 
     /**
      * __construct() - Constructor. This assigns the name of the cart
@@ -167,26 +168,57 @@ class Car_Cart {
     
     public function getTotalPrice(){
         
-        $total_price = 0;
+        //$total_price = 0;
         
         $car_price = $this->get_car_price($this->items['car_ID'], $this->items['car_datefrom'],$this->items['car_dateto']);
         $surcharge_price = $this->get_driver_surchage_price();
         $extra_price = $this->sc_get_extras_price($this->items['car_datefrom'], $this->items['car_dateto']);
 
-        $total_price = flaotval($car_price) + floatval($surcharge_price) + floatval($extra_price);
-        
-        return $total_price;
+        $this->total_price = floatval($car_price) + floatval($surcharge_price) + floatval($extra_price);
+        //$total_price
+        return $this->total_price;
         
     }
     
-    public function getPayableNowPrice(){
-        $total_price = $this->getTotalPrice();
+    public function getPaypablePrice(){
+        //$total_price = $this->getTotalPrice();
+        $payable_price = $this->total_price;
+        
+        $sc_setting = get_option('sc_setting');
+        
+        if(isset($sc_setting['deposit_active']) && 1 == $sc_setting['deposit_active']){
+            
+            $deposit_percentage = floatval($sc_setting['deposit_amount']);
+            
+            $payable_price = $payable_price * $deposit_percentage / 100;            
+        }
+        
+        return $payable_price;        
     }
     
-    public function get_driver_surchage_price(){
+    public function get_driver_surchage_price(){        
         
+        $surcharge_price = 0;
         
+        $items = $this->getItems();
         
+        if(isset($items['apply_surcharge']) && 1 == $items['apply_surcharge']){
+            
+            $car_id = sc_Car::get_parent_by_single_id($items['car_ID']);
+            $category_id = (int)get_post_meta($car_id, '_car_category', true); 
+            
+            if(!empty($category_id)){
+                
+                $surcharge_active = get_post_meta($category_id, '_surcharge_active', true);
+                if(1 == $surcharge_active){
+                    $surcharge_fee = get_post_meta($category_id, '_surcharge_fee', true);
+                    
+                    $surcharge_price += floatval($surcharge_fee);
+                }                
+            }            
+        }
+        
+        return $surcharge_price;        
     }
     
 
@@ -264,8 +296,8 @@ class Car_Cart {
         $this->items['service'] = $service;
     }
     
-    public function setYoungDriverSurcharge($value) {
-        $this->items['young_driver_surcharge'] = $value;
+    public function applySurcharge($value) {
+        $this->items['apply_surcharge'] = $value;
     }    
 
     /**

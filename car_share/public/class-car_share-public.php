@@ -306,18 +306,25 @@ class Car_share_Public {
     
     function ajax_refresh_checkout_price(){
         
-        $Cars_cart = new Car_Cart('shopping_cart');
-        $Cars_cart_items = $Cars_cart->getItemSearch();   
+        $Cars_cart = new Car_Cart('shopping_cart');     
         
         $apply_surcharge = $_POST['apply_surcharge'];
         
+        $Cars_cart->applySurcharge($apply_surcharge);
+        $Cars_cart->save();
         
-        $total_price = $Cars_cart->getTotalPrice();
+        //$Cars_cart_items = $Cars_cart->getItemSearch(); 
+             
+        $total_price = $Cars_cart->getTotalPrice();        
+        $paypable_now = round($Cars_cart->getPaypablePrice(), 1);
         
-        $x = 1;
-        
-        
-        
+        $return = array(
+            'total_price' => $total_price,
+            'paypable_now' => $paypable_now
+        );
+
+        echo json_encode($return);        
+        die();        
     }
     
 }
