@@ -314,9 +314,8 @@ class Car_share_Public {
         $Cars_cart->applySurcharge($apply_surcharge);
         
         
-        $total_price = $Cars_cart->getTotalPrice();
-        
-        $paypable_now = 22;
+        $total_price = $Cars_cart->getTotalPrice();        
+        $paypable_now = round($Cars_cart->getPaypablePrice(), 1);
         
         $return = array(
             'total_price' => $total_price,

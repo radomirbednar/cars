@@ -4,6 +4,7 @@ class Car_Cart {
 
     private $cart_name;       // The name of the cart/session variable
     private $items = array(); // The array for storing items in the cart
+    private $total_price;
 
     /**
      * __construct() - Constructor. This assigns the name of the cart
@@ -167,20 +168,32 @@ class Car_Cart {
     
     public function getTotalPrice(){
         
-        $total_price = 0;
+        //$total_price = 0;
         
         $car_price = $this->get_car_price($this->items['car_ID'], $this->items['car_datefrom'],$this->items['car_dateto']);
         $surcharge_price = $this->get_driver_surchage_price();
         $extra_price = $this->sc_get_extras_price($this->items['car_datefrom'], $this->items['car_dateto']);
 
-        $total_price = floatval($car_price) + floatval($surcharge_price) + floatval($extra_price);
-        
-        return $total_price;
+        $this->total_price = floatval($car_price) + floatval($surcharge_price) + floatval($extra_price);
+        //$total_price
+        return $this->total_price;
         
     }
     
-    public function getPayableNowPrice(){
-        $total_price = $this->getTotalPrice();
+    public function getPaypablePrice(){
+        //$total_price = $this->getTotalPrice();
+        $payable_price = $this->total_price;
+        
+        $sc_setting = get_option('sc_setting');
+        
+        if(isset($sc_setting['deposit_active']) && 1 == $sc_setting['deposit_active']){
+            
+            $deposit_percentage = floatval($sc_setting['deposit_amount']);
+            
+            $payable_price = $payable_price * $deposit_percentage / 100;            
+        }
+        
+        return $payable_price;        
     }
     
     public function get_driver_surchage_price(){        

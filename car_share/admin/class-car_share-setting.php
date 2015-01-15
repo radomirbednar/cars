@@ -121,11 +121,11 @@ class Car_share_Setting {
         );
 
         add_settings_field(
-                'deposit_amount_field', __('Deposit amount (%)', $this->car_share), array($this, 'create_input_deposit_amount'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
+                'deposit_amount_field', __('Payable now amount (%)', $this->car_share), array($this, 'create_input_deposit_amount'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
         );
 
         add_settings_field(
-                'deposit_active_field', __('Demand deposit', $this->car_share), array($this, 'create_input_deposit_active'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
+                'deposit_active_field', __('Apply payable now', $this->car_share), array($this, 'create_input_deposit_active'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
         );
         
         add_settings_field(
