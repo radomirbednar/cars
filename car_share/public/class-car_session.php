@@ -197,6 +197,8 @@ class Car_Cart {
      */
     public function getDifferentLocationPrice(){
         
+        unset($this->items['different_location_price']);
+        
         $price = 0;
         
         $items = $this->getItems();
@@ -211,6 +213,9 @@ class Car_Cart {
             //$active = get_post_meta($category_id, '_apply_location_price', true);            
             $diff_locationi_price = get_post_meta($category_id, '_location_price', true);
             $price = floatval($diff_locationi_price);
+            
+            $this->items['different_location_price'] = $price;
+            $this->save();
 
         }
         
@@ -227,7 +232,8 @@ class Car_Cart {
             
             $deposit_percentage = floatval($sc_setting['deposit_amount']);
             
-            $payable_price = $payable_price * $deposit_percentage / 100;            
+            $payable_price = $payable_price * $deposit_percentage / 100; 
+            
         }
         
         return $payable_price;        

@@ -10,6 +10,7 @@ function get_booking_fields(){
         'cart_car_ID' => 'Car ID',
         'cart_car_price' => 'Car Price',
         'cart_extra_price' => 'Extra Price',
+        '_checkout_location_price' => 'Different location price',
         'cart_total_price' => 'Total Price',
         '_checkout_payable_price' => 'Payable price',
         'cart_order_status' => 'Order status',
