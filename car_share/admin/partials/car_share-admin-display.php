@@ -62,10 +62,10 @@
  */
 if (isset($_POST['createpage'])) {
 
-    $new_page_title = array('Search for a car', 'Pick a car', 'Choose your extras', 'Review your booking', 'Checkout');
-    $new_page_content = array('[sc-search_for_car]', '[sc-pick_car]', '[sc-extras]', '[sc-review]', '[sc-checkout]');
-    $new_page_template = array('', '', '', '', '',); //ex. template-custom.php. Leave blank if you don't want a custom page template.
-    $new_page_key = array('search_for_car', 'pick_car', 'extras', 'review', 'checkout');
+    $new_page_title = array('Search for a car', 'Pick a car', 'Choose your extras','Checkout');
+    $new_page_content = array('[sc-search_for_car]', '[sc-pick_car]', '[sc-extras]','[sc-checkout]');
+    $new_page_template = array('', '', '', '',); //ex. template-custom.php. Leave blank if you don't want a custom page template.
+    $new_page_key = array('search_for_car', 'pick_car', 'extras', 'checkout');
 
     /* MultipleIterator::MIT_NEED_ANY
      * - array nemusi mit vsechny hodnoty - muze se hodit
