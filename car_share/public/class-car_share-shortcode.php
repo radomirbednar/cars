@@ -225,8 +225,7 @@ class Car_share_Shortcode {
 
                 $post_insert_id = $_SESSION['post_insert_id'];
                 
-                sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id); 
-
+                sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);  
                 update_post_meta($post_insert_id, '_checkout_payable_price', floatval($payable_price));
                 update_post_meta($post_insert_id, 'cart_pick_up', esc_attr(strip_tags($pick_up_location)));
                 update_post_meta($post_insert_id, 'cart_drop_off', esc_attr(strip_tags($drop_off_location)));                 
@@ -238,28 +237,16 @@ class Car_share_Shortcode {
                 update_post_meta($post_insert_id, 'cart_total_price', esc_attr(strip_tags($total_price))); 
                 update_post_meta($post_insert_id, 'cart_extras',($extras));                
                 //set to order status to pending - 2
-                update_post_meta($post_insert_id, 'car_r_order_status', '2'); 
-       
+                update_post_meta($post_insert_id, 'car_r_order_status', '2');  
                 //odeslani informace obchodnikovi o objednavce - protoze objednavku ukladame uz v tomto kroku   
-                 
+                   
                  
                 $email_client_content = ""; 
-                
-                
-                
-                
-                
-                
-                
-                 
+        
                 $email_store_content = "";
                 
-                
-                
-                
-                
-                
                  
+                  
                 //Redirect user to PayPal store with Token received.
                 $paypalurl = 'https://www' . $paypalmode . '.paypal.com/cgi-bin/webscr?cmd=_express-checkout&useraction=commit&token=' . $httpParsedResponseAr["TOKEN"] . '';
                 header('Location: ' . $paypalurl);
