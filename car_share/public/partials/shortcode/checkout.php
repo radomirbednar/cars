@@ -147,9 +147,12 @@ if (!empty($_SESSION['TOKEN'])) {
     //  $car_result = $Cars_cart->get_ItembyID($car_ID);
     //we have the information about the token
     //Unset all of the session variables.
-    $_SESSION = array();
-    // Finally, destroy the session.
-    session_destroy();
+    
+    // Finally, destroy the session.    
+    //$_SESSION = array();
+    //session_destroy();
+    
+    
 } elseif (!empty($Cars_cart_items)) {
 
     if (!empty($Cars_cart_items['service'])) {
