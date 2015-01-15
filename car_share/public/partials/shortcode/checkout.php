@@ -149,8 +149,8 @@ if (!empty($_SESSION['TOKEN'])) {
     //Unset all of the session variables.
     
     // Finally, destroy the session.    
-    //$_SESSION = array();
-    //session_destroy();
+  $_SESSION = array();
+  session_destroy();
     
     
 } elseif (!empty($Cars_cart_items)) {
@@ -312,9 +312,7 @@ if (!empty($_SESSION['TOKEN'])) {
                     <td><?php _e('EXTRAS : ', $this->car_share); ?></td>
                     <td><?php echo $extras_price; ?></td>
                 </tr>
-        <?php } 
-        
-        
+        <?php }                
         /**
          * Total price and payable now price
          */
@@ -407,85 +405,7 @@ if (!empty($_SESSION['TOKEN'])) {
         <?php endforeach; ?>
             <?php /*
 
-              <!-- full-name input-->
-              <div class="control-group">
-              <label class="control-label"><?php _e('Full Name', $this->car_share); ?></label>
-              <div class="controls">
-              <input id="full-name" name="full-name" type="text" placeholder="full name"
-              class="input-xlarge">
-              <p class="help-block"></p>
-              </div>
-              </div>
-
-              <!-- full-email input-->
-              <div class="control-group">
-              <label class="control-label"><?php _e('Email address', $this->car_share); ?></label>
-              <div class="controls">
-              <input id="full-name" name="full-email" type="text" placeholder="<?php _e('Email address', $this->car_share); ?>"
-              class="input-xlarge">
-              <p class="help-block"></p>
-              </div>
-              </div>
-
-              <!-- full-email input-->
-              <div class="control-group">
-              <label class="control-label"><?php _e('Telephone number', $this->car_share); ?></label>
-              <div class="controls">
-              <input id="full-name" name="full-email" type="text" placeholder="<?php _e('Telephone number', $this->car_share); ?>"
-              class="input-xlarge">
-              <p class="help-block"></p>
-              </div>
-              </div>
-
-
-              <!-- address-line1 input-->
-              <div class="control-group">
-              <label class="control-label"><?php _e('Address Line 1', $this->car_share); ?></label>
-              <div class="controls">
-              <input id="address-line1" name="address-line1" type="text" placeholder="<?php _e('address line 1', $this->car_share); ?>"
-              class="input-xlarge">
-              <p class="help-block">Street address, P.O. box, company name, c/o</p>
-              </div>
-              </div>
-
-              <!-- address-line2 input-->
-              <div class="control-group">
-              <label class="control-label"><?php _e('Address Line 2', $this->car_share); ?></label>
-              <div class="controls">
-              <input id="address-line2" name="address-line2" type="text" placeholder="<?php _e('address line 2', $this->car_share); ?>"
-              class="input-xlarge">
-              <p class="help-block">Apartment, suite , unit, building, floor, etc.</p>
-              </div>
-              </div>
-
-              <!-- city input-->
-              <div class="control-group">
-              <label class="control-label"><?php _e('City / Town', $this->car_share); ?></label>
-              <div class="controls">
-              <input id="city" name="city" type="text" placeholder="<?php _e('city', $this->car_share); ?>" class="input-xlarge">
-              <p class="help-block"></p>
-              </div>
-              </div>
-
-              <!-- region input-->
-              <div class="control-group">
-              <label class="control-label"><?php _e('State / Province / Region', $this->car_share); ?></label>
-              <div class="controls">
-              <input id="region" name="region" type="text" placeholder="<?php _e('state / province / region', $this->car_share); ?>"
-              class="input-xlarge">
-              <p class="help-block"></p>
-              </div>
-              </div>
-
-              <!-- postal-code input-->
-              <div class="control-group">
-              <label class="control-label"><?php _e('Zip / Postal Code', $this->car_share); ?></label>
-              <div class="controls">
-              <input id="postal-code" name="postal-code" type="text" placeholder="<?php _e('zip or postal code', $this->car_share); ?>"
-              class="input-xlarge">
-              <p class="help-block"></p>
-              </div>
-              </div>
+            
 
               <!-- country select -->
               <div class="control-group">

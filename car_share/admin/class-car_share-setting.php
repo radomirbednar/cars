@@ -198,16 +198,18 @@ class Car_share_Setting {
         );
 
 // add_settings_field( $id, $title, $callback, $page, $section, $args )
-        add_settings_field(
+       /* add_settings_field(
                 'another-setting', 'Measurement Unit: ', array($this, 'create_input_another_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
-        );
+        ); 
+        */
 
         add_settings_field(
                 'currency-setting', 'Currency Setting', array($this, 'create_currency_another_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
         );
+        /*
         add_settings_field(
                 'payablenow-setting', 'Payable Setting', array($this, 'create_payable_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
-        );
+        );*/
         add_settings_field(
                 'apiusername-setting', 'API Username', array($this, 'create_apiusername_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
         );
@@ -367,7 +369,7 @@ class Car_share_Setting {
     }
 
     function print_additional_settings_section_info() {
-        echo '<p>Additional Settings Description.</p>';
+        echo '<p>Paypal Settings</p>';
     }
 
     function create_input_another_setting() {
