@@ -131,6 +131,10 @@ class Car_share_Setting {
         add_settings_field(
                 'block_car_field', __('Block car interval (hours)', $this->car_share), array($this, 'create_input_block_car_interval'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
         );        
+        
+        add_settings_field(
+                'block_diff_location_car_field', __('Block car interval after return to another location (hours) ', $this->car_share), array($this, 'create_input_block_car_interval_diff_location'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
+        );        
 
         register_setting('deposit-setting-group', 'sc_setting', array($this, 'sc_settings_validate'));
  
@@ -321,6 +325,12 @@ class Car_share_Setting {
         ?><input type="number" step="0.05" name="sc_setting[car_block_interval]" value="<?php echo isset($sc_setting['car_block_interval']) ? floatval($sc_setting['car_block_interval']) : '0' ?>" />
         <?php        
     }    
+    
+    function create_input_block_car_interval_diff_location(){
+        $sc_setting = get_option('sc_setting');
+        ?><input type="number" step="0.05" name="sc_setting[car_block_interval_diff_location]" value="<?php echo isset($sc_setting['car_block_interval_diff_location']) ? floatval($sc_setting['car_block_interval_diff_location']) : '0' ?>" />
+        <?php                
+    }
 
     function create_input_some_setting() {
         $options = get_option('car_plugin_options_arraykey');
@@ -348,6 +358,7 @@ class Car_share_Setting {
         $arr_input['deposit_amount'] = floatval($arr_input['deposit_amount']);
         $arr_input['deposit_active'] = intval($arr_input['deposit_active']);
         $arr_input['car_block_interval'] = floatval($arr_input['car_block_interval']);
+        $arr_input['car_block_interval_diff_location'] = floatval($arr_input['car_block_interval_diff_location']);
         return $arr_input;
     }
 
