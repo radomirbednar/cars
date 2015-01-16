@@ -312,8 +312,7 @@ class Car_Cart {
      */
     public function get_ItembyID($single_car_id)
     {    
-        global $wpdb;
-      
+        global $wpdb; 
         $sql = "
             SELECT DISTINCT 
                 *
@@ -324,9 +323,9 @@ class Car_Cart {
             ON
                 posts.ID = sc_single_car.parent
             WHERE
-                sc_single_car.single_car_id = '" . (int) $single_car_id . "'"; 
-        
-        $car_result = $wpdb->get_results($sql);       
+                sc_single_car.single_car_id = '" . (int) $single_car_id . "'";  
+        $car_result = $wpdb->get_results($sql);      
+         
         return $car_result;        
     } 
      

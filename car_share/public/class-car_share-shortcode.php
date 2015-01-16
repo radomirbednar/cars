@@ -1,5 +1,4 @@
 <?php
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -26,18 +25,18 @@ class Car_share_Shortcode {
 
         add_action('plugins_loaded', array($this, 'search_for_car_form'));
         add_action('plugins_loaded', array($this, 'paypal'));
-        
-        add_filter( 'wp_mail_content_type', array($this, 'set_content_type'));
 
-        
+        add_filter('wp_mail_content_type', array($this, 'set_content_type'));
+
+
 
         if (!isset($_SESSION)) {
             session_start();
         }
     }
-    
-    function set_content_type( $content_type ){
-	return 'text/html';
+
+    function set_content_type($content_type) {
+        return 'text/html';
     }
 
     public function paypal() {
@@ -93,14 +92,26 @@ class Car_share_Shortcode {
             $car_category = $Cars_cart_items['car_category'];
 
             $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
-            $car_dto_string = $car_dto->format('Y-m-d H:i');
-
+            $car_dto_string = $car_dto->format('Y-m-d H:i'); 
+          
             $car_result = $Cars_cart->get_ItembyID($car_ID);
-
+ 
             //get the item title
-            foreach ($car_result as $car) {
-                $item_title = get_the_title($car->ID);
+            
+            foreach ($car_result as $car) {  
+                $carID = $car->ID; 
+                $ItemName = get_the_title($carID);   
             }
+ 
+            
+            
+           
+            
+           //$post_thumbnail = get_the_post_thumbnail($carID, 'thumbnail');
+            
+    
+            
+            
             //get the extras infos
             foreach ($extras as $key => $extras_id) {
                 $service_fee = get_post_meta($key, '_service_fee', true);
@@ -113,8 +124,8 @@ class Car_share_Shortcode {
             $yound_surcharge_fee = $Cars_cart->get_driver_surchage_price($car_price);
             $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
             $location_price = $Cars_cart->getDifferentLocationPrice();
-            
-            $total_price = $Cars_cart->getTotalPrice();            
+
+            $total_price = $Cars_cart->getTotalPrice();
             $total_price = money_format('%.2n', $total_price);
 
             $payable_price = $Cars_cart->getPaypablePrice();
@@ -134,8 +145,7 @@ class Car_share_Shortcode {
             $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
 
             //Mainly we need 4 variables from product page Item Name, Item Price, Item Number and Item Quantity.
-
-            $ItemName = $item_title; //Item Name
+ 
             $ItemPrice = $payable_price; //Item Price
             $ItemNumber = $car_ID; //Item Number
 
@@ -210,7 +220,7 @@ class Car_share_Shortcode {
                 } else {
 
                     $post_insert_id = $_SESSION['post_insert_id'];
-                    $booking_title = $item_title . '-' . $car_ID;
+                    $booking_title = '#'.$post_insert_id.' - '.$ItemName . '-' . $car_ID;
                     $post_information = array(
                         'ID' => $_SESSION['post_insert_id'],
                         'post_title' => $booking_title,
@@ -260,86 +270,169 @@ class Car_share_Shortcode {
                 //odeslani informace obchodnikovi o objednavce - protoze objednavku ukladame uz v tomto kroku
                 // Example using the array form of $headers
                 // assumes $to, $subject, $message have already been defined earlier...
-
-
-                
+ 
+                $url = site_url(); 
                 
                 
                 
                 
                 ?>
-                
 
- <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>[REPLACE THIS WITH YOUR TITLE]</title>
-        <style media="all" type="text/css">
-        [READ THE MINIFIED CSS FILE IN SEPARATELY AND INSERT IT HERE. YOU *CANNOT* JUST USE A CSS REFERENCE.]
-    </style>
-</head>
 
-<body>
-    <table cellspacing="0" cellpadding="0" border="0" width="100%">
-        <tr>
-            <td class="navbar navbar-inverse" align="center">
-                <!-- This setup makes the nav background stretch the whole width of the screen. -->
-                <table width="650px" cellspacing="0" cellpadding="3" class="container">
-                    <tr class="navbar navbar-inverse">
-                        <td colspan="4"><a class="brand" href="[YOUR WEB URL]">Bootstrap For Email</a></td>
-                        <td><ul class="nav pull-right"><li><a href="[YOUR LOGIN URL]">Log On</a></li></ul></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td bgcolor="#FFFFFF" align="center">
-                <table width="650px" cellspacing="0" cellpadding="3" class="container">
+                <html>
+                    <head>
+                        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+                        <title>Order #</title>
+                        <style media="all" type="text/css">
+                            [READ THE MINIFIED CSS FILE IN SEPARATELY AND INSERT IT HERE. YOU *CANNOT* JUST USE A CSS REFERENCE.]
+                        </style>
+                    </head>
+
+                    <body>
+                        <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td class="navbar navbar-inverse" align="center"> 
+                                    <!-- This setup makes the nav background stretch the whole width of the screen. -->
+                                    <table width="650px" cellspacing="0" cellpadding="3" class="container">
+                                        <tr class="navbar navbar-inverse"> 
+                                            <td colspan="4"><a class="brand" href="<?php echo $url; ?>"><?php echo $url; ?></a></td> 
+                                        </tr>
+                                    </table> 
+                                    <table width="650px" cellspacing="0" cellpadding="3" class="container">
+                                        <tr> 
+                                            <td>
+                                                <h2>
+                                           <?php _e('Thank you for your booking', $this->car_share); ?>
+                                                </h2>
+                                                <p>
+                                        <?php _e('Your booking has been received and is now being processed. Your order details are shown below for your reference: ', $this->car_share); ?>        
+                                                </p>
+                                            </td> 
+                                        </tr> 
+                                        <tr>
+                                            <td>   
+                                                <h2>Order: #<?php echo $post_insert_id; ?><h2> 
+                                            </td> 
+                                        </tr> 
+                                    </table>
+                       
+                                        <table width="650px" cellspacing="0" cellpadding="3" class="container">
+                                            <tr>
+                                                <td><?php _e('FROM', $this->car_share); ?></td>
+                                                <td><?php echo get_the_title($pick_up_location); ?></td>
+                                                <td><?php echo $car_dfrom_string; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td><?php _e('TO', $this->car_share); ?></td>
+                                                <td><?php echo get_the_title($drop_off_location); ?></td>
+                                                <td><?php echo $car_dto_string; ?></td>
+                                            </tr>
+                                        </table>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                <?php //echo $post_thumbnail; ?>
+                                                </td>
+                                                <td><?php echo $ItemName; ?></td>
+                                            </tr>
+                                        </table> 
+                                </td>
+                            </tr> 
                     <tr>
-                        <td>[BODY CONTENT GOES HERE]</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td bgcolor="#FFFFFF" align="center">
-                <table width="650px" cellspacing="0" cellpadding="3" class="container">
-                    <tr>
-                        <td>
-                            <hr>
-                            <p>[PUT YOUR COPYRIGHT OR OTHER FOOTERY GOODNESS HERE]</p>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-</body>
-</html>;
-               
-       <?php        
-               exit();
+                    <td bgcolor="#FFFFFF" align="center">
+                        <table width="650px" cellspacing="0" cellpadding="3" class="container"> 
+                            <tr>
+                                <td>
+                                <?php _e('Car', $this->car_share); ?> 
+                                </td>
+                                <td>
+                                <?php echo $car_price; ?>     
+                                </td> 
+                            </tr> 
+                            
+                              <tr>
+                                <td>
+                                <?php _e('Extras', $this->car_share); ?> 
+                                </td>
+                                <td>
+                                <?php echo $extras_price; ?>     
+                                </td> 
+                            </tr> 
+                            
+                              <tr>
+                                <td>
+                                <?php _e('Car', $this->car_share); ?> 
+                                </td>
+                                <td>
+                                <?php echo $car_price; ?>     
+                                </td> 
+                            </tr> 
+                            
+                              <tr>
+                                <td>
+                                <?php _e('Car', $this->car_share); ?> 
+                                </td>
+                                <td>
+                                <?php echo $car_price; ?>     
+                                </td> 
+                            </tr> 
+                            
+                            
+                        </table>
+ 
+                        <table width="650px" cellspacing="0" cellpadding="3" class="container">
+                            <tr>
+                                <td><h2></h2></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    
+                                    
+                                </td>
+                                
+                            </tr>
+                            
+                            
+                        </table>
 
-                
-                
-                $option_notification_email = get_option('notemail');
-                 
-                $headers[] = 'From: Me Myself <radomir@example.net>';
-                /* $headers[] = 'Cc: John Q Codex <jqc@wordpress.org>';
-                  $headers[] = 'Cc: iluvwp@wordpress.org'; // note you can just use a simple email address */
-                 
-                $email_store_content = "";
+                    </td>
+                </tr>
+                <tr>
+                    <td bgcolor="#FFFFFF" align="center">
+                        <table width="650px" cellspacing="0" cellpadding="3" class="container">
+                            <tr>
+                                <td>
+                                    <hr>
+                                    <p><a class="brand" href="<?php echo $url; ?>"><?php echo $url; ?></a></p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                </table>
+              
+                </body>
+                </html>
 
-                $to = 'radovanmail@gmail.com';
+
+
+
+                <?php
+              
+                
+ 
+                $option_notification_email = get_option('notemail'); 
+                $headers[] = 'From:  <'.$option_notification_email.'>'; 
+                $email_store_content = "";  
+                $to = $option_notification_email;
                 $subject = 'test email';
                 $message = $email_client_content;
 
                 //$message = include_once('/partial/email_order_client.php');
- 
-                
+
+
                 wp_mail($to, $subject, $message, $headers);
-                
-                 
+
  
                 //Redirect user to PayPal store with Token received.
                 $paypalurl = 'https://www' . $paypalmode . '.paypal.com/cgi-bin/webscr?cmd=_express-checkout&useraction=commit&token=' . $httpParsedResponseAr["TOKEN"] . '';
