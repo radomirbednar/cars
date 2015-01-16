@@ -258,17 +258,18 @@ class Car_share_Shortcode {
                 
                 
                 
-                
+                ?>
                 
 
-                $email_client_content = '<html>
-<head>
+ <html>
+  <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>[REPLACE THIS WITH YOUR TITLE]</title>
         <style media="all" type="text/css">
         [READ THE MINIFIED CSS FILE IN SEPARATELY AND INSERT IT HERE. YOU *CANNOT* JUST USE A CSS REFERENCE.]
     </style>
 </head>
+
 <body>
     <table cellspacing="0" cellpadding="0" border="0" width="100%">
         <tr>
@@ -305,7 +306,10 @@ class Car_share_Shortcode {
         </tr>
     </table>
 </body>
-</html>';
+</html>;
+               
+       <?php        
+               exit();
 
                 
                 
