@@ -344,11 +344,13 @@ class Car_share_Public {
 
         $total_price = $Cars_cart->getTotalPrice();
         $paypable_now = round($Cars_cart->getPaypablePrice(), 1);
+        
+        $surcharge_price = $Cars_cart->getSurchargePrice();
 
         $return = array(
             'total_price' => $total_price,
             'paypable_now' => $paypable_now,
-            'driver_surcharge' => 4
+            'driver_surcharge' => $surcharge_price
         );
 
         echo json_encode($return);
@@ -375,6 +377,7 @@ class Car_share_Public {
         $return = array(
             'total_price' => $total_price,
             'paypable_now' => $paypable_now,
+            'driver_surcharge' => $surcharge_price,
             'message' => $message,
         );
 
