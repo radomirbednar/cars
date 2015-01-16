@@ -347,7 +347,8 @@ class Car_share_Public {
 
         $return = array(
             'total_price' => $total_price,
-            'paypable_now' => $paypable_now
+            'paypable_now' => $paypable_now,
+            'driver_surcharge' => 4
         );
 
         echo json_encode($return);
