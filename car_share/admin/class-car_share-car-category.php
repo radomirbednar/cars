@@ -91,7 +91,7 @@ class Car_share_CarCategory {
 
         /*
         add_meta_box(
-                'car_category_block_interval', __('Car block interval', $this->car_share), array($this, 'car_block_interval_box'), 'sc-car-category'
+                'car_category_block_interval', __('Car block interval', $this->car_share), array($this, 'block_interval_box'), 'sc-car-category'
         );    */    
         
         add_meta_box(
@@ -292,7 +292,7 @@ class Car_share_CarCategory {
       exit();
       } */
 /*
-    public function car_block_interval_box(){
+    public function block_interval_box(){
         
         global $post;
         
