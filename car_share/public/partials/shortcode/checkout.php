@@ -149,6 +149,7 @@ if (!empty($_SESSION['TOKEN'])) {
     //Unset all of the session variables.
     
     // Finally, destroy the session.    
+    
     $_SESSION = array();
     session_destroy();
     
@@ -392,7 +393,7 @@ if (!empty($_SESSION['TOKEN'])) {
                 <td><?php _e('Voucher : ', $this->car_share); ?></td>
                 <td>
                     <form id="voucher-form" method="post" action="">
-                        <input id="voucher-code" type="text" name="voucher" value="">
+                        <input id="voucher-code" type="text" name="voucher" value="<?php echo isset($Cars_cart_items['voucher_code']) ? esc_attr($Cars_cart_items['voucher_code']) : ''; ?>">
                         <button type="submit" class="btn btn-default" name="voucher"><?php _e('Apply voucher', $this->car_share); ?></button>
                     </form>
                     <div id="voucher-message"></div>
