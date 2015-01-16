@@ -12,6 +12,7 @@ class Car_share_Shortcode {
     public $cars;
     public $extras_car_url;
     public $currency;
+    public $currencyforpeople;
     private $token_result;
     private $customer_id;
 
@@ -19,7 +20,8 @@ class Car_share_Shortcode {
 
         $this->car_share = $car_share;
         $this->version = $version;
-
+        $this->setcurrency();
+ 
         add_shortcode('sc-search_for_car', array($this, 'search_for_car'));
         add_shortcode('sc-pick_car', array($this, 'pick_car'));
         add_shortcode('sc-extras', array($this, 'extras'));
@@ -31,17 +33,37 @@ class Car_share_Shortcode {
         if (!isset($_SESSION)) {
             session_start();
         }
+        
+         
+        
     }
 
     function set_content_type($content_type) {
         return 'text/html';
     }
-
-    public function paypal() {
-
-
+     
+    public function setcurrency() {  
         $sc_options_paypal = get_option('second_set_arraykey'); 
-        $currency = $sc_options_paypal['sc-currency'];
+        $currency = $sc_options_paypal['sc-currency'];     
+        $this->currency = $currency;  
+    } 
+    public function getcurrency() {  
+        return $this->currency;  
+    } 
+    public function getcurrencyforpeople(){ 
+        $currency = $this->getcurrency(); 
+        $currencyforpeople = return_currencies(); 
+        $this->currencyforpeople = $currencyforpeople[$currency]["symbol"]; 
+        return $this->currencyforpeople;   
+    }
+    
+     
+    public function paypal() {
+ 
+         $sc_options_paypal = get_option('second_set_arraykey');  
+         $currency = $this->getcurrency();    
+         $currencyforpeople = $this->getcurrencyforpeople(); 
+          
 
         if (!empty($sc_options_paypal['apiusername-setting'])) {
             $PayPalApiUsername = $sc_options_paypal['apiusername-setting'];
@@ -59,32 +81,23 @@ class Car_share_Shortcode {
             if ($sc_options_paypal['paypalsandbox-setting'] == '0') {
                 $PayPalMode = 'live';
             }
-        }
-
+        } 
         //page options
         $sc_options = get_option('sc-pages');
-        $email_option = get_option('car_plugin_options_arraykey');
-        
-        
-        $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
-
-        //currency form the setting
-
+        $email_option = get_option('car_plugin_options_arraykey'); 
+        $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : ''; 
+        //currency form the setting 
         $PayPalCurrencyCode = $currency; //Paypal Currency Code
         //paypal return point from setting
         $PayPalReturnURL = $checkout_car_url; //Point to process.php page
         $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
-
-
+ 
         include_once("paypalsdk/expresscheckout.php");
-
-
+ 
         if (isset($_POST['sc-checkout']) && isset($_POST['post_nonce_field']) && wp_verify_nonce($_POST['post_nonce_field'], 'post_nonce')) {
             // information for the payment
-
-
-            $customer_email = sanitize_text_field($_POST['_email']);
  
+            $customer_email = sanitize_text_field($_POST['_email']); 
             $Cars_cart = new Car_Cart('shopping_cart');
             $Cars_cart_items = $Cars_cart->getItems();
 
@@ -100,9 +113,7 @@ class Car_share_Shortcode {
 
             $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
             $car_dto_string = $car_dto->format('Y-m-d H:i');
-
-
-
+ 
             $car_result = $Cars_cart->get_ItembyID($car_ID);
             //get the item title
 
@@ -180,8 +191,7 @@ class Car_share_Shortcode {
             /*
              * set session variable we need later for "DoExpressCheckoutPayment"
              */
-
-
+ 
             $_SESSION['ItemName'] = $ItemName; //Item Name
             $_SESSION['ItemPrice'] = $ItemPrice; //Item Price
             $_SESSION['ItemNumber'] = $ItemNumber; //Item Number
@@ -305,7 +315,6 @@ class Car_share_Shortcode {
 
                 //$message = include_once('/partial/email_order_client.php');
                 wp_mail($to, $subject, $message, $headers);
-
  
                 //Redirect user to PayPal store with Token received.
                 $paypalurl = 'https://www' . $paypalmode . '.paypal.com/cgi-bin/webscr?cmd=_express-checkout&useraction=commit&token=' . $httpParsedResponseAr["TOKEN"] . '';
@@ -441,9 +450,7 @@ class Car_share_Shortcode {
 
                 //$message = include_once('/partial/email_order_client.php');
                 wp_mail($to, $subject, $message, $headers);
-                    
-                    
-                    
+ 
                     //muzeme ukladat i dalsi hodnoty
                     //save the information in database
                 } else {
@@ -710,10 +717,7 @@ class Car_share_Shortcode {
          */
         if (isset($_GET['chcar'])) {
             $id_code = sanitize_text_field($_GET['chcar']);
-            $Cars_cart = new Car_Cart('shopping_cart');
-
-
-
+            $Cars_cart = new Car_Cart('shopping_cart'); 
             $Cars_cart->setItemId($id_code);
             $Cars_cart->save();
         }
@@ -722,9 +726,8 @@ class Car_share_Shortcode {
          */
     }
 
-    public function checkout_form() {
-        if (isset($_POST['service'])) {
-            //remove when zero
+    public function checkout_form() { 
+        if (isset($_POST['service'])) {  
             $service = array_filter($_POST['service']);
             $Cars_cart = new Car_Cart('shopping_cart');
             $Cars_cart->setItemService($service);

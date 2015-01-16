@@ -2,6 +2,9 @@
 $Cars_cart = new Car_Cart('shopping_cart');
 $Cars_cart_items = $Cars_cart->getItemSearch();
 
+
+
+
 if (!empty($_SESSION['TOKEN'])) {
 
     $token_value = ($_SESSION['TOKEN']);
@@ -74,8 +77,15 @@ if (!empty($_SESSION['TOKEN'])) {
     <tr>
         <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
         <td>
-    <?php //var_dump($extras);
+    <?php var_dump($extras);
+    
+        exit();
+    
     ?>
+            
+            
+            
+            
         </td>
     </tr>
     <tr>
@@ -140,6 +150,8 @@ if (!empty($_SESSION['TOKEN'])) {
     // Finally, destroy the session.
     $_SESSION = array();
     session_destroy();
+                
+    
 } elseif (!empty($Cars_cart_items)) {
 
     if (!empty($Cars_cart_items['service'])) {
@@ -164,11 +176,16 @@ if (!empty($_SESSION['TOKEN'])) {
     if (!empty($Cars_cart_items['drop_off_location'])) {
         $drop_off_location = $Cars_cart_items['drop_off_location'];
     }
-    //cart category
-
+    //cart category 
     if (!empty($Cars_cart_items['car_category'])) {
         $car_category = $Cars_cart_items['car_category'];
     }
+    
+    
+    $sc_options_paypal = get_option('second_set_arraykey'); 
+    $currency_code = $sc_options_paypal['sc-currency'];                           
+    $currencyforpeople = return_currencies(); 
+    $currencyforpeople = $currencyforpeople[$currency_code]["symbol"];             
     ?>
 
 
@@ -219,7 +236,7 @@ if (!empty($_SESSION['TOKEN'])) {
                         ?>
                 <tr>
                     <td><?php _e('CAR : ', $this->car_share); ?></td>
-                    <td><?php echo $car_price; ?></td>
+                    <td><?php echo $car_price.' '.$currencyforpeople; ?></td>
                 </tr>
 
                         <?php
@@ -293,7 +310,7 @@ if (!empty($_SESSION['TOKEN'])) {
             <?php printf(__('I am under %d.', $this->car_share), $surcharge_age); ?>
                             </label>
                         </form>
-                        <span id="surcharge-price"></span>
+                        <span id="surcharge-price">             </span>
                     </td>
                 </tr>
         <?php endif; ?>
@@ -301,7 +318,7 @@ if (!empty($_SESSION['TOKEN'])) {
         <?php if (!empty($extras_price)) { ?>
                 <tr>
                     <td><?php _e('EXTRAS : ', $this->car_share); ?></td>
-                    <td><?php echo $extras_price; ?></td>
+                    <td><?php echo $extras_price.' '.$currencyforpeople; ?></td>
                 </tr>
                     <?php
                     } 
@@ -317,7 +334,7 @@ if (!empty($_SESSION['TOKEN'])) {
                 <?php _e('Different location price:', $this->car_share) ?>
                     </td>
                     <td>
-                <?php echo $different_location_price; ?>
+                <?php echo $different_location_price.' '.$currencyforpeople; ?>
                     </td>
                 </tr>
                 <?php
@@ -333,7 +350,7 @@ if (!empty($_SESSION['TOKEN'])) {
                 <td><?php _e('TOTAL : ', $this->car_share); ?></td>
                 <td>
                     <span id="price-total" class="price">
-            <?php echo $total_price ?>
+            <?php echo $total_price.' '.$currencyforpeople; ?>
                     </span>
                 </td>
             </tr>
@@ -341,12 +358,11 @@ if (!empty($_SESSION['TOKEN'])) {
                 <td><?php _e('PAYABLE NOW : ', $this->car_share); ?></td>
                 <td>
                     <span id="price-payable-now" class="price">
-        <?php echo $paypable_now ?>
+        <?php echo $paypable_now.' '.$currencyforpeople; ?>
                     </span>
                 </td>
             </tr>
-            
-            
+   
             <?php 
             // does exist any voucher ?? 
             global $wpdb;
@@ -423,88 +439,7 @@ if (!empty($_SESSION['TOKEN'])) {
                     </div>
                 </div>
         <?php endforeach; ?>
-        <?php /*
-
-          <!-- full-name input-->
-          <div class="control-group">
-          <label class="control-label"><?php _e('Full Name', $this->car_share); ?></label>
-          <div class="controls">
-          <input id="full-name" name="full-name" type="text" placeholder="full name"
-          class="input-xlarge">
-          <p class="help-block"></p>
-          </div>
-          </div>
-
-          <!-- full-email input-->
-          <div class="control-group">
-          <label class="control-label"><?php _e('Email address', $this->car_share); ?></label>
-          <div class="controls">
-          <input id="full-name" name="full-email" type="text" placeholder="<?php _e('Email address', $this->car_share); ?>"
-          class="input-xlarge">
-          <p class="help-block"></p>
-          </div>
-          </div>
-
-          <!-- full-email input-->
-          <div class="control-group">
-          <label class="control-label"><?php _e('Telephone number', $this->car_share); ?></label>
-          <div class="controls">
-          <input id="full-name" name="full-email" type="text" placeholder="<?php _e('Telephone number', $this->car_share); ?>"
-          class="input-xlarge">
-          <p class="help-block"></p>
-          </div>
-          </div>
-
-
-          <!-- address-line1 input-->
-          <div class="control-group">
-          <label class="control-label"><?php _e('Address Line 1', $this->car_share); ?></label>
-          <div class="controls">
-          <input id="address-line1" name="address-line1" type="text" placeholder="<?php _e('address line 1', $this->car_share); ?>"
-          class="input-xlarge">
-          <p class="help-block">Street address, P.O. box, company name, c/o</p>
-          </div>
-          </div>
-
-          <!-- address-line2 input-->
-          <div class="control-group">
-          <label class="control-label"><?php _e('Address Line 2', $this->car_share); ?></label>
-          <div class="controls">
-          <input id="address-line2" name="address-line2" type="text" placeholder="<?php _e('address line 2', $this->car_share); ?>"
-          class="input-xlarge">
-          <p class="help-block">Apartment, suite , unit, building, floor, etc.</p>
-          </div>
-          </div>
-
-          <!-- city input-->
-          <div class="control-group">
-          <label class="control-label"><?php _e('City / Town', $this->car_share); ?></label>
-          <div class="controls">
-          <input id="city" name="city" type="text" placeholder="<?php _e('city', $this->car_share); ?>" class="input-xlarge">
-          <p class="help-block"></p>
-          </div>
-          </div>
-
-          <!-- region input-->
-          <div class="control-group">
-          <label class="control-label"><?php _e('State / Province / Region', $this->car_share); ?></label>
-          <div class="controls">
-          <input id="region" name="region" type="text" placeholder="<?php _e('state / province / region', $this->car_share); ?>"
-          class="input-xlarge">
-          <p class="help-block"></p>
-          </div>
-          </div>
-
-          <!-- postal-code input-->
-          <div class="control-group">
-          <label class="control-label"><?php _e('Zip / Postal Code', $this->car_share); ?></label>
-          <div class="controls">
-          <input id="postal-code" name="postal-code" type="text" placeholder="<?php _e('zip or postal code', $this->car_share); ?>"
-          class="input-xlarge">
-          <p class="help-block"></p>
-          </div>
-          </div>
-
+        <?php /* 
           <!-- country select -->
           <div class="control-group">
           <label class="control-label"><?php _e('Country', $this->car_share); ?></label>
