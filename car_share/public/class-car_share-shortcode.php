@@ -28,12 +28,7 @@ class Car_share_Shortcode {
         add_action('plugins_loaded', array($this, 'search_for_car_form'));
         add_action('plugins_loaded', array($this, 'paypal')); 
         add_filter('wp_mail_content_type', array($this, 'set_content_type'));
- 
-         
-        $currency = get_option('sc-currency');
-        
-         var_dump($currency);
-
+  
         if (!isset($_SESSION)) {
             session_start();
         }
@@ -44,15 +39,11 @@ class Car_share_Shortcode {
     }
 
     public function paypal() {
-        
-        
-        
-        $currency = get_option('sc-currency');
-         
-        var_dump($currency);
-
+ 
         
         $sc_options_paypal = get_option('second_set_arraykey');
+        
+        $currency = $sc_options_paypal['sc-currency'];
 
         if (!empty($sc_options_paypal['apiusername-setting'])) {
             $PayPalApiUsername = $sc_options_paypal['apiusername-setting'];
@@ -77,16 +68,13 @@ class Car_share_Shortcode {
         $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
 
         //currency form the setting
-        $currency = $this->currency;
-        
-        var_dump($this->currency);
-        
-        
+        $currency = $this->currency; 
         $PayPalCurrencyCode = $currency; //Paypal Currency Code
         //paypal return point from setting
         $PayPalReturnURL = $checkout_car_url; //Point to process.php page
         $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
 
+        
         include_once("paypalsdk/expresscheckout.php");
 
 

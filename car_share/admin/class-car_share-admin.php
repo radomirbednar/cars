@@ -468,8 +468,10 @@ class Car_share_Admin {
         $number_of_seats = get_post_meta($post->ID, '_number_of_seats', true);
         $number_of_doors = get_post_meta($post->ID, '_number_of_doors', true);
         $number_of_suitcases = get_post_meta($post->ID, '_number_of_suitcases', true);
-        $transmission = get_post_meta($post->ID, '_transmission', true);
-
+        $transmission = get_post_meta($post->ID, '_transmission', true); 
+        $aircondition = get_post_meta($post->ID, '_aircondition', true);
+        $fuel = get_post_meta($post->ID, '_fuel', true);
+                            
         include 'partials/car/details.php';
     }
 
@@ -512,6 +514,8 @@ class Car_share_Admin {
                 '_number_of_doors',
                 '_number_of_suitcases',
                 '_transmission',
+                '_aircondition',
+                '_fuel', 
                 '_car_category'
             );
 

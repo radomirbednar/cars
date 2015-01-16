@@ -25,7 +25,25 @@ class sc_Car {
         
         return $arr;        
     }
-
+    
+    public static function getFuelOptions(){
+         
+        $arr = array( 
+          1=> 'Petrol',
+          2=> 'Mixed',
+          3=> 'Diesel',   
+        );  
+        return $arr; 
+    }
+    
+    public static function getAirOptions(){ 
+        $arr = array( 
+          1=> 'yes',
+          2=> 'no',  
+        );  
+        return $arr; 
+    }
+     
     public static function insertStatus($single_car_id, DateTime $from, $to, $status, $booking_id = 0){
 
         global $wpdb;

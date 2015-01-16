@@ -296,18 +296,15 @@ if (!empty($_SESSION['TOKEN'])) {
                     <td><?php _e('EXTRAS : ', $this->car_share); ?></td>
                     <td><?php echo $extras_price; ?></td>
                 </tr>
-                            <?php
-                            }
-
-
-                            /**
-                             * different location price
-                             */
-                            $different_location_price = $Cars_cart->getDifferentLocationPrice();
-
-                            if (!empty($different_location_price)):
-                                ?>
-
+                    <?php
+                    } 
+                    /**
+                    * different location price
+                    */
+                
+                    $different_location_price = $Cars_cart->getDifferentLocationPrice(); 
+                    if (!empty($different_location_price)):
+                ?> 
                 <tr>
                     <td>
                 <?php _e('Different location price:', $this->car_share) ?>
