@@ -454,6 +454,7 @@ class Car_share_Admin {
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-car-category' AND post_status IN ('publish', 'pending', 'draft', 'private') ORDER BY post_title DESC";
         $car_categories = $wpdb->get_results($sql);
         include 'partials/car/category.php';
+        
 
         wp_nonce_field(__FILE__, 'car_nonce');
     }

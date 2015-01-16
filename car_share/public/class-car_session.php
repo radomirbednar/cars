@@ -324,8 +324,7 @@ class Car_Cart {
                 posts.ID = sc_single_car.parent
             WHERE
                 sc_single_car.single_car_id = '" . (int) $single_car_id . "'";  
-        $car_result = $wpdb->get_results($sql);      
-         
+        $car_result = $wpdb->get_results($sql);       
         return $car_result;        
     } 
      

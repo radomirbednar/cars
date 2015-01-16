@@ -1,4 +1,5 @@
 <?php
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,8 +14,6 @@ class Car_share_Shortcode {
     public $currency;
     private $token_result;
     private $customer_id;
-    
-    
 
     public function __construct($car_share, $version) {
 
@@ -24,11 +23,11 @@ class Car_share_Shortcode {
         add_shortcode('sc-search_for_car', array($this, 'search_for_car'));
         add_shortcode('sc-pick_car', array($this, 'pick_car'));
         add_shortcode('sc-extras', array($this, 'extras'));
-        add_shortcode('sc-checkout', array($this, 'checkout')); 
+        add_shortcode('sc-checkout', array($this, 'checkout'));
         add_action('plugins_loaded', array($this, 'search_for_car_form'));
-        add_action('plugins_loaded', array($this, 'paypal')); 
+        add_action('plugins_loaded', array($this, 'paypal'));
         add_filter('wp_mail_content_type', array($this, 'set_content_type'));
-  
+
         if (!isset($_SESSION)) {
             session_start();
         }
@@ -39,10 +38,9 @@ class Car_share_Shortcode {
     }
 
     public function paypal() {
- 
-        
-        $sc_options_paypal = get_option('second_set_arraykey');
-        
+
+
+        $sc_options_paypal = get_option('second_set_arraykey'); 
         $currency = $sc_options_paypal['sc-currency'];
 
         if (!empty($sc_options_paypal['apiusername-setting'])) {
@@ -65,22 +63,28 @@ class Car_share_Shortcode {
 
         //page options
         $sc_options = get_option('sc-pages');
+        $email_option = get_option('car_plugin_options_arraykey');
+        
+        
         $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
 
         //currency form the setting
-        $currency = $this->currency; 
+
         $PayPalCurrencyCode = $currency; //Paypal Currency Code
         //paypal return point from setting
         $PayPalReturnURL = $checkout_car_url; //Point to process.php page
         $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
 
-        
+
         include_once("paypalsdk/expresscheckout.php");
 
 
         if (isset($_POST['sc-checkout']) && isset($_POST['post_nonce_field']) && wp_verify_nonce($_POST['post_nonce_field'], 'post_nonce')) {
             // information for the payment
 
+
+            $customer_email = sanitize_text_field($_POST['_email']);
+ 
             $Cars_cart = new Car_Cart('shopping_cart');
             $Cars_cart_items = $Cars_cart->getItems();
 
@@ -95,20 +99,22 @@ class Car_share_Shortcode {
             $car_category = $Cars_cart_items['car_category'];
 
             $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
-            $car_dto_string = $car_dto->format('Y-m-d H:i'); 
-          
+            $car_dto_string = $car_dto->format('Y-m-d H:i');
+
+
+
             $car_result = $Cars_cart->get_ItembyID($car_ID);
- 
             //get the item title
-            
-            foreach ($car_result as $car) {  
-                $carID = $car->ID; 
-                $ItemName = get_the_title($carID);   
+
+            if (!empty($car_result)) {
+                foreach ($car_result as $car) {
+                    $carID = $car->ID;
+                    $ItemName = get_the_title($carID);
+                    //$post_thumbnail = get_the_post_thumbnail($carID, 'thumbnail');
+                }
             }
- 
-      
-           //$post_thumbnail = get_the_post_thumbnail($carID, 'thumbnail');
-     
+
+
             //get the extras infos
             foreach ($extras as $key => $extras_id) {
                 $service_fee = get_post_meta($key, '_service_fee', true);
@@ -117,9 +123,9 @@ class Car_share_Shortcode {
                 $service_name.= $service_name . ', ';
             }
 
-            $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto); 
-            $yound_surcharge_fee = $Cars_cart->get_driver_surchage_price($car_price); 
-            $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto); 
+            $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
+            $yound_surcharge_fee = $Cars_cart->get_driver_surchage_price($car_price);
+            $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
             $location_price = $Cars_cart->getDifferentLocationPrice();
 
             $total_price = $Cars_cart->getTotalPrice();
@@ -142,7 +148,7 @@ class Car_share_Shortcode {
             $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
 
             //Mainly we need 4 variables from product page Item Name, Item Price, Item Number and Item Quantity.
- 
+
             $ItemPrice = $payable_price; //Item Price
             $ItemNumber = $car_ID; //Item Number
 
@@ -188,6 +194,8 @@ class Car_share_Shortcode {
             //We need to execute the "SetExpressCheckOut" method to obtain paypal token
             $paypal = new MyPayPal();
             $httpParsedResponseAr = $paypal->PPHttpPost('SetExpressCheckout', $padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
+            
+
 
             //Respond according to message we receive from Paypal
             if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
@@ -217,7 +225,7 @@ class Car_share_Shortcode {
                 } else {
 
                     $post_insert_id = $_SESSION['post_insert_id'];
-                    $booking_title = '#'.$post_insert_id.' - '.$ItemName . '-' . $car_ID;
+                    $booking_title = '#' . $post_insert_id . ' - ' . $ItemName . '-' . $car_ID;
                     $post_information = array(
                         'ID' => $_SESSION['post_insert_id'],
                         'post_title' => $booking_title,
@@ -234,217 +242,68 @@ class Car_share_Shortcode {
                             update_post_meta($post_insert_id, $input_key, esc_attr(strip_tags($_POST[$input_key])));
                         }
                     }
-                } 
-                $post_insert_id = $_SESSION['post_insert_id']; 
-                sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);  
-                 
+                }
+                $post_insert_id = $_SESSION['post_insert_id'];
+
+                sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);
+ 
                 // save info about voucher if any
-                if(!empty($Cars_cart_items['voucher_id'])){
+                if (!empty($Cars_cart_items['voucher_id'])) {
                     update_post_meta($post_insert_id, '_voucher_id', (int) $Cars_cart_items['voucher_id']);
                     update_post_meta($post_insert_id, '_voucher_name', get_the_title((int) $Cars_cart_items['voucher_id']));
                     update_post_meta($post_insert_id, '_voucher_code', sanitize_text_field($Cars_cart_items['voucher_code']));
                     update_post_meta($post_insert_id, '_voucher_discount_percentage', floatval($Cars_cart_items['voucher_discount_percentage']));
                     update_post_meta($post_insert_id, '_voucher_discount_amount', floatval($Cars_cart_items['voucher_discount_amount']));
-                } 
-                update_post_meta($post_insert_id, '_young_surcharge_fee', floatval($yound_surcharge_fee.$currency)); 
-                update_post_meta($post_insert_id, '_checkout_location_price', floatval($location_price)); 
+                }
+
+                update_post_meta($post_insert_id, '_young_surcharge_fee', floatval($yound_surcharge_fee));
+                update_post_meta($post_insert_id, '_checkout_location_price', floatval($location_price));
                 update_post_meta($post_insert_id, '_checkout_payable_price', floatval($payable_price));
                 update_post_meta($post_insert_id, 'cart_pick_up', esc_attr(strip_tags($pick_up_location)));
                 update_post_meta($post_insert_id, 'cart_drop_off', esc_attr(strip_tags($drop_off_location)));
                 update_post_meta($post_insert_id, 'cart_car_category', esc_attr(strip_tags($car_category)));
                 update_post_meta($post_insert_id, 'cart_car_name', esc_attr(strip_tags($ItemName)));
                 update_post_meta($post_insert_id, 'cart_car_ID', esc_attr(strip_tags($car_ID)));
-                update_post_meta($post_insert_id, 'cart_car_price', esc_attr(strip_tags($car_price.$currency)));
-                update_post_meta($post_insert_id, 'cart_extra_price', esc_attr(strip_tags($extras_price.$currency)));
-                update_post_meta($post_insert_id, 'cart_total_price', esc_attr(strip_tags($total_price.$currency)));
+                update_post_meta($post_insert_id, 'cart_car_price', esc_attr(strip_tags($car_price)));
+                update_post_meta($post_insert_id, 'cart_extra_price', esc_attr(strip_tags($extras_price)));
+                update_post_meta($post_insert_id, 'cart_total_price', esc_attr(strip_tags($total_price)));
                 update_post_meta($post_insert_id, 'cart_extras', ($extras));
+                update_post_meta($post_insert_id, 'cart_currency', ($currency));
+ 
                 //set to order status to pending - 2
                 update_post_meta($post_insert_id, 'car_r_order_status', '2');
+                
                 //odeslani informace obchodnikovi o objednavce - protoze objednavku ukladame uz v tomto kroku
                 // Example using the array form of $headers
-                // assumes $to, $subject, $message have already been defined earlier... 
+                // assumes $to, $subject, $message have already been defined earlier...
+ 
+                $url = site_url();
+ 
+                ob_start();
+                include_once('partials/email_order_client.php');
+                $email_customer_content = ob_get_contents();
+                ob_end_clean();
+
+                ob_start();
+                include_once('partials/email_order.php');
+                $email_store_content = ob_get_contents();
+                ob_end_clean();
+  
+                $option_notification_email = $email_option('notemail');
                 
-                $url = site_url(); 
-                 
-                ?>
+                $headers[] = 'From:  <' . $option_notification_email . '>';
+                $to = $customer_email;
+                $subject = 'test email';
+                $message = $email_customer_content;
 
-
-                <html>
-                    <head>
-                        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-                        <title>Order #</title>
-                        <style media="all" type="text/css">
-                            
-                           
-                           
-                        </style>
-                    </head>
-
-                    <body>
-                        <table cellspacing="0" cellpadding="0" border="0" width="100%">
-                            <tr>
-                                <td class="navbar navbar-inverse" align="center"> 
-                                    <!-- This setup makes the nav background stretch the whole width of the screen. -->
-                                    <table width="650px" cellspacing="0" cellpadding="3" class="container">
-                                        <tr class="navbar navbar-inverse"> 
-                                            <td colspan="4"><a class="brand" href="<?php echo $url; ?>"><?php echo $url; ?></a></td> 
-                                        </tr>
-                                    </table> 
-                                    <table width="650px" cellspacing="0" cellpadding="3" class="container">
-                                        <tr> 
-                                            <td>
-                                                <h2>
-                                           <?php _e('Thank you for your booking', $this->car_share); ?>
-                                                </h2>
-                                                <p>
-                                        <?php _e('Your booking has been received and is now being processed. Your order details are shown below for your reference: ', $this->car_share); ?>        
-                                                </p>
-                                            </td> 
-                                        </tr> 
-                                        <tr>
-                                            <td>   
-                                                <h2>Order: #<?php echo $post_insert_id; ?><h2> 
-                                            </td> 
-                                        </tr> 
-                                    </table>
-                       
-                                        <table width="650px" cellspacing="0" cellpadding="3" class="container">
-                                            <tr>
-                                                <td><?php _e('FROM', $this->car_share); ?></td>
-                                                <td><?php echo get_the_title($pick_up_location); ?></td>
-                                                <td><?php echo $car_dfrom_string; ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td><?php _e('TO', $this->car_share); ?></td>
-                                                <td><?php echo get_the_title($drop_off_location); ?></td>
-                                                <td><?php echo $car_dto_string; ?></td>
-                                            </tr>
-                                        </table>
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                <?php //echo $post_thumbnail; ?>
-                                                </td>
-                                                <td><?php echo $ItemName; ?></td>
-                                            </tr>
-                                        </table> 
-                                </td>
-                            </tr> 
-                    <tr>
-                    <td bgcolor="#FFFFFF" align="center">
-                        <table width="650px" cellspacing="0" cellpadding="3" class="container"> 
-                            <tr>
-                                <td>
-                                <?php _e('Car', $this->car_share); ?> 
-                                </td>
-                                <td>
-                                <?php echo $car_price.' '.$currency; ?>     
-                                </td> 
-                            </tr> 
-                            
-                              <tr>
-                                <td>
-                                <?php _e('Extras', $this->car_share); ?> 
-                                </td>
-                                <td>
-                                <?php echo $extras_price.' '.$currency; ?>     
-                                </td> 
-                            </tr> 
-                            
-                            <tr>
-                                <td>
-                                <?php _e('young surcharge fee', $this->car_share); ?> 
-                                </td>
-                                <td>
-                                <?php echo $yound_surcharge_fee.$currency; ?>     
-                                </td> 
-                            </tr> 
-                             
-                            <tr>
-                                <td>
-                                <?php _e('young surcharge fee', $this->car_share); ?> 
-                                </td>
-                                <td>
-                                <?php echo $yound_surcharge_fee.$currency; ?>     
-                                </td> 
-                            </tr> 
-                            
-                            <?php $location_price; ?>
-                            
-                            
-                            <tr>
-                                <td>
-                                <?php _e('Total Price', $this->car_share); ?> 
-                                </td>
-                                <td>
-                                <?php echo $total_price; ?>     
-                                </td> 
-                            </tr> 
-                            
-                            <tr>
-                                <td>
-                                <?php _e('Total Price', $this->car_share); ?> 
-                                </td>
-                                <td>
-                                <?php echo $total_price; ?>     
-                                </td> 
-                            </tr> 
-                            
-                            
-                            
-                        </table>
+                wp_mail($to, $subject, $message, $headers);
  
-                        <table width="650px" cellspacing="0" cellpadding="3" class="container">
-                            <tr>
-                                <td><h2></h2></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    
-                                    
-                                </td>
-                                
-                            </tr>
-                            
-                            
-                        </table>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td bgcolor="#FFFFFF" align="center">
-                        <table width="650px" cellspacing="0" cellpadding="3" class="container">
-                            <tr>
-                                <td>
-                                    <hr>
-                                    <p><a class="brand" href="<?php echo $url; ?>"><?php echo $url; ?></a></p>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                </table>
-              
-                </body>
-                </html>
-
-
-
-
-                <?php
-              
-                exit();
- 
-                $option_notification_email = get_option('notemail'); 
-                $headers[] = 'From:  <'.$option_notification_email.'>'; 
-                $email_store_content = "";  
+                $headers[] = 'From:  <' . $option_notification_email . '>';
                 $to = $option_notification_email;
                 $subject = 'test email';
-                $message = $email_client_content;
+                $message = $email_store_content;
 
                 //$message = include_once('/partial/email_order_client.php');
-
-
                 wp_mail($to, $subject, $message, $headers);
 
  
@@ -457,7 +316,7 @@ class Car_share_Shortcode {
                 echo '<div style="color:red"><b>Error : </b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
                 echo '<pre>';
                 print_r($httpParsedResponseAr);
-                echo '</pre>';
+                echo '</pre>';   
             }
         }
 
@@ -547,11 +406,44 @@ class Car_share_Shortcode {
                     $checkoutstatur = $httpParsedResponseAr["CHECKOUTSTATUS"];
 
                     //save the transaction information
-                    update_post_meta($post_insert_id, 'car_r_order_info', 'Completed GetExpressCheckoutDetails');
-
+                    update_post_meta($post_insert_id, 'car_r_order_info', 'Completed GetExpressCheckoutDetails'); 
                     update_post_meta($post_insert_id, 'payerid', $payerid);
                     update_post_meta($post_insert_id, 'responseamt', $responseamt);
                     update_post_meta($post_insert_id, 'checkoutstaus', $checkoutstatur);
+                    
+                    
+                    
+                       $url = site_url();
+ 
+                ob_start();
+                include_once('partials/email_order_client.php');
+                $email_customer_content = ob_get_contents();
+                ob_end_clean();
+
+                ob_start();
+                include_once('partials/email_order.php');
+                $email_store_content = ob_get_contents();
+                ob_end_clean();
+  
+                $option_notification_email = $email_option('notemail');
+                
+                $headers[] = 'From:  <' . $option_notification_email . '>';
+                $to = $customer_email;
+                $subject = 'test email';
+                $message = $email_customer_content;
+
+                wp_mail($to, $subject, $message, $headers);
+ 
+                $headers[] = 'From:  <' . $option_notification_email . '>';
+                $to = $option_notification_email;
+                $subject = 'test email';
+                $message = $email_store_content;
+
+                //$message = include_once('/partial/email_order_client.php');
+                wp_mail($to, $subject, $message, $headers);
+                    
+                    
+                    
                     //muzeme ukladat i dalsi hodnoty
                     //save the information in database
                 } else {
@@ -559,21 +451,45 @@ class Car_share_Shortcode {
                     $post_insert_id = $_SESSION['post_insert_id'];
                     update_post_meta($post_insert_id, 'car_r_order_status', '3');
                     update_post_meta($post_insert_id, 'car_r_order_info', 'Failed GetExpressCheckoutDetails');
+                    
+                    
+                       $url = site_url();
+ 
+                ob_start();
+                include_once('partials/email_order_client.php');
+                $email_customer_content = ob_get_contents();
+                ob_end_clean();
 
-                    //delete meta !!!
-                    /*
-                      echo '<div style="color:red"><b>GetTransactionDetails failed:</b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
-                      echo '<pre>';
-                      print_r($httpParsedResponseAr);
-                      echo '</pre>';
-                     */
+                ob_start();
+                include_once('partials/email_order.php');
+                $email_store_content = ob_get_contents();
+                ob_end_clean();
+  
+                $option_notification_email = $email_option('notemail');
+                
+                $headers[] = 'From:  <' . $option_notification_email . '>';
+                $to = $customer_email;
+                $subject = 'test email';
+                $message = $email_customer_content;
+
+                wp_mail($to, $subject, $message, $headers);
+ 
+                $headers[] = 'From:  <' . $option_notification_email . '>';
+                $to = $option_notification_email;
+                $subject = 'test email';
+                $message = $email_store_content;
+
+                //$message = include_once('/partial/email_order_client.php');
+                wp_mail($to, $subject, $message, $headers);
+
+                
                 }
             } else {
 
                 $post_insert_id = $_SESSION['post_insert_id'];
                 update_post_meta($post_insert_id, 'car_r_order_status', '3');
                 update_post_meta($post_insert_id, 'car_r_order_info', '' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '');
-
+ 
                 /*
                   echo '<div style="color:red"><b>Error : </b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
                   echo '<pre>';
@@ -581,16 +497,14 @@ class Car_share_Shortcode {
                   echo '</pre>';
                  */
             }
-
             if (!empty($httpParsedResponseAr["TOKEN"])) {
-
                 $token = urldecode($httpParsedResponseAr["TOKEN"]);
                 $_SESSION['TOKEN'] = $token;
                 update_post_meta($post_insert_id, 'car_succes_token', $token);
                 wp_redirect($checkout_car_url);
                 exit();
             }
-        }
+        }    
     }
 
     /*
@@ -702,8 +616,6 @@ class Car_share_Shortcode {
         $Cars_cart = new Car_Cart('shopping_cart');
         $Cars_cart_items = $Cars_cart->getItems();
 
-
-
         $pick_up_location = $Cars_cart_items['pick_up_location'];
         $drop_off_location = $Cars_cart_items['drop_off_location'];
         $car_dfrom = $Cars_cart_items['car_datefrom'];
@@ -721,11 +633,11 @@ class Car_share_Shortcode {
             $category_and = "AND wp_postmeta.meta_value = '$car_category'";
         } else {
             $category_and = '';
-        }        
-        
+        }
+
         $sc_setting = get_option('sc_setting');
-            
-        if($pick_up_location == $drop_off_location){
+
+        if ($pick_up_location == $drop_off_location) {
             $car_block_time = isset($sc_setting['block_interval']) ? floor(floatval($sc_setting['block_interval']) * 60) : 0;
         } else {
             $car_block_time = isset($sc_setting['block_interval_diff_loc']) ? floor(floatval($sc_setting['block_interval_diff_loc']) * 60) : 0;
