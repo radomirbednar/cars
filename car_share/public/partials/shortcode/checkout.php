@@ -262,7 +262,12 @@ if (!empty($_SESSION['TOKEN'])) {
                             }).done(function(ret) {
                                 $('#price-total').html(ret.total_price);
                                 $('#price-payable-now').html(ret.paypable_now);
-                                $('#surcharge-price').html(ret.driver_surcharge);
+                                
+                                if(0 != ret.driver_surcharge){
+                                    $('#surcharge-price').html('+' + ret.driver_surcharge + ' <?php echo 'some currency' ?>');
+                                } else {
+                                    $('#surcharge-price').html('');
+                                }
                             }).fail(function(ret) {
 
                             }).always(function() {
