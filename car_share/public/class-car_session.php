@@ -375,6 +375,8 @@ class Car_Cart {
                 vm.meta_value='" . esc_sql($voucher) . "'
             AND
                 p.post_status = 'publish'
+            AND
+                p.post_type = 'sc-voucher'
             ";
         
         $voucher_id = $wpdb->get_var($sql);

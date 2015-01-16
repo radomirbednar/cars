@@ -360,6 +360,15 @@ if (!empty($_SESSION['TOKEN'])) {
                 </td>
             </tr>
             
+            
+            <?php 
+            // does exist any voucher ?? 
+            global $wpdb;
+            $sql = "SELECT ID FROM $wpdb->posts WHERE post_status='publish' AND post_type='sc-voucher'";            
+            $exists = $wpdb->get_var($sql);
+            
+            if(!empty($exists)):            
+            ?>
             <!-- voucher -->
             <script>
                 jQuery(document).ready(function ($) {
@@ -398,8 +407,9 @@ if (!empty($_SESSION['TOKEN'])) {
                     </form>
                     <div id="voucher-message"></div>
                 </td>
-            </tr>
+            </tr>            
             <!-- /voucher -->
+            <?php endif; ?>
             
             
         </tbody>
