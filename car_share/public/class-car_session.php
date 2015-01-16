@@ -273,20 +273,21 @@ class Car_Cart {
  
         global $wpdb;
          
-            $day_interval = DateInterval::createFromDateString('1 day');
-            $period = new DatePeriod($from, $day_interval, $to);
-            $diff = $to->diff($from);
-            $days = $diff->d;
+        $day_interval = DateInterval::createFromDateString('1 day');
+        $period = new DatePeriod($from, $day_interval, $to);
+        $diff = $to->diff($from);
+        $hours = $diff->d * 24 + $diff->h;
+        
+        $days = ceil ($hours / 24);
      
-            $Cars_cart_items = $this->getItems();
-            $extras = $Cars_cart_items['service']; 
-            $extras_prices=''; 
-            $extras_prices=''; 
+        $Cars_cart_items = $this->getItems();
+        $extras = $Cars_cart_items['service']; 
+        
+        $extras_prices='';         
              
-    foreach ($extras as $key => $extras_value)
-        {   
+        foreach ($extras as $key => $extras_value) {   
             $service_fee = get_post_meta($key, '_service_fee', true);
-            $_per_service = (int)get_post_meta($key, '_per_service', true);  
+            $_per_service = (int) get_post_meta($key, '_per_service', true);  
             //1 = per day
             if($_per_service == '1' )
             {    
