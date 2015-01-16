@@ -20,6 +20,8 @@
  * @subpackage Car_share/public
  * @author     My name <mail@example.com>
  */
+
+  
 class Car_share_Public {
 
     /**
@@ -59,7 +61,7 @@ class Car_share_Public {
         add_action('wp_ajax_apply_voucher', array($this, 'ajax_apply_voucher'));
 
         //shordcode for the page Search for a car
-        /* add_shortcode('searchforacar', array($this, 'car_share_searchforacar'));*/
+        /* add_shortcode('searchforacar', array($this, 'car_share_searchforacar'));*/ 
     }
 
     /**

@@ -10,8 +10,11 @@ class Car_share_Shortcode {
     public $warning;
     public $cars;
     public $extras_car_url;
+    public $currency;
     private $token_result;
     private $customer_id;
+    
+    
 
     public function __construct($car_share, $version) {
 
@@ -21,14 +24,15 @@ class Car_share_Shortcode {
         add_shortcode('sc-search_for_car', array($this, 'search_for_car'));
         add_shortcode('sc-pick_car', array($this, 'pick_car'));
         add_shortcode('sc-extras', array($this, 'extras'));
-        add_shortcode('sc-checkout', array($this, 'checkout'));
-
+        add_shortcode('sc-checkout', array($this, 'checkout')); 
         add_action('plugins_loaded', array($this, 'search_for_car_form'));
-        add_action('plugins_loaded', array($this, 'paypal'));
-
+        add_action('plugins_loaded', array($this, 'paypal')); 
         add_filter('wp_mail_content_type', array($this, 'set_content_type'));
-
-
+ 
+         
+        $currency = get_option('sc-currency');
+        
+         var_dump($currency);
 
         if (!isset($_SESSION)) {
             session_start();
@@ -40,7 +44,14 @@ class Car_share_Shortcode {
     }
 
     public function paypal() {
+        
+        
+        
+        $currency = get_option('sc-currency');
+         
+        var_dump($currency);
 
+        
         $sc_options_paypal = get_option('second_set_arraykey');
 
         if (!empty($sc_options_paypal['apiusername-setting'])) {
@@ -66,7 +77,11 @@ class Car_share_Shortcode {
         $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
 
         //currency form the setting
-        $currency = $sc_options_paypal['sc-currency'];
+        $currency = $this->currency;
+        
+        var_dump($this->currency);
+        
+        
         $PayPalCurrencyCode = $currency; //Paypal Currency Code
         //paypal return point from setting
         $PayPalReturnURL = $checkout_car_url; //Point to process.php page
@@ -103,15 +118,9 @@ class Car_share_Shortcode {
                 $ItemName = get_the_title($carID);   
             }
  
-            
-            
-           
-            
+      
            //$post_thumbnail = get_the_post_thumbnail($carID, 'thumbnail');
-            
-    
-            
-            
+     
             //get the extras infos
             foreach ($extras as $key => $extras_id) {
                 $service_fee = get_post_meta($key, '_service_fee', true);
@@ -120,9 +129,9 @@ class Car_share_Shortcode {
                 $service_name.= $service_name . ', ';
             }
 
-            $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
-            $yound_surcharge_fee = $Cars_cart->get_driver_surchage_price($car_price);
-            $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
+            $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto); 
+            $yound_surcharge_fee = $Cars_cart->get_driver_surchage_price($car_price); 
+            $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto); 
             $location_price = $Cars_cart->getDifferentLocationPrice();
 
             $total_price = $Cars_cart->getTotalPrice();
@@ -199,7 +208,7 @@ class Car_share_Shortcode {
                 $_SESSION['TOKEN'] = $token;
 
                 if (empty($_SESSION['post_insert_id'])) {
-                    $booking_title = $item_title . '-' . $car_ID;
+                    $booking_title = $ItemName . '-' . $car_ID;
                     $post_information = array(
                         'post_title' => $booking_title,
                         'post_type' => 'sc-booking',
@@ -237,13 +246,10 @@ class Car_share_Shortcode {
                             update_post_meta($post_insert_id, $input_key, esc_attr(strip_tags($_POST[$input_key])));
                         }
                     }
-                }
-
-                $post_insert_id = $_SESSION['post_insert_id'];
-                
+                } 
+                $post_insert_id = $_SESSION['post_insert_id']; 
                 sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);  
-                
-                
+                 
                 // save info about voucher if any
                 if(!empty($Cars_cart_items['voucher_id'])){
                     update_post_meta($post_insert_id, '_voucher_id', (int) $Cars_cart_items['voucher_id']);
@@ -251,31 +257,27 @@ class Car_share_Shortcode {
                     update_post_meta($post_insert_id, '_voucher_code', sanitize_text_field($Cars_cart_items['voucher_code']));
                     update_post_meta($post_insert_id, '_voucher_discount_percentage', floatval($Cars_cart_items['voucher_discount_percentage']));
                     update_post_meta($post_insert_id, '_voucher_discount_amount', floatval($Cars_cart_items['voucher_discount_amount']));
-                }
-                
-                update_post_meta($post_insert_id, '_young_surcharge_fee', floatval($yound_surcharge_fee));
-                update_post_meta($post_insert_id, '_checkout_location_price', floatval($location_price));
+                } 
+                update_post_meta($post_insert_id, '_young_surcharge_fee', floatval($yound_surcharge_fee.$currency)); 
+                update_post_meta($post_insert_id, '_checkout_location_price', floatval($location_price)); 
                 update_post_meta($post_insert_id, '_checkout_payable_price', floatval($payable_price));
                 update_post_meta($post_insert_id, 'cart_pick_up', esc_attr(strip_tags($pick_up_location)));
                 update_post_meta($post_insert_id, 'cart_drop_off', esc_attr(strip_tags($drop_off_location)));
                 update_post_meta($post_insert_id, 'cart_car_category', esc_attr(strip_tags($car_category)));
                 update_post_meta($post_insert_id, 'cart_car_name', esc_attr(strip_tags($ItemName)));
                 update_post_meta($post_insert_id, 'cart_car_ID', esc_attr(strip_tags($car_ID)));
-                update_post_meta($post_insert_id, 'cart_car_price', esc_attr(strip_tags($car_price)));
-                update_post_meta($post_insert_id, 'cart_extra_price', esc_attr(strip_tags($extras_price)));
-                update_post_meta($post_insert_id, 'cart_total_price', esc_attr(strip_tags($total_price)));
+                update_post_meta($post_insert_id, 'cart_car_price', esc_attr(strip_tags($car_price.$currency)));
+                update_post_meta($post_insert_id, 'cart_extra_price', esc_attr(strip_tags($extras_price.$currency)));
+                update_post_meta($post_insert_id, 'cart_total_price', esc_attr(strip_tags($total_price.$currency)));
                 update_post_meta($post_insert_id, 'cart_extras', ($extras));
                 //set to order status to pending - 2
                 update_post_meta($post_insert_id, 'car_r_order_status', '2');
                 //odeslani informace obchodnikovi o objednavce - protoze objednavku ukladame uz v tomto kroku
                 // Example using the array form of $headers
-                // assumes $to, $subject, $message have already been defined earlier...
- 
+                // assumes $to, $subject, $message have already been defined earlier... 
+                
                 $url = site_url(); 
-                
-                
-                
-                
+                 
                 ?>
 
 
@@ -284,7 +286,9 @@ class Car_share_Shortcode {
                         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
                         <title>Order #</title>
                         <style media="all" type="text/css">
-                            [READ THE MINIFIED CSS FILE IN SEPARATELY AND INSERT IT HERE. YOU *CANNOT* JUST USE A CSS REFERENCE.]
+                            
+                           
+                           
                         </style>
                     </head>
 
@@ -346,7 +350,7 @@ class Car_share_Shortcode {
                                 <?php _e('Car', $this->car_share); ?> 
                                 </td>
                                 <td>
-                                <?php echo $car_price; ?>     
+                                <?php echo $car_price.' '.$currency; ?>     
                                 </td> 
                             </tr> 
                             
@@ -355,27 +359,49 @@ class Car_share_Shortcode {
                                 <?php _e('Extras', $this->car_share); ?> 
                                 </td>
                                 <td>
-                                <?php echo $extras_price; ?>     
+                                <?php echo $extras_price.' '.$currency; ?>     
                                 </td> 
                             </tr> 
                             
-                              <tr>
+                            <tr>
                                 <td>
-                                <?php _e('Car', $this->car_share); ?> 
+                                <?php _e('young surcharge fee', $this->car_share); ?> 
                                 </td>
                                 <td>
-                                <?php echo $car_price; ?>     
+                                <?php echo $yound_surcharge_fee.$currency; ?>     
+                                </td> 
+                            </tr> 
+                             
+                            <tr>
+                                <td>
+                                <?php _e('young surcharge fee', $this->car_share); ?> 
+                                </td>
+                                <td>
+                                <?php echo $yound_surcharge_fee.$currency; ?>     
                                 </td> 
                             </tr> 
                             
-                              <tr>
+                            <?php $location_price; ?>
+                            
+                            
+                            <tr>
                                 <td>
-                                <?php _e('Car', $this->car_share); ?> 
+                                <?php _e('Total Price', $this->car_share); ?> 
                                 </td>
                                 <td>
-                                <?php echo $car_price; ?>     
+                                <?php echo $total_price; ?>     
                                 </td> 
                             </tr> 
+                            
+                            <tr>
+                                <td>
+                                <?php _e('Total Price', $this->car_share); ?> 
+                                </td>
+                                <td>
+                                <?php echo $total_price; ?>     
+                                </td> 
+                            </tr> 
+                            
                             
                             
                         </table>
@@ -419,7 +445,7 @@ class Car_share_Shortcode {
 
                 <?php
               
-                
+                exit();
  
                 $option_notification_email = get_option('notemail'); 
                 $headers[] = 'From:  <'.$option_notification_email.'>'; 
