@@ -332,11 +332,20 @@ class Car_share_Setting {
     
     function create_input_block_car_interval(){
         $sc_setting = get_option('sc_setting');
+        
+        $block_type = isset($sc_setting['block_type']) ? $sc_setting['block_type'] : '';
+        
+        $options = array(
+            'hours' => 'hours',
+            'next_day' => 'next day',
+        );         
+        
         ?>
         
         <select name="block_type">
-            <option value="hours"><?php _e('hours', $this->car_share) ?></option>
-            <option value="next_day"><?php _e('till next day', $this->car_share) ?></option>
+            <?php foreach($options as $key => $label): ?>
+                <option value="<?php echo $key ?>" <?php echo $key == $block_type ? ' selected="selected" ' : '' ?>><?php _e($label, $this->car_share) ?></option>
+            <?php endforeach; ?>
         </select>    
         
         
@@ -344,15 +353,23 @@ class Car_share_Setting {
         <?php        
     }        
 
+    /*
     function create_block_till_next_day(){
         $sc_setting = get_option('sc_setting');
         ?>
         <input type="checkbox" name="sc_setting[block_till_next_day]" value="1" <?php echo isset($sc_setting['block_till_next_day']) && 1 == $sc_setting['block_till_next_day'] ? 'checked="checked" ' : '' ?> />
         <?php        
-    }        
+    }   */     
     
     function create_input_block_car_interval_diff_location(){
         $sc_setting = get_option('sc_setting');
+        $block_type = isset($sc_setting['block_type_diff_loc']) ? $sc_setting['block_type_diff_loc'] : '';
+        
+        $options = array(
+            'hours' => 'hours',
+            'next_day' => 'next day',
+        );        
+        
         ?>
         <script>
         jQuery(document).ready(function ($) {
@@ -361,20 +378,22 @@ class Car_share_Setting {
         </script>
         
         <select name="block_type_diff_loc">
-            <option value="hours"><?php _e('hours', $this->car_share) ?></option>
-            <option value="next_day"><?php _e('till next day', $this->car_share) ?></option>
+            <?php foreach($options as $key => $label): ?>
+                <option value="<?php echo $key ?>" <?php echo $key == $block_type ? ' selected="selected" ' : '' ?>><?php _e($label, $this->car_share) ?></option>
+            <?php endforeach; ?>
         </select>        
         
         <input type="number" step="0.05" name="sc_setting[block_interval_diff_loc]" value="<?php echo isset($sc_setting['block_interval_diff_loc']) ? floatval($sc_setting['block_interval_diff_loc']) : '0' ?>" />
         <?php                
     }
     
+    /*
     function create_block_to_next_day_diff_loc(){
         $sc_setting = get_option('sc_setting');
         ?>
         <input type="checkbox" name="sc_setting[block_to_next_day_diff_loc]" value="1" <?php echo isset($sc_setting['block_to_next_day_diff_loc']) && 1 == $sc_setting['block_to_next_day_diff_loc'] ? 'checked="checked" ' : '' ?> />
         <?php        
-    }            
+    }    */        
 
     function create_input_some_setting() {
         $options = get_option('car_plugin_options_arraykey');
@@ -406,7 +425,7 @@ class Car_share_Setting {
         $arr_input['block_interval_diff_loc'] = floatval($arr_input['block_interval_diff_loc']);
         
         $arr_input['block_type'] = isset($_POST['block_type']) ? esc_attr($_POST['block_type']) : '';
-        $arr_input['block_type_diff_location'] = isset($_POST['block_type_diff_loc']) ? esc_attr($_POST['block_type_diff_loc']) : '';
+        $arr_input['block_type_diff_loc'] = isset($_POST['block_type_diff_loc']) ? esc_attr($_POST['block_type_diff_loc']) : '';
         
         return $arr_input; 
     }
