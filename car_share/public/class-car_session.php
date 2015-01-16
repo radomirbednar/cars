@@ -402,7 +402,7 @@ class Car_Cart {
     }
     
     public function getVoucherDiscount(){
-        return $this->items['voucher_discount'];
+        return $this->items['voucher_discount_percentage'];
     }
 
     /**
