@@ -364,11 +364,10 @@ class Car_share_Public {
         $voucher = trim($_POST['voucher']);
 
         $voucher_result = $Cars_cart->applyVoucher($voucher);
-
-        $Cars_cart->save();
-
         $total_price = $Cars_cart->getTotalPrice();
         $paypable_now = round($Cars_cart->getPaypablePrice(), 1);
+        
+        $Cars_cart->save();
         
         $message = $voucher_result ? sprintf(__('You have %s %% percent discount', $this->car_share), $Cars_cart->getVoucherDiscount()) : __('Invalid voucher', $this->car_share);
         

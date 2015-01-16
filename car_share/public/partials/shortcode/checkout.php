@@ -341,7 +341,16 @@ if (!empty($_SESSION['TOKEN'])) {
                     </span>
                 </td>
             </tr>
-
+            
+            
+            <?php 
+            // does exist any voucher ?? 
+            global $wpdb;
+            $sql = "SELECT ID FROM $wpdb->posts WHERE post_status='publish' AND post_type='sc-voucher'";            
+            $exists = $wpdb->get_var($sql);
+            
+            if(!empty($exists)):            
+            ?>
             <!-- voucher -->
             <script>
                 jQuery(document).ready(function($) {
@@ -375,15 +384,16 @@ if (!empty($_SESSION['TOKEN'])) {
                 <td><?php _e('Voucher : ', $this->car_share); ?></td>
                 <td>
                     <form id="voucher-form" method="post" action="">
-                        <input id="voucher-code" type="text" name="voucher" value="">
+                        <input id="voucher-code" type="text" name="voucher" value="<?php echo isset($Cars_cart_items['voucher_code']) ? esc_attr($Cars_cart_items['voucher_code']) : ''; ?>">
                         <button type="submit" class="btn btn-default" name="voucher"><?php _e('Apply voucher', $this->car_share); ?></button>
                     </form>
                     <div id="voucher-message"></div>
                 </td>
-            </tr>
+            </tr>            
             <!-- /voucher -->
-
-
+            <?php endif; ?>
+            
+            
         </tbody>
         </table>
 

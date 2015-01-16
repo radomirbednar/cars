@@ -182,10 +182,15 @@ class Car_Cart {
         $this->total_price = floatval($car_price) + floatval($surcharge_price) + floatval($extra_price) + floatval($different_location_price);
         
         // apply vouhcer if any
-        if(!empty($this->items['voucher_discount'])){                        
-            $percentage_discount = $this->items['voucher_discount'];            
-            $this->total_price = $this->total_price - $this->total_price * $percentage_discount / 100;            
+        unset($this->items['voucher_discount_amount']);
+        if(!empty($this->items['voucher_discount_percentage'])){                        
+            $percentage_discount = $this->items['voucher_discount_percentage']; // sleva v procentech
+            $discount_amount = $this->total_price * $percentage_discount / 100; // sleva v penezich
+            $this->total_price = $this->total_price - $discount_amount;            
+            $this->items['voucher_discount_amount'] = floatval($discount_amount);
         }        
+        
+        $this->save();
         
         //$total_price
         return $this->total_price;        
@@ -268,20 +273,21 @@ class Car_Cart {
  
         global $wpdb;
          
-            $day_interval = DateInterval::createFromDateString('1 day');
-            $period = new DatePeriod($from, $day_interval, $to);
-            $diff = $to->diff($from);
-            $days = $diff->d;
+        $day_interval = DateInterval::createFromDateString('1 day');
+        $period = new DatePeriod($from, $day_interval, $to);
+        $diff = $to->diff($from);
+        $hours = $diff->d * 24 + $diff->h;
+        
+        $days = ceil ($hours / 24);
      
-            $Cars_cart_items = $this->getItems();
-            $extras = $Cars_cart_items['service']; 
-            $extras_prices=''; 
-            $extras_prices=''; 
+        $Cars_cart_items = $this->getItems();
+        $extras = $Cars_cart_items['service']; 
+        
+        $extras_prices='';         
              
-    foreach ($extras as $key => $extras_value)
-        {   
+        foreach ($extras as $key => $extras_value) {   
             $service_fee = get_post_meta($key, '_service_fee', true);
-            $_per_service = (int)get_post_meta($key, '_per_service', true);  
+            $_per_service = (int) get_post_meta($key, '_per_service', true);  
             //1 = per day
             if($_per_service == '1' )
             {    
@@ -350,7 +356,8 @@ class Car_Cart {
         
         unset($this->items['voucher_id']);
         unset($this->items['voucher_code']);
-        unset($this->items['voucher_discount']);
+        unset($this->items['voucher_discount_percentage']);        
+        unset($this->items['voucher_discount_amount']); 
         
         //$this->save();        
         $sql = "
@@ -368,6 +375,8 @@ class Car_Cart {
                 vm.meta_value='" . esc_sql($voucher) . "'
             AND
                 p.post_status = 'publish'
+            AND
+                p.post_type = 'sc-voucher'
             ";
         
         $voucher_id = $wpdb->get_var($sql);
@@ -377,12 +386,11 @@ class Car_Cart {
             return false;
         }
         
-        $voucher_discount = get_post_meta($voucher_id, '_discount', true);
+        $voucher_discount_percentage = get_post_meta($voucher_id, '_discount', true);
         
         $this->items['voucher_id'] = $voucher_id;
         $this->items['voucher_code'] = $voucher;
-        $this->items['voucher_discount'] = floatval($voucher_discount);
-        
+        $this->items['voucher_discount_percentage'] = floatval($voucher_discount_percentage);
         return true;
     }
 
@@ -396,7 +404,7 @@ class Car_Cart {
     }
     
     public function getVoucherDiscount(){
-        return $this->items['voucher_discount'];
+        return $this->items['voucher_discount_percentage'];
     }
 
     /**

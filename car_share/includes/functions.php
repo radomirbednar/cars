@@ -11,7 +11,18 @@ function get_booking_fields(){
         'cart_car_price' => 'Car Price',
         'cart_extra_price' => 'Extra Price',
         '_checkout_location_price' => 'Different location price',
-        '_yound_surcharge_fee' => 'Young driver surcharge fee',
+        '_young_surcharge_fee' => 'Young driver surcharge fee',
+        
+        //'separator' => '<div>',
+        
+        '_voucher_id' => 'Voucher ID',
+        '_voucher_name' => 'Voucher name',
+        '_voucher_code' => 'Voucher code',
+        '_voucher_discount_percentage' => 'Voucher percentage',
+        '_voucher_discount_amount'  => 'Voucher amout',
+        
+        //'separator' => '',
+        
         'cart_total_price' => 'Total Price',
         '_checkout_payable_price' => 'Payable price',
         'cart_order_status' => 'Order status',

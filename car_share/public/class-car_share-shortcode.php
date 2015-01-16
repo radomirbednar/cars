@@ -240,10 +240,20 @@ class Car_share_Shortcode {
                 }
 
                 $post_insert_id = $_SESSION['post_insert_id'];
-
-                sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);
-  
-                update_post_meta($post_insert_id, '_yound_surcharge_fee', floatval($yound_surcharge_fee));
+                
+                sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);  
+                
+                
+                // save info about voucher if any
+                if(!empty($Cars_cart_items['voucher_id'])){
+                    update_post_meta($post_insert_id, '_voucher_id', (int) $Cars_cart_items['voucher_id']);
+                    update_post_meta($post_insert_id, '_voucher_name', get_the_title((int) $Cars_cart_items['voucher_id']));
+                    update_post_meta($post_insert_id, '_voucher_code', sanitize_text_field($Cars_cart_items['voucher_code']));
+                    update_post_meta($post_insert_id, '_voucher_discount_percentage', floatval($Cars_cart_items['voucher_discount_percentage']));
+                    update_post_meta($post_insert_id, '_voucher_discount_amount', floatval($Cars_cart_items['voucher_discount_amount']));
+                }
+                
+                update_post_meta($post_insert_id, '_young_surcharge_fee', floatval($yound_surcharge_fee));
                 update_post_meta($post_insert_id, '_checkout_location_price', floatval($location_price));
                 update_post_meta($post_insert_id, '_checkout_payable_price', floatval($payable_price));
                 update_post_meta($post_insert_id, 'cart_pick_up', esc_attr(strip_tags($pick_up_location)));
