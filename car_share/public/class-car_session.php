@@ -276,8 +276,9 @@ class Car_Cart {
         $day_interval = DateInterval::createFromDateString('1 day');
         $period = new DatePeriod($from, $day_interval, $to);
         $diff = $to->diff($from);
-        $hours = $diff->d * 24 + $diff->h;
+        $hours = $diff->days * 24 + $diff->h;
         
+        //$days = $diff->days;        
         $days = ceil ($hours / 24);
      
         $Cars_cart_items = $this->getItems();

@@ -733,10 +733,15 @@ class Car_share_Shortcode {
             $category_and = "AND wp_postmeta.meta_value = '$car_category'";
         } else {
             $category_and = '';
-        }
-
+        }        
+        
         $sc_setting = get_option('sc_setting');
-        $car_block_time = isset($sc_setting['car_block_interval']) ? floor(floatval($sc_setting['car_block_interval']) * 60) : 0;
+            
+        if($pick_up_location == $drop_off_location){
+            $car_block_time = isset($sc_setting['block_interval']) ? floor(floatval($sc_setting['block_interval']) * 60) : 0;
+        } else {
+            $car_block_time = isset($sc_setting['block_interval_diff_loc']) ? floor(floatval($sc_setting['block_interval_diff_loc']) * 60) : 0;
+        }
 
         $sql = "
             SELECT

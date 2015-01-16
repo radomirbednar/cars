@@ -131,7 +131,19 @@ class Car_share_Setting {
         add_settings_field(
                 'block_car_field', __('Block car interval (hours)', $this->car_share), array($this, 'create_input_block_car_interval'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
         );        
-
+        
+        add_settings_field(
+                'block_till_next_day_box', __('Block car till next day', $this->car_share), array($this, 'create_block_till_next_day'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
+        );        
+        
+        add_settings_field(
+                'block_diff_location_car_field', __('Block car interval after return to another location (hours) ', $this->car_share), array($this, 'create_input_block_car_interval_diff_location'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
+        );        
+        
+        add_settings_field(
+                'block_till_next_day_diff', __('Block car till next day after return to another location (hours)  ', $this->car_share), array($this, 'create_block_to_next_day_diff_loc'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
+        );                
+        
         register_setting('deposit-setting-group', 'sc_setting', array($this, 'sc_settings_validate'));
  
         
@@ -318,9 +330,29 @@ class Car_share_Setting {
     
     function create_input_block_car_interval(){
         $sc_setting = get_option('sc_setting');
-        ?><input type="number" step="0.05" name="sc_setting[car_block_interval]" value="<?php echo isset($sc_setting['car_block_interval']) ? floatval($sc_setting['car_block_interval']) : '0' ?>" />
+        ?><input type="number" step="0.05" name="sc_setting[block_interval]" value="<?php echo isset($sc_setting['block_interval']) ? floatval($sc_setting['block_interval']) : '0' ?>" />
         <?php        
-    }    
+    }        
+
+    function create_block_till_next_day(){
+        $sc_setting = get_option('sc_setting');
+        ?>
+        <input type="checkbox" name="sc_setting[block_till_next_day]" value="1" <?php echo isset($sc_setting['block_till_next_day']) && 1 == $sc_setting['block_till_next_day'] ? 'checked="checked" ' : '' ?> />
+        <?php        
+    }        
+    
+    function create_input_block_car_interval_diff_location(){
+        $sc_setting = get_option('sc_setting');
+        ?><input type="number" step="0.05" name="sc_setting[block_interval_diff_loc]" value="<?php echo isset($sc_setting['block_interval_diff_loc']) ? floatval($sc_setting['block_interval_diff_loc']) : '0' ?>" />
+        <?php                
+    }
+    
+    function create_block_to_next_day_diff_loc(){
+        $sc_setting = get_option('sc_setting');
+        ?>
+        <input type="checkbox" name="sc_setting[block_to_next_day_diff_loc]" value="1" <?php echo isset($sc_setting['block_to_next_day_diff_loc']) && 1 == $sc_setting['block_to_next_day_diff_loc'] ? 'checked="checked" ' : '' ?> />
+        <?php        
+    }            
 
     function create_input_some_setting() {
         $options = get_option('car_plugin_options_arraykey');
@@ -347,8 +379,9 @@ class Car_share_Setting {
     function sc_settings_validate($arr_input) {
         $arr_input['deposit_amount'] = floatval($arr_input['deposit_amount']);
         $arr_input['deposit_active'] = intval($arr_input['deposit_active']);
-        $arr_input['car_block_interval'] = floatval($arr_input['car_block_interval']);
-        return $arr_input;
+        $arr_input['block_interval'] = floatval($arr_input['block_interval']);
+        $arr_input['block_interval_diff_loc'] = floatval($arr_input['block_interval_diff_loc']);
+        return $arr_input; 
     }
 
     function plugin_main_settings_validate($arr_input) {
