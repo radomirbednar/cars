@@ -127,28 +127,30 @@ class Car_share_Setting {
         add_settings_field(
                 'deposit_active_field', __('Apply payable now', $this->car_share), array($this, 'create_input_deposit_active'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
         );
-        
+
         add_settings_field(
-                'block_car_field', __('Block car interval (hours)', $this->car_share), array($this, 'create_input_block_car_interval'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
-        );        
-        
+                'block_car_field', __('Block car interval', $this->car_share), array($this, 'create_input_block_car_interval'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
+        );
+
+        /*
         add_settings_field(
                 'block_till_next_day_box', __('Block car till next day', $this->car_share), array($this, 'create_block_till_next_day'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
-        );        
-        
+        );     */
+
         add_settings_field(
-                'block_diff_location_car_field', __('Block car interval after return to another location (hours) ', $this->car_share), array($this, 'create_input_block_car_interval_diff_location'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
-        );        
-        
+                'block_diff_location_car_field', __('Block car interval after return to another location', $this->car_share), array($this, 'create_input_block_car_interval_diff_location'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
+        );
+
+        /*
         add_settings_field(
                 'block_till_next_day_diff', __('Block car till next day after return to another location (hours)  ', $this->car_share), array($this, 'create_block_to_next_day_diff_loc'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
-        );                
-        
+        );
+        */
         register_setting('deposit-setting-group', 'sc_setting', array($this, 'sc_settings_validate'));
- 
-        
-        
-        
+
+
+
+
         // add_settings_section( $id, $title, $callback, $page )
         add_settings_section(
                 'main-settings-section', 'General Settings', array($this, 'print_main_settings_section_info'), 'car-plugin-main-settings-section'
@@ -161,8 +163,8 @@ class Car_share_Setting {
                 'showcategory', 'Show category:', array($this, 'create_input_some_show_cat'), 'car-plugin-main-settings-section', 'main-settings-section'
         );
         // register_setting( $option_group, $option_name, $sanitize_callback )
- 
-        
+
+
         add_settings_field(
                 'companyname-setting', 'Company Name:', array($this, 'create_name_setting'), 'car-plugin-main-settings-section', 'main-settings-section'
         );
@@ -198,10 +200,10 @@ class Car_share_Setting {
         add_settings_field(
                 'email-setting', 'Contact Email:', array($this, 'create_input_email'), 'car-plugin-main-settings-section', 'main-settings-section'
         );
- 
-        
-        
-        
+
+
+
+
         register_setting('main-settings-group', 'car_plugin_options_arraykey', array($this, 'plugin_main_settings_validate'));
 
 // add_settings_section( $id, $title, $callback, $page )
@@ -212,7 +214,7 @@ class Car_share_Setting {
 // add_settings_field( $id, $title, $callback, $page, $section, $args )
        /* add_settings_field(
                 'another-setting', 'Measurement Unit: ', array($this, 'create_input_another_setting'), 'test-plugin-additional-settings-section', 'additional-settings-section'
-        ); 
+        );
         */
 
         add_settings_field(
@@ -262,7 +264,7 @@ class Car_share_Setting {
         ?><input type="text" name="car_plugin_options_arraykey[city-setting]" value="<?php echo isset($options['city-setting']) ? $options['streetaddress-setting'] : '' ?>" />
         <?php
     }
-      
+
     function create_input_country() {
 
         $options = get_option('car_plugin_options_arraykey');
@@ -283,7 +285,7 @@ class Car_share_Setting {
         ?><input type="text" name="car_plugin_options_arraykey[zip-setting]" value="<?php echo isset($options['zip-setting']) ? $options['zip-setting'] : '' ?>" />
         <?php
     }
-     
+
     function create_input_phone() {
 
         $options = get_option('car_plugin_options_arraykey');
@@ -304,7 +306,7 @@ class Car_share_Setting {
         ?><input type="text" name="car_plugin_options_arraykey[email-setting]" value="<?php echo isset($options['email-setting']) ? $options['email-setting'] : '' ?>" />
         <?php
     }
-      
+
     function print_demand_deposit_section_info() {
         echo '<p>' . _e('Rent car setting.', $this->car_share) . '</p>';
     }
@@ -327,32 +329,92 @@ class Car_share_Setting {
         <input type="checkbox" name="sc_setting[deposit_active]" value="1" <?php echo isset($sc_setting['deposit_active']) && 1 == $sc_setting['deposit_active'] ? 'checked="checked" ' : '' ?> />
         <?php
     }
-    
+
     function create_input_block_car_interval(){
         $sc_setting = get_option('sc_setting');
-        ?><input type="number" step="0.05" name="sc_setting[block_interval]" value="<?php echo isset($sc_setting['block_interval']) ? floatval($sc_setting['block_interval']) : '0' ?>" />
-        <?php        
-    }        
 
+        $block_type = isset($sc_setting['block_type']) ? $sc_setting['block_type'] : '';
+
+        $options = array(
+            'hours' => 'hours',
+            'next_day' => 'next day',
+        );
+
+        ?>
+        
+        <script>
+        jQuery(document).ready(function ($) {
+            $( "#block_type" ).change(function() {
+                if('next_day' == $(this).val()){
+                    $(this).parents('.block_option').find(':input[type="number"]').hide();
+                } else {
+                    $(this).parents('.block_option').find(':input[type="number"]').show();
+                }
+            });
+        });
+        </script>        
+
+        <div class="block_option">
+            <select  id="block_type" name="block_type">
+                <?php foreach($options as $key => $label): ?>
+                    <option value="<?php echo $key ?>" <?php echo $key == $block_type ? ' selected="selected" ' : '' ?>><?php _e($label, $this->car_share) ?></option>
+                <?php endforeach; ?>
+            </select>
+
+            <input <?php echo $block_type == 'next_day' ? ' style="display:none;"' : '' ?> type="number" step="0.05" name="sc_setting[block_interval]" value="<?php echo isset($sc_setting['block_interval']) ? floatval($sc_setting['block_interval']) : '0' ?>" />
+        </div>
+        <?php
+    }
+
+    /*
     function create_block_till_next_day(){
         $sc_setting = get_option('sc_setting');
         ?>
         <input type="checkbox" name="sc_setting[block_till_next_day]" value="1" <?php echo isset($sc_setting['block_till_next_day']) && 1 == $sc_setting['block_till_next_day'] ? 'checked="checked" ' : '' ?> />
-        <?php        
-    }        
-    
+        <?php
+    }   */
+
     function create_input_block_car_interval_diff_location(){
         $sc_setting = get_option('sc_setting');
-        ?><input type="number" step="0.05" name="sc_setting[block_interval_diff_loc]" value="<?php echo isset($sc_setting['block_interval_diff_loc']) ? floatval($sc_setting['block_interval_diff_loc']) : '0' ?>" />
-        <?php                
+        $block_type = isset($sc_setting['block_type_diff_loc']) ? $sc_setting['block_type_diff_loc'] : '';
+
+        $options = array(
+            'hours' => 'hours',
+            'next_day' => 'next day',
+        );
+
+        ?>
+        <script>
+        jQuery(document).ready(function ($) {
+            $( "#block_type_diff_loc" ).change(function() {
+                if('next_day' == $(this).val()){
+                    $(this).parents('.block_option').find(':input[type="number"]').hide();
+                } else {
+                    $(this).parents('.block_option').find(':input[type="number"]').show();
+                }
+            });
+        });
+        </script>
+
+        <div class="block_option">
+            <select id="block_type_diff_loc" name="block_type_diff_loc">
+                <?php foreach($options as $key => $label): ?>
+                    <option value="<?php echo $key ?>" <?php echo $key == $block_type ? ' selected="selected" ' : '' ?>><?php _e($label, $this->car_share) ?></option>
+                <?php endforeach; ?>
+            </select>
+
+            <input <?php echo $block_type == 'next_day' ? ' style="display:none;"' : '' ?> type="number" step="0.05" name="sc_setting[block_interval_diff_loc]" value="<?php echo isset($sc_setting['block_interval_diff_loc']) ? floatval($sc_setting['block_interval_diff_loc']) : '0' ?>" />
+        </div>
+        <?php
     }
-    
+
+    /*
     function create_block_to_next_day_diff_loc(){
         $sc_setting = get_option('sc_setting');
         ?>
         <input type="checkbox" name="sc_setting[block_to_next_day_diff_loc]" value="1" <?php echo isset($sc_setting['block_to_next_day_diff_loc']) && 1 == $sc_setting['block_to_next_day_diff_loc'] ? 'checked="checked" ' : '' ?> />
-        <?php        
-    }            
+        <?php
+    }    */
 
     function create_input_some_setting() {
         $options = get_option('car_plugin_options_arraykey');
@@ -372,32 +434,37 @@ class Car_share_Setting {
         <?php
     }
 
-     
-    /** 
+
+    /**
      * @param type $arr_input
      */
     function sc_settings_validate($arr_input) {
         $arr_input['deposit_amount'] = floatval($arr_input['deposit_amount']);
         $arr_input['deposit_active'] = intval($arr_input['deposit_active']);
+
         $arr_input['block_interval'] = floatval($arr_input['block_interval']);
         $arr_input['block_interval_diff_loc'] = floatval($arr_input['block_interval_diff_loc']);
-        return $arr_input; 
+
+        $arr_input['block_type'] = isset($_POST['block_type']) ? esc_attr($_POST['block_type']) : '';
+        $arr_input['block_type_diff_loc'] = isset($_POST['block_type_diff_loc']) ? esc_attr($_POST['block_type_diff_loc']) : '';
+
+        return $arr_input;
     }
 
     function plugin_main_settings_validate($arr_input) {
         $options = get_option('car_plugin_options_arraykey');
         $options['notemail'] = trim($arr_input['notemail']);
-        $options['showcategory'] = trim($arr_input['showcategory']); 
-        $options['companyname-setting'] = trim($arr_input['companyname-setting']); 
+        $options['showcategory'] = trim($arr_input['showcategory']);
+        $options['companyname-setting'] = trim($arr_input['companyname-setting']);
         $options['streetaddress-setting'] = trim($arr_input['streetaddress-setting']);
         $options['city-setting'] = trim($arr_input['city-setting']);
         $options['state-setting'] = trim($arr_input['state-setting']);
-        $options['country-setting'] = trim($arr_input['country-setting']); 
+        $options['country-setting'] = trim($arr_input['country-setting']);
         $options['zip-setting'] = trim($arr_input['zip-setting']);
         $options['phone-setting'] = trim($arr_input['phone-setting']);
         $options['fax-setting'] = trim($arr_input['fax-setting']);
         $options['email-setting'] = trim($arr_input['email-setting']);
-         
+
         return $options;
     }
 
@@ -471,18 +538,18 @@ class Car_share_Setting {
 
     function plugin_additional_settings_validate($arr_input) {
 
-        
+
         $options = get_option('second_set_arraykey');
         $options['sc-unit'] = trim($arr_input['sc-unit']);
-        $options['sc-currency'] = trim($arr_input['sc-currency']); 
+        $options['sc-currency'] = trim($arr_input['sc-currency']);
         $options['apiusername-setting'] = trim($arr_input['apiusername-setting']);
         $options['apisignature-setting'] = trim($arr_input['apisignature-setting']);
         $options['apipassword-setting'] = trim($arr_input['apipassword-setting']);
         $options['paypalemail_setting'] = trim($arr_input['paypalemail_setting']);
-        $options['paypalsandbox-setting'] = trim($arr_input['paypalsandbox-setting']); 
+        $options['paypalsandbox-setting'] = trim($arr_input['paypalsandbox-setting']);
         $options['payablenow-setting'] = trim($arr_input['payablenow-setting']);
 
-        
+
         return $options;
     }
 

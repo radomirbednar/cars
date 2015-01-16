@@ -34,9 +34,10 @@ class Car_Cart {
         $this->items['car_category'] = $car_category;
     }
      
+    /*
     public function setYoungDriverSurcharte(){
         $this->items['young_driver_surcharge'] = $pick_up_location;
-    }
+    }*/
     
     
     public function setItemCategory($carID) {         
@@ -172,6 +173,7 @@ class Car_Cart {
         $car_price = $this->get_car_price($this->items['car_ID'], $this->items['car_datefrom'],$this->items['car_dateto']);
         // 
         $surcharge_price = $this->get_driver_surchage_price($car_price);
+        $this->setSurchargePrice($surcharge_price);
         
         //
         $different_location_price = $this->getDifferentLocationPrice();
@@ -233,12 +235,9 @@ class Car_Cart {
         
         $sc_setting = get_option('sc_setting');
         
-        if(isset($sc_setting['deposit_active']) && 1 == $sc_setting['deposit_active']){
-            
-            $deposit_percentage = floatval($sc_setting['deposit_amount']);
-            
-            $payable_price = $payable_price * $deposit_percentage / 100; 
-            
+        if(isset($sc_setting['deposit_active']) && 1 == $sc_setting['deposit_active']){            
+            $deposit_percentage = floatval($sc_setting['deposit_amount']);            
+            $payable_price = $payable_price * $deposit_percentage / 100;
         }
         
         return $payable_price;        
@@ -327,6 +326,10 @@ class Car_Cart {
         $car_result = $wpdb->get_results($sql);       
         return $car_result;        
     } 
+    
+    public function getSurchargePrice(){
+        return $this->items['surcharge_price'];
+    }
      
     /**
      * getItemName() - Get the name of an item.
@@ -342,9 +345,15 @@ class Car_Cart {
         $this->items['service'] = $service;
     }
     
+    protected function setSurchargePrice($price){
+        $this->items['surcharge_price'] = $price;
+    }
+    
     public function applySurcharge($value) {
         $this->items['apply_surcharge'] = $value;
     }    
+    
+    
     
     public function applyVoucher($voucher){
         

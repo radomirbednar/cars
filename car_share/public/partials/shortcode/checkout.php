@@ -262,6 +262,12 @@ if (!empty($_SESSION['TOKEN'])) {
                             }).done(function(ret) {
                                 $('#price-total').html(ret.total_price);
                                 $('#price-payable-now').html(ret.paypable_now);
+                                
+                                if(0 != ret.driver_surcharge){
+                                    $('#surcharge-price').html('+' + ret.driver_surcharge + ' <?php echo 'some currency' ?>');
+                                } else {
+                                    $('#surcharge-price').html('');
+                                }
                             }).fail(function(ret) {
 
                             }).always(function() {
@@ -287,6 +293,7 @@ if (!empty($_SESSION['TOKEN'])) {
             <?php printf(__('I am under %d.', $this->car_share), $surcharge_age); ?>
                             </label>
                         </form>
+                        <span id="surcharge-price"></span>
                     </td>
                 </tr>
         <?php endif; ?>
