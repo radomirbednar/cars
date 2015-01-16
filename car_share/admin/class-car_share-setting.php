@@ -359,7 +359,7 @@ class Car_share_Setting {
         $arr_input['deposit_active'] = intval($arr_input['deposit_active']);
         $arr_input['car_block_interval'] = floatval($arr_input['car_block_interval']);
         $arr_input['car_block_interval_diff_location'] = floatval($arr_input['car_block_interval_diff_location']);
-        return $arr_input;
+        return $arr_input; 
     }
 
     function plugin_main_settings_validate($arr_input) {
