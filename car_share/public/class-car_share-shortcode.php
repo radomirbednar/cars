@@ -614,9 +614,7 @@ class Car_share_Shortcode {
             $category_and = "AND wp_postmeta.meta_value = '$car_category'";
         } else {
             $category_and = '';
-        }
-
-        
+        }        
         
         $sc_setting = get_option('sc_setting');
             

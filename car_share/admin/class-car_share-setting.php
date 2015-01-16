@@ -139,7 +139,11 @@ class Car_share_Setting {
         add_settings_field(
                 'block_diff_location_car_field', __('Block car interval after return to another location (hours) ', $this->car_share), array($this, 'create_input_block_car_interval_diff_location'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
         );        
-
+        
+        add_settings_field(
+                'block_till_next_day_diff', __('Block car till next day after return to another location (hours)  ', $this->car_share), array($this, 'create_block_to_next_day_diff_loc'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
+        );                
+        
         register_setting('deposit-setting-group', 'sc_setting', array($this, 'sc_settings_validate'));
  
         
