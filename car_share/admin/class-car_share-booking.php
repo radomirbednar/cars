@@ -103,11 +103,13 @@ class Car_share_Booking {
                 'booking_info_box', __('Booking info', $this->car_share), array($this, 'booking_info_box'), 'sc-booking'
         );        
         
+        
+        /*
         add_meta_box(
                 
                 'payment_detail_box', __('Paypent details', $this->car_share), array($this, 'customer_info_box'), 'sc-booking'
                 
-        );
+        );*/
         
          /*   
         add_meta_box(
@@ -130,10 +132,10 @@ class Car_share_Booking {
      }*/
      
      
-     
+ /*    
      public function payment_detail_box(
              
-        Payment Details
+     /*   Payment Details
             
         Phone: not provided
         Email: radovanmail@gmail.com
@@ -148,7 +150,7 @@ class Car_share_Booking {
         
         include 'partials/booking/payment_info.php';  
         
-        );  
+        );  */
             
      public function booking_info_box(){
          
