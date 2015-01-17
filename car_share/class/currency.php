@@ -15,7 +15,7 @@ class sc_Currency {
     protected $currency;
 
     protected function __construct() {
-        ;
+        
     }
 
     protected function __clone(){
