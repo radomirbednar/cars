@@ -103,11 +103,19 @@ class Car_share_Booking {
                 'booking_info_box', __('Booking info', $this->car_share), array($this, 'booking_info_box'), 'sc-booking'
         );        
         
-        /*
+        add_meta_box(
+                
+                'payment_detail_box', __('Paypent details', $this->car_share), array($this, 'customer_info_box'), 'sc-booking'
+                
+        );
+        
+         /*   
         add_meta_box(
                 'voucher_discount_box', __('Discount (percentage)', $this->car_share), array($this, 'voucher_discount_box'), 'sc-voucher'
         );
-        */
+          
+          */
+            
      }
 
      /*
@@ -120,7 +128,28 @@ class Car_share_Booking {
 
          include 'partials/booking/interval.php';
      }*/
-
+     
+     
+     
+     public function payment_detail_box(
+             
+        Payment Details
+            
+        Phone: not provided
+        Email: radovanmail@gmail.com
+        Payment Method: Pay Adapter
+        
+         
+        global $post;
+        
+            
+        
+        $booking = new sc_Booking($post); 
+        
+        include 'partials/booking/payment_info.php';  
+        
+        );  
+            
      public function booking_info_box(){
          
         global $post;
