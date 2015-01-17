@@ -191,6 +191,7 @@ class Car_share {
         require_once plugin_dir_path(dirname(__FILE__)) . 'class/season.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'class/category.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'class/booking.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'class/currency.php';
 
         $this->loader = new Car_share_Loader();
     }

@@ -2,9 +2,9 @@
 $Cars_cart = new Car_Cart('shopping_cart');
 $Cars_cart_items = $Cars_cart->getItemSearch();
 
-                            
-if (!empty($_SESSION['TOKENE'])) { 
-    $token_value = ($_SESSION['TOKENE']); 
+
+if (!empty($_SESSION['TOKENE'])) {
+    $token_value = ($_SESSION['TOKENE']);
     $args = array(
         'post_type' => 'sc-booking',
         'meta_query' => array(
@@ -13,10 +13,10 @@ if (!empty($_SESSION['TOKENE'])) {
                 'value' => $token_value
             )
         )
-    ); 
-    
-    $my_query = new WP_Query($args); 
-    if ($my_query->have_posts()) { 
+    );
+
+    $my_query = new WP_Query($args);
+    if ($my_query->have_posts()) {
         while ($my_query->have_posts()) {
             $my_query->the_post();
             $meta_values = get_post_custom(get_the_ID());
@@ -35,7 +35,7 @@ if (!empty($_SESSION['TOKENE'])) {
     $dateinfo = $wpdb->get_row($wpdb->prepare("SELECT * FROM sc_single_car_status WHERE booking_id=%d", $post_ID));
     $car_dfrom_string = $dateinfo->date_from;
     $car_dto_string = $dateinfo->date_to;
-                            
+
     if ($car_order == '1') {
         _e('Thank your for your booking we are send you all information to your email:', $this->car_share);
     } elseif ($car_order == '2') {
@@ -43,69 +43,68 @@ if (!empty($_SESSION['TOKENE'])) {
     } elseif ($car_order == '3') {
         _e('There are something wrong. Payment failed', $this->car_share);
     }
-                            
     ?>
- 
+
     <strong><?php _e('Booking details:', $this->car_share); ?></strong>
-    <table> 
-    <tr>
-        <td><?php _e('FROM', $this->car_share); ?></td>
-        <td><?php echo get_the_title($pick_up_location[0]); ?></td>
-        <td><?php echo $car_dfrom_string; ?></td>
-    </tr>
+    <table>
+        <tr>
+            <td><?php _e('FROM', $this->car_share); ?></td>
+            <td><?php echo get_the_title($pick_up_location[0]); ?></td>
+            <td><?php echo $car_dfrom_string; ?></td>
+        </tr>
 
-    <tr>
-        <td><?php _e('TO', $this->car_share); ?></td>
-        <td><?php echo get_the_title($drop_off_location[0]); ?></td>
-        <td><?php echo $car_dto_string; ?></td>
-    </tr>
-    <?php $post_thumbnail = get_the_post_thumbnail($cart_car_ID, 'thumbnail'); ?>
-    <tr>
-        <td>
-            <?php echo $post_thumbnail; ?>
-        </td>
-        <td><?php echo get_the_title($cart_car_ID); ?></td>
-    </tr>
-    <tr>
-        <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
-        <td>  
-            <?php
-            foreach ($extras as $key => $extras_id) {
-                $service_fee = get_post_meta($key, '_service_fee', true);
-                $_per_service = get_post_meta($key, '_per_service', true);
-                $service_name = get_the_title($key);
-                echo $extras_id . ' x ' . $service_name . ' ';
-            }
-            ?>  
-        </td>     
-    </tr>
-    
-    
-    
-    
-    
-    
-    <tr>
-        <td>
+        <tr>
+            <td><?php _e('TO', $this->car_share); ?></td>
+            <td><?php echo get_the_title($drop_off_location[0]); ?></td>
+            <td><?php echo $car_dto_string; ?></td>
+        </tr>
+        <?php $post_thumbnail = get_the_post_thumbnail($cart_car_ID, 'thumbnail'); ?>
+        <tr>
+            <td>
+                <?php echo $post_thumbnail; ?>
+            </td>
+            <td><?php echo get_the_title($cart_car_ID); ?></td>
+        </tr>
+        <tr>
+            <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
+            <td>
+                <?php
+                foreach ($extras as $key => $extras_id) {
+                    $service_fee = get_post_meta($key, '_service_fee', true);
+                    $_per_service = get_post_meta($key, '_per_service', true);
+                    $service_name = get_the_title($key);
+                    echo $extras_id . ' x ' . $service_name . ' ';
+                }
+                ?>
+            </td>
+        </tr>
 
-        </td>
-    </tr>
-    <tr>
-        <td>
 
-        </td>
-    </tr>
-    
 
-    
-    
+
+
+
+        <tr>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+        </tr>
+
+
+
+
 
     </table>
 
 
 
 
-    <th><td><?php _e('CUSTOMER DETAILS', $this->car_share); ?></td></th> 
+    <th><td><?php _e('CUSTOMER DETAILS', $this->car_share); ?></td></th>
     <?php
     global $post;
 
@@ -121,9 +120,9 @@ if (!empty($_SESSION['TOKENE'])) {
     }
     ?>
 
-        <?php if (!empty($fields_to_show)): ?>
+    <?php if (!empty($fields_to_show)): ?>
         <table>
-        <?php foreach ($fields_to_show as $key => $field): ?>
+            <?php foreach ($fields_to_show as $key => $field): ?>
                 <tr>
                     <td>
                         <strong><?php _e($field['label'], $this->car_share) ?>: </strong>
@@ -142,7 +141,7 @@ if (!empty($_SESSION['TOKENE'])) {
                         ?>
                     </td>
                 </tr>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
         </table>
     <?php endif; ?>
 
@@ -183,11 +182,15 @@ if (!empty($_SESSION['TOKENE'])) {
         $car_category = $Cars_cart_items['car_category'];
     }
 
+    /*
+      $sc_options_paypal = get_option('second_set_arraykey');
+      $currency_code = $sc_options_paypal['sc-currency'];
+      $currencyforpeople = return_currencies();
+      $currencyforpeople = $currencyforpeople[$currency_code]["symbol"];
+     */
 
-    $sc_options_paypal = get_option('second_set_arraykey');
-    $currency_code = $sc_options_paypal['sc-currency'];
-    $currencyforpeople = return_currencies();
-    $currencyforpeople = $currencyforpeople[$currency_code]["symbol"];
+
+    $currency = sc_Currency::get_instance();
     ?>
 
 
@@ -210,7 +213,7 @@ if (!empty($_SESSION['TOKENE'])) {
             <table>
                 <tr>
                     <td>
-            <?php echo $post_thumbnail; ?>
+                        <?php echo $post_thumbnail; ?>
                     </td>
                     <td><?php echo get_the_title($car->ID); ?></td>
                 </tr>
@@ -222,14 +225,14 @@ if (!empty($_SESSION['TOKENE'])) {
 
                 <tr>
                     <td><?php _e('CAR : ', $this->car_share); ?></td>
-                    <td><?php echo $car_price . ' ' . $currencyforpeople; ?></td>
+                    <td><?php echo $currency->format($car_price) ?></td>
                 </tr>
 
-        <?php if (!empty($Cars_cart_items['service'])) { ?>
+                <?php if (!empty($Cars_cart_items['service'])) { ?>
 
                     <tr>
                         <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
-                        <td>  
+                        <td>
                             <?php
                             foreach ($extras as $key => $extras_id) {
                                 $service_fee = get_post_meta($key, '_service_fee', true);
@@ -237,9 +240,9 @@ if (!empty($_SESSION['TOKENE'])) {
                                 $service_name = get_the_title($key);
                                 echo $extras_id . ' x ' . $service_name . ' ';
                             }
-                            ?>  
-                        </td>     
-                    </tr> 
+                            ?>
+                        </td>
+                    </tr>
                 <?php } ?>
 
 
@@ -263,7 +266,7 @@ if (!empty($_SESSION['TOKENE'])) {
                      */
                     ?>
                 <script>
-                    jQuery(document).ready(function($) {
+                    jQuery(document).ready(function ($) {
 
                         function refrest_checkout_prices() {
 
@@ -277,26 +280,26 @@ if (!empty($_SESSION['TOKENE'])) {
                                     'action': 'refresh_checkout_price',
                                     'apply_surcharge': apply_surcharge
                                 },
-                                beforeSend: function() {
+                                beforeSend: function () {
                                     //self.prop("disabled", true);
                                 }
-                            }).done(function(ret) {
+                            }).done(function (ret) {
                                 $('#price-total').html(ret.total_price);
                                 $('#price-payable-now').html(ret.paypable_now);
 
                                 if (0 != ret.driver_surcharge) {
-                                    $('#surcharge-price').html('+' + ret.driver_surcharge + ' <?php echo 'some currency' ?>');
+                                    $('#surcharge-price').html('+' + ret.driver_surcharge);
                                 } else {
                                     $('#surcharge-price').html('');
                                 }
-                            }).fail(function(ret) {
+                            }).fail(function (ret) {
 
-                            }).always(function() {
+                            }).always(function () {
                                 //self.prop("disabled", false);
                             });
                         }
 
-                        $("#apply-surcharge").click(function() {
+                        $("#apply-surcharge").click(function () {
                             refrest_checkout_prices();
                         });
 
@@ -311,7 +314,7 @@ if (!empty($_SESSION['TOKENE'])) {
                         <form id="surcharge-form" method="" action="">
                             <label>
                                 <input id="apply-surcharge" type="checkbox" name="apply_surcharge" value="1">
-            <?php printf(__('I am under %d.', $this->car_share), $surcharge_age); ?>
+                                <?php printf(__('I am under %d.', $this->car_share), $surcharge_age); ?>
                             </label>
                         </form>
                         <span id="surcharge-price">             </span>
@@ -319,10 +322,10 @@ if (!empty($_SESSION['TOKENE'])) {
                 </tr>
             <?php endif; ?>
 
-        <?php if (!empty($extras_price)) { ?>
+            <?php if (!empty($extras_price)) { ?>
                 <tr>
                     <td><?php _e('EXTRAS PRICE: ', $this->car_share); ?></td>
-                    <td><?php echo $extras_price . ' ' . $currencyforpeople; ?></td>
+                    <td><?php echo $currency->format($extras_price) ?></td>
                 </tr>
                 <?php
             }
@@ -337,7 +340,7 @@ if (!empty($_SESSION['TOKENE'])) {
                         <?php _e('Different location price:', $this->car_share) ?>
                     </td>
                     <td>
-                <?php echo $different_location_price . ' ' . $currencyforpeople; ?>
+                        <?php echo $currency->format($different_location_price) ?>
                     </td>
                 </tr>
                 <?php
@@ -353,7 +356,7 @@ if (!empty($_SESSION['TOKENE'])) {
                 <td><?php _e('TOTAL : ', $this->car_share); ?></td>
                 <td>
                     <span id="price-total" class="price">
-        <?php echo $total_price . ' ' . $currencyforpeople; ?>
+                        <?php echo $currency->format($total_price) ?>
                     </span>
                 </td>
             </tr>
@@ -361,7 +364,7 @@ if (!empty($_SESSION['TOKENE'])) {
                 <td><?php _e('PAYABLE NOW : ', $this->car_share); ?></td>
                 <td>
                     <span id="price-payable-now" class="price">
-        <?php echo $paypable_now . ' ' . $currencyforpeople; ?>
+                        <?php echo $currency->format($currencyforpeople) ?>
                     </span>
                 </td>
             </tr>
@@ -376,8 +379,8 @@ if (!empty($_SESSION['TOKENE'])) {
                 ?>
                 <!-- voucher -->
                 <script>
-                    jQuery(document).ready(function($) {
-                        jQuery('#voucher-form').submit(function(e) {
+                    jQuery(document).ready(function ($) {
+                        jQuery('#voucher-form').submit(function (e) {
                             e.preventDefault();
 
                             $.ajax({
@@ -388,16 +391,16 @@ if (!empty($_SESSION['TOKENE'])) {
                                     'action': 'apply_voucher',
                                     'voucher': $('#voucher-code').val()
                                 },
-                                beforeSend: function() {
+                                beforeSend: function () {
                                     //self.prop("disabled", true);
                                 }
-                            }).done(function(ret) {
+                            }).done(function (ret) {
                                 $('#price-total').html(ret.total_price);
                                 $('#price-payable-now').html(ret.paypable_now);
                                 $('#voucher-message').html(ret.message);
-                            }).fail(function(ret) {
+                            }).fail(function (ret) {
 
-                            }).always(function() {
+                            }).always(function () {
                                 //self.prop("disabled", false);
                             });
                         });
@@ -414,7 +417,7 @@ if (!empty($_SESSION['TOKENE'])) {
                     </td>
                 </tr>
                 <!-- /voucher -->
-        <?php endif; ?>
+            <?php endif; ?>
 
 
         </tbody>
@@ -693,7 +696,7 @@ if (!empty($_SESSION['TOKENE'])) {
               </div>
              */ ?>
 
-        <?php wp_nonce_field('post_nonce', 'post_nonce_field'); ?>
+            <?php wp_nonce_field('post_nonce', 'post_nonce_field'); ?>
 
             <button type="submit" class="btn btn-default" name="sc-checkout"><?php _e('Book car', $this->car_share); ?></button>
         </form>
