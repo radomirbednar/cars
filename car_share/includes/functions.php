@@ -1,7 +1,7 @@
 <?php
 
 function get_booking_fields(){
-    
+
     $arr = array(
         'cart_pick_up' => 'Pick up location',
         'cart_drop_off' => 'Drop off location',
@@ -12,51 +12,51 @@ function get_booking_fields(){
         'cart_extra_price' => 'Extra Price',
         '_checkout_location_price' => 'Different location price',
         '_young_surcharge_fee' => 'Young driver surcharge fee',
-        
+
         //'separator' => '<div>',
-        
+
         '_voucher_id' => 'Voucher ID',
         '_voucher_name' => 'Voucher name',
         '_voucher_code' => 'Voucher code',
         '_voucher_discount_percentage' => 'Voucher percentage',
         '_voucher_discount_amount'  => 'Voucher amout',
-        
+
         //'separator' => '',
-        
+
         'cart_total_price' => 'Total Price',
         '_checkout_payable_price' => 'Payable price',
         'cart_order_status' => 'Order status',
     );
-    
+
     return $arr;
-    
+
 }
 
 function get_enabled_checkout_fields(){
     $checkout_fields = get_checkout_fields();
-    
+
     $checkout_fields = array_filter($checkout_fields, function($field) {
                             return $field['enabled'] == 1;
-                        }); 
-    
+                        });
+
     return $checkout_fields;
 }
 
 function get_checkout_fields(){
-    
+
     $default_checkout_fields = get_default_checkout_fields();
     $checkout_fields_settings = get_option('sc-checkout-inputs');
-        
+
     if(empty($checkout_fields_settings)){
         $checkout_fields_settings = array();
     }
-        
-    $checkout_fields = array_replace_recursive($default_checkout_fields, $checkout_fields_settings);      
+
+    $checkout_fields = array_replace_recursive($default_checkout_fields, $checkout_fields_settings);
     return $checkout_fields;
 }
 
 function get_default_checkout_fields(){
-    
+
     $checkout_fields = array(
         '_name' => array(
             'label' => 'Fullname',
@@ -112,9 +112,9 @@ function get_default_checkout_fields(){
             'enabled' => 1,
             'required' => 0
         )
- 
-    );    
-    
+
+    );
+
     return $checkout_fields;
 }
 
@@ -215,7 +215,7 @@ function get_date_meta($post_id, $meta_key) {
 }
 
 function update_date_meta($post_id, $meta_key, DateTime $date) {
-    
+
     global $wpdb;
     $sql = "
         REPLACE INTO postmeta_date (post_id, meta_key, meta_value) VALUES (
@@ -241,7 +241,7 @@ function delete_all_date_metas($post_id) {
 }
 
 function return_currencies(){
-  
+
 $currencies = array(
 		'AUD' => array( 'name' => 'Australian Dollar', 'symbol' => '$' ),
 		'BRL' => array( 'name' => 'Brazilian Real', 'symbol' => 'R$' ),
@@ -268,6 +268,9 @@ $currencies = array(
 		'THB' => array( 'name' => 'Thai Baht', 'symbol' => '&#3647;' ),
 		'TRY' => array( 'name' => 'Turkish Lira', 'symbol' => '&#8378;' ),
 		'USD' => array( 'name' => 'U.S. Dollar', 'symbol' => '$' )
-                );  
-return $currencies; 
-}  
+                );
+return $currencies;
+}
+
+
+
