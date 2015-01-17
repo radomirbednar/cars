@@ -240,8 +240,7 @@ class Car_share_Shortcode {
                         //nezapomenout smazat na konci veskerou session !!!!!!!
                         $_SESSION['post_insert_id'] = $post_insert_id;
                     }
-                } else {
-
+                } else { 
                     $post_insert_id = $_SESSION['post_insert_id'];
                     $booking_title = '#' . $post_insert_id . ' - ' . $ItemName . '-' . $car_ID;
                     $post_information = array(
@@ -250,8 +249,7 @@ class Car_share_Shortcode {
                         'post_type' => 'sc-booking',
                         'post_status' => 'publish'
                     );
-                    wp_update_post($post_information);
-
+                    wp_update_post($post_information); 
                     $checkout_fields = get_enabled_checkout_fields();
                     if ($post_insert_id) {
                         // Update Custom Meta
@@ -314,6 +312,8 @@ class Car_share_Shortcode {
                 $message = $email_customer_content;
 
                 wp_mail($to, $subject, $message, $headers);
+                
+              
  
                 $headers[] = 'From:  <' . $option_notification_email . '>';
                 $to = $option_notification_email;
@@ -323,6 +323,9 @@ class Car_share_Shortcode {
                 //$message = include_once('/partial/email_order_client.php');
                 wp_mail($to, $subject, $message, $headers);
  
+              
+                
+                
                 //Redirect user to PayPal store with Token received.
                 $paypalurl = 'https://www' . $paypalmode . '.paypal.com/cgi-bin/webscr?cmd=_express-checkout&useraction=commit&token=' . $httpParsedResponseAr["TOKEN"] . '';
                 header('Location: ' . $paypalurl);
@@ -429,7 +432,9 @@ class Car_share_Shortcode {
                     
                     
                     
-                       $url = site_url();
+                    
+                    
+                /*       $url = site_url();
  
                 ob_start();
                 include_once('partials/email_order_client.php');
@@ -440,14 +445,12 @@ class Car_share_Shortcode {
                 include_once('partials/email_order.php');
                 $email_store_content = ob_get_contents();
                 ob_end_clean();
-  
-                
-                
+ 
                 $headers[] = 'From:  <' . $option_notification_email . '>';
                 $to = $customer_email;
                 $subject = 'test email';
                 $message = $email_customer_content;
-
+ 
                 wp_mail($to, $subject, $message, $headers);
  
                 $headers[] = 'From:  <' . $option_notification_email . '>';
@@ -456,7 +459,7 @@ class Car_share_Shortcode {
                 $message = $email_store_content;
 
                 //$message = include_once('/partial/email_order_client.php');
-                wp_mail($to, $subject, $message, $headers);
+                wp_mail($to, $subject, $message, $headers);*/
  
                     //muzeme ukladat i dalsi hodnoty
                     //save the information in database
@@ -467,31 +470,8 @@ class Car_share_Shortcode {
                     update_post_meta($post_insert_id, 'car_r_order_info', 'Failed GetExpressCheckoutDetails');
                      
                     $url = site_url();
- 
-                ob_start();
-                include_once('partials/email_order_client.php');
-                $email_customer_content = ob_get_contents();
-                ob_end_clean();
-
-                ob_start();
-                include_once('partials/email_order.php');
-                $email_store_content = ob_get_contents();
-                ob_end_clean();
-   
-                $headers[] = 'From:  <' . $option_notification_email . '>';
-                $to = $customer_email;
-                $subject = 'test email';
-                $message = $email_customer_content;
-
-                wp_mail($to, $subject, $message, $headers);
- 
-                $headers[] = 'From:  <' . $option_notification_email . '>';
-                $to = $option_notification_email;
-                $subject = 'test email';
-                $message = $email_store_content;
-
-                //$message = include_once('/partial/email_order_client.php');
-                wp_mail($to, $subject, $message, $headers); 
+  
+                
                 }
             } else {
 
@@ -506,9 +486,10 @@ class Car_share_Shortcode {
                   echo '</pre>';
                  */
             }
+            
             if (!empty($httpParsedResponseAr["TOKEN"])) {
                 $token = urldecode($httpParsedResponseAr["TOKEN"]);
-                $_SESSION['TOKEN'] = $token;
+                $_SESSION['TOKENE'] = $token;
                 update_post_meta($post_insert_id, 'car_succes_token', $token);
                 wp_redirect($checkout_car_url);
                 exit();

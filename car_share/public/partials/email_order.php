@@ -274,7 +274,7 @@
                                                                                     <?php echo $car_price . ' ' . $currencyforpeople; ?>
                                                                                 </td>
                                                                             </tr>
-
+                                                                             <?php if($extras_price>0){ ?>
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
                                                                                     <?php _e('Extras', $this->car_share); ?>
@@ -283,6 +283,8 @@
                                                                                     <?php echo $extras_price . ' ' . $currencyforpeople; ?>
                                                                                 </td>
                                                                             </tr>
+                                                                             <?php } ?>
+                                                                            <?php if($yound_surcharge_fee>0){ ?>
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
                                                                                     <?php _e('Young surcharge fee', $this->car_share); ?>
@@ -291,6 +293,8 @@
                                                                                     <?php echo $yound_surcharge_fee . $currencyforpeople; ?>
                                                                                 </td>
                                                                             </tr>
+                                                                            <?php } ?>
+                                                                            <?php if($location_price>0){ ?>
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
                                                                                     <?php _e('Different location price: ', $this->car_share); ?>
@@ -299,7 +303,8 @@
                                                                                     <?php echo $location_price . $currencyforpeople; ?>
                                                                                 </td>
                                                                             </tr>
-
+                                                                            <?php } ?>
+                                                                            
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
                                                                                     <?php _e('Voucher information: ', $this->car_share); ?>
