@@ -25,16 +25,21 @@ class sc_Currency {
     public static function get_instance(){
 
         if(!isset(sc_Currency::$instance)){
+            
+            sc_Currency::$instance = new sc_Currency();
+            
             $sc_options_paypal = get_option('second_set_arraykey');
-            $this->currency = $sc_options_paypal['sc-currency'];
+            sc_Currency::$instance->currency = $sc_options_paypal['sc-currency'];
+            
             $currencyforpeople = return_currencies();
-            $this->currency_symbol = $currencyforpeople[$currency]["symbol"];
+            sc_Currency::$instance->currency_symbol = $currencyforpeople[sc_Currency::$instance->currency]["symbol"];
         }
         return sc_Currency::$instance;
     }
 
-    public function format_price($price){        
+    public function format($price){        
         $price_formated = $price . ' ' . $this->currency_symbol;        
+        return $price_formated;
     }
 
     public function currency_symbol(){

@@ -285,7 +285,7 @@ if (!empty($_SESSION['TOKENE'])) {
                                 $('#price-payable-now').html(ret.paypable_now);
 
                                 if (0 != ret.driver_surcharge) {
-                                    $('#surcharge-price').html('+' + ret.driver_surcharge + ' <?php echo 'some currency' ?>');
+                                    $('#surcharge-price').html('+' + ret.driver_surcharge);
                                 } else {
                                     $('#surcharge-price').html('');
                                 }

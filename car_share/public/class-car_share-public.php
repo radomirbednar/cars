@@ -340,10 +340,13 @@ class Car_share_Public {
         $total_price = $Cars_cart->getTotalPrice();
         $paypable_now = round($Cars_cart->getPaypablePrice(), 2); 
         $surcharge_price = $Cars_cart->getSurchargePrice(); 
+        
+        $currency = sc_Currency::get_instance();
+        
         $return = array(
-            'total_price' => $total_price,
-            'paypable_now' => $paypable_now,
-            'driver_surcharge' => $surcharge_price
+            'total_price' => $currency->format($total_price),
+            'paypable_now' => $currency->format($paypable_now),
+            'driver_surcharge' => $currency->format($surcharge_price)
         ); 
         echo json_encode($return);
         die();
