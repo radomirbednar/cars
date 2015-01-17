@@ -182,14 +182,6 @@ if (!empty($_SESSION['TOKENE'])) {
         $car_category = $Cars_cart_items['car_category'];
     }
 
-    /*
-      $sc_options_paypal = get_option('second_set_arraykey');
-      $currency_code = $sc_options_paypal['sc-currency'];
-      $currencyforpeople = return_currencies();
-      $currencyforpeople = $currencyforpeople[$currency_code]["symbol"];
-     */
-
-
     $currency = sc_Currency::get_instance();
     ?>
 

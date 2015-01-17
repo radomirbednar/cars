@@ -27,9 +27,9 @@
                 $drop_off_location = $Cars_cart_items['drop_off_location']; 
                 $car_dfrom = $Cars_cart_items['car_datefrom'];
                 $car_dto = $Cars_cart_items['car_dateto'];   
-                $car_category = $Cars_cart_items['car_category'];  
-                  
-                $currencyforpeople = $this->getcurrencyforpeople(); 
+                $car_category = $Cars_cart_items['car_category'];                    
+                
+                $currency = sc_Currency::get_instance();
                  
             ?> 
               <table> 
@@ -37,7 +37,7 @@
               </table> 
                 <h3><?php _e('Price: ', $this->car_share); ?>    
                 <?php $price = $Cars_cart->get_car_price($car->single_car_id, $car_dfrom, $car_dto); ?> 
-                <?php if(!empty($price)){ echo $price.' '.$currencyforpeople;}?></h3>  
+                <?php echo !empty($price) ?  $currency->format($price) : ''; ?></h3>  
             
             <table>
                 <?php if (!empty($number_of_seats)) { ?>

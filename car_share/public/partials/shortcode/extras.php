@@ -1,8 +1,8 @@
 <?php
 $sc_options = get_option('sc-pages');
 $extras_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : ''; 
-//$currencyforpeople = $this->getcurrencyforpeople(); 
 
+$currency = sc_Currency::get_instance();
 ?> 
 
 <form action="<?php echo $extras_car_url ?>" method="post">
@@ -28,7 +28,7 @@ $extras_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['ch
             <?php
             // check if the custom field has a value
             if (!empty($service_fee)) {
-                 echo $service_fee.' '.$currencyforpeople;
+                 echo $currency->format($service_fee);
             }
             ?>
              <?php

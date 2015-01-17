@@ -10,9 +10,9 @@ class sc_Currency {
 
     protected static $instance = null;
     
-    protected $currency_symbol;
+    protected $symbol;
     
-    protected $currency;
+    protected $iso;
 
     protected function __construct() {
         
@@ -29,20 +29,24 @@ class sc_Currency {
             sc_Currency::$instance = new sc_Currency();
             
             $sc_options_paypal = get_option('second_set_arraykey');
-            sc_Currency::$instance->currency = $sc_options_paypal['sc-currency'];
+            sc_Currency::$instance->iso = $sc_options_paypal['sc-currency'];
             
             $currencyforpeople = return_currencies();
-            sc_Currency::$instance->currency_symbol = $currencyforpeople[sc_Currency::$instance->currency]["symbol"];
+            sc_Currency::$instance->symbol = $currencyforpeople[sc_Currency::$instance->iso]["symbol"];
         }
         return sc_Currency::$instance;
     }
 
     public function format($price){        
-        $price_formated = $price . ' ' . $this->currency_symbol;        
+        $price_formated = $price . ' ' . $this->symbol;        
         return $price_formated;
     }
 
-    public function currency_symbol(){
-        return $this->currency_symbol;
+    public function symbol(){
+        return $this->symbol;
+    }
+    
+    public function iso(){
+        return $this->iso;
     }
 }
