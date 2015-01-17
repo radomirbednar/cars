@@ -329,60 +329,43 @@ class Car_share_Public {
 
         register_post_type('sc-booking', $args);
     }
-
-    
-   
-
+ 
     function ajax_refresh_checkout_price(){
 
-        $Cars_cart = new Car_Cart('shopping_cart');
-
-        $apply_surcharge = $_POST['apply_surcharge'];
-
+        $Cars_cart = new Car_Cart('shopping_cart'); 
+        $apply_surcharge = $_POST['apply_surcharge']; 
         $Cars_cart->applySurcharge($apply_surcharge);
-        $Cars_cart->save();
-
-        //$Cars_cart_items = $Cars_cart->getItemSearch();
-
+        $Cars_cart->save(); 
+        //$Cars_cart_items = $Cars_cart->getItemSearch(); 
         $total_price = $Cars_cart->getTotalPrice();
-        $paypable_now = round($Cars_cart->getPaypablePrice(), 1);
-        
-        $surcharge_price = $Cars_cart->getSurchargePrice();
-
+        $paypable_now = round($Cars_cart->getPaypablePrice(), 2); 
+        $surcharge_price = $Cars_cart->getSurchargePrice(); 
         $return = array(
             'total_price' => $total_price,
             'paypable_now' => $paypable_now,
             'driver_surcharge' => $surcharge_price
-        );
-
+        ); 
         echo json_encode($return);
         die();
-    }
-
-
+    } 
     /**
      *
      */
     function ajax_apply_voucher(){
 
         $Cars_cart = new Car_Cart('shopping_cart');
-        $voucher = trim($_POST['voucher']);
-
+        $voucher = trim($_POST['voucher']); 
         $voucher_result = $Cars_cart->applyVoucher($voucher);
         $total_price = $Cars_cart->getTotalPrice();
-        $paypable_now = round($Cars_cart->getPaypablePrice(), 1);
-        
-        $Cars_cart->save();
-        
-        $message = $voucher_result ? sprintf(__('You have %s %% percent discount', $this->car_share), $Cars_cart->getVoucherDiscount()) : __('Invalid voucher', $this->car_share);
-        
+        $paypable_now = round($Cars_cart->getPaypablePrice(), 2); 
+        $Cars_cart->save(); 
+        $message = $voucher_result ? sprintf(__('You have %s %% percent discount', $this->car_share), $Cars_cart->getVoucherDiscount()) : __('Invalid voucher', $this->car_share); 
         $return = array(
             'total_price' => $total_price,
             'paypable_now' => $paypable_now,
             'driver_surcharge' => $surcharge_price,
             'message' => $message,
-        );
-
+        ); 
         echo json_encode($return);
         die();
     }

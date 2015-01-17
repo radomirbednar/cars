@@ -344,7 +344,7 @@ if (!empty($_SESSION['TOKEN'])) {
              * Total price and payable now price
              */
             $total_price = $Cars_cart->getTotalPrice();
-            $paypable_now = round($Cars_cart->getPaypablePrice(), 1);
+            $paypable_now = round($Cars_cart->getPaypablePrice(), 2);
             ?>
             <tr>
                 <td><?php _e('TOTAL : ', $this->car_share); ?></td>

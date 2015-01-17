@@ -61,6 +61,7 @@ class Car_share_Shortcode {
     public function paypal() {
  
          $sc_options_paypal = get_option('second_set_arraykey');  
+         $email_option = get_option('car_plugin_options_arraykey'); 
          $currency = $this->getcurrency();    
          $currencyforpeople = $this->getcurrencyforpeople(); 
           
@@ -73,7 +74,11 @@ class Car_share_Shortcode {
         }
         if (!empty($sc_options_paypal['apisignature-setting'])) {
             $PayPalApiSignature = $sc_options_paypal['apisignature-setting'];
+        } 
+        if (!empty($email_option['notemail'])) {
+             $option_notification_email = $email_option['notemail'];
         }
+         
         //paypal options
         $PayPalMode = 'sandbox'; // sandbox or live
         if (!empty($sc_options_paypal['paypalsandbox-setting'])) {
@@ -84,7 +89,7 @@ class Car_share_Shortcode {
         } 
         //page options
         $sc_options = get_option('sc-pages');
-        $email_option = get_option('car_plugin_options_arraykey'); 
+      
         $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : ''; 
         //currency form the setting 
         $PayPalCurrencyCode = $currency; //Paypal Currency Code
@@ -124,8 +129,7 @@ class Car_share_Shortcode {
                     //$post_thumbnail = get_the_post_thumbnail($carID, 'thumbnail');
                 }
             }
-
-
+ 
             //get the extras infos
             foreach ($extras as $key => $extras_id) {
                 $service_fee = get_post_meta($key, '_service_fee', true);
@@ -142,7 +146,8 @@ class Car_share_Shortcode {
             $total_price = $Cars_cart->getTotalPrice();
             $total_price = money_format('%.2n', $total_price);
 
-            $payable_price = $Cars_cart->getPaypablePrice();
+            $payable_price = $Cars_cart->getPaypablePrice(); 
+            $payable_price = money_format('%.2n', $payable_price);
 
             // $payment_options;
             //insert post before we call paypal
@@ -151,13 +156,12 @@ class Car_share_Shortcode {
                 session_start();
             } //uncomment this line if PHP < 5.4.0 and comment out line above
 
-            $PayPalMode = 'sandbox'; // sandbox or live
-
+           
+             
             $PayPalReturnURL = $checkout_car_url; //Point to process.php page
-            $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
-
-            $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
-
+            $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel 
+            $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : ''; 
+            
             //Mainly we need 4 variables from product page Item Name, Item Price, Item Number and Item Quantity.
 
             $ItemPrice = $payable_price; //Item Price
@@ -166,11 +170,15 @@ class Car_share_Shortcode {
             $ItemDesc = "description"; //Item Description - extras etc
             $ItemQty = 1; // Item Quantity
 
-            $ItemTotalPrice = ($ItemPrice * $ItemQty); //(Item Price x Quantity = Total) Get total amount of product;
+            $ItemTotalPrice = $ItemPrice; //(Item Price x Quantity = Total) Get total amount of product;
             //Other important variables like tax, shipping cost
             //Grand total including all tax, insurance, shipping cost and discount
             $GrandTotal = ($ItemTotalPrice);
-
+            
+            $GrandTotal = money_format('%.2n', $GrandTotal);
+            $ItemTotalPrice = money_format('%.2n', $ItemTotalPrice);
+            
+            
             //Parameters for SetExpressCheckout, which will be sent to PayPal
             $padata = '&METHOD=SetExpressCheckout' .
                     '&RETURNURL=' . urlencode($PayPalReturnURL) .
@@ -299,18 +307,17 @@ class Car_share_Shortcode {
                 $email_store_content = ob_get_contents();
                 ob_end_clean();
   
-                $option_notification_email = $email_option('notemail');
                 
                 $headers[] = 'From:  <' . $option_notification_email . '>';
                 $to = $customer_email;
-                $subject = 'test email';
+                $subject = 'Booking email information';
                 $message = $email_customer_content;
 
                 wp_mail($to, $subject, $message, $headers);
  
                 $headers[] = 'From:  <' . $option_notification_email . '>';
                 $to = $option_notification_email;
-                $subject = 'test email';
+                $subject = 'Booking email information';
                 $message = $email_store_content;
 
                 //$message = include_once('/partial/email_order_client.php');
@@ -434,7 +441,7 @@ class Car_share_Shortcode {
                 $email_store_content = ob_get_contents();
                 ob_end_clean();
   
-                $option_notification_email = $email_option('notemail');
+                
                 
                 $headers[] = 'From:  <' . $option_notification_email . '>';
                 $to = $customer_email;
@@ -458,9 +465,8 @@ class Car_share_Shortcode {
                     $post_insert_id = $_SESSION['post_insert_id'];
                     update_post_meta($post_insert_id, 'car_r_order_status', '3');
                     update_post_meta($post_insert_id, 'car_r_order_info', 'Failed GetExpressCheckoutDetails');
-                    
-                    
-                       $url = site_url();
+                     
+                    $url = site_url();
  
                 ob_start();
                 include_once('partials/email_order_client.php');
@@ -471,9 +477,7 @@ class Car_share_Shortcode {
                 include_once('partials/email_order.php');
                 $email_store_content = ob_get_contents();
                 ob_end_clean();
-  
-                $option_notification_email = $email_option('notemail');
-                
+   
                 $headers[] = 'From:  <' . $option_notification_email . '>';
                 $to = $customer_email;
                 $subject = 'test email';
@@ -487,9 +491,7 @@ class Car_share_Shortcode {
                 $message = $email_store_content;
 
                 //$message = include_once('/partial/email_order_client.php');
-                wp_mail($to, $subject, $message, $headers);
-
-                
+                wp_mail($to, $subject, $message, $headers); 
                 }
             } else {
 

@@ -32,12 +32,13 @@
                 $currencyforpeople = $this->getcurrencyforpeople(); 
                  
             ?> 
-            <?php echo $post_thumbnail; ?> 
-            <h2><?php echo get_the_title($car->ID) ?></h2> 
-            <h3><?php _e('Price: ', $this->car_share); ?> 
+              <table> 
+               <tr><td><h3><?php echo get_the_title($car->ID) ?></h3> </td><td><?php echo $post_thumbnail; ?> </td></tr>
+              </table> 
+                <h3><?php _e('Price: ', $this->car_share); ?>    
                 <?php $price = $Cars_cart->get_car_price($car->single_car_id, $car_dfrom, $car_dto); ?> 
-                <?php if(!empty($price)){ echo $price.' '.$currencyforpeople;}?>  
-            </h3> 
+                <?php if(!empty($price)){ echo $price.' '.$currencyforpeople;}?></h3>  
+            
             <table>
                 <?php if (!empty($number_of_seats)) { ?>
                     <tr>
@@ -74,9 +75,7 @@
                         <th><?php _e('Air condition', $this->car_share); ?></th> 
                         <td><?php echo $aircondition; ?></td> 
                     </tr>
-                <?php }; ?>    
-                    
-                    
+                <?php }; ?>         
             </table>  
             <a class="continue btn btn-default" href="<?php echo $this->extras_car_url; ?><?php echo $sc_pr; ?>chcar=<?php echo $car->single_car_id; ?>"><?php _e('Book a car', $this->car_share); ?></a> 
         </div>

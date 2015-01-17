@@ -71,7 +71,7 @@
                     Inspired by Campaign Monitor's article on using phone numbers in email: http://www.campaignmonitor.com/blog/post/3571/using-phone-numbers-in-html-email/.
                     */
                     .a[href^="tel"], a[href^="sms"] {text-decoration:none!important;color:#606060!important;pointer-events:none!important;cursor:default!important;}
-                    .mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {text-decoration:none!important;color:#606060!important;pointer-events:auto!important;cursor:default!important;} 
+                    .mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {text-decoration:none!important;color:#606060!important;pointer-events:auto!important;cursor:default!important;}
                     /* MOBILE STYLES */
                     @media only screen and (max-width: 480px){
                         /*////// CLIENT-SPECIFIC STYLES //////*/
@@ -161,7 +161,7 @@
                     </style>
                 <![endif]-->
                 </head>
-                <body bgcolor="#E1E1E1" leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0"> 
+                <body bgcolor="#E1E1E1" leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
                     <center style="background-color:#E1E1E1;">
                         <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="table-layout: fixed;max-width:100% !important;width: 100% !important;min-width: 100% !important;">
                             <tr>
@@ -206,7 +206,7 @@
                                                             <!-- FLEXIBLE CONTAINER // -->
                                                             <table border="0" cellpadding="30" cellspacing="0" width="650" class="flexibleContainer">
                                                                 <tr>
-                                                                    <td valign="top" width="650" class="flexibleContainerCell"> 
+                                                                    <td valign="top" width="650" class="flexibleContainerCell">
                                                                         <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php _e('FROM:', $this->car_share); ?></td>
@@ -221,14 +221,14 @@
                                                                         </table>
                                                                     </td>
                                                                 </tr>
-                                                            </table> 
+                                                            </table>
                                                         </td>
                                                     </tr>
-                                                </table> 
+                                                </table>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td align="center" valign="top"> 
+                                            <td align="center" valign="top">
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                                     <tr>
                                                         <td align="center" valign="top">
@@ -244,7 +244,7 @@
                                                                                     <h2 style="text-align:left;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px;margin-bottom:10px;color:#205478;line-height:135%;"><?php echo $ItemName; ?></h2>
 
                                                                                 </td>
-                                                                            </tr> 
+                                                                            </tr>
                                                                         </table>
                                                                     </td>
                                                                 </tr>
@@ -253,7 +253,7 @@
                                                     </tr>
                                                 </table>
                                             </td>
-                                        </tr> 
+                                        </tr>
                                         <tr>
                                             <td align="center" valign="top">
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -271,7 +271,7 @@
                                                                                     <?php _e('Car', $this->car_share); ?>
                                                                                 </td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
-                                                                                    <?php echo $car_price . ' ' . $currency; ?>
+                                                                                    <?php echo $car_price . ' ' . $currencyforpeople; ?>
                                                                                 </td>
                                                                             </tr>
 
@@ -280,7 +280,7 @@
                                                                                     <?php _e('Extras', $this->car_share); ?>
                                                                                 </td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
-                                                                                    <?php echo $extras_price . ' ' . $currency; ?>
+                                                                                    <?php echo $extras_price . ' ' . $currencyforpeople; ?>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
@@ -288,7 +288,7 @@
                                                                                     <?php _e('Young surcharge fee', $this->car_share); ?>
                                                                                 </td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
-                                                                                    <?php echo $yound_surcharge_fee . $currency; ?>
+                                                                                    <?php echo $yound_surcharge_fee . $currencyforpeople; ?>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
@@ -296,7 +296,7 @@
                                                                                     <?php _e('Different location price: ', $this->car_share); ?>
                                                                                 </td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
-                                                                                    <?php echo $location_price . $currency; ?>
+                                                                                    <?php echo $location_price . $currencyforpeople; ?>
                                                                                 </td>
                                                                             </tr>
 
@@ -314,7 +314,7 @@
                                                                                     <?php _e('Total Price', $this->car_share); ?>
                                                                                 </td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
-                                                                                    <?php echo $total_price; ?>
+                                                                                    <?php echo $total_price . $currencyforpeople; ?>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
@@ -322,7 +322,7 @@
                                                                                     <?php _e('Payable price', $this->car_share); ?>
                                                                                 </td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
-                                                                                    <?php echo $payable_price; ?>
+                                                                                    <?php echo $payable_price . $currencyforpeople; ?>
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
@@ -356,25 +356,25 @@
 
                                                                             <?php
                                                                             $checkout_fields = get_enabled_checkout_fields();
- 
+
                                                                             foreach ($checkout_fields as $input_key => $field) {
                                                                                 echo '<tr>';
                                                                                 echo '<td style="text-align:left;border:1px solid #eee; padding: 10px">' . $field['label'] . '</td>';
                                                                                 echo '<td style="text-align:left;border:1px solid #eee; padding: 10px">' . sanitize_text_field($_POST[$input_key]) . '</td>';
                                                                                 echo '</tr>';
                                                                             }
-                                                                            ?> 
-                                                                        </table> 
+                                                                            ?>
+                                                                        </table>
                                                                     </td>
                                                                 </tr>
                                                             </table>
                                                         </td>
                                                     </tr>
-                                                </table> 
+                                                </table>
                                             </td>
-                                        </tr> 
-                                    </table> 
-                                    <table bgcolor="#E1E1E1" border="0" cellpadding="0" cellspacing="0" width="500" id="emailFooter"> 
+                                        </tr>
+                                    </table>
+                                    <table bgcolor="#E1E1E1" border="0" cellpadding="0" cellspacing="0" width="500" id="emailFooter">
                                         <tr>
                                             <td align="center" valign="top">
                                                 <!-- CENTERING TABLE // -->
@@ -390,9 +390,8 @@
                                                                                 <td valign="top" bgcolor="#E1E1E1">
 
                                                                                     <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;">
-                                                                                        <div>Copyright &#169; 2014 <a href="http://www.charlesmudy.com/respmail/" target="_blank" style="text-decoration:none;color:#828282;"><span style="color:#828282;">Respmail</span></a>. All&nbsp;rights&nbsp;reserved.</div>
-                                                                                        <div>If you do not want to recieve emails from us, you can <a href="#" target="_blank" style="text-decoration:none;color:#828282;"><span style="color:#828282;">unsubscribe</span></a>.</div>
-                                                                                    </div> 
+
+                                                                                    </div>
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
@@ -402,13 +401,13 @@
 
                                                         </td>
                                                     </tr>
-                                                </table> 
+                                                </table>
                                             </td>
-                                        </tr> 
-                                    </table> 
+                                        </tr>
+                                    </table>
                                 </td>
                             </tr>
                         </table>
                     </center>
                 </body>
-                </html> 
+                </html>
