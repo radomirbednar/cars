@@ -22,11 +22,13 @@ if (!empty($_SESSION['TOKENE'])) {
             $meta_values = get_post_custom(get_the_ID());
             $car_order = $meta_values["car_r_order_status"][0];
             $post_ID = get_the_ID();
-            $cart_car_ID = get_post_meta($post_ID, 'cart_car_ID');
+            $cart_car_ID = get_post_meta($post_ID, 'cart_car_ID', true);
             $paypal_payed_amt = get_post_meta($post_ID, 'amt');
             $pick_up_location = get_post_meta($post_ID, 'cart_pick_up');
             $drop_off_location = get_post_meta($post_ID, 'cart_drop_off');
-            $extras = get_post_meta($post_ID, 'cart_extras');
+            $extras = get_post_meta($post_ID, 'cart_extras', true);            
+            
+            $car_ID = sc_Car::get_parent_by_single_id($cart_car_ID);
         } // end while
     } // end if
     wp_reset_postdata();
@@ -58,13 +60,17 @@ if (!empty($_SESSION['TOKENE'])) {
             <td><?php echo get_the_title($drop_off_location[0]); ?></td>
             <td><?php echo $car_dto_string; ?></td>
         </tr>
-        <?php $post_thumbnail = get_the_post_thumbnail($cart_car_ID, 'thumbnail'); ?>
+        <?php $post_thumbnail = get_the_post_thumbnail($car_ID, 'thumbnail'); ?>
         <tr>
             <td>
                 <?php echo $post_thumbnail; ?>
             </td>
-            <td><?php echo get_the_title($cart_car_ID); ?></td>
+            <td><?php echo get_the_title($car_ID); ?></td>
+            <td></td>
         </tr>
+        
+        
+        <?php if(!empty($extras)): ?>
         <tr>
             <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
             <td>
@@ -78,29 +84,8 @@ if (!empty($_SESSION['TOKENE'])) {
                 ?>
             </td>
         </tr>
-
-
-
-
-
-
-        <tr>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-
-            </td>
-        </tr>
-
-
-
-
-
+        <?php endif; ?>
     </table>
-
 
 
 
@@ -151,8 +136,8 @@ if (!empty($_SESSION['TOKENE'])) {
     //Unset all of the session variables.
     // Finally, destroy the session.
 
-    $_SESSION = array();
-    session_destroy();
+    //$_SESSION = array();
+    //session_destroy();
 } elseif (!empty($Cars_cart_items)) {
 
     if (!empty($Cars_cart_items['service'])) {
