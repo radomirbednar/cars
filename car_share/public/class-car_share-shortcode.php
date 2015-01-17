@@ -714,7 +714,10 @@ class Car_share_Shortcode {
             $service = array_filter($_POST['service']);
             $Cars_cart = new Car_Cart('shopping_cart');
             $Cars_cart->setItemService($service);
-            $Cars_cart->save();
+            $Cars_cart->save(); 
+            
+            $currencyforpeople = $this->getcurrencyforpeople(); 
+            
         }
     }
 
