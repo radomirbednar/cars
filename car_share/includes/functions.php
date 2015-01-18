@@ -5,7 +5,7 @@ function get_booking_fields(){
     $arr = array(
         'cart_pick_up' => array(            
             'label' => 'Pick up location',
-            'type' => 'price',
+            'type' => 'title',
         ),
         'cart_drop_off' => array(
             'label' => 'Drop off location',
@@ -20,7 +20,8 @@ function get_booking_fields(){
             'type' => 'text'
         ),
         'cart_car_ID' => array(
-            'label' => 'Car ID'
+            'label' => 'Car ID',
+            'type' => 'text'
         ),
         'cart_car_price' => array(
             'label' => 'Car Price',
@@ -31,7 +32,8 @@ function get_booking_fields(){
             'type' => 'price',
         ),        
         '_checkout_location_price' => array(
-            'label' => 'Different location price'
+            'label' => 'Different location price',
+            'type' => 'price'
         ),
         '_young_surcharge_fee' => array(
             'label' => 'Young driver surcharge fee',
@@ -41,14 +43,17 @@ function get_booking_fields(){
         //'separator' => '<div>',
 
         '_voucher_id' => array(
-            'label' => 'Voucher ID'
+            'label' => 'Voucher ID',
+            'type' => 'text'
         ),
         
         '_voucher_name' => array(
-            'label' => 'Voucher name'
+            'label' => 'Voucher name',
+            'type' => 'text'
         ),
         '_voucher_code' => array(
-            'label' => 'Voucher code'
+            'label' => 'Voucher code',
+            'type' => 'text'
         ),
         '_voucher_discount_percentage' => array(
             'label' => 'Voucher percentage',
@@ -62,13 +67,16 @@ function get_booking_fields(){
         //'separator' => '',
 
         'cart_total_price' => array (
-            'label' => 'Total Price'
+            'label' => 'Total Price',
+            'type' => 'price'
         ),
         '_checkout_payable_price' => array(
-            'label' => 'Payable price'
+            'label' => 'Payable price',
+            'type' => 'price'
         ),
         'cart_order_status' => array(
-            'label' => 'Order status'
+            'label' => 'Order status',
+            'type' => 'text'    
         ),
     );
 
@@ -106,55 +114,64 @@ function get_default_checkout_fields(){
             'label' => 'Fullname',
             'placeholder' => 'full name',
             'enabled' => 1,
-            'required' => 1
+            'required' => 1,
+            'type' => 'text'
         ),
         '_email' => array(
             'label' => 'Email address',
             'placeholder' => 'Email address',
             'enabled' => 1,
-            'required' => 1
+            'required' => 1,
+            'type' => 'email'
         ),
         '_phone' => array(
             'label' => 'Phone',
             'placeholder' => 'Telephone number',
             'enabled' => 1,
-            'required' => 1
+            'required' => 1,
+            'type' => 'text'
         ),
         '_address_1' => array(
             'label' => 'Address 1',
             'placeholder' => 'address line 1',
             'enabled' => 1,
-            'required' => 0
+            'required' => 0,
+            'type' => 'text'
         ),
         '_address_2' => array(
             'label' => 'Address 2',
             'placeholder' => 'address line 2',
             'enabled' => 1,
-            'required' => 0
+            'required' => 0,
+            'type' => 'text'
         ),
         '_city' => array(
             'label' => 'City',
             'placeholder' => 'city',
             'enabled' => 1,
-            'required' => 0
+            'required' => 0,
+            'type' => 'text'
         ),
         '_country' => array(
             'label' => 'Country',
             'placeholder' => 'state / province / region',
             'enabled' => 1,
-            'required' => 0
+            'required' => 0,
+            'type' => 'country'
         ),
         '_zip' => array(
             'label' => 'Zip',
             'placeholder' => 'zip code',
             'enabled' => 1,
-            'required' => 0
+            'required' => 0,
+            'type' => 'text'
         ),
         '_flight_number' => array(
             'label' => 'Flight number',
             'placeholder' => 'Flight number',
             'enabled' => 1,
-            'required' => 0
+            'required' => 0,
+            'type' => 'text'
         )
 
     );
