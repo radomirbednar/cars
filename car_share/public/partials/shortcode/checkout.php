@@ -341,7 +341,7 @@ if (!empty($_SESSION['TOKENE'])) {
                 <td><?php _e('PAYABLE NOW : ', $this->car_share); ?></td>
                 <td>
                     <span id="price-payable-now" class="price">
-                        <?php echo $currency->format($currencyforpeople) ?>
+                        <?php echo $currency->format($paypable_now) ?>
                     </span>
                 </td>
             </tr>

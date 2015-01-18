@@ -785,8 +785,7 @@ class Car_share_Shortcode {
 
     public function checkout() {
 
-        $this->checkout_form();
-        $currencyforpeople = $this->getcurrencyforpeople(); 
+        $this->checkout_form();        
         ob_start();
         include_once( 'partials/shortcode/checkout.php' );
         return ob_get_clean();
