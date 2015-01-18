@@ -195,19 +195,8 @@ if (!empty($_SESSION['TOKENE'])) {
                     </td>
                     <td><?php echo get_the_title($car->ID); ?></td>
                 </tr>
-            </table>
-        <?php endforeach; ?>
-
-        <table>
-            <tbody>
-
-                <tr>
-                    <td><?php _e('CAR : ', $this->car_share); ?></td>
-                    <td><?php echo $currency->format($car_price) ?></td>
-                </tr>
-
-                <?php if (!empty($Cars_cart_items['service'])) { ?>
-
+                
+                  <?php if (!empty($Cars_cart_items['service'])) { ?> 
                     <tr>
                         <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
                         <td>
@@ -222,6 +211,19 @@ if (!empty($_SESSION['TOKENE'])) {
                         </td>
                     </tr>
                 <?php } ?> 
+                
+            </table>
+        <?php endforeach; ?>
+
+        <table>
+            <tbody>
+
+                <tr>
+                    <td><?php _e('CAR : ', $this->car_share); ?></td>
+                    <td><?php echo $currency->format($car_price) ?></td>
+                </tr>
+
+              
                 <?php
                 if (empty($car_category)) {
                     // get car category from the car-ID because we need this here
@@ -340,7 +342,7 @@ if (!empty($_SESSION['TOKENE'])) {
                 <td><?php _e('PAYABLE NOW : ', $this->car_share); ?></td>
                 <td>
                     <span id="price-payable-now" class="price">
-                        <?php echo $currency->format($currencyforpeople) ?>
+                        <?php echo $currency->format($paypable_now) ?>
                     </span>
                 </td>
             </tr>
