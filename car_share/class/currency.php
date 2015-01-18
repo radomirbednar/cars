@@ -13,6 +13,8 @@ class sc_Currency {
     protected $symbol;
     
     protected $iso;
+    
+    protected $currencies;
 
     protected function __construct() {
         
@@ -31,14 +33,21 @@ class sc_Currency {
             $sc_options_paypal = get_option('second_set_arraykey');
             sc_Currency::$instance->iso = $sc_options_paypal['sc-currency'];
             
-            $currencyforpeople = return_currencies();
-            sc_Currency::$instance->symbol = $currencyforpeople[sc_Currency::$instance->iso]["symbol"];
+            sc_Currency::$instance->currencies = return_currencies();
+            sc_Currency::$instance->symbol = sc_Currency::$instance->currencies[sc_Currency::$instance->iso]["symbol"];
         }
         return sc_Currency::$instance;
     }
 
-    public function format($price){        
-        $price_formated = $price . ' ' . $this->symbol;        
+    public function format($price, $currency = ''){        
+        
+        if(empty($currency)){
+            $symbol = $this->symbol;
+        } else {
+            $symbol = isset($this->currencies[$currency]["symbol"]) ? $this->currencies[$currency]["symbol"] : '';
+        }
+        
+        $price_formated = $price . ' ' . $symbol;        
         return $price_formated;
     }
 
