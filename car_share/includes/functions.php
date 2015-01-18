@@ -3,29 +3,73 @@
 function get_booking_fields(){
 
     $arr = array(
-        'cart_pick_up' => 'Pick up location',
-        'cart_drop_off' => 'Drop off location',
-        'cart_car_category' => 'Car category',
-        'cart_car_name' => 'Car name',
-        'cart_car_ID' => 'Car ID',
-        'cart_car_price' => 'Car Price',
-        'cart_extra_price' => 'Extra Price',
-        '_checkout_location_price' => 'Different location price',
-        '_young_surcharge_fee' => 'Young driver surcharge fee',
+        'cart_pick_up' => array(            
+            'label' => 'Pick up location',
+            'type' => 'price',
+        ),
+        'cart_drop_off' => array(
+            'label' => 'Drop off location',
+            'type' => 'title',    
+        ),
+        'cart_car_category' => array(
+            'label' => 'Car category',
+            'type' => 'title'
+        ),
+        'cart_car_name' => array(
+            'label' => 'Car name',
+            'type' => 'text'
+        ),
+        'cart_car_ID' => array(
+            'label' => 'Car ID'
+        ),
+        'cart_car_price' => array(
+            'label' => 'Car Price',
+            'type' => 'price',
+        ),
+        'cart_extra_price' => array(
+            'label' => 'Extra Price',
+            'type' => 'price',
+        ),        
+        '_checkout_location_price' => array(
+            'label' => 'Different location price'
+        ),
+        '_young_surcharge_fee' => array(
+            'label' => 'Young driver surcharge fee',
+            'type' => 'price',
+        ),
 
         //'separator' => '<div>',
 
-        '_voucher_id' => 'Voucher ID',
-        '_voucher_name' => 'Voucher name',
-        '_voucher_code' => 'Voucher code',
-        '_voucher_discount_percentage' => 'Voucher percentage',
-        '_voucher_discount_amount'  => 'Voucher amout',
+        '_voucher_id' => array(
+            'label' => 'Voucher ID'
+        ),
+        
+        '_voucher_name' => array(
+            'label' => 'Voucher name'
+        ),
+        '_voucher_code' => array(
+            'label' => 'Voucher code'
+        ),
+        '_voucher_discount_percentage' => array(
+            'label' => 'Voucher percentage',
+            'type' => 'percentage'
+        ),
+        '_voucher_discount_amount'  => array(
+            'label' => 'Voucher amout',
+            'type' => 'price'
+        ),
 
         //'separator' => '',
 
-        'cart_total_price' => 'Total Price',
-        '_checkout_payable_price' => 'Payable price',
-        'cart_order_status' => 'Order status',
+        'cart_total_price' => array (
+            'label' => 'Total Price'
+        ),
+        '_checkout_payable_price' => array(
+            'label' => 'Payable price'
+        ),
+        'cart_order_status' => array(
+            'label' => 'Order status'
+        ),
     );
 
     return $arr;
