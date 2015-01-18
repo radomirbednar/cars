@@ -102,14 +102,7 @@ if (!empty($_SESSION['TOKENE'])) {
     <?php
     global $post;
     $fields_to_show = array();
-    $default_fields = get_default_checkout_fields();
-
-    foreach ($default_fields as $field_key => $field) {
-        if (isset($meta_values[$field_key])) {
-            $field['value'] = $meta_values[$field_key][0];
-            $fields_to_show[$field_key] = $field;
-        }
-    }
+    $default_fields = get_default_checkout_fields(); 
     ?>
 
     <table>
@@ -134,27 +127,24 @@ if (!empty($_SESSION['TOKENE'])) {
                 <td><?php _e('Different location price:', $this->car_share) ?></td>
                 <td><?php echo $currency->format($different_location_price) ?></td>
             </tr>
-    <?php } ?>
-
-
+    <?php } ?> 
         <tr>
             <td><?php _e('TOTAL : ', $this->car_share); ?></td>
-            <td><?php echo $currency->format($checkout_cart_total_price) ?>
-            </td>
+            <td><?php echo $currency->format($checkout_cart_total_price) ?></td>
         </tr>
         <tr>
             <td><?php _e('PAYABLE NOW : ', $this->car_share); ?></td>
-            <td>
-                <span id="price-payable-now" class="price">
-    <?php echo $currency->format($checkout_checkout_payable_price) ?>
-                </span>
-            </td>
-        </tr>
-
-    </table>
-
-    <?php exit(); ?>
-
+            <td><?php echo $currency->format($checkout_checkout_payable_price) ?></td>
+        </tr> 
+    </table> 
+    <?php 
+    foreach ($default_fields as $field_key => $field) {
+        if (isset($meta_values[$field_key])) {
+            $field['value'] = $meta_values[$field_key][0];
+            $fields_to_show[$field_key] = $field;
+        }
+    }
+    ?>
     <?php if (!empty($fields_to_show)): ?>
         <table>
         <?php foreach ($fields_to_show as $key => $field): ?>
