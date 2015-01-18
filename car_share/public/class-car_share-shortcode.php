@@ -292,9 +292,7 @@ class Car_share_Shortcode {
                 $message = $email_customer_content;
 
                 wp_mail($to, $subject, $message, $headers);
-
-
-
+ 
                 $headers[] = 'From:  <' . $option_notification_email . '>';
                 $to = $option_notification_email;
                 $subject = 'Booking email information';
@@ -302,10 +300,7 @@ class Car_share_Shortcode {
 
                 //$message = include_once('/partial/email_order_client.php');
                 wp_mail($to, $subject, $message, $headers);
-
-
-
-
+ 
                 //Redirect user to PayPal store with Token received.
                 $paypalurl = 'https://www' . $paypalmode . '.paypal.com/cgi-bin/webscr?cmd=_express-checkout&useraction=commit&token=' . $httpParsedResponseAr["TOKEN"] . '';
                 header('Location: ' . $paypalurl);
@@ -806,6 +801,5 @@ class Car_share_Shortcode {
         ob_start();
         include_once( 'partials/shortcode/checkout.php' );
         return ob_get_clean();
-    }
-
+    } 
 }

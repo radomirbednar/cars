@@ -253,6 +253,40 @@
                                                     </tr>
                                                 </table>
                                             </td>
+                                        </tr> 
+                                         <tr>
+                                            <td align="center" valign="top">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <td align="center" valign="top">
+
+                                                            <table border="0" cellpadding="30" cellspacing="0" width="650" class="flexibleContainer">
+                                                                <tr>
+                                                                    <td valign="top" width="650" class="flexibleContainerCell">
+
+                                                                        <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
+                                                                            <tr>
+                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php _e('EXTRAS INFO:', $this->car_share); ?></td>
+
+                                                                                <td>
+                                                                                <?php
+                                                                                foreach ($extras as $key => $extras_id) {
+                                                                                    $service_fee = get_post_meta($key, '_service_fee', true);
+                                                                                    $_per_service = get_post_meta($key, '_per_service', true);
+                                                                                    $service_name = get_the_title($key);
+                                                                                    echo $extras_id . ' x ' . $service_name . ' ';
+                                                                                }
+                                                                                ?>
+                                                                                </td> 
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td align="center" valign="top">
