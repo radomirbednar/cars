@@ -25,7 +25,7 @@
                             echo esc_attr($field['value']);
                             break;
                         case 'title':
-                            echo get_the_title($field['value']);
+                            echo empty($field['value']) ? '' : get_the_title($field['value']);
                             break;                        
                         default:
                             echo empty($field['value']) ? '-' : esc_attr($field['value']);
