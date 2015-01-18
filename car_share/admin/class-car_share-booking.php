@@ -160,19 +160,17 @@ class Car_share_Booking {
         $fields_to_show     = array();
         $custom_fields      = get_post_custom($post->ID); 
         
-        foreach($booking_fields as $key => $label){
+        foreach($booking_fields as $key => $field){
             
             if(isset($custom_fields[$key])){            
-                $field = array(
-                    'label' => $label,
-                    'value' => $custom_fields[$key][0],
-                );
-                
+                $field['value'] = $custom_fields[$key][0];                
                 $fields_to_show[$key] = $field; 
             }            
         }
         
         $booking = new sc_Booking($post);
+        $currency = sc_Currency::get_instance();
+        $currency_iso = get_post_meta($post->ID, 'cart_currency', true);
         
         include 'partials/booking/interval.php';
         include 'partials/booking/field_list.php';
@@ -189,8 +187,11 @@ class Car_share_Booking {
         
         foreach($default_fields as $field_key => $field){            
             if(isset($custom_fields[$field_key])){
-                $field['value'] = $custom_fields[$field_key][0];
-                $fields_to_show[$field_key] = $field;
+                //$field['value'] = $custom_fields[$field_key][0];
+                //$fields_to_show[$field_key] = $field;
+                
+                $field['value'] = $custom_fields[$field_key][0];                
+                $fields_to_show[$field_key] = $field;                 
             }            
         }
         

@@ -607,11 +607,80 @@ class Car_share_Shortcode {
 
         $sc_setting = get_option('sc_setting');
 
-        if ($pick_up_location == $drop_off_location) {
-            $car_block_time = isset($sc_setting['block_interval']) ? floor(floatval($sc_setting['block_interval']) * 60) : 0;
+        
+        // base block, just allow select car from last return time..
+        $booking_block_sql = "
+                        OR
+                            (
+                                    '$car_dto_string' > date_from
+                                AND
+                                    date_to > '$car_dfrom_string'
+                                AND
+                                    status = '" . car_share::STATUS_BOOKED . "'
+                            )
+                ";
+        
+        // find out, if is set up block type
+        $block_type = '';
+        
+        if ($pick_up_location == $drop_off_location) {            
+            // same location            
+            if(isset($sc_setting['block_type'])){
+                $block_type = $sc_setting['block_type'];
+                $car_block_time = floatval($sc_setting['block_interval']) * 60;
+            }
+            
         } else {
-            $car_block_time = isset($sc_setting['block_interval_diff_loc']) ? floor(floatval($sc_setting['block_interval_diff_loc']) * 60) : 0;
+            // different location            
+            if(isset($sc_setting['block_type_diff_loc'])){
+                $block_type = $sc_setting['block_type_diff_loc'];
+                $car_block_time = floatval($sc_setting['block_interval_diff_loc']) * 60;
+            }
         }
+        
+        
+        // if block type is set up, modify sql
+        if(!empty($block_type)){            
+            if('hours' == $block_type){
+                
+                $booking_block_sql = "        
+                    OR
+                        (
+                            '$car_dto_string' > date_from
+                        AND
+                            DATE_ADD(date_to, INTERVAL $car_block_time MINUTE) > '$car_dfrom_string'
+                        AND
+                            status = '" . car_share::STATUS_BOOKED . "'
+                        )         
+                ";
+                
+            }
+            else if('next_day' == $block_type){
+                
+                $available_date = 
+                
+                $booking_block_sql = "        
+                    OR
+                        (
+                            '$car_dto_string' > date_from
+                        AND
+                            (
+                            
+                                SELECT 
+                                    date_to 
+                                FROM 
+                                    sc_single_car_status
+                                    
+                            ) > '$car_dfrom_string'
+                        AND
+                            status = '" . car_share::STATUS_BOOKED . "'
+                        )         
+                ";                
+                
+            }            
+        }      
+        
+        
 
         $sql = "
             SELECT
@@ -649,14 +718,7 @@ class Car_share_Shortcode {
                                 AND
                                     status != '" . car_share::STATUS_BOOKED . "'
                             )
-                        OR
-                            (
-                                    '$car_dto_string' > date_from
-                                AND
-                                    DATE_ADD(date_to, INTERVAL $car_block_time MINUTE) > '$car_dfrom_string'
-                                AND
-                                    status = '" . car_share::STATUS_BOOKED . "'
-                            )
+                            $booking_block_sql
                     )
 
                 $category_and
