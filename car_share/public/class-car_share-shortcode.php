@@ -651,21 +651,31 @@ class Car_share_Shortcode {
             }
             else if('next_day' == $block_type){
                 
-                $available_date = 
+                //$next_open_day =  
+                $location = new Location($drop_off_location);
+                $opening_hours = $location->get_opening_hours_with_day_key();
+                
+                
+                $date_from = clone $car_dfrom;
+                for($i = 1; $i <= 8; $i ++){
+                    $date_from->modify('+1 day');
+                    
+                    $day_name = $date_from->format("l");
+                    
+                    if(isset($opening_hours[$day_name]) && 1 == $opening_hours[$day_name]->open){
+                        break;
+                    }
+                }
+                
+                $car_dfrom->modify("-$i day");
+                $car_dfrom_string_next_day = $car_dfrom->format('Y-m-d H:i:s');
                 
                 $booking_block_sql = "        
                     OR
                         (
                             '$car_dto_string' > date_from
                         AND
-                            (
-                            
-                                SELECT 
-                                    date_to 
-                                FROM 
-                                    sc_single_car_status
-                                    
-                            ) > '$car_dfrom_string'
+                            date_to > '$car_dfrom_string_next_day'
                         AND
                             status = '" . car_share::STATUS_BOOKED . "'
                         )         
