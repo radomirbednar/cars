@@ -53,12 +53,12 @@ class Car_share_Booking {
     public function column_head($defaults){
         $defaults['from'] = __('From', $this->car_share);
         $defaults['to'] = __('To', $this->car_share);
+        $defaults['status'] = __('Status', $this->car_share);
+            
         return $defaults;
     }
 
-    
-    
-    
+            
      public function column_content($column_name, $post_id){
        
             
@@ -66,7 +66,7 @@ class Car_share_Booking {
         
         $booking_from = $booking->from();
         $booking_to = $booking->to();
-        
+            
         switch($column_name){
             case 'from':
                 if(!empty($booking_from)){
@@ -81,11 +81,27 @@ class Car_share_Booking {
                     echo ' - ';
                     echo $booking_to->format(get_option('time_format'));
                 }
-                break;
+                   break;
+            case 'status': 
+                 $status = get_post_meta($post_id, 'car_r_order_status', true); 
+                     if($status==1)
+                            {
+                                echo 'Completed'; 
+                            }
+                            elseif($status==2)
+                            {
+                                echo 'Pending'; 
+                            }
+                            elseif($status==3)
+                            {
+                                echo 'Failed'; 
+                            }      
+                break;     
         } 
-            
-         
-    } 
+    }
+    
+    
+    
 
 
     public function add_custom_boxes() {
