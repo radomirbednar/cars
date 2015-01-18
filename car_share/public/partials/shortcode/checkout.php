@@ -136,8 +136,8 @@ if (!empty($_SESSION['TOKENE'])) {
     //Unset all of the session variables.
     // Finally, destroy the session.
 
-    //$_SESSION = array();
-    //session_destroy();
+    $_SESSION = array();
+    session_destroy();
 } elseif (!empty($Cars_cart_items)) {
 
     if (!empty($Cars_cart_items['service'])) {

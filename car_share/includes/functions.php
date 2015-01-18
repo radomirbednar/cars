@@ -56,11 +56,11 @@ function get_booking_fields(){
             'type' => 'text'
         ),
         '_voucher_discount_percentage' => array(
-            'label' => 'Voucher percentage',
+            'label' => 'Voucher discount percentage',
             'type' => 'percentage'
         ),
         '_voucher_discount_amount'  => array(
-            'label' => 'Voucher amout',
+            'label' => 'Voucher discount amount',
             'type' => 'price'
         ),
 
