@@ -97,19 +97,13 @@ class Car_share_Booking {
 
         add_meta_box(
                 'booking_customer_box', __('Customer info', $this->car_share), array($this, 'customer_info_box'), 'sc-booking'
-        );
-        
+        ); 
         add_meta_box(
                 'booking_info_box', __('Booking info', $this->car_share), array($this, 'booking_info_box'), 'sc-booking'
-        );        
-        
-        
-        /*
-        add_meta_box(
-                
-                'payment_detail_box', __('Paypent details', $this->car_share), array($this, 'customer_info_box'), 'sc-booking'
-                
-        );*/
+        ); 
+        add_meta_box(                 
+                'payment_detail_box', __('Payment details', $this->car_share), array($this, 'payment_info_box'), 'sc-booking' 
+        );
         
          /*   
         add_meta_box(
@@ -198,6 +192,31 @@ class Car_share_Booking {
         include 'partials/booking/field_list.php';
     }
 
+    
+    public function payment_info_box(){
+
+            
+        global $post;
+        
+        $payment_fields     = get_payment_fields();
+        $fields_to_show     = array();
+        $custom_fields      = get_post_custom($post->ID); 
+        
+        foreach($payment_fields as $key => $field){
+            
+            if(isset($custom_fields[$key])){            
+                $field['value'] = $custom_fields[$key][0];                
+                $fields_to_show[$key] = $field; 
+            }            
+        } 
+            
+        $booking = new sc_Booking($post);
+        $currency = sc_Currency::get_instance();
+        $currency_iso = get_post_meta($post->ID, 'cart_currency', true);
+            
+        include 'partials/booking/payment_info.php';
+    }
+    
 
 
 

@@ -312,10 +312,8 @@ class Car_share_Shortcode {
                 print_r($httpParsedResponseAr);
                 echo '</pre>';
             }
-        }
-
-        //Paypal redirects back to this page using ReturnURL, We should receive TOKEN and Payer ID
-
+        } 
+        //Paypal redirects back to this page using ReturnURL, We should receive TOKEN and Payer ID 
         if (isset($_GET["token"]) && isset($_GET["PayerID"])) {
             //we will be using these two variables to execute the "DoExpressCheckoutPayment"
             //Note: we haven't received any payment yet.
@@ -393,21 +391,22 @@ class Car_share_Shortcode {
                     $post_insert_id = $_SESSION['post_insert_id'];
 
                     $buyerName = $httpParsedResponseAr["FIRSTNAME"] . ' ' . $httpParsedResponseAr["LASTNAME"];
-                    $buyerEmail = $httpParsedResponseAr["EMAIL"];
+                    $buyerEmail = urldecode($httpParsedResponseAr["EMAIL"]);
 
-                    $payerid = $httpParsedResponseAr["PAYERID"];
-                    $responseamt = $httpParsedResponseAr["AMT"];
-                    $checkoutstatur = $httpParsedResponseAr["CHECKOUTSTATUS"];
-
+                    $payerid = urldecode($httpParsedResponseAr["PAYERID"]);
+                    $responseamt = urldecode($httpParsedResponseAr["AMT"]);
+                    $checkoutstatur = urldecode($httpParsedResponseAr["CHECKOUTSTATUS"]);
+                    
+                    
+              
+  
                     //save the transaction information
                     update_post_meta($post_insert_id, 'car_r_order_info', 'Completed GetExpressCheckoutDetails');
                     update_post_meta($post_insert_id, 'payerid', $payerid);
                     update_post_meta($post_insert_id, 'responseamt', $responseamt);
                     update_post_meta($post_insert_id, 'checkoutstaus', $checkoutstatur);
-
-
-
-
+                    update_post_meta($post_insert_id, 'paypal_c_email', $buyerEmail);
+ 
 
                 /*       $url = site_url();
 

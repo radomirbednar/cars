@@ -326,11 +326,35 @@ function get_booking_fields(){
             'label' => 'Order status',
             'type' => 'text'    
         ),
-    );
-
-    return $arr;
-
+    ); 
+    return $arr; 
 }
+
+
+function get_payment_fields(){ 
+    
+    $arr = array(  
+        'car_r_order_status' => array (
+            'label' => 'Order statur', 
+            'type' => 'status'
+        ),
+        'car_r_order_info' => array(
+            'label' => 'Order info from paypal',
+            'type' => 'text'
+        ),
+        'payerid' => array(
+            'label' => 'Payer ID',
+            'type' => 'text'    
+        ),
+        'responseamt' => array(
+            'label' => 'Amt from Paypal',
+            'type' => 'price'    
+        ),  
+    ); 
+    
+    return $arr; 
+}
+
 
 function get_enabled_checkout_fields(){
     $checkout_fields = get_checkout_fields();
@@ -579,7 +603,4 @@ $currencies = array(
 		'USD' => array( 'name' => 'U.S. Dollar', 'symbol' => '$' )
                 );
 return $currencies;
-}
-
-
-
+} 
