@@ -676,14 +676,7 @@ class Car_share_Shortcode {
                         (
                             '$car_dto_string' > date_from
                         AND
-                            (
-                            
-                                SELECT 
-                                    date_to 
-                                FROM 
-                                    sc_single_car_status
-                                    
-                            ) > '$car_dfrom_string_next_day'
+                            date_to > '$car_dfrom_string_next_day'
                         AND
                             status = '" . car_share::STATUS_BOOKED . "'
                         )         
