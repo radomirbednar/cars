@@ -71,7 +71,7 @@ if (!empty($_SESSION['TOKENE'])) {
         </tr>
     </table>
 
-    <table
+    <table>
     <?php $post_thumbnail = get_the_post_thumbnail($car_ID, 'thumbnail'); ?>
         <tr>
             <td>
