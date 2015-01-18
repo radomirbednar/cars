@@ -67,9 +67,7 @@ if (!empty($_SESSION['TOKENE'])) {
             </td>
             <td><?php echo get_the_title($car_ID); ?></td>
             <td></td>
-        </tr>
-        
-        
+        </tr> 
         <?php if(!empty($extras)): ?>
         <tr>
             <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
@@ -84,9 +82,12 @@ if (!empty($_SESSION['TOKENE'])) {
                 ?>
             </td>
         </tr>
-        <?php endif; ?>
+        <?php endif; ?> 
     </table>
 
+    
+    
+    
 
 
     <th><td><?php _e('CUSTOMER DETAILS', $this->car_share); ?></td></th>
@@ -220,9 +221,7 @@ if (!empty($_SESSION['TOKENE'])) {
                             ?>
                         </td>
                     </tr>
-                <?php } ?>
-
-
+                <?php } ?> 
                 <?php
                 if (empty($car_category)) {
                     // get car category from the car-ID because we need this here
