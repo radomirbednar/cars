@@ -17,9 +17,7 @@ if (!empty($_SESSION['TOKENE'])) {
     );
     $my_query = new WP_Query($args);
     if ($my_query->have_posts()) {
-        while ($my_query->have_posts()) {
-
-
+        while ($my_query->have_posts()) { 
             $my_query->the_post();
             $meta_values = get_post_custom(get_the_ID());
             $car_order = $meta_values["car_r_order_status"][0];
@@ -29,8 +27,7 @@ if (!empty($_SESSION['TOKENE'])) {
             $pick_up_location = get_post_meta($post_ID, 'cart_pick_up');
             $drop_off_location = get_post_meta($post_ID, 'cart_drop_off');
             $extras = get_post_meta($post_ID, 'cart_extras', true);
-            $car_ID = sc_Car::get_parent_by_single_id($cart_car_ID);
-
+            $car_ID = sc_Car::get_parent_by_single_id($cart_car_ID); 
             $checkout_cart_car_price = $meta_values["cart_car_price"][0];
             $checkout_cart_extra_price = $meta_values["cart_extra_price"][0];
             $checkout_cart_total_price = $meta_values["cart_total_price"][0];
@@ -206,9 +203,7 @@ if (!empty($_SESSION['TOKENE'])) {
     if (!empty($Cars_cart_items['car_category'])) {
         $car_category = $Cars_cart_items['car_category'];
     }
-    ?>
-
-
+    ?> 
     <?php if (!empty($car_result)) { ?>
         <?php foreach ($car_result as $car): ?>
             <?php $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail'); ?>
@@ -231,8 +226,7 @@ if (!empty($_SESSION['TOKENE'])) {
             <?php echo $post_thumbnail; ?>
                     </td>
                     <td><?php echo get_the_title($car->ID); ?></td>
-                </tr>
-
+                </tr> 
             <?php if (!empty($Cars_cart_items['service'])) { ?>
                     <tr>
                         <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
@@ -247,20 +241,15 @@ if (!empty($_SESSION['TOKENE'])) {
                     ?>
                         </td>
                     </tr>
-                        <?php } ?>
-
+                        <?php } ?> 
             </table>
-            <?php endforeach; ?>
-
+            <?php endforeach; ?> 
         <table>
-            <tbody>
-
+            <tbody> 
                 <tr>
                     <td><?php _e('CAR PRICE : ', $this->car_share); ?></td>
                     <td><?php echo $currency->format($car_price) ?></td>
-                </tr>
-
-
+                </tr> 
         <?php
         if (empty($car_category)) {
             // get car category from the car-ID because we need this here
@@ -332,7 +321,7 @@ if (!empty($_SESSION['TOKENE'])) {
             <?php printf(__('I am under %d.', $this->car_share), $surcharge_age); ?>
                             </label>
                         </form>
-                        <span id="surcharge-price">             </span>
+                        <span id="surcharge-price"></span>
                     </td>
                 </tr>
         <?php endif; ?>
