@@ -15,6 +15,9 @@
                         case 'text':
                             echo esc_attr($field['value']);
                             break;
+                        case 'percentage':
+                            echo esc_attr($field['value']) . ' %';
+                            break;                        
                         case 'email':
                             echo esc_attr($field['value']);
                             break;
