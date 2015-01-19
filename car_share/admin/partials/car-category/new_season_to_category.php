@@ -48,7 +48,7 @@
                     //var new_element = $('#single_car_box_' + id).after(ret);
                 }).fail(function (ret) {
                     $('#pick-season-response').html(ret.responseText);
-                    //alert('<?php _e('Create new car failed', $this->car_share) ?>');
+                    
                 }).always(function () {
                     //self.prop("disabled", false);
                 });            
