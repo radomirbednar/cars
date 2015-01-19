@@ -33,6 +33,8 @@ class Car_share_Activator {
             
             global $wpdb;
             
+            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );   
+            
             // define tables for plugin
             $sql = "
 
@@ -44,8 +46,11 @@ class Car_share_Activator {
                   PRIMARY KEY (`car_category_id`,`season_id`,`dayname`),
                   KEY `season_id` (`season_id`),
                   KEY `dayname` (`dayname`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8; ";
+            
+            dbDelta( $sql );
 
+            $sql = "
                 CREATE TABLE IF NOT EXISTS `opening_hours` (
                   `location_id` bigint(20) unsigned NOT NULL,
                   `dayname` char(10) NOT NULL,
@@ -56,9 +61,12 @@ class Car_share_Activator {
                   PRIMARY KEY (`location_id`,`dayname`),
                   KEY `open` (`open`),
                   KEY `dayindex` (`dayindex`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;            
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8; ";
+            
+            dbDelta( $sql );
 
 
+            $sql = "
                 CREATE TABLE IF NOT EXISTS `postmeta_date` (
                   `post_id` bigint(20) unsigned NOT NULL,
                   `meta_key` varchar(60) NOT NULL,
@@ -66,9 +74,12 @@ class Car_share_Activator {
                   PRIMARY KEY (`post_id`,`meta_key`),
                   KEY `meta_key` (`meta_key`),
                   KEY `meta_value` (`meta_value`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8; ";
+            
+            dbDelta( $sql );
                 
 
+            $sql = "
                 CREATE TABLE IF NOT EXISTS `sc_single_car` (
                   `single_car_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                   `parent` bigint(20) unsigned NOT NULL,
@@ -77,8 +88,12 @@ class Car_share_Activator {
                   UNIQUE KEY `single_car_id_2` (`single_car_id`,`parent`),
                   KEY `parent` (`parent`),
                   KEY `spz` (`spz`)
-                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8; ";
+            
+            dbDelta( $sql );
                 
+            
+            $sql = "
                 CREATE TABLE IF NOT EXISTS `sc_single_car_location` (
                   `single_car_location_id` bigint(20) NOT NULL AUTO_INCREMENT,
                   `single_car_id` bigint(20) unsigned NOT NULL,
@@ -86,8 +101,11 @@ class Car_share_Activator {
                   `location_type` tinyint(1) NOT NULL COMMENT '1 - pick up / 2 drop off',
                   PRIMARY KEY (`single_car_location_id`),
                   KEY `single_car_id` (`single_car_id`,`location_id`,`location_type`)
-                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
+            
+            dbDelta( $sql );
                 
+            $sql = "
                 CREATE TABLE IF NOT EXISTS `sc_single_car_status` (
                   `single_car_status_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                   `single_car_id` bigint(20) unsigned NOT NULL,
@@ -98,13 +116,13 @@ class Car_share_Activator {
                   PRIMARY KEY (`single_car_status_id`),
                   KEY `single_car_id` (`single_car_id`,`date_from`,`date_to`,`status`),
                   KEY `booking_id` (`booking_id`)
-                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
 
-            ";
+            dbDelta( $sql );
             
             //reference to upgrade.php file
-            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );      
-            dbDelta( $sql );
+               
+            
 	}
 
 }
