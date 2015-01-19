@@ -50,7 +50,7 @@ $args = array(
                 'sc-location'
             ),
 );
-
+ 
 $posts = get_posts( $args );
 if (is_array($posts)) {
    foreach ($posts as $post) {
