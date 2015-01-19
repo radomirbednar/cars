@@ -22,7 +22,9 @@
                             echo esc_attr($field['value']);
                             break;
                         case 'country':
-                            echo esc_attr($field['value']);
+                            $countries = sc_get_countries();
+                            $country_iso = $field['value'];
+                            echo isset($countries[$country_iso]) ? $countries[$country_iso] : esc_attr($country_iso);
                             break;
                         case 'title':
                             echo empty($field['value']) ? '' : get_the_title($field['value']);

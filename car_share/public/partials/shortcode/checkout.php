@@ -122,7 +122,7 @@ if (!empty($_SESSION['TOKENE'])) {
         <?php if ($checkout_checkout_location_price > 0) { ?>
             <tr>
                 <td><?php _e('Different location price:', $this->car_share) ?></td>
-                <td><?php echo $currency->format($different_location_price) ?></td>
+                <td><?php echo $currency->format($checkout_checkout_location_price) ?></td>
             </tr>
         <?php } ?> 
         <tr>
