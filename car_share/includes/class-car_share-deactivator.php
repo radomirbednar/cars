@@ -29,5 +29,8 @@ class Car_share_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() { 
+            
+                        
+            
 	} 
 }
