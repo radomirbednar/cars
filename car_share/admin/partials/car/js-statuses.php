@@ -123,7 +123,7 @@
                 }).done(function (ret) {
                     var new_element = $('#single_car_box_' + id).after(ret);
                 }).fail(function (ret) {
-                    alert('<?php _e('Create new car failed', $this->car_share) ?>');
+                    alert('<?php esc_attr_e('Create new car failed', $this->car_share) ?>');
                 }).always(function () {
                     self.prop("disabled", false);
                 });
@@ -159,7 +159,7 @@
 
                     self.prop("disabled", false);
                 }).fail(function (ret) {
-                    alert('<?php _e('Cloning car failed', $this->car_share) ?>');
+                    alert('<?php esc_attr_e('Cloning car failed', $this->car_share) ?>');
                 }).always(function () {
                     self.prop("disabled", false);
                 });
@@ -188,7 +188,7 @@
                     self.prop("disabled", false);
                     $('#single_car_box_' + id).remove();
                 }).fail(function (ret) {
-                    alert('<?php _e('Delete failed', $this->car_share) ?>');
+                    alert('<?php esc_attr_e('Delete failed', $this->car_share) ?>');
                 }).always(function () {
                     self.prop("disabled", false);
                 });

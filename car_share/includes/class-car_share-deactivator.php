@@ -30,7 +30,8 @@ class Car_share_Deactivator {
 	 */
 	public static function deactivate() { 
             
-                        
+                 $x = 1;
+                 $y = 2;
             
 	} 
 }
