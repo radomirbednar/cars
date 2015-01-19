@@ -365,10 +365,8 @@ class Car_share_Public {
         $total_price = $Cars_cart->getTotalPrice();
         $paypable_now = round($Cars_cart->getPaypablePrice(), 2); 
         $Cars_cart->save(); 
-        $message = $voucher_result ? sprintf(__('You have %s %% discount', $this->car_share), $Cars_cart->getVoucherDiscount()) : __('Invalid voucher', $this->car_share); 
-        
-        $currency = sc_Currency::get_instance();
-        
+        $message = $voucher_result ? sprintf(__('You have %s %% discount', $this->car_share), $Cars_cart->getVoucherDiscount()) : __('Invalid voucher', $this->car_share);  
+        $currency = sc_Currency::get_instance(); 
         $surcharge_price = empty($surcharge_price) ? '' : $currency->format($surcharge_price);
         
         $return = array(
