@@ -31,6 +31,8 @@ class Car_share_Activator {
 	 */
 	public static function activate() {
             
+            global $wpdb;
+            
             // define tables for plugin
             $sql = "
 
@@ -100,9 +102,9 @@ class Car_share_Activator {
 
             ";
             
-
-            
-
+            //reference to upgrade.php file
+            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );      
+            dbDelta( $sql );
 	}
 
 }
