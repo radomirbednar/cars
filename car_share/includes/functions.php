@@ -349,6 +349,10 @@ function get_payment_fields(){
         'responseamt' => array(
             'label' => 'Amt from Paypal',
             'type' => 'price'    
+        ),
+         'paypal_c_email' => array(
+            'label' => 'Paypal Email',
+            'type' => 'text'    
         ),  
     ); 
     

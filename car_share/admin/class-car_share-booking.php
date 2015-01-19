@@ -40,6 +40,7 @@ class Car_share_Booking {
 
         add_filter('manage_sc-booking_posts_columns', array($this, 'column_head'));
         add_action('manage_sc-booking_posts_custom_column', array($this, 'column_content'), 10, 2);
+            
 
         add_action('add_meta_boxes', array($this, 'add_custom_boxes'));
         add_action('save_post', array($this, 'save'));
@@ -53,12 +54,12 @@ class Car_share_Booking {
     public function column_head($defaults){
         $defaults['from'] = __('From', $this->car_share);
         $defaults['to'] = __('To', $this->car_share);
+        $defaults['status'] = __('Status', $this->car_share);
+            
         return $defaults;
     }
 
-    
-    
-    
+            
      public function column_content($column_name, $post_id){
        
             
@@ -66,7 +67,7 @@ class Car_share_Booking {
         
         $booking_from = $booking->from();
         $booking_to = $booking->to();
-        
+            
         switch($column_name){
             case 'from':
                 if(!empty($booking_from)){
@@ -81,11 +82,27 @@ class Car_share_Booking {
                     echo ' - ';
                     echo $booking_to->format(get_option('time_format'));
                 }
-                break;
+                   break;
+            case 'status': 
+                 $status = get_post_meta($post_id, 'car_r_order_status', true); 
+                     if($status==1)
+                            {
+                                echo 'Completed'; 
+                            }
+                            elseif($status==2)
+                            {
+                                echo 'Pending'; 
+                            }
+                            elseif($status==3)
+                            {
+                                echo 'Failed'; 
+                            }      
+                break;     
         } 
-            
-         
-    } 
+    }
+    
+    
+    
 
 
     public function add_custom_boxes() {
@@ -102,8 +119,15 @@ class Car_share_Booking {
                 'booking_info_box', __('Booking info', $this->car_share), array($this, 'booking_info_box'), 'sc-booking'
         ); 
         add_meta_box(                 
-                'payment_detail_box', __('Payment details', $this->car_share), array($this, 'payment_info_box'), 'sc-booking' 
+                'payment_detail_box', __('Payment details', $this->car_share), array($this, 'payment_detail_box'), 'sc-booking' 
         );
+        
+        add_meta_box(                 
+                'booking_status_box', __('Payment Status', $this->car_share), array($this, 'booking_status_box'), 'sc-booking' 
+        );
+        
+        
+            
         
          /*   
         add_meta_box(
@@ -145,6 +169,34 @@ class Car_share_Booking {
         include 'partials/booking/payment_info.php';  
         
         );  */
+     
+     
+     
+      public function booking_status_box(){
+         
+        global $post;     
+        $status = get_post_meta($post->ID, 'car_r_order_status', true); 
+            
+        ?>    
+        <select name="car_r_order_status">
+        <?php
+        
+        $status_string = array(1=>'Completed', 2=>'Pending', 3=>'Failed');
+        
+            
+        for($i=1; $i<4; $i++)
+        {
+            ?> 
+                <option value="<?php echo $i; ?>" <?php echo $status==$i ? "selected": "";?>><?php echo $status_string[$i]; ?></option>  
+          <?php 
+        }
+        ?>
+        </select>   
+ 
+        <?php 
+        wp_nonce_field(__FILE__, 'booking_status_nonce'); 
+     }
+     
             
      public function booking_info_box(){
          
@@ -193,7 +245,7 @@ class Car_share_Booking {
     }
 
     
-    public function payment_info_box(){
+    public function payment_detail_box(){
 
             
         global $post;
@@ -217,32 +269,16 @@ class Car_share_Booking {
         include 'partials/booking/payment_info.php';
     }
     
-
-
-
-
-
-
+            
     public function save() {
         //$date = DateTime::createFromFormat('m.d.Y', $_POST['Select-date']);
-        if (isset($_POST['voucher_nonce']) && wp_verify_nonce($_POST['voucher_nonce'], __FILE__)) {
-
-            global $post;
-
-            $keys = array();
-
-            if(empty($_POST['_voucher_code'])){
-                delete_post_meta($post->ID, '_voucher_code');
-            } else {
-                update_post_meta($post->ID, '_voucher_code', sanitize_text_field($_POST['_voucher_code']));
+        if (isset($_POST['booking_status_nonce']) && wp_verify_nonce($_POST['booking_status_nonce'], __FILE__)) { 
+            global $post; 
+            $keys = array(); 
+            if(!empty($_POST['car_r_order_status'])){ 
+                update_post_meta($post->ID, 'car_r_order_status', sanitize_text_field($_POST['car_r_order_status']));
             }
-
-            if(empty($_POST['_discount'])){
-                delete_post_meta($post->ID, '_discount');
-            } else {
-                update_post_meta($post->ID, '_discount', floatval($_POST['_discount']));
-            }
-
+            
         }
     }
 }
