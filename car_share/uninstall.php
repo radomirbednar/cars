@@ -29,3 +29,32 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+global $wpdb;
+$sql = 'DROP TABLE `day_prices`, `opening_hours`, `postmeta_date`, `sc_single_car`, `sc_single_car_location`, `sc_single_car_status`';
+$wpdb->query($sql);
+
+delete_option('sc-setting'); 
+delete_option('car_plugin_options_arraykey'); 
+delete_option('second_set_arraykey');
+
+$args = array(
+	'posts_per_page' => -1,
+	'post_type' => array(
+                'sc-location', 
+                'sc-season',
+                'sc-car-category',
+                'sc-location',
+                'sc-location',
+                'sc-location',
+                'sc-location'
+            ),
+);
+
+$posts = get_posts( $args );
+if (is_array($posts)) {
+   foreach ($posts as $post) {
+// what you want to do;
+       wp_delete_post( $post->ID, true);       
+   }
+}
