@@ -20,10 +20,7 @@ class Car_share_Shortcode {
         $this->car_share = $car_share;
         $this->version = $version;
         //$this->setcurrency();
-
-        
-        add_action('template_redirect', array($this, 'localise_script'));
-        
+ 
         add_shortcode('sc-search_for_car', array($this, 'search_for_car'));
         add_shortcode('sc-pick_car', array($this, 'pick_car'));
         add_shortcode('sc-extras', array($this, 'extras'));
@@ -287,7 +284,7 @@ class Car_share_Shortcode {
                 ob_end_clean();
  
 
-                $headers[] = 'From:  <' . $option_notification_email . '>';
+                $headers[] = 'From:  ' . $option_notification_email . '';
                 $to = $customer_email;
                 $subject = 'Booking email information';
                 $message = $email_customer_content;
@@ -302,7 +299,7 @@ class Car_share_Shortcode {
                 ob_end_clean();
                 
                 
-                $headers[] = 'From:  <' . $option_notification_email . '>';
+                $headers[] = 'From:  ' . $option_notification_email . '';
                 $to = $option_notification_email;
                 $subject = 'Booking email information';
                 $message = $email_store_content;
