@@ -136,7 +136,9 @@ class Car_share_Admin {
         if (false === strpos($car_id, 'new_car')) {
             global $wpdb;
             $sqlcalendar = "SELECT
-                *
+                *,
+                date(date_from) as ddate_from, 
+                date(date_to) as ddate_to
                 FROM
                 sc_single_car_status
                 WHERE
@@ -150,8 +152,8 @@ class Car_share_Admin {
             if (!empty($calendar_result)) {
                 foreach ($calendar_result as $calendar_events) {
 
-                    $e_date_from = $calendar_events->date_from;
-                    $e_date_to = $calendar_events->date_to;
+                    $e_date_from = $calendar_events->ddate_from;
+                    $e_date_to = $calendar_events->ddate_to;
                     $e_date_status = $calendar_events->status;
 
                     if ($e_date_status == Car_share::STATUS_UNAVAILABLE) {
