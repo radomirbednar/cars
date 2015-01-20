@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: Car share v1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-01-20 16:44:05+0000\n"
+"PO-Revision-Date: 2015-01-20 16:25:06+0000\n"
 "Last-Translator: car-plugin <radovanmail@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n>1;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: CSL v1.x\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
@@ -206,7 +206,7 @@ msgstr "Discount (pourcentage)"
 #: admin/partials/booking/payment_info.php:6
 #: admin/partials/checkout_form_setup.php:9
 #: public/partials/shortcode/checkout.php:150
-#: public/partials/shortcode/checkout.php:461
+#: public/partials/shortcode/checkout.php:459
 #@ car_share
 msgid "label"
 msgstr "label"
@@ -608,7 +608,7 @@ msgid "Cars"
 msgstr "Véhicules"
 
 #: public/class-car_share-public.php:215
-#: public/partials/email_order.php:305
+#: public/partials/email_order.php:299
 #: public/partials/email_order_client.php:305
 #: public/partials/order_information_email.php:303
 #: public/partials/order_information_email_client.php:303
@@ -792,7 +792,7 @@ msgstr "Du"
 msgid "TO"
 msgstr "Au"
 
-#: public/partials/email_order.php:314
+#: public/partials/email_order.php:308
 #: public/partials/email_order_client.php:314
 #: public/partials/order_information_email.php:312
 #: public/partials/order_information_email_client.php:312
@@ -846,41 +846,41 @@ msgid "TOTAL : "
 msgstr "Total :"
 
 #: public/partials/shortcode/checkout.php:133
-#: public/partials/shortcode/checkout.php:391
+#: public/partials/shortcode/checkout.php:388
 #@ car_share
 msgid "PAYABLE NOW : "
 msgstr "à payer maintenant :"
 
-#: public/partials/shortcode/checkout.php:438
+#: public/partials/shortcode/checkout.php:435
 #@ car_share
 msgid "Voucher : "
 msgstr "Coupon :"
 
-#: public/partials/shortcode/checkout.php:442
+#: public/partials/shortcode/checkout.php:439
 #@ car_share
 msgid "Apply voucher"
 msgstr "Appliquer un coupon"
 
 #: public/partials/shortcode/checkout.php:98
-#: public/partials/shortcode/checkout.php:453
+#: public/partials/shortcode/checkout.php:451
 #@ car_share
 msgid "Billing Information"
 msgstr "Informations de facturation"
 
-#: public/partials/shortcode/checkout.php:470
-#: public/partials/shortcode/checkout.php:483
-#: public/partials/shortcode/checkout.php:488
+#: public/partials/shortcode/checkout.php:467
+#: public/partials/shortcode/checkout.php:480
+#: public/partials/shortcode/checkout.php:485
 #@ car_share
 msgid "placeholder"
 msgstr "placeholder"
 
-#: public/partials/shortcode/checkout.php:498
+#: public/partials/shortcode/checkout.php:494
 #@ car_share
 msgid "Book car"
 msgstr "Réserver le véhicule"
 
-#: public/partials/shortcode/checkout.php:503
-#: public/partials/shortcode/checkout.php:507
+#: public/partials/shortcode/checkout.php:498
+#: public/partials/shortcode/checkout.php:501
 #@ car_share
 msgid "Please go back and chose a car."
 msgstr "Revenez en arrière et choisissez un véhicule"
@@ -1032,7 +1032,7 @@ msgstr "DE :"
 msgid "TO:"
 msgstr "AU :"
 
-#: public/partials/email_order.php:269
+#: public/partials/email_order.php:267
 #: public/partials/email_order_client.php:269
 #: public/partials/order_information_email.php:267
 #: public/partials/order_information_email_client.php:267
@@ -1040,7 +1040,7 @@ msgstr "AU :"
 msgid "EXTRAS INFO:"
 msgstr "Infos extras"
 
-#: public/partials/email_order.php:324
+#: public/partials/email_order.php:318
 #: public/partials/email_order_client.php:324
 #: public/partials/order_information_email.php:322
 #: public/partials/order_information_email_client.php:322
@@ -1048,7 +1048,7 @@ msgstr "Infos extras"
 msgid "Young surcharge fee"
 msgstr "Surcoût jeune conducteur"
 
-#: public/partials/email_order.php:334
+#: public/partials/email_order.php:328
 #: public/partials/email_order_client.php:334
 #: public/partials/order_information_email.php:332
 #: public/partials/order_information_email_client.php:332
@@ -1056,7 +1056,7 @@ msgstr "Surcoût jeune conducteur"
 msgid "Different location price: "
 msgstr "Prix pour dépôt agence différente"
 
-#: public/partials/email_order.php:344
+#: public/partials/email_order.php:338
 #: public/partials/email_order_client.php:344
 #: public/partials/order_information_email.php:342
 #: public/partials/order_information_email_client.php:342
@@ -1065,7 +1065,7 @@ msgid "Voucher information: "
 msgstr "Détails du coupon"
 
 #: includes/functions.php:318
-#: public/partials/email_order.php:353
+#: public/partials/email_order.php:347
 #: public/partials/email_order_client.php:353
 #: public/partials/order_information_email.php:351
 #: public/partials/order_information_email_client.php:351
@@ -1074,7 +1074,7 @@ msgid "Total Price"
 msgstr "Prix total"
 
 #: includes/functions.php:322
-#: public/partials/email_order.php:361
+#: public/partials/email_order.php:355
 #: public/partials/email_order_client.php:361
 #: public/partials/order_information_email.php:359
 #: public/partials/order_information_email_client.php:359
@@ -1082,7 +1082,7 @@ msgstr "Prix total"
 msgid "Payable price"
 msgstr "Prix à payer"
 
-#: public/partials/email_order.php:391
+#: public/partials/email_order.php:384
 #: public/partials/email_order_client.php:391
 #: public/partials/order_information_email.php:389
 #: public/partials/order_information_email_client.php:389
@@ -1268,8 +1268,17 @@ msgstr "Email Paypal"
 msgid "Address 2"
 msgstr "Adresse 2"
 
-#: public/partials/shortcode/checkout.php:376
+#: public/partials/shortcode/checkout.php:373
 #@ car_share
 msgid "TOTAL WITH VOUCHER: "
 msgstr "Total incluant le coupon"
 
+#: admin/partials/service/price_box.php:6
+#@ car_share
+msgid "Per day"
+msgstr "Par jour"
+
+#: admin/partials/service/price_box.php:7
+#@ car_share
+msgid "Per rental"
+msgstr "Par location"

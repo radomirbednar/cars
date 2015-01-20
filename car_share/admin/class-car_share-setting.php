@@ -162,9 +162,11 @@ class Car_share_Setting {
         add_settings_field(
                 'showcategory', 'Show category:', array($this, 'create_input_some_show_cat'), 'car-plugin-main-settings-section', 'main-settings-section'
         );
+        
+        
         // register_setting( $option_group, $option_name, $sanitize_callback )
 
-
+        /*
         add_settings_field(
                 'companyname-setting', 'Company Name:', array($this, 'create_name_setting'), 'car-plugin-main-settings-section', 'main-settings-section'
         );
@@ -199,7 +201,8 @@ class Car_share_Setting {
 
         add_settings_field(
                 'email-setting', 'Contact Email:', array($this, 'create_input_email'), 'car-plugin-main-settings-section', 'main-settings-section'
-        );
+        ); 
+         */
 
 
 
@@ -331,17 +334,13 @@ class Car_share_Setting {
     }
 
     function create_input_block_car_interval(){
-        $sc_setting = get_option('sc_setting');
-
-        $block_type = isset($sc_setting['block_type']) ? $sc_setting['block_type'] : '';
-
+        $sc_setting = get_option('sc_setting'); 
+        $block_type = isset($sc_setting['block_type']) ? $sc_setting['block_type'] : ''; 
         $options = array(
-            'hours' => 'hours',
-            'next_day' => 'next day',
-        );
-
-        ?>
-        
+            'hours' => __("hours", $this->car_share),
+            'next_day' => __("next day", $this->car_share),
+        ); 
+        ?> 
         <script>
         jQuery(document).ready(function ($) {
             $( "#block_type" ).change(function() {
@@ -352,12 +351,11 @@ class Car_share_Setting {
                 }
             });
         });
-        </script>        
-
+        </script>         
         <div class="block_option">
             <select  id="block_type" name="block_type">
                 <?php foreach($options as $key => $label): ?>
-                    <option value="<?php echo $key ?>" <?php echo $key == $block_type ? ' selected="selected" ' : '' ?>><?php _e($label, $this->car_share) ?></option>
+                    <option value="<?php echo $key ?>" <?php echo $key == $block_type ? ' selected="selected" ' : '' ?>><?php echo $label; ?></option>
                 <?php endforeach; ?>
             </select>
 

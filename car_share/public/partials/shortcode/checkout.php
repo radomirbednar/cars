@@ -368,10 +368,7 @@ if (!empty($_SESSION['TOKENE'])) {
                     </span>
                 </td>
             </tr>
-            
-            
-            
-            
+             
             <tr class="hidden">
                 <td><?php _e('TOTAL WITH VOUCHER: ', $this->car_share); ?></td>
                 <td>
@@ -448,6 +445,7 @@ if (!empty($_SESSION['TOKENE'])) {
             <?php endif; ?> 
         </tbody>
         </table> 
+            
         <form action="" method="post" class="form-horizontal">
             <!-- Address form -->
             <strong><?php _e('Billing Information', $this->car_share); ?></strong>
@@ -462,15 +460,13 @@ if (!empty($_SESSION['TOKENE'])) {
                     <div class="controls">
                         
                         <?php 
-                        switch($field['type']):
-                     
+                        switch($field['type']): 
                             case 'country':
                                 ?>
                                 <select name="<?php echo esc_attr($input_key) ?>" <?php echo $field['required'] ? "required" : '' ?>>
                                     <option value=""><?php _e($field['placeholder'], $this->car_share); ?></option>
                                     <?php
-                                    $countries = sc_get_countries();
-                                    
+                                    $countries = sc_get_countries(); 
                                     foreach($countries as $iso => $country):
                                     ?>
                                         <option value="<?php echo $iso ?>"><?php _e($country, $this->car_share) ?></option>
@@ -489,8 +485,7 @@ if (!empty($_SESSION['TOKENE'])) {
                                 <p class="help-block"></p>                        
                                 <?php
                         endswitch; 
-                        ?>                        
-
+                        ?>                         
                     </div>
                 </div>
             <?php endforeach; ?> 
@@ -498,12 +493,10 @@ if (!empty($_SESSION['TOKENE'])) {
             <button type="submit" class="btn btn-default" name="sc-checkout"><?php _e('Book car', $this->car_share); ?></button>
         </form>
         <?php
-    } else {
-
+    } else { 
         _e('Please go back and chose a car.', $this->car_share);
     }
-} else {
-
+} else { 
     _e('Please go back and chose a car.', $this->car_share);
 }
 ?>

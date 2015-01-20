@@ -5,10 +5,6 @@
  * and open the template in the editor.
  */
 ?>
-
-
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -210,13 +206,14 @@
                                                                         <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php _e('FROM:', $this->car_share); ?></td>
-                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo get_the_title($pick_up_location); ?></td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo $car_dfrom_string; ?></td>
+                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo get_the_title($pick_up_location); ?></td>
+                                                                                
                                                                             </tr>
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php _e('TO:', $this->car_share); ?></td>
-                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo get_the_title($drop_off_location); ?></td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo $car_dto_string; ?></td>
+                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo get_the_title($drop_off_location); ?></td>                                                     
                                                                             </tr>
                                                                         </table>
                                                                     </td>
@@ -239,10 +236,8 @@
 
                                                                         <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
                                                                             <tr>
-                                                                                <td align="left" class="textContent">
-
-                                                                                    <h2 style="text-align:left;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px;margin-bottom:10px;color:#205478;line-height:135%;"><?php echo $ItemName; ?></h2>
-
+                                                                                <td align="left" class="textContent"> 
+                                                                                    <h2 style="text-align:left;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px;margin-bottom:10px;color:#205478;line-height:135%;"><?php echo $ItemName; ?></h2> 
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
@@ -266,8 +261,7 @@
 
                                                                         <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
                                                                             <tr>
-                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php _e('EXTRAS INFO:', $this->car_share); ?></td>
-
+                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php _e('EXTRAS INFO:', $this->car_share); ?></td> 
                                                                                 <td>
                                                                                 <?php
                                                                                 foreach ($extras as $key => $extras_id) {
@@ -275,7 +269,7 @@
                                                                                     $_per_service = get_post_meta($key, '_per_service', true);
                                                                                     $service_name = get_the_title($key);
                                                                                     echo $extras_id . ' x ' . $service_name . ' ';
-                                                                                }
+                                                                                    }
                                                                                 ?>
                                                                                 </td> 
                                                                             </tr>
@@ -292,17 +286,14 @@
                                             <td align="center" valign="top">
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                                     <tr>
-                                                        <td align="center" valign="top">
-
+                                                        <td align="center" valign="top"> 
                                                             <table border="0" cellpadding="30" cellspacing="0" width="650" class="flexibleContainer">
                                                                 <tr>
-                                                                    <td valign="top" width="650" class="flexibleContainerCell">
-
-                                                                        <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
-
+                                                                    <td valign="top" width="650" class="flexibleContainerCell"> 
+                                                                        <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;"> 
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
-                                                                                    <?php _e('Car', $this->car_share); ?>
+                                                                                    <?php echo _e('Car', $this->car_share); ?>
                                                                                 </td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
                                                                                     <?php echo $car_price . ' ' . $currencyforpeople; ?>
@@ -384,15 +375,12 @@
                                                                 <tr>
                                                                     <td valign="top" width="650" class="flexibleContainerCell">
 
-                                                                        <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
-
+                                                                        <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;"> 
                                                                             <tr>
                                                                                 <td style="text-align:left">
                                                                                     <h2 style="text-align:left;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px;margin-bottom:10px;color:#205478;line-height:135%;"><?php _e('Customer details', $this->car_share); ?></h2>
-                                                                                </td>
-
-                                                                            </tr>
-
+                                                                                </td> 
+                                                                            </tr> 
                                                                             <?php
                                                                             $checkout_fields = get_enabled_checkout_fields();
 
