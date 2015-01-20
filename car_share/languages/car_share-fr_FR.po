@@ -1282,4 +1282,3 @@ msgstr "Par jour"
 #@ car_share
 msgid "Per rental"
 msgstr "Par location"
-
