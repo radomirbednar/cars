@@ -295,10 +295,7 @@ class Car_share_Shortcode {
                 $email_customer_content = ob_get_contents();
                 ob_end_clean();
 
-                ob_start();
-                include_once('partials/email_order.php');
-                $email_store_content = ob_get_contents();
-                ob_end_clean();
+               
 
 
                 $headers[] = 'From:  <' . $option_notification_email . '>';
@@ -307,7 +304,13 @@ class Car_share_Shortcode {
                 $message = $email_customer_content;
   
                 
-              
+                wp_mail($to, $subject, $message, $headers);
+                
+                
+                 ob_start();
+                include_once('partials/email_order.php');
+                $email_store_content = ob_get_contents();
+                ob_end_clean();
                 
                  
  
