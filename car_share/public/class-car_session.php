@@ -231,10 +231,8 @@ class Car_Cart {
     
     public function getPaypablePrice(){
         //$total_price = $this->getTotalPrice();
-        $payable_price = $this->total_price;
-        
-        $sc_setting = get_option('sc_setting');
-        
+        $payable_price = $this->total_price; 
+        $sc_setting = get_option('sc_setting'); 
         if(isset($sc_setting['deposit_active']) && 1 == $sc_setting['deposit_active']){            
             $deposit_percentage = floatval($sc_setting['deposit_amount']);            
             $payable_price = $payable_price * $deposit_percentage / 100;

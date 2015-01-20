@@ -252,78 +252,78 @@ function get_booking_fields(){
 
     $arr = array(
         'cart_pick_up' => array(            
-            'label' => 'Pick up location',
+            'label' => __('Pick up location', 'car_share'),
             'type' => 'title',
         ),
         'cart_drop_off' => array(
-            'label' => 'Drop off location',
+            'label' => __('Drop off location', 'car_share'),
             'type' => 'title',    
         ),
         'cart_car_category' => array(
-            'label' => 'Car category',
+            'label' => __('Car category', 'car_share'),
             'type' => 'title'
         ),
         'cart_car_name' => array(
-            'label' => 'Car name',
+            'label' => __('Car name', 'car_share'),
             'type' => 'text'
         ),
         'cart_car_ID' => array(
-            'label' => 'Car ID',
+            'label' => __('Car ID', 'car_share'),
             'type' => 'text'
         ),
         'cart_car_price' => array(
-            'label' => 'Car Price',
+            'label' => __('Car Price', 'car_share'),
             'type' => 'price',
         ),
         'cart_extra_price' => array(
-            'label' => 'Extra Price',
+            'label' => __('Extra Price', 'car_share'),
             'type' => 'price',
         ),        
         '_checkout_location_price' => array(
-            'label' => 'Different location price',
+            'label' => __('Different location price', 'car_share'),
             'type' => 'price'
         ),
         '_young_surcharge_fee' => array(
-            'label' => 'Young driver surcharge fee',
+            'label' => __('Young driver surcharge fee', 'car_share'),
             'type' => 'price',
         ),
 
         //'separator' => '<div>',
 
         '_voucher_id' => array(
-            'label' => 'Voucher ID',
+            'label' => __('Voucher ID', 'car_share'),
             'type' => 'text'
         ),
         
         '_voucher_name' => array(
-            'label' => 'Voucher name',
+            'label' => __('Voucher name', 'car_share'),
             'type' => 'text'
         ),
         '_voucher_code' => array(
-            'label' => 'Voucher code',
+            'label' => __('Voucher code', 'car_share'),
             'type' => 'text'
         ),
         '_voucher_discount_percentage' => array(
-            'label' => 'Voucher discount percentage',
+            'label' => __('Voucher discount percentage', 'car_share'),
             'type' => 'percentage'
         ),
         '_voucher_discount_amount'  => array(
-            'label' => 'Voucher discount amount',
+            'label' => __('Voucher discount amount', 'car_share'),
             'type' => 'price'
         ),
 
         //'separator' => '',
 
         'cart_total_price' => array (
-            'label' => 'Total Price',
+            'label' => __('Total Price', 'car_share'),
             'type' => 'price'
         ),
         '_checkout_payable_price' => array(
-            'label' => 'Payable price',
+            'label' => __('Payable price', 'car_share'),
             'type' => 'price'
         ),
         'cart_order_status' => array(
-            'label' => 'Order status',
+            'label' => __('Order status', 'car_share'),
             'type' => 'text'    
         ),
     ); 
@@ -335,23 +335,23 @@ function get_payment_fields(){
     
     $arr = array(  
         'car_r_order_status' => array (
-            'label' => 'Order statur', 
+            'label' => __('Order status', 'car_share'), 
             'type' => 'status'
         ),
         'car_r_order_info' => array(
-            'label' => 'Order info from paypal',
+            'label' => __('Order info from paypal', 'car_share'),
             'type' => 'text'
         ),
         'payerid' => array(
-            'label' => 'Payer ID',
+            'label' => __('Payer ID', 'car_share'),
             'type' => 'text'    
         ),
         'responseamt' => array(
-            'label' => 'Amt from Paypal',
+            'label' => __('Amt from Paypal', 'car_share'),
             'type' => 'price'    
         ),
          'paypal_c_email' => array(
-            'label' => 'Paypal Email',
+            'label' => __('Paypal Email', 'car_share'),
             'type' => 'text'    
         ),  
     ); 
@@ -387,64 +387,64 @@ function get_default_checkout_fields(){
 
     $checkout_fields = array(
         '_name' => array(
-            'label' => 'Fullname',
-            'placeholder' => 'full name',
+            'label' => __('Fullname', 'car_share'),
+            'placeholder' => __('Fullname', 'car_share'),
             'enabled' => 1,
             'required' => 1,
             'type' => 'text'
         ),
         '_email' => array(
-            'label' => 'Email address',
-            'placeholder' => 'Email address',
+            'label' => __('Email address', 'car_share'),
+            'placeholder' => __('Email address', 'car_share'),
             'enabled' => 1,
             'required' => 1,
             'type' => 'email'
         ),
         '_phone' => array(
-            'label' => 'Phone',
-            'placeholder' => 'Telephone number',
+            'label' => __('Phone', 'car_share'),
+            'placeholder' => __('Phone', 'car_share'),
             'enabled' => 1,
             'required' => 1,
             'type' => 'text'
         ),
         '_address_1' => array(
-            'label' => 'Address 1',
-            'placeholder' => 'address line 1',
+            'label' => __('Address 1', 'car_share'),
+            'placeholder' => __('Address 1', 'car_share'),
             'enabled' => 1,
             'required' => 0,
             'type' => 'text'
         ),
         '_address_2' => array(
-            'label' => 'Address 2',
-            'placeholder' => 'address line 2',
+            'label' => __('Address 2', 'car_share'),
+            'placeholder' => __('Address 2', 'car_share'),
             'enabled' => 1,
             'required' => 0,
             'type' => 'text'
         ),
         '_city' => array(
-            'label' => 'City',
-            'placeholder' => 'city',
+            'label' => __('City', 'car_share'),
+            'placeholder' => __('City', 'car_share'),
             'enabled' => 1,
             'required' => 0,
             'type' => 'text'
         ),
         '_country' => array(
-            'label' => 'Country',
-            'placeholder' => 'Select country',
+            'label' => __('Country', 'car_share'),
+            'placeholder' => __('Country', 'car_share'),
             'enabled' => 1,
             'required' => 0,
             'type' => 'country'
         ),
         '_zip' => array(
-            'label' => 'Zip',
-            'placeholder' => 'zip code',
+            'label' => __('Zip', 'car_share'),
+            'placeholder' => __('Zip', 'car_share'),
             'enabled' => 1,
             'required' => 0,
             'type' => 'text'
         ),
         '_flight_number' => array(
-            'label' => 'Flight number',
-            'placeholder' => 'Flight number',
+            'label' => __('Flight number', 'car_share'),
+            'placeholder' => __('Flight number', 'car_share'),
             'enabled' => 1,
             'required' => 0,
             'type' => 'text'

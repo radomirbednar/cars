@@ -594,7 +594,7 @@ class Car_share_Shortcode {
 
         global $wpdb;
         if ($car_category != '') {
-            $category_and = "AND wp_postmeta.meta_value = '$car_category'";
+            $category_and = "AND $wpdb->postmeta.meta_value = '$car_category'";
         } else {
             $category_and = '';
         }
@@ -692,9 +692,9 @@ class Car_share_Shortcode {
             FROM
                 $wpdb->posts posts
             JOIN
-                wp_postmeta wp_postmeta
+                $wpdb->postmeta $wpdb->postmeta
             ON
-                wp_postmeta.post_id = posts.ID
+                $wpdb->postmeta.post_id = posts.ID
             JOIN
                 sc_single_car sc_single_car
             ON
