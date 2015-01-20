@@ -387,28 +387,28 @@ function get_default_checkout_fields(){
 
     $checkout_fields = array(
         '_name' => array(
-            'label' => 'Fullname',
+            'label' => __('Fullname', 'car_share'),
             'placeholder' => 'full name',
             'enabled' => 1,
             'required' => 1,
             'type' => 'text'
         ),
         '_email' => array(
-            'label' => 'Email address',
+            'label' => __('Email address', 'car_share'),
             'placeholder' => 'Email address',
             'enabled' => 1,
             'required' => 1,
             'type' => 'email'
         ),
         '_phone' => array(
-            'label' => 'Phone',
+            'label' => __('Phone', 'car_share'),
             'placeholder' => 'Telephone number',
             'enabled' => 1,
             'required' => 1,
             'type' => 'text'
         ),
         '_address_1' => array(
-            'label' => 'Address 1',
+            'label' => __('Address 1', 'car_share'),
             'placeholder' => 'address line 1',
             'enabled' => 1,
             'required' => 0,
@@ -416,34 +416,34 @@ function get_default_checkout_fields(){
         ),
         '_address_2' => array(
             'label' => 'Address 2',
-            'placeholder' => 'address line 2',
+            'placeholder' => __('address line 2', 'car_share'),
             'enabled' => 1,
             'required' => 0,
             'type' => 'text'
         ),
         '_city' => array(
-            'label' => 'City',
+            'label' => __('City', 'car_share'),
             'placeholder' => 'city',
             'enabled' => 1,
             'required' => 0,
             'type' => 'text'
         ),
         '_country' => array(
-            'label' => 'Country',
+            'label' => __('Country', 'car_share'),
             'placeholder' => 'Select country',
             'enabled' => 1,
             'required' => 0,
             'type' => 'country'
         ),
         '_zip' => array(
-            'label' => 'Zip',
+            'label' => __('Zip', 'car_share'),
             'placeholder' => 'zip code',
             'enabled' => 1,
             'required' => 0,
             'type' => 'text'
         ),
         '_flight_number' => array(
-            'label' => 'Flight number',
+            'label' => __('Flight number', 'car_share'),
             'placeholder' => 'Flight number',
             'enabled' => 1,
             'required' => 0,
