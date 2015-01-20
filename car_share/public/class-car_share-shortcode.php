@@ -205,6 +205,7 @@ class Car_share_Shortcode {
                 $_SESSION['TOKEN'] = $token;
 
                 if (empty($_SESSION['post_insert_id'])) {
+                     
                     $booking_title = $ItemName . '-' . $car_ID;
                     $post_information = array(
                         'post_title' => $booking_title,
@@ -222,6 +223,9 @@ class Car_share_Shortcode {
                         //post meta information about booking
                         //nezapomenout smazat na konci veskerou session !!!!!!!
                         $_SESSION['post_insert_id'] = $post_insert_id;
+       
+                         sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);
+                        
                     }
                 } else {
                     $post_insert_id = $_SESSION['post_insert_id'];
@@ -232,7 +236,33 @@ class Car_share_Shortcode {
                         'post_type' => 'sc-booking',
                         'post_status' => 'publish'
                     );
-                    wp_update_post($post_information);
+                    
+                    $update_info = wp_update_post($post_information); 
+                    
+                    if($update_info){
+                    $checkout_fields = get_enabled_checkout_fields();
+                    if ($update_info) {
+                        // Update Custom Meta
+                        foreach ($checkout_fields as $input_key => $field) {
+                            //$field['required'];
+                            update_post_meta($post_insert_id, $input_key, esc_attr(strip_tags($_POST[$input_key])));
+                        }
+                     
+                    sc_Car::updateStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);       
+                    
+                    
+                    
+                        }
+                    }
+                    else
+                    {
+                    $booking_title = $ItemName . '-' . $car_ID;
+                    $post_information = array(
+                        'post_title' => $booking_title,
+                        'post_type' => 'sc-booking',
+                        'post_status' => 'publish'
+                    );
+                    $post_insert_id = wp_insert_post($post_information);
                     $checkout_fields = get_enabled_checkout_fields();
                     if ($post_insert_id) {
                         // Update Custom Meta
@@ -240,11 +270,17 @@ class Car_share_Shortcode {
                             //$field['required'];
                             update_post_meta($post_insert_id, $input_key, esc_attr(strip_tags($_POST[$input_key])));
                         }
-                    }
+                        //post meta information about booking
+                        //nezapomenout smazat na konci veskerou session !!!!!!!
+                        $_SESSION['post_insert_id'] = $post_insert_id;
+       
+                         sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);  
+                    } 
                 }
+                 }
+                
                 $post_insert_id = $_SESSION['post_insert_id'];
-
-                sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);
+      
 
                 // save info about voucher if any
                 if (!empty($Cars_cart_items['voucher_id'])) {
@@ -283,22 +319,20 @@ class Car_share_Shortcode {
                 ob_end_clean();
 
 
-                $headers = 'From:  <' . $option_notification_email . '>';
+                $headers = 'From:  '. $option_notification_email.' <' . $option_notification_email . '>';
                 $to = $customer_email;
                 $subject = 'Booking email information';
                 $message = $email_customer_content;
 
 
                 wp_mail($to, $subject, $message, $headers);
-
-
+ 
                 ob_start();
                 include_once('partials/email_order.php');
                 $email_store_content = ob_get_contents();
                 ob_end_clean();
-
-
-                $headers = 'From: <' . $option_notification_email . '>';
+ 
+                $headers = 'From: '. $option_notification_email.' <' . $option_notification_email . '>';
                 $to = $option_notification_email;
                 $subject = 'Booking email information';
                 $message = $email_store_content;

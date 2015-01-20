@@ -63,6 +63,22 @@ class sc_Car {
         
     }
     
+    
+    public static function updateStatus($single_car_id, DateTime $from, $to, $status, $booking_id){ 
+        
+        global $wpdb;
+        
+        $sql = "
+        UPDATE 
+        sc_single_car_status SET single_car_id = " . (int) $single_car_id . ", date_from = '" . (empty($from) ? "" : $from->format('Y-m-d H:i:s')) . "', date_to = '" . (empty($to) ? "" : $to->format('Y-m-d H:i:s')) . "', status = " . (int) $status . ", booking_id= " . (int) $booking_id . " WHERE booking_id = " .(int) $booking_id. ";"; 
+ 
+        $wpdb->query($sql);           
+    }
+    
+    
+    
+    
+    
     public static function get_parent_by_single_id($single_car_id){
         
         global $wpdb;
