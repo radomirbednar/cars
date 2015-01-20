@@ -332,17 +332,13 @@ class Car_share_Setting {
     }
 
     function create_input_block_car_interval(){
-        $sc_setting = get_option('sc_setting');
-
-        $block_type = isset($sc_setting['block_type']) ? $sc_setting['block_type'] : '';
-
+        $sc_setting = get_option('sc_setting'); 
+        $block_type = isset($sc_setting['block_type']) ? $sc_setting['block_type'] : ''; 
         $options = array(
             'hours' => __("hours", $this->car_share),
             'next_day' => __("next day", $this->car_share),
-        );
-
-        ?>
-        
+        ); 
+        ?> 
         <script>
         jQuery(document).ready(function ($) {
             $( "#block_type" ).change(function() {
@@ -353,8 +349,7 @@ class Car_share_Setting {
                 }
             });
         });
-        </script>        
-
+        </script>         
         <div class="block_option">
             <select  id="block_type" name="block_type">
                 <?php foreach($options as $key => $label): ?>
