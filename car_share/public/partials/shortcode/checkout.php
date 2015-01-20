@@ -363,20 +363,41 @@ if (!empty($_SESSION['TOKENE'])) {
             <tr>
                 <td><?php _e('TOTAL : ', $this->car_share); ?></td>
                 <td>
+                    <span id="price-total_total" class="price">
+                        <?php echo $currency->format($total_price) ?>
+                    </span>
+                </td>
+            </tr>
+            
+            
+            
+            
+            <tr class="hidden">
+                <td><?php _e('TOTAL WITH VOUCHER: ', $this->car_share); ?></td>
+                <td>
                     <span id="price-total" class="price">
                         <?php echo $currency->format($total_price) ?>
                     </span>
                 </td>
             </tr>
+            
+        <?php    
+            $sc_setting = get_option('sc_setting'); 
+            if(isset($sc_setting['deposit_active']) && 1 == $sc_setting['deposit_active']){            
+            $deposit_percentage = floatval($sc_setting['deposit_amount']);                                
+            } 
+        ?> 
             <tr>
                 <td><?php _e('PAYABLE NOW : ', $this->car_share); ?></td>
                 <td>
                     <span id="price-payable-now" class="price">
                         <?php echo $currency->format($paypable_now) ?>
-                    </span>
+
+                    </span> <?php if(isset($deposit_percentage)){ echo '('.$deposit_percentage.' %)';} ?>
+                  
                 </td>
             </tr>
-
+             
             <?php
             // does exist any voucher ??
             global $wpdb;
@@ -389,8 +410,7 @@ if (!empty($_SESSION['TOKENE'])) {
                 <script>
                     jQuery(document).ready(function ($) {
                         jQuery('#voucher-form').submit(function (e) {
-                            e.preventDefault();
-
+                            e.preventDefault(); 
                             $.ajax({
                                 type: 'post',
                                 dataType: 'json',
@@ -402,12 +422,12 @@ if (!empty($_SESSION['TOKENE'])) {
                                 beforeSend: function () {
                                     //self.prop("disabled", true);
                                 }
-                            }).done(function (ret) {
+                            }).done(function (ret) { 
+                                $('.hidden').removeClass( "hidden" ).addClass( "show" ); 
                                 $('#price-total').html(ret.total_price);
                                 $('#price-payable-now').html(ret.paypable_now);
                                 $('#voucher-message').html(ret.message);
-                            }).fail(function (ret) {
-
+                            }).fail(function (ret) { 
                             }).always(function () {
                                 //self.prop("disabled", false);
                             });
@@ -425,12 +445,9 @@ if (!empty($_SESSION['TOKENE'])) {
                     </td>
                 </tr>
                 <!-- /voucher -->
-            <?php endif; ?>
-
-
+            <?php endif; ?> 
         </tbody>
-        </table>
-
+        </table> 
         <form action="" method="post" class="form-horizontal">
             <!-- Address form -->
             <strong><?php _e('Billing Information', $this->car_share); ?></strong>
@@ -476,11 +493,8 @@ if (!empty($_SESSION['TOKENE'])) {
 
                     </div>
                 </div>
-            <?php endforeach; ?>
-
-
-            <?php wp_nonce_field('post_nonce', 'post_nonce_field'); ?>
-
+            <?php endforeach; ?> 
+            <?php wp_nonce_field('post_nonce', 'post_nonce_field'); ?> 
             <button type="submit" class="btn btn-default" name="sc-checkout"><?php _e('Book car', $this->car_share); ?></button>
         </form>
         <?php
