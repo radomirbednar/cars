@@ -272,9 +272,9 @@ class Car_share_Shortcode {
                 //odeslani informace obchodnikovi o objednavce - protoze objednavku ukladame uz v tomto kroku
                 // Example using the array form of $headers
                 // assumes $to, $subject, $message have already been defined earlier...
-
-                $url = site_url();
-
+                
+                  
+                $url = site_url(); 
                 ob_start();
                 include_once('partials/email_order_client.php');
                 $email_customer_content = ob_get_contents();
@@ -290,20 +290,9 @@ class Car_share_Shortcode {
                 $to = $customer_email;
                 $subject = 'Booking email information';
                 $message = $email_customer_content;
- 
-                
-                $lang=get_bloginfo("language");
-                
-                echo $lang;
-                
-                echo $message;
-                
-                exit();
-                
-                
-                
+   
                 wp_mail($to, $subject, $message, $headers);
- 
+                 
                 $headers[] = 'From:  <' . $option_notification_email . '>';
                 $to = $option_notification_email;
                 $subject = 'Booking email information';
@@ -313,6 +302,7 @@ class Car_share_Shortcode {
                  
                 wp_mail($to, $subject, $message, $headers);
  
+                
                 //Redirect user to PayPal store with Token received.
                 $paypalurl = 'https://www' . $paypalmode . '.paypal.com/cgi-bin/webscr?cmd=_express-checkout&useraction=commit&token=' . $httpParsedResponseAr["TOKEN"] . '';
                 header('Location: ' . $paypalurl);
