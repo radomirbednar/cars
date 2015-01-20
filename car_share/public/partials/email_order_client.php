@@ -212,13 +212,14 @@
                                                                         <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php _e('FROM:', $this->car_share); ?></td>
-                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo get_the_title($pick_up_location); ?></td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo $car_dfrom_string; ?></td>
+                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo get_the_title($pick_up_location); ?></td>
+                                                                               
                                                                             </tr>
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php _e('TO:', $this->car_share); ?></td>
-                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo get_the_title($drop_off_location); ?></td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo $car_dto_string; ?></td>
+                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo get_the_title($drop_off_location); ?></td>
                                                                             </tr>
                                                                         </table>
                                                                     </td>
