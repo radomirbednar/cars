@@ -21,27 +21,25 @@ class Car_share_Shortcode {
         $this->version = $version;
         //$this->setcurrency();
 
+        
+        add_action('template_redirect', array($this, 'localise_script'));
+        
         add_shortcode('sc-search_for_car', array($this, 'search_for_car'));
         add_shortcode('sc-pick_car', array($this, 'pick_car'));
         add_shortcode('sc-extras', array($this, 'extras'));
         add_shortcode('sc-checkout', array($this, 'checkout'));
         add_action('plugins_loaded', array($this, 'search_for_car_form'));
    
-        add_action('plugins_loaded', array($this, 'paypal'));
+        add_action('template_redirect', array($this, 'paypal'));
         add_filter('wp_mail_content_type', array($this, 'set_content_type'));
         
-        
-      
-
+ 
         if (!isset($_SESSION)) {
             session_start();
         }
     }
-
-    function set_content_type($content_type) {
-        return 'text/html';
-    }
-    
+ 
+     
  
     
         
@@ -282,21 +280,12 @@ class Car_share_Shortcode {
                 // Example using the array form of $headers
                 // assumes $to, $subject, $message have already been defined earlier...
                 
-                
-                  
-                 
-                 $car_share_i18n = new Car_share_i18n();
-                 $car_share_i18n->load_plugin_textdomain();
-                  
-                 
-
+ 
                 ob_start();
                 include_once('partials/email_order_client.php');
                 $email_customer_content = ob_get_contents();
                 ob_end_clean();
-
-               
-
+ 
 
                 $headers[] = 'From:  <' . $option_notification_email . '>';
                 $to = $customer_email;
@@ -307,13 +296,12 @@ class Car_share_Shortcode {
                 wp_mail($to, $subject, $message, $headers);
                 
                 
-                 ob_start();
+                ob_start();
                 include_once('partials/email_order.php');
                 $email_store_content = ob_get_contents();
                 ob_end_clean();
                 
-                 
- 
+                
                 $headers[] = 'From:  <' . $option_notification_email . '>';
                 $to = $option_notification_email;
                 $subject = 'Booking email information';
