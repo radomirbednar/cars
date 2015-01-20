@@ -681,7 +681,7 @@ class Car_share_Admin {
         global $wpdb;
 
         if(!empty($post_id)){
-            $sql = " DELETE FROM  sc_single_car_status WHERE status = '" . Car_share::STATUS_BOOKED . "' AND booking_id = '" . $post_id . "'";
+            $sql = " DELETE FROM  sc_single_car_status WHERE status = '" . Car_share::STATUS_BOOKED . "' AND booking_id = '" . (int) $post_id . "'";
             $wpdb->query($sql);
         }
 
