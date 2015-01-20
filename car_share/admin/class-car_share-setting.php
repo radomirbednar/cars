@@ -337,8 +337,8 @@ class Car_share_Setting {
         $block_type = isset($sc_setting['block_type']) ? $sc_setting['block_type'] : '';
 
         $options = array(
-            'hours' => "__(hours, $this->car_share)",
-            'next_day' => "__(next day, $this->car_share)",
+            'hours' => __("hours", $this->car_share),
+            'next_day' => __("next day", $this->car_share),
         );
 
         ?>
