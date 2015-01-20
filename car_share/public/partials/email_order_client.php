@@ -393,18 +393,16 @@
 
                                                                             </tr>
 
-<?php
-$checkout_fields = get_enabled_checkout_fields();
-
-
-
-foreach ($checkout_fields as $input_key => $field) {
-    echo '<tr>';
-    echo '<td style="text-align:left;border:1px solid #eee; padding: 10px">' . $field['label'] . '</td>';
-    echo '<td style="text-align:left;border:1px solid #eee; padding: 10px">' . sanitize_text_field($_POST[$input_key]) . '</td>';
-    echo '</tr>';
-}
-?>
+                                                                            <?php
+                                                                            $checkout_fields = get_enabled_checkout_fields();
+ 
+                                                                            foreach ($checkout_fields as $input_key => $field) {
+                                                                            echo '<tr>';
+                                                                            echo '<td style="text-align:left;border:1px solid #eee; padding: 10px">' . $field['label'] . '</td>';
+                                                                            echo '<td style="text-align:left;border:1px solid #eee; padding: 10px">' . sanitize_text_field($_POST[$input_key]) . '</td>';
+                                                                            echo '</tr>';
+                                                                            }
+                                                                            ?>
 
                                                                         </table>
                                                                     </td>

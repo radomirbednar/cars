@@ -164,7 +164,7 @@ class Car_share_Setting {
         );
         // register_setting( $option_group, $option_name, $sanitize_callback )
 
-
+        /*
         add_settings_field(
                 'companyname-setting', 'Company Name:', array($this, 'create_name_setting'), 'car-plugin-main-settings-section', 'main-settings-section'
         );
@@ -199,7 +199,8 @@ class Car_share_Setting {
 
         add_settings_field(
                 'email-setting', 'Contact Email:', array($this, 'create_input_email'), 'car-plugin-main-settings-section', 'main-settings-section'
-        );
+        ); 
+         */
 
 
 
