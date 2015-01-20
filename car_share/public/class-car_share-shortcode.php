@@ -667,8 +667,9 @@ class Car_share_Shortcode {
                 $location = new Location($drop_off_location);
                 $opening_hours = $location->get_opening_hours_with_day_key();
                 
-                
                 $date_from = clone $car_dfrom;
+                
+                /*                
                 for($i = 1; $i <= 8; $i ++){
                     $date_from->modify('+1 day');
                     
@@ -677,7 +678,7 @@ class Car_share_Shortcode {
                     if(isset($opening_hours[$day_name]) && 1 == $opening_hours[$day_name]->open){
                         break;
                     }
-                }
+                }*/
                 
                 $date_from->modify("-1 day");
                 $car_dfrom_string_next_day = $date_from->format('Y-m-d H:i:s');
