@@ -239,10 +239,8 @@
 
                                                                         <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
                                                                             <tr>
-                                                                                <td align="left" class="textContent">
-
-                                                                                    <h2 style="text-align:left;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px;margin-bottom:10px;color:#205478;line-height:135%;"><?php echo $ItemName; ?></h2>
-
+                                                                                <td align="left" class="textContent"> 
+                                                                                    <h2 style="text-align:left;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px;margin-bottom:10px;color:#205478;line-height:135%;"><?php echo $ItemName; ?></h2> 
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
@@ -266,8 +264,7 @@
 
                                                                         <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
                                                                             <tr>
-                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php _e('EXTRAS INFO:', $this->car_share); ?></td>
-
+                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php _e('EXTRAS INFO:', $this->car_share); ?></td> 
                                                                                 <td>
                                                                                 <?php
                                                                                 foreach ($extras as $key => $extras_id) {
@@ -292,14 +289,11 @@
                                             <td align="center" valign="top">
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                                     <tr>
-                                                        <td align="center" valign="top">
-
+                                                        <td align="center" valign="top"> 
                                                             <table border="0" cellpadding="30" cellspacing="0" width="650" class="flexibleContainer">
                                                                 <tr>
-                                                                    <td valign="top" width="650" class="flexibleContainerCell">
-
-                                                                        <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
-
+                                                                    <td valign="top" width="650" class="flexibleContainerCell"> 
+                                                                        <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;"> 
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
                                                                                     <?php _e('Car', $this->car_share); ?>
@@ -384,15 +378,12 @@
                                                                 <tr>
                                                                     <td valign="top" width="650" class="flexibleContainerCell">
 
-                                                                        <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
-
+                                                                        <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;"> 
                                                                             <tr>
                                                                                 <td style="text-align:left">
                                                                                     <h2 style="text-align:left;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px;margin-bottom:10px;color:#205478;line-height:135%;"><?php _e('Customer details', $this->car_share); ?></h2>
-                                                                                </td>
-
-                                                                            </tr>
-
+                                                                                </td> 
+                                                                            </tr> 
                                                                             <?php
                                                                             $checkout_fields = get_enabled_checkout_fields();
 
