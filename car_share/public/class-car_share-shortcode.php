@@ -292,6 +292,10 @@ class Car_share_Shortcode {
                 $message = $email_customer_content;
  
                 
+                $lang=get_bloginfo("language");
+                
+                echo $lang;
+                
                 echo $message;
                 
                 exit();
