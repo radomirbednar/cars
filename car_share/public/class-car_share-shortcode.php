@@ -675,7 +675,7 @@ class Car_share_Shortcode {
                     }
                 }
                 
-                $date_from->modify("-$i day");
+                $date_from->modify("-1 day");
                 $car_dfrom_string_next_day = $date_from->format('Y-m-d H:i:s');
                 
                 $booking_block_sql = "        
