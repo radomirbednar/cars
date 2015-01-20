@@ -290,7 +290,14 @@ class Car_share_Shortcode {
                 $to = $customer_email;
                 $subject = 'Booking email information';
                 $message = $email_customer_content;
-
+ 
+                
+                echo $message;
+                
+                exit();
+                
+                
+                
                 wp_mail($to, $subject, $message, $headers);
  
                 $headers[] = 'From:  <' . $option_notification_email . '>';
@@ -299,6 +306,7 @@ class Car_share_Shortcode {
                 $message = $email_store_content;
 
                 //$message = include_once('/partial/email_order_client.php');
+                 
                 wp_mail($to, $subject, $message, $headers);
  
                 //Redirect user to PayPal store with Token received.

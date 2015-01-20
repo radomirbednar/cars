@@ -162,6 +162,8 @@ class Car_share_Setting {
         add_settings_field(
                 'showcategory', 'Show category:', array($this, 'create_input_some_show_cat'), 'car-plugin-main-settings-section', 'main-settings-section'
         );
+        
+        
         // register_setting( $option_group, $option_name, $sanitize_callback )
 
         /*

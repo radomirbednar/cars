@@ -466,8 +466,7 @@ if (!empty($_SESSION['TOKENE'])) {
                                 <select name="<?php echo esc_attr($input_key) ?>" <?php echo $field['required'] ? "required" : '' ?>>
                                     <option value=""><?php _e($field['placeholder'], $this->car_share); ?></option>
                                     <?php
-                                    $countries = sc_get_countries();
-                                    
+                                    $countries = sc_get_countries(); 
                                     foreach($countries as $iso => $country):
                                     ?>
                                         <option value="<?php echo $iso ?>"><?php _e($country, $this->car_share) ?></option>
