@@ -26,8 +26,12 @@ class Car_share_Shortcode {
         add_shortcode('sc-extras', array($this, 'extras'));
         add_shortcode('sc-checkout', array($this, 'checkout'));
         add_action('plugins_loaded', array($this, 'search_for_car_form'));
+   
         add_action('plugins_loaded', array($this, 'paypal'));
         add_filter('wp_mail_content_type', array($this, 'set_content_type'));
+        
+        
+      
 
         if (!isset($_SESSION)) {
             session_start();
@@ -37,6 +41,10 @@ class Car_share_Shortcode {
     function set_content_type($content_type) {
         return 'text/html';
     }
+    
+ 
+    
+        
 
     public function paypal() {
 
@@ -273,8 +281,11 @@ class Car_share_Shortcode {
                 // Example using the array form of $headers
                 // assumes $to, $subject, $message have already been defined earlier...
                 
-                  
-                $url = site_url(); 
+                
+                  
+                 
+                $url = site_url();
+
                 ob_start();
                 include_once('partials/email_order_client.php');
                 $email_customer_content = ob_get_contents();
@@ -290,9 +301,15 @@ class Car_share_Shortcode {
                 $to = $customer_email;
                 $subject = 'Booking email information';
                 $message = $email_customer_content;
-   
-                wp_mail($to, $subject, $message, $headers);
+  
+                
+                $locale = get_locale(); 
+                  
+                $path = dirname(plugin_basename( __FILE__ )) . "/languages"; 
+                $loaded = load_plugin_textdomain( $this->car_share, false, $path);    
+                
                  
+ 
                 $headers[] = 'From:  <' . $option_notification_email . '>';
                 $to = $option_notification_email;
                 $subject = 'Booking email information';
@@ -302,7 +319,6 @@ class Car_share_Shortcode {
                  
                 wp_mail($to, $subject, $message, $headers);
  
-                
                 //Redirect user to PayPal store with Token received.
                 $paypalurl = 'https://www' . $paypalmode . '.paypal.com/cgi-bin/webscr?cmd=_express-checkout&useraction=commit&token=' . $httpParsedResponseAr["TOKEN"] . '';
                 header('Location: ' . $paypalurl);
