@@ -337,8 +337,8 @@ class Car_share_Setting {
         $block_type = isset($sc_setting['block_type']) ? $sc_setting['block_type'] : '';
 
         $options = array(
-            'hours' => 'hours',
-            'next_day' => 'next day',
+            'hours' => "__(hours, $this->car_share)",
+            'next_day' => "__(next day, $this->car_share)",
         );
 
         ?>
@@ -358,7 +358,7 @@ class Car_share_Setting {
         <div class="block_option">
             <select  id="block_type" name="block_type">
                 <?php foreach($options as $key => $label): ?>
-                    <option value="<?php echo $key ?>" <?php echo $key == $block_type ? ' selected="selected" ' : '' ?>><?php _e($label, $this->car_share) ?></option>
+                    <option value="<?php echo $key ?>" <?php echo $key == $block_type ? ' selected="selected" ' : '' ?>><?php echo $label; ?></option>
                 <?php endforeach; ?>
             </select>
 
