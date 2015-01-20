@@ -38,7 +38,8 @@ class Car_share_Shortcode {
         return 'text/html';
     }
 
-    public function paypal() {
+    public function paypal() {       
+
 
         $sc_options_paypal = get_option('second_set_arraykey');
         $email_option = get_option('car_plugin_options_arraykey');
