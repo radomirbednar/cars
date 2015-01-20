@@ -3,8 +3,8 @@
 </label>
 <?php
 $values = array(
-    1 => "Per day",
-    2 => "Per rental",
+    1 => __("Per day", $this->car_share),
+    2 => __("Per rental", $this->car_share),
 );
 
 foreach ($values as $key => $value) {
@@ -15,6 +15,6 @@ foreach ($values as $key => $value) {
     }
     ?>
     <div class="radio">
-        <label><input <?php echo $checked; ?> type="radio" name="_per_service" value="<?php echo $key; ?>"><?php _e($value, $this->car_share) ?></label>
+        <label><input <?php echo $checked; ?> type="radio" name="_per_service" value="<?php echo $key; ?>"><?php echo $value ?></label>
     </div>
 <?php } ?>
