@@ -283,7 +283,7 @@ class Car_share_Shortcode {
                 ob_end_clean();
 
 
-                $headers[] = 'From:  <' . $option_notification_email . '>';
+                $headers = 'From:  <' . $option_notification_email . '>';
                 $to = $customer_email;
                 $subject = 'Booking email information';
                 $message = $email_customer_content;
@@ -298,7 +298,7 @@ class Car_share_Shortcode {
                 ob_end_clean();
 
 
-                $headers[] = 'From: <' . $option_notification_email . '>';
+                $headers = 'From: <' . $option_notification_email . '>';
                 $to = $option_notification_email;
                 $subject = 'Booking email information';
                 $message = $email_store_content;
