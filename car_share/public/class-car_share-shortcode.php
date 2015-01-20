@@ -284,7 +284,10 @@ class Car_share_Shortcode {
                 
                   
                  
-                $url = site_url();
+                 $car_share_i18n = new Car_share_i18n();
+                 $car_share_i18n->load_plugin_textdomain();
+                  
+                 
 
                 ob_start();
                 include_once('partials/email_order_client.php');
@@ -303,10 +306,7 @@ class Car_share_Shortcode {
                 $message = $email_customer_content;
   
                 
-                $locale = get_locale(); 
-                  
-                $path = dirname(plugin_basename( __FILE__ )) . "/languages"; 
-                load_plugin_textdomain( $this->car_share, false, $path);    
+              
                 
                  
  
