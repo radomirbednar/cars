@@ -306,7 +306,7 @@ class Car_share_Shortcode {
                 $locale = get_locale(); 
                   
                 $path = dirname(plugin_basename( __FILE__ )) . "/languages"; 
-                $loaded = load_plugin_textdomain( $this->car_share, false, $path);    
+                load_plugin_textdomain( $this->car_share, false, $path);    
                 
                  
  
