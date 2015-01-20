@@ -21,30 +21,26 @@ class Car_share_Shortcode {
         $this->version = $version;
         //$this->setcurrency();
 
-        
-        add_action('template_redirect', array($this, 'localise_script'));
-        
         add_shortcode('sc-search_for_car', array($this, 'search_for_car'));
         add_shortcode('sc-pick_car', array($this, 'pick_car'));
         add_shortcode('sc-extras', array($this, 'extras'));
         add_shortcode('sc-checkout', array($this, 'checkout'));
         add_action('plugins_loaded', array($this, 'search_for_car_form'));
-   
+
         add_action('template_redirect', array($this, 'paypal'));
         add_filter('wp_mail_content_type', array($this, 'set_content_type'));
-        
- 
+
+
         if (!isset($_SESSION)) {
             session_start();
         }
     }
- 
-     
- 
-    
-        
 
-    public function paypal() {       
+    function set_content_type($content_type) {
+        return 'text/html';
+    }
+
+    public function paypal() {
 
 
         $sc_options_paypal = get_option('second_set_arraykey');
@@ -63,7 +59,7 @@ class Car_share_Shortcode {
             $PayPalApiSignature = $sc_options_paypal['apisignature-setting'];
         }
         if (!empty($email_option['notemail'])) {
-             $option_notification_email = $email_option['notemail'];
+            $option_notification_email = $email_option['notemail'];
         }
 
         //paypal options
@@ -279,38 +275,38 @@ class Car_share_Shortcode {
                 //odeslani informace obchodnikovi o objednavce - protoze objednavku ukladame uz v tomto kroku
                 // Example using the array form of $headers
                 // assumes $to, $subject, $message have already been defined earlier...
-                
- 
+
+
                 ob_start();
                 include_once('partials/email_order_client.php');
                 $email_customer_content = ob_get_contents();
                 ob_end_clean();
- 
 
-                $headers[] = 'From:  <' . $option_notification_email . '>';
+
+                $headers[] = 'From:  ' . $option_notification_email . '';
                 $to = $customer_email;
                 $subject = 'Booking email information';
                 $message = $email_customer_content;
-  
-                
+
+
                 wp_mail($to, $subject, $message, $headers);
-                
-                
+
+
                 ob_start();
                 include_once('partials/email_order.php');
                 $email_store_content = ob_get_contents();
                 ob_end_clean();
-                
-                
-                $headers[] = 'From:  <' . $option_notification_email . '>';
+
+
+                $headers[] = 'From:  ' . $option_notification_email . '';
                 $to = $option_notification_email;
                 $subject = 'Booking email information';
                 $message = $email_store_content;
 
                 //$message = include_once('/partial/email_order_client.php');
-                 
+
                 wp_mail($to, $subject, $message, $headers);
- 
+
                 //Redirect user to PayPal store with Token received.
                 $paypalurl = 'https://www' . $paypalmode . '.paypal.com/cgi-bin/webscr?cmd=_express-checkout&useraction=commit&token=' . $httpParsedResponseAr["TOKEN"] . '';
                 header('Location: ' . $paypalurl);
@@ -322,8 +318,8 @@ class Car_share_Shortcode {
                 print_r($httpParsedResponseAr);
                 echo '</pre>';
             }
-        } 
-        //Paypal redirects back to this page using ReturnURL, We should receive TOKEN and Payer ID 
+        }
+        //Paypal redirects back to this page using ReturnURL, We should receive TOKEN and Payer ID
         if (isset($_GET["token"]) && isset($_GET["PayerID"])) {
             //we will be using these two variables to execute the "DoExpressCheckoutPayment"
             //Note: we haven't received any payment yet.
@@ -406,44 +402,44 @@ class Car_share_Shortcode {
                     $payerid = urldecode($httpParsedResponseAr["PAYERID"]);
                     $responseamt = urldecode($httpParsedResponseAr["AMT"]);
                     $checkoutstatur = urldecode($httpParsedResponseAr["CHECKOUTSTATUS"]);
-                    
-                    
-              
-  
+
+
+
+
                     //save the transaction information
                     update_post_meta($post_insert_id, 'car_r_order_info', 'Completed GetExpressCheckoutDetails');
                     update_post_meta($post_insert_id, 'payerid', $payerid);
                     update_post_meta($post_insert_id, 'responseamt', $responseamt);
                     update_post_meta($post_insert_id, 'checkoutstaus', $checkoutstatur);
                     update_post_meta($post_insert_id, 'paypal_c_email', $buyerEmail);
- 
 
-                /*       $url = site_url();
 
-                ob_start();
-                include_once('partials/email_order_client.php');
-                $email_customer_content = ob_get_contents();
-                ob_end_clean();
+                    /*       $url = site_url();
 
-                ob_start();
-                include_once('partials/email_order.php');
-                $email_store_content = ob_get_contents();
-                ob_end_clean();
+                      ob_start();
+                      include_once('partials/email_order_client.php');
+                      $email_customer_content = ob_get_contents();
+                      ob_end_clean();
 
-                $headers[] = 'From:  <' . $option_notification_email . '>';
-                $to = $customer_email;
-                $subject = 'test email';
-                $message = $email_customer_content;
+                      ob_start();
+                      include_once('partials/email_order.php');
+                      $email_store_content = ob_get_contents();
+                      ob_end_clean();
 
-                wp_mail($to, $subject, $message, $headers);
+                      $headers[] = 'From:  <' . $option_notification_email . '>';
+                      $to = $customer_email;
+                      $subject = 'test email';
+                      $message = $email_customer_content;
 
-                $headers[] = 'From:  <' . $option_notification_email . '>';
-                $to = $option_notification_email;
-                $subject = 'test email';
-                $message = $email_store_content;
+                      wp_mail($to, $subject, $message, $headers);
 
-                //$message = include_once('/partial/email_order_client.php');
-                wp_mail($to, $subject, $message, $headers);*/
+                      $headers[] = 'From:  <' . $option_notification_email . '>';
+                      $to = $option_notification_email;
+                      $subject = 'test email';
+                      $message = $email_store_content;
+
+                      //$message = include_once('/partial/email_order_client.php');
+                      wp_mail($to, $subject, $message, $headers); */
 
                     //muzeme ukladat i dalsi hodnoty
                     //save the information in database
@@ -454,8 +450,6 @@ class Car_share_Shortcode {
                     update_post_meta($post_insert_id, 'car_r_order_info', 'Failed GetExpressCheckoutDetails');
 
                     $url = site_url();
-
-
                 }
             } else {
 
@@ -611,7 +605,7 @@ class Car_share_Shortcode {
 
         $sc_setting = get_option('sc_setting');
 
-        
+
         // base block, just allow select car from last return time..
         $booking_block_sql = "
                         OR
@@ -623,31 +617,30 @@ class Car_share_Shortcode {
                                     status = '" . car_share::STATUS_BOOKED . "'
                             )
                 ";
-        
+
         // find out, if is set up block type
         $block_type = '';
-        
-        if ($pick_up_location == $drop_off_location) {            
-            // same location            
-            if(isset($sc_setting['block_type'])){
+
+        if ($pick_up_location == $drop_off_location) {
+            // same location
+            if (isset($sc_setting['block_type'])) {
                 $block_type = $sc_setting['block_type'];
                 $car_block_time = floatval($sc_setting['block_interval']) * 60;
             }
-            
         } else {
-            // different location            
-            if(isset($sc_setting['block_type_diff_loc'])){
+            // different location
+            if (isset($sc_setting['block_type_diff_loc'])) {
                 $block_type = $sc_setting['block_type_diff_loc'];
                 $car_block_time = floatval($sc_setting['block_interval_diff_loc']) * 60;
             }
         }
-        
-        
+
+
         // if block type is set up, modify sql
-        if(!empty($block_type)){            
-            if('hours' == $block_type){
-                
-                $booking_block_sql = "        
+        if (!empty($block_type)) {
+            if ('hours' == $block_type) {
+
+                $booking_block_sql = "
                     OR
                         (
                             '$car_dto_string' > date_from
@@ -655,33 +648,31 @@ class Car_share_Shortcode {
                             DATE_ADD(date_to, INTERVAL $car_block_time MINUTE) > '$car_dfrom_string'
                         AND
                             status = '" . car_share::STATUS_BOOKED . "'
-                        )         
+                        )
                 ";
-                
-            }
-            else if('next_day' == $block_type){
-                
-                //$next_open_day =  
+            } else if ('next_day' == $block_type) {
+
+                //$next_open_day =
                 $location = new Location($drop_off_location);
                 $opening_hours = $location->get_opening_hours_with_day_key();
-                
+
                 $date_from = clone $car_dfrom;
-                
-                /*                
-                for($i = 1; $i <= 8; $i ++){
-                    $date_from->modify('+1 day');
-                    
-                    $day_name = $date_from->format("l");
-                    
-                    if(isset($opening_hours[$day_name]) && 1 == $opening_hours[$day_name]->open){
-                        break;
-                    }
-                }*/
-                
+
+                /*
+                  for($i = 1; $i <= 8; $i ++){
+                  $date_from->modify('+1 day');
+
+                  $day_name = $date_from->format("l");
+
+                  if(isset($opening_hours[$day_name]) && 1 == $opening_hours[$day_name]->open){
+                  break;
+                  }
+                  } */
+
                 $date_from->modify("-1 day");
                 $car_dfrom_string_next_day = $date_from->format('Y-m-d H:i:s');
-                
-                $booking_block_sql = "        
+
+                $booking_block_sql = "
                     OR
                         (
                             '$car_dto_string' > date_from
@@ -689,13 +680,12 @@ class Car_share_Shortcode {
                             date_to > '$car_dfrom_string_next_day'
                         AND
                             status = '" . car_share::STATUS_BOOKED . "'
-                        )         
-                ";                
-                
-            }            
-        }      
-        
-        
+                        )
+                ";
+            }
+        }
+
+
 
         $sql = "
             SELECT
@@ -800,9 +790,10 @@ class Car_share_Shortcode {
 
     public function checkout() {
 
-        $this->checkout_form(); 
+        $this->checkout_form();
         ob_start();
         include_once( 'partials/shortcode/checkout.php' );
         return ob_get_clean();
-    } 
+    }
+
 }
