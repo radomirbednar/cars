@@ -41,8 +41,11 @@ if (!empty($_SESSION['TOKENE'])) {
 
     global $wpdb;
     $dateinfo = $wpdb->get_row($wpdb->prepare("SELECT * FROM sc_single_car_status WHERE booking_id=%d", $post_ID));
+   
     $car_dfrom_string = $dateinfo->date_from;
     $car_dto_string = $dateinfo->date_to;
+    
+    
 
     if ($car_order == '1') {
         _e('<p>Thank your for your booking we will send our email booking confirmation to you</p>', $this->car_share);
@@ -184,10 +187,17 @@ if (!empty($_SESSION['TOKENE'])) {
         $car_ID = $Cars_cart_items['car_ID'];
         $car_result = $Cars_cart->get_ItembyID($car_ID);
         if (!empty($Cars_cart_items['car_datefrom']) && !empty($Cars_cart_items['car_dateto'])) {
-            $car_dfrom = $Cars_cart_items['car_datefrom'];
-            $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
+           
+            
+            $car_dfrom = $Cars_cart_items['car_datefrom']; 
+            $car_dfrom_string = $car_dfrom->format('d-m-Y H:i');       
+           
+            
+            
             $car_dto = $Cars_cart_items['car_dateto'];
-            $car_dto_string = $car_dto->format('Y-m-d H:i');
+            $car_dto_string = $car_dto->format('d-m-Y H:i');
+            
+            
             $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
             $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
             $total_price = $car_price + $extras_price;
