@@ -42,8 +42,19 @@ if (!empty($_SESSION['TOKENE'])) {
     global $wpdb;
     $dateinfo = $wpdb->get_row($wpdb->prepare("SELECT * FROM sc_single_car_status WHERE booking_id=%d", $post_ID));
    
+    
+    
+    
     $car_dfrom_string = $dateinfo->date_from;
     $car_dto_string = $dateinfo->date_to;
+    
+    
+    $car_dfrom_string = $car_dfrom_string->format('d-m-Y H:i');
+    $car_dto_string = $car_dto_string->format('d-m-Y H:i');
+                
+    
+    
+    
     
     
 
@@ -191,9 +202,7 @@ if (!empty($_SESSION['TOKENE'])) {
             
             $car_dfrom = $Cars_cart_items['car_datefrom']; 
             $car_dfrom_string = $car_dfrom->format('d-m-Y H:i');       
-           
-            
-            
+                            
             $car_dto = $Cars_cart_items['car_dateto'];
             $car_dto_string = $car_dto->format('d-m-Y H:i');
             
