@@ -43,13 +43,20 @@ if (!empty($_SESSION['TOKENE'])) {
     $dateinfo = $wpdb->get_row($wpdb->prepare("SELECT * FROM sc_single_car_status WHERE booking_id=%d", $post_ID));
    
                             
-    $car_dfrom_string = $dateinfo->date_from;
+    $car_dfrom_string = $dateinfo->date_from; 
     $car_dto_string = $dateinfo->date_to;
     
+    /* 
+     * Format date - must be from admin 
+     */
     
-    $car_dfrom_string = $car_dfrom_string->format('d-m-Y H:i');
+    $car_dto_string = DateTime::createFromFormat('Y-m-d H:i:s', $car_dto_string);
     $car_dto_string = $car_dto_string->format('d-m-Y H:i');
-                
+                            
+    $car_dfrom_string = DateTime::createFromFormat('Y-m-d H:i:s', $car_dfrom_string);
+    $car_dfrom_string = $car_dfrom_string->format('d-m-Y H:i');
+                            
+                            
                             
     if ($car_order == '1') {
         _e('<p>Thank your for your booking we will send our email booking confirmation to you</p>', $this->car_share);
@@ -179,9 +186,11 @@ if (!empty($_SESSION['TOKENE'])) {
     //we have the information about the token
     //Unset all of the session variables.
     // Finally, destroy the session.
-
+                            
     $_SESSION = array();
     session_destroy();
+                            
+    
 } elseif (!empty($Cars_cart_items)) {
 
     if (!empty($Cars_cart_items['service'])) {
