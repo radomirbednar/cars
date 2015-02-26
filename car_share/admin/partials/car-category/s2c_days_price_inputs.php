@@ -12,23 +12,32 @@ if (!empty($season_id)):
 <?php endif; ?>
 
 <div class="edit-new-s2c">
-    <table>
+    <table id="session2category">
         <tbody>
+            
             <tr>
+                <td></td>
                 <?php foreach ($days as $day_name => $label): ?>
                     <td><?php _e($label, $this->car_share) ?>:</td>
-<?php endforeach; ?>
+                <?php endforeach; ?>
             </tr>
 
             <tr>
+                <td></td>
                 <?php foreach ($days as $day_name => $label): ?>
                     <td><input type="number" step="0.01" name="_season_to_category_prices[<?php echo $day_name ?>]" class="day-price" value="<?php echo isset($category_day_prices[$day_name]) ? $category_day_prices[$day_name] : 0 ?>"></td>
-<?php endforeach; ?>
+                <?php endforeach; ?>
             </tr>
+            
         </tbody>
     </table>
 
-    <button id="save-season-2-category" class="button button-primary" type="button"><?php _e('Save', $this->car_share) ?></button>
+    <hr>
+    
+    <button id="add-season-2-category-discount" class="button button-primary alignright" type="button"><?php _e('Add discount', $this->car_share) ?></button>
+    <button id="save-season-2-category" class="button button-primary alignleft" type="button"><?php _e('Save', $this->car_share) ?></button>
+    
+    <div class="clear"></div>
 </div>
 
 <script>
@@ -61,7 +70,45 @@ if (!empty($season_id)):
 
                 //var new_element = $('#single_car_box_' + id).after(ret);
             }).fail(function (ret) {
-                
+
+            }).always(function () {
+                self.prop("disabled", false);
+            });
+
+        });
+
+        /**
+         * 
+         */
+        $('#car_category_assign_season').on('click', '#add-season-2-category-discount', function (event) {           
+
+            event.preventDefault();
+
+            var self = $(this);
+            var id = <?php echo (int) $post_id; ?>; // category id
+            var form_data = $(this).parents('form').serialize();            
+
+            jQuery.ajax({
+                type: 'post',
+                url: ajaxurl,
+                //dataType: "json",
+                data: {
+                    'category_id': id,
+                    //'season_id' : season_id,
+                    'action': 's2c_discount_upon_duration_row',
+                    'form': form_data,
+                    'row_key' : s2c_row_key
+                },
+                beforeSend: function () {
+                    self.prop("disabled", true);
+                    //$('#season2category-response').html('');
+                }
+            }).done(function (ret) {
+                // reload content
+                $('#session2category tbody').append(ret);
+                s2c_row_key++;                
+            }).fail(function (ret) {
+
             }).always(function () {
                 self.prop("disabled", false);
             });

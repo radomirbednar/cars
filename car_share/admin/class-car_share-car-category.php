@@ -45,7 +45,25 @@ class Car_share_CarCategory {
         add_action('wp_ajax_season2category_days', array($this, 'ajax_season2category_days'));
         add_action('wp_ajax_delete_season_to_category', array($this, 'ajax_delete_season_to_category'));
         add_action('wp_ajax_save_season2category', array($this, 'ajax_save_season2category'));
+        
+        add_action('wp_ajax_discount_upon_duration_row', array($this, 'discount_upon_duration_row'));
+        add_action('wp_ajax_s2c_discount_upon_duration_row', array($this, 's2c_discount_upon_duration_row'));
+        //add_action('wp_ajax_season2category_discount', array($this, 'season2category_discount'));
     }
+    
+    /*
+    public function season2category_discount(){
+        
+        
+        discount_upon_duration_row
+        
+        //$category_id = $_POST['category_id'];
+        
+        //$params = array();
+        //parse_str($_POST['form'], $params);       
+        
+        die();
+    }*/
     
     /*
     public function ajax_reload_s2c_content(){
@@ -56,6 +74,20 @@ class Car_share_CarCategory {
         include 'partials/car-category/content_assigned_season.php';
         exit();        
     }*/
+    
+    public function s2c_discount_upon_duration_row(){
+        $row_key = $_POST['row_key'];
+        $input_name = '_s2c_discount_upon_duration';
+        include 'partials/car-category/discount_upon_duration_row.php';        
+        die();        
+    }
+    
+    public function discount_upon_duration_row(){        
+        $row_key = $_POST['row_key'];
+        $input_name = '_discount_upon_duration';
+        include 'partials/car-category/discount_upon_duration_row.php';        
+        die();
+    }
 
     public function ajax_save_season2category() {
 
@@ -366,11 +398,14 @@ class Car_share_CarCategory {
 
             if (!empty($_POST['_discount_upon_duration'])) {
                 $arr_to_save = array();
-                foreach ($_POST['_discount_upon_duration'] as $discount) {
+                
+                foreach ($_POST['_discount_upon_duration'] as $discount) {                    
                     $days = (int) $discount['days'];
-                    $percentage = floatval($discount['percentage']);
-                    $arr_to_save[$days] = $percentage;
+                    unset($discount['days']);
+                    //$percentage = floatval($discount['percentage']);
+                    $arr_to_save[$days] = $discount;
                 }
+                
                 update_post_meta($post->ID, '_discount_upon_duration', $arr_to_save);
             }
 

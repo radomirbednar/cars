@@ -1,58 +1,55 @@
-<table id="discount-table" class="overvies-table">
+<table id="discount-table" class="">
     <tbody>
+        <?php
+        
+        $row_key = 0;
+        $input_name = '_discount_upon_duration';
+        
+        if (!empty($discount_upon_duration)):
+            foreach ($discount_upon_duration as $days_number => $discount):
+                include 'discount_upon_duration_row.php';        
+                $row_key++;
+            endforeach;
+        endif;
+        ?>
 
     </tbody>
     <tfoot>
         <tr>
             <td colspan="3">
                 <button id="new-discount" type="button" class="button button-primary"><?php _e('Add discount', $this->car_share) ?></button>
-            </td>    
+            </td>
         </tr>
-    </tfoot>    
+    </tfoot>
 </table>
 
 <script>
+    var row_key = <?php echo empty($discount_upon_duration) ? 0 : count($discount_upon_duration) ?>;
+
     jQuery(document).ready(function ($) {
-
-        var row_key = 0;
-
-        function htmlPriceRow(key, days, percentage) {
-
-            var str = '<tr class="item">' +
-                    '<td>' +
-                    '<label><?php _e('After days:', $this->car_share) ?> ' +
-                    '<input type="text" class="small-input" name="_discount_upon_duration[' + key + '][days]" value="' + days + '">' +
-                    '</label>' +
-                    '</td>' +
-                    '<td>' +
-                    '<label><?php _e('Discount (%) of total amount:', $this->car_share) ?> ' +
-                    '<input type="number" step="0.1" class="small-input" name="_discount_upon_duration[' + key + '][percentage]" value="' + percentage + '">' +
-                    '</label>' +
-                    '</td>' +
-                    '<td>' +
-                    '<button class="remove-row" type="button"><?php _e("X", $this->car_share) ?></button>' +
-                    '</td>' +
-                    '</tr>';
-            
-            return str;
-        }
-
-<?php
-if (!empty($discount_upon_duration)):
-    foreach ($discount_upon_duration as $days => $percentage):
-        ?>
-                var row = htmlPriceRow('<?php echo $days ?>', '<?php echo $days ?>', '<?php echo $percentage ?>');
-                $('#discount-table tbody').append(row);
-                row_key++;
-        <?php
-    endforeach;
-endif;
-?>
-
         $('#new-discount').click(function (e) {
-            var row = htmlPriceRow(row_key, '', '');
-            $('#discount-table tbody').append(row);
-            row_key++;
+
+            var self = $(this);
+
+            jQuery.ajax({
+                type: 'post',
+                url: ajaxurl,
+                //dataType: "json",
+                data: {
+                    'row_key': row_key,
+                    'action': 'discount_upon_duration_row',
+                },
+                beforeSend: function () {
+                    self.prop("disabled", true);
+                }
+            }).done(function (ret) {
+                $('#discount-table tbody').append(ret);
+                row_key++;
+            }).fail(function (ret) {
+                alert('<?php esc_attr_e('Error', $this->car_share) ?>');
+            }).always(function () {
+                self.prop("disabled", false);
+            });
         });
 
         $('#discount-table').on('click', 'tbody .remove-row', function (event) {

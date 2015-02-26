@@ -2,7 +2,9 @@
     <tbody id="content-season2category">
         <?php include 'content_assigned_season.php'; ?>
     </tbody>
-</table> 
+</table>
+
+<hr>
 <a id="assign-new-season" type="button" class="button button-primary alignright" href="#"><?php _e('Assign new season', $this->car_share) ?></a>
 <div class="clear"></div> 
 <div id="season2category-response"></div> 
@@ -74,6 +76,7 @@
         });
 
         $("#assign-new-season").click(function (event) {
+        
             event.preventDefault();
             var self = $(this);
 
