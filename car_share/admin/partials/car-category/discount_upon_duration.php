@@ -3,6 +3,7 @@
         <?php
         
         $row_key = 0;
+        $input_name = '_discount_upon_duration';
         
         if (!empty($discount_upon_duration)):
             foreach ($discount_upon_duration as $days_number => $discount):

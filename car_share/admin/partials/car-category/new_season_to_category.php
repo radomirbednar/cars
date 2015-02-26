@@ -17,6 +17,9 @@
 <!--</form>-->
 
 <script>
+    
+    var s2c_row_key = 0;
+    
     jQuery(document).ready(function ($) {
         $('#poststuff').on('change', '#season2category-select', function (event) {
             

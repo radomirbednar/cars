@@ -47,7 +47,23 @@ class Car_share_CarCategory {
         add_action('wp_ajax_save_season2category', array($this, 'ajax_save_season2category'));
         
         add_action('wp_ajax_discount_upon_duration_row', array($this, 'discount_upon_duration_row'));
+        add_action('wp_ajax_s2c_discount_upon_duration_row', array($this, 's2c_discount_upon_duration_row'));
+        //add_action('wp_ajax_season2category_discount', array($this, 'season2category_discount'));
     }
+    
+    /*
+    public function season2category_discount(){
+        
+        
+        discount_upon_duration_row
+        
+        //$category_id = $_POST['category_id'];
+        
+        //$params = array();
+        //parse_str($_POST['form'], $params);       
+        
+        die();
+    }*/
     
     /*
     public function ajax_reload_s2c_content(){
@@ -59,10 +75,16 @@ class Car_share_CarCategory {
         exit();        
     }*/
     
-    public function discount_upon_duration_row(){
-        
+    public function s2c_discount_upon_duration_row(){
         $row_key = $_POST['row_key'];
-        
+        $input_name = '_s2c_discount_upon_duration';
+        include 'partials/car-category/discount_upon_duration_row.php';        
+        die();        
+    }
+    
+    public function discount_upon_duration_row(){        
+        $row_key = $_POST['row_key'];
+        $input_name = '_discount_upon_duration';
         include 'partials/car-category/discount_upon_duration_row.php';        
         die();
     }

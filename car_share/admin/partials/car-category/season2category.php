@@ -86,6 +86,7 @@
         });
 
         $("#assign-new-season").click(function (event) {
+        
             event.preventDefault();
             var self = $(this);
 

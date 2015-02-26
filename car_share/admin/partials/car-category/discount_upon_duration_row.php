@@ -3,14 +3,14 @@
 <tr class="item">
     <td>
         <label><?php _e('After days:', $this->car_share) ?>
-            <input type="number" class="small-input" name="_discount_upon_duration[<?php echo esc_attr($row_key) ?>][days]" value="<?php echo isset($days_number) ? esc_attr($days_number) : '' ?>">
+            <input type="number" class="small-input" name="<?php echo $input_name ?>[<?php echo esc_attr($row_key) ?>][days]" value="<?php echo isset($days_number) ? esc_attr($days_number) : '' ?>">
         </label>
     </td>    
 
     <?php foreach ($days as $day): ?>
         <td>
             <label><?php _e($day, $this->car_share) ?>
-                <input type="number" step="0.5" class="small-input" name="_discount_upon_duration[<?php echo esc_attr($row_key) ?>][<?php echo esc_attr($day) ?>][discount]" value="<?php echo isset($discount[$day]['discount']) ? esc_attr($discount[$day]['discount']) : '' ?>">
+                <input type="number" step="0.5" class="day-price" name="<?php echo $input_name ?>[<?php echo esc_attr($row_key) ?>][<?php echo esc_attr($day) ?>][discount]" value="<?php echo isset($discount[$day]['discount']) ? esc_attr($discount[$day]['discount']) : '' ?>">
             </label>
         </td>
     <?php endforeach; ?>  
