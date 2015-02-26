@@ -86,7 +86,7 @@ if (!empty($season_id)):
 
             var self = $(this);
             var id = <?php echo (int) $post_id; ?>; // category id
-            var form_data = $(this).parents('form').serialize()
+            var form_data = $(this).parents('form').serialize();            
 
             jQuery.ajax({
                 type: 'post',
@@ -97,6 +97,7 @@ if (!empty($season_id)):
                     //'season_id' : season_id,
                     'action': 's2c_discount_upon_duration_row',
                     'form': form_data,
+                    'row_key' : s2c_row_key
                 },
                 beforeSend: function () {
                     self.prop("disabled", true);
@@ -105,8 +106,7 @@ if (!empty($season_id)):
             }).done(function (ret) {
                 // reload content
                 $('#session2category tbody').append(ret);
-
-                //var new_element = $('#single_car_box_' + id).after(ret);
+                s2c_row_key++;                
             }).fail(function (ret) {
 
             }).always(function () {
