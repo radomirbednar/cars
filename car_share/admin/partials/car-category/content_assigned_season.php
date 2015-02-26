@@ -44,6 +44,7 @@ foreach ($season2category_prices as $season_id => $season_price):
         <td></td>
     </tr>
     
-    
-    
+    <?php  ?>
+
+  
 <?php endforeach; ?>

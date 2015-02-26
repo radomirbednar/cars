@@ -9,14 +9,17 @@
 <div class="clear"></div> 
 <div id="season2category-response"></div> 
 <script>
-    
-    jQuery(document).ready(function ($) { 
+
+    jQuery(document).ready(function ($) {
+        
+        var s2c_row_key = 0;
+        
         /**
          *
          */
         $('#car_category_assign_season').on('click', '.remove-s2c', function (event) {
 
-            event.preventDefault(); 
+            event.preventDefault();
             var r = confirm("<?php _e('Are you sure?', $this->car_share) ?>");
             if (r == false) {
                 return false;
@@ -45,15 +48,15 @@
             }).always(function () {
                 //self.prop("disabled", false);
             });
-        }); 
+        });
         /**
          *
          */
-        $('#car_category_assign_season').on('click', '.edit-s2c', function (event) { 
-            event.preventDefault(); 
+        $('#car_category_assign_season').on('click', '.edit-s2c', function (event) {
+            event.preventDefault();
             var car_category_id = $(this).data('car_category_id');
             var season_id = $(this).data('season_id');
-            var self = $(this); 
+            var self = $(this);
             $.ajax({
                 type: 'post',
                 url: ajaxurl,
@@ -76,7 +79,7 @@
         });
 
         $("#assign-new-season").click(function (event) {
-        
+
             event.preventDefault();
             var self = $(this);
 
@@ -99,7 +102,44 @@
             }).always(function () {
                 self.prop("disabled", false);
             });
-        }); 
+        });
+
+        /**
+         *
+         */
+        $('#car_category_assign_season').on('click', '#add-season-2-category-discount', function (event) {
+
+            event.preventDefault();
+
+            var self = $(this);
+            var id = <?php echo (int) $post_id; ?>; // category id
+            var form_data = $(this).parents('form').serialize();
+
+            jQuery.ajax({
+                type: 'post',
+                url: ajaxurl,
+                //dataType: "json",
+                data: {
+                    'category_id': id,
+                    //'season_id' : season_id,
+                    'action': 's2c_discount_upon_duration_row',
+                    'form': form_data,
+                    'row_key': s2c_row_key
+                },
+                beforeSend: function () {
+                    self.prop("disabled", true);
+                    //$('#season2category-response').html('');
+                }
+            }).done(function (ret) {
+                // reload content
+                $('#session2category tbody').append(ret);
+                s2c_row_key++;
+            }).fail(function (ret) {
+
+            }).always(function () {
+                self.prop("disabled", false);
+            });
+        });
     });
 </script> 
 <?php 
