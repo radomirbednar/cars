@@ -27,8 +27,7 @@
         submit_button(__('Save Changes', $this->car_share));
         ?>
     </form>
-
-
+ 
     <form method="post" action="options.php">
         <?php
         // This prints out all hidden setting fields
@@ -52,10 +51,7 @@
     </form>
 
 </div>
-
-
-
-
+ 
 <?php
 /*
  * form for create the page and the
