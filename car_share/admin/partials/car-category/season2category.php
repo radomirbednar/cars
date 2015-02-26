@@ -6,23 +6,17 @@
 
 <hr>
 <a id="assign-new-season" type="button" class="button button-primary alignright" href="#"><?php _e('Assign new season', $this->car_share) ?></a>
-<div class="clear"></div>
-
-<div id="season2category-response"></div>
-
-
-
-
+<div class="clear"></div> 
+<div id="season2category-response"></div> 
 <script>
-    jQuery(document).ready(function ($) {
-
+    
+    jQuery(document).ready(function ($) { 
         /**
          *
          */
         $('#car_category_assign_season').on('click', '.remove-s2c', function (event) {
 
-            event.preventDefault();
-
+            event.preventDefault(); 
             var r = confirm("<?php _e('Are you sure?', $this->car_share) ?>");
             if (r == false) {
                 return false;
@@ -51,19 +45,15 @@
             }).always(function () {
                 //self.prop("disabled", false);
             });
-        });
-
+        }); 
         /**
          *
          */
-        $('#car_category_assign_season').on('click', '.edit-s2c', function (event) {
-
-            event.preventDefault();
-
+        $('#car_category_assign_season').on('click', '.edit-s2c', function (event) { 
+            event.preventDefault(); 
             var car_category_id = $(this).data('car_category_id');
             var season_id = $(this).data('season_id');
-            var self = $(this);
-
+            var self = $(this); 
             $.ajax({
                 type: 'post',
                 url: ajaxurl,
@@ -109,16 +99,10 @@
             }).always(function () {
                 self.prop("disabled", false);
             });
-        });
-
-
-
-
+        }); 
     });
-</script>
-
-<?php
-
+</script> 
+<?php 
 /*
 <script>
 
