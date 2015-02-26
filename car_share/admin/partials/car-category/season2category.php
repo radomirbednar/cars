@@ -4,6 +4,7 @@
     </tbody>
 </table>
 
+<hr>
 <a id="assign-new-season" type="button" class="button button-primary alignright" href="#"><?php _e('Assign new season', $this->car_share) ?></a>
 <div class="clear"></div>
 

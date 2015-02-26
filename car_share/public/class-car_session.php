@@ -148,6 +148,7 @@ class Car_Cart {
         $time_discount = get_post_meta($category_id, '_discount_upon_duration', true);
 
         $discount = 0;
+        
         if (!empty($time_discount)) {
             ksort($time_discount);
             foreach ($time_discount as $key => $val) {
