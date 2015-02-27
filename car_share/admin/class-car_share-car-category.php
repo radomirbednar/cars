@@ -116,13 +116,13 @@ class Car_share_CarCategory {
                 unset($discount['days']);
                 $arr_to_save[(int) $params['_season_to_category']][$day_number] = $discount;
             }
-            update_post_meta($car_category_id, '_s2c_discount_upon_duration', $arr_to_save);
+            update_post_meta($car_category_id, '_s2c_discount_upon_duration', $arr_to_save);                    
         }
 
         $category = new sc_Category($car_category_id);
         $season2category_prices = $category->season_to_category_prices();
 
-        $s2c_discount_upon_duration = update_post_meta($car_category_id, '_s2c_discount_upon_duration', $arr_to_save);
+        $s2c_discount_upon_duration = get_post_meta($car_category_id, '_s2c_discount_upon_duration', true);
 
         include 'partials/car-category/content_assigned_season.php';
         exit();
@@ -256,10 +256,11 @@ class Car_share_CarCategory {
         //global $post;
         $post_id = $_POST['id']; // category id
         $season_id = $_POST['season_id'];
-        //$season = new sc_Season($season_id);
 
         $car_category = new sc_Category($post_id);
         $category_day_prices = $car_category->day_prices_indexed_with_dayname($season_id);
+        
+        $s2c_discount_upon_duration = get_post_meta($post_id, '_s2c_discount_upon_duration', true);
 
         include 'partials/car-category/s2c_days_price_inputs.php';
         die();
@@ -273,6 +274,8 @@ class Car_share_CarCategory {
 
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-season' AND post_status IN ('publish')";
         $seasons = $wpdb->get_results($sql);
+        
+        //$s2c_discount_upon_duration = get_post_meta($car_category_id, '_s2c_discount_upon_duration', true);
 
         include 'partials/car-category/new_season_to_category.php';
         die();
@@ -286,7 +289,7 @@ class Car_share_CarCategory {
         $category = new sc_Category($car_category_id);
         $season2category = $category->day_prices_indexed_with_dayname();
         
-        $s2c_discount_upon_duration = update_post_meta($car_category_id, '_s2c_discount_upon_duration', $arr_to_save);
+        $s2c_discount_upon_duration = get_post_meta($car_category_id, '_s2c_discount_upon_duration', true);
 
         include 'partials/car-category/content_assigned_season.php';
         die();
@@ -319,6 +322,10 @@ class Car_share_CarCategory {
         global $post;
         $category = new sc_Category($post);
         $season2category_prices = $category->season_to_category_prices();
+        
+        // 
+        $s2c_discount_upon_duration = get_post_meta($post->ID, '_s2c_discount_upon_duration', true);
+        
         include 'partials/car-category/season2category.php';
     }
 

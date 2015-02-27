@@ -6,14 +6,14 @@
 
 <hr>
 <a id="assign-new-season" type="button" class="button button-primary alignright" href="#"><?php _e('Assign new season', $this->car_share) ?></a>
-<div class="clear"></div> 
-<div id="season2category-response"></div> 
+<div class="clear"></div>
+<div id="season2category-response"></div>
 <script>
 
     jQuery(document).ready(function ($) {
-        
-        var s2c_row_key = 0;
-        
+
+        var s2c_row_key = <?php echo isset($s2c_discount_upon_duration[$season_id]) ? count($s2c_discount_upon_duration[$season_id]) : 0; ?>;
+
         /**
          *
          */
@@ -112,7 +112,7 @@
             event.preventDefault();
 
             var self = $(this);
-            var id = <?php echo (int) $post_id; ?>; // category id
+            var id = <?php echo (int) $post->ID ?>; // category id
             var form_data = $(this).parents('form').serialize();
 
             jQuery.ajax({
@@ -140,9 +140,49 @@
                 self.prop("disabled", false);
             });
         });
+
+        /**
+         *
+         */
+        $('#car_category_assign_season').on('click', '#save-season-2-category', function (event) {        
+
+            //console.log('s2c season discount');
+            
+            event.preventDefault();
+
+            var self = $(this);
+            var id = <?php echo (int) $post->ID ?>; // category id
+            var form_data = $(this).parents('form').serialize()
+
+            jQuery.ajax({
+                type: 'post',
+                url: ajaxurl,
+                //dataType: "json",
+                data: {
+                    'id': id,
+                    //'season_id' : season_id,
+                    'action': 'save_season2category',
+                    'form': form_data,
+                },
+                beforeSend: function () {
+                    self.prop("disabled", true);
+                    $('#season2category-response').html('');
+                }
+            }).done(function (ret) {
+                // reload content
+                $('#content-season2category').html(ret);
+
+                //var new_element = $('#single_car_box_' + id).after(ret);
+            }).fail(function (ret) {
+
+            }).always(function () {
+                self.prop("disabled", false);
+            });
+        });
     });
-</script> 
-<?php 
+</script>
+
+<?php
 /*
 <script>
 
