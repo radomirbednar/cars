@@ -57,7 +57,7 @@ class Car_Cart {
      * @return int The price.
      */
     
-    public function day_discount($days_count, $day_shortname, $car_category_id, $session_id = 0){
+    public function day_discount($days_count, $day_name, $car_category_id, $session_id = 0){
         
         $day_discount = 0;
         
@@ -69,7 +69,7 @@ class Car_Cart {
             $discount = isset($sc2_discount[$session_id]) ? $sc2_discount[$session_id] : array();
         }
         
-        $applie_discount = array();
+        $applied_discount = array();
         
         if(!empty($discount)){            
             ksort($discount);
@@ -82,7 +82,10 @@ class Car_Cart {
             }
         }
         
-        return isset($applied_discount[$day_shortname]['discount']) ? floatval($applied_discount[$day_shortname]['discount']) : 0;
+        //$a = $applied_discount[$day_shortname];
+        //$d = $applied_discount[$day_shortname]['discount'];
+        $value = isset($applied_discount[$day_name]['discount']) ? floatval($applied_discount[$day_name]['discount']) : 0;
+        return $value;
     }
    
     public function get_car_price($single_car_id, DateTime $from, DateTime $to) {     
@@ -156,7 +159,7 @@ class Car_Cart {
 
             // find out if day belongs to some season
             $day_name = $day->format("l");
-            $day_shortname = $day->format("D");
+            //$day_shortname = $day->format("D");
 
             $day_price = 0;
             $day_discount = 0;
@@ -168,7 +171,7 @@ class Car_Cart {
                     $mam = true;
                     $day_price = isset($applied_season['prices'][$day_name]) ? $applied_season['prices'][$day_name] : 0;
                     
-                    $day_discount = $this->day_discount($days, $day_shortname, $category_id, $applied_season['ID']);
+                    $day_discount = $this->day_discount($days, $day_name, $category_id, $applied_season['ID']);
                     // find out discount on day                     
                 }
             }
@@ -178,7 +181,7 @@ class Car_Cart {
                     $day_price = isset($category_prices[$day_name]) ? $category_prices[$day_name] : 0; 
                     
                     // find out discount on day
-                    $day_discount = $this->day_discount($days, $day_shortname, $category_id);
+                    $day_discount = $this->day_discount($days, $day_name, $category_id);
                 }
             }  
             
