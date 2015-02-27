@@ -74,7 +74,7 @@ class Car_Cart {
         if(!empty($discount)){            
             ksort($discount);
             foreach ($discount as $key => $val) {
-                if ($key < $days_count) {
+                if ($key <= $days_count) {
                     $applied_discount = $val;
                 } else {
                     break;
@@ -97,6 +97,11 @@ class Car_Cart {
         $period = new DatePeriod($from, $day_interval, $to);
         $diff = $to->diff($from);
         $days = $diff->days;
+        
+        $hours = $diff->days * 24 + $diff->h;
+        
+        //$days = $diff->days;        
+        $days = ceil ($hours / 24);        
 
         $category_id = (int) get_post_meta($car_id, '_car_category', true); 
         
