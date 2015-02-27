@@ -61,7 +61,7 @@ class Car_Cart {
         
         $day_discount = 0;
         
-        if(!empty($session_id)){
+        if(empty($session_id)){
             $car_discount = get_post_meta($car_category_id, '_discount_upon_duration', true);
             $discount = empty($car_discount) ? array() : $car_discount;
         } else {
