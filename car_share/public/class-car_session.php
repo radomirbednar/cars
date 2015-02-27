@@ -279,9 +279,9 @@ class Car_Cart {
         //$days = $diff->days;        
         $days = ceil ($hours / 24);
      
-        $Cars_cart_items = $this->getItems();
-        $extras = $Cars_cart_items['service']; 
-        
+        $Cars_cart_items = $this->getItems(); 
+        if(!empty($Cars_cart_items['service'])){
+        $extras = $Cars_cart_items['service'];  
         $extras_prices='';         
              
         foreach ($extras as $key => $extras_value) {   
@@ -298,7 +298,8 @@ class Car_Cart {
             }   
         } 
         return $extras_prices; 
-    }
+        } 
+        }
     
     
     
