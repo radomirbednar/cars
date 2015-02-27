@@ -56,6 +56,37 @@ class Car_Cart {
      * @param string $order_code The order code of the item.
      * @return int The price.
      */
+    
+    public function day_discount($days_count, $day_name, $car_category_id, $session_id = 0){
+        
+        $day_discount = 0;
+        
+        if(!empty($session_id)){
+            $car_discount = get_post_meta($car_category_id, '_discount_upon_duration', true);
+            $discount = empty($car_discount) ? array() : $car_discount;
+        } else {
+            $sc2_discount = get_post_meta($car_category_id, '_s2c_discount_upon_duration', true); 
+            $discount = isset($sc2_discount[$session_id]) ? $sc2_discount[$session_id] : array();
+        }
+        
+        $applied_discount = array();
+        
+        if(!empty($discount)){            
+            ksort($discount);
+            foreach ($discount as $key => $val) {
+                if ($key < $days_count) {
+                    $applied_discount = $val;
+                } else {
+                    break;
+                }
+            }
+        }
+        
+        //$a = $applied_discount[$day_shortname];
+        //$d = $applied_discount[$day_shortname]['discount'];
+        $value = isset($applied_discount[$day_name]['discount']) ? floatval($applied_discount[$day_name]['discount']) : 0;
+        return $value;
+    }
    
     public function get_car_price($single_car_id, DateTime $from, DateTime $to) {     
      
@@ -67,7 +98,8 @@ class Car_Cart {
         $diff = $to->diff($from);
         $days = $diff->days;
 
-        $category_id = (int)get_post_meta($car_id, '_car_category', true); 
+        $category_id = (int) get_post_meta($car_id, '_car_category', true); 
+        
         /**
          *
          */
@@ -105,46 +137,60 @@ class Car_Cart {
         $seasons = $wpdb->get_results($sql);
 
         $applied_sessions = array();
-        foreach ((array) $seasons as $session) {
-            $begin = DateTime::createFromFormat('Y-m-d H:i:s', $session->date_from);
-            $end = DateTime::createFromFormat('Y-m-d H:i:s', $session->date_to);        
+        
+        foreach ((array) $seasons as $season) {
+            $begin = DateTime::createFromFormat('Y-m-d H:i:s', $season->date_from);
+            $end = DateTime::createFromFormat('Y-m-d H:i:s', $season->date_to);        
 
-            $season_prices = $car_category->day_prices_indexed_with_dayname($session->ID);
+            $season_prices = $car_category->day_prices_indexed_with_dayname($season->ID);
 
             $applied_sessions[] = array(
                 'start' => $begin,
                 'end' => $end,
-                'prices' => $season_prices
+                'prices' => $season_prices,
+                'ID' => $season->ID,
             );
         }
 
-        $total_price = 0;
+        $price_without_discount = 0;
+        $discount = 0;
 
         foreach ($period as $day) {
 
             // find out if day belongs to some season
             $day_name = $day->format("l");
+            //$day_shortname = $day->format("D");
 
             $day_price = 0;
+            $day_discount = 0;
+            
             $mam = false;
 
             foreach ($applied_sessions as $applied_season) {
                 if (($applied_season['start'] < $day) && ($day < $applied_season['end'])) {
                     $mam = true;
                     $day_price = isset($applied_season['prices'][$day_name]) ? $applied_season['prices'][$day_name] : 0;
+                    
+                    $day_discount = $this->day_discount($days, $day_name, $category_id, $applied_season['ID']);
+                    // find out discount on day                     
                 }
             }
 
             if ($mam == false) {
                 if (isset($category_prices[$day_name])) {
-                    $day_price = isset($category_prices[$day_name]) ? $category_prices[$day_name] : 0;
+                    $day_price = isset($category_prices[$day_name]) ? $category_prices[$day_name] : 0; 
+                    
+                    // find out discount on day
+                    $day_discount = $this->day_discount($days, $day_name, $category_id);
                 }
-            }
-
-            $total_price += floatval($day_price);
+            }  
+            
+            $discount += floatval($day_discount);
+            $price_without_discount += floatval($day_price);
         }
 
         // apply time discount
+        /*
         $time_discount = get_post_meta($category_id, '_discount_upon_duration', true);
 
         $discount = 0;
@@ -158,15 +204,19 @@ class Car_Cart {
                     break;
                 }
             }
-        }
+        }*/
 
         //
+        /*
         if ($discount > 0) {
             $total_price = $total_price - $total_price * $discount / 100;
-        } 
+        }*/
+        
+        $total_price = $price_without_discount - $discount;        
         //
         return $total_price;
     } 
+    
     
     public function getTotalPrice(){
         

@@ -16,10 +16,7 @@
     <div id="message-place" class="alignleft green"></div>
 <!--</form>-->
 
-<script>
-    
-    var s2c_row_key = 0;
-    
+<script>    
     jQuery(document).ready(function ($) {
         $('#poststuff').on('change', '#season2category-select', function (event) {
             
