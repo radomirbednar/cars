@@ -210,11 +210,9 @@ class Car_Cart {
         /*
         if ($discount > 0) {
             $total_price = $total_price - $total_price * $discount / 100;
-        }*/ 
+        }*/
         
-        
-        $total_price = $price_without_discount - $discount;
-        
+        $total_price = $price_without_discount - $discount;        
         //
         return $total_price;
     } 
