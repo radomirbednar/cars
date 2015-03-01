@@ -2,7 +2,7 @@
 
 <tr class="item">
     <td>
-        <label><?php _e('After days:', $this->car_share) ?>
+        <label><?php _e('From days:', $this->car_share) ?>
             <input type="number" class="small-input" name="<?php echo $input_name ?>[<?php echo esc_attr($row_key) ?>][days]" value="<?php echo isset($days_number) ? esc_attr($days_number) : '' ?>">
         </label>
     </td>    

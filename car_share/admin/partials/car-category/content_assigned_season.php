@@ -52,7 +52,7 @@ foreach ($season2category_prices as $season_id => $season_price):
             ?>    
             <tr class="assigned-session-<?php echo esc_attr($season_id) ?>">
 
-                <td><?php _e('After days:', $this->car_share) ?> <?php echo (int) $day_number ?></td>
+                <td><?php _e('From days:', $this->car_share) ?> <?php echo (int) $day_number ?></td>
 
                 <?php foreach ($discount as $day_key => $day_discount): ?>
                 <td><?php echo esc_attr($day_discount['discount']) ?></td>

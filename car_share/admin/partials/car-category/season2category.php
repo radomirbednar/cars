@@ -12,7 +12,7 @@
 
     jQuery(document).ready(function ($) {
 
-        var s2c_row_key = <?php echo isset($s2c_discount_upon_duration[$season_id]) ? count($s2c_discount_upon_duration[$season_id]) : 0; ?>;
+        var s2c_row_key = <?php echo isset($season_id) && is_array($s2c_discount_upon_duration) && isset($s2c_discount_upon_duration[$season_id]) ? count($s2c_discount_upon_duration[$season_id]) : 0; ?>;
 
         /**
          *
