@@ -16,6 +16,21 @@ class sc_Car {
         
     }
     
+    public static function transmission($id){
+        $options = sc_Car::getTransmissionOptions();
+        return isset($options[$id]) ? $options[$id] : '';
+    }
+    
+    public static function airCondition($id){
+        $options = sc_Car::getAirOptions();
+        return isset($options[$id]) ? $options[$id] : '';
+    }
+    
+    public static function fuel($id){
+        $options = sc_Car::getFuelOptions();
+        return isset($options[$id]) ? $options[$id] : '';
+    }    
+    
     public static function getTransmissionOptions(){
         
         $arr = array(
@@ -29,17 +44,17 @@ class sc_Car {
     public static function getFuelOptions(){
          
         $arr = array( 
-          1=> 'Petrol',
-          2=> 'Mixed',
-          3=> 'Diesel',   
+          1 => __('Petrol', 'car_share'),
+          2 => __('Mixed', 'car_share'),
+          3 => __('Diesel', 'car_share'),   
         );  
         return $arr; 
     }
     
     public static function getAirOptions(){ 
         $arr = array( 
-          1=> 'yes',
-          2=> 'no',  
+          1 => __('yes', 'car_share'),
+          2 => __('no', 'car_share'),  
         );  
         return $arr; 
     }
