@@ -40,9 +40,10 @@
                     //self.prop("disabled", true);
                 }
             }).done(function (ret) {
-                self.parents('.s2c-row').next().next().remove();
-                self.parents('.s2c-row').next().remove();
-                self.parents('.s2c-row').remove();
+                $('.assigned-session-' + season_id).remove();
+                //self.parents('.s2c-row').next().next().remove();
+                //self.parents('.s2c-row').next().remove();
+                //self.parents('.s2c-row').remove();
             }).fail(function (ret) {
 
             }).always(function () {

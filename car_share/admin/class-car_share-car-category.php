@@ -49,6 +49,35 @@ class Car_share_CarCategory {
         add_action('wp_ajax_discount_upon_duration_row', array($this, 'discount_upon_duration_row'));
         add_action('wp_ajax_s2c_discount_upon_duration_row', array($this, 's2c_discount_upon_duration_row'));
         //add_action('wp_ajax_season2category_discount', array($this, 'season2category_discount'));
+
+        add_filter('manage_sc-car-category_posts_columns', array($this, 'column_head'));
+        add_action('manage_sc-car-category_posts_custom_column', array($this, 'column_content'), 10, 2);
+    }
+
+    public function column_head($defaults) {
+        $date = $defaults['date'];
+        unset($defaults['date']);
+        $defaults['cat_seasons'] = __('Seasons', $this->car_share);
+        $defaults['date'] = $date;
+        return $defaults;
+    }
+
+    public function column_content($column_name, $post_id) {
+        switch ($column_name) {
+            case 'cat_seasons':
+                global $wpdb;
+                $sql = "SELECT season_id FROM day_prices WHERE car_category_id = '" . esc_sql($post_id) . "' AND season_id != 0 GROUP BY season_id ";
+                $seasons_ids = $wpdb->get_col($sql);
+
+                $seasons = array();
+                foreach ($seasons_ids as $season_id) {
+                    // $t = get_the_title($season_id);
+                    $seasons[] = get_the_title($season_id);
+                }
+
+                echo implode(', ', $seasons);
+                break;
+        }
     }
 
     /*
@@ -64,7 +93,6 @@ class Car_share_CarCategory {
 
       die();
       } */
-
 
     public function s2c_discount_upon_duration_row() {
         $row_key = $_POST['row_key'];
@@ -103,12 +131,25 @@ class Car_share_CarCategory {
             }
         }
 
-        delete_post_meta($car_category_id, '_s2c_discount_upon_duration');
+
 
         //
         if (!empty($params['_s2c_discount_upon_duration'])) {
 
+            // odstranim pouze sezonu, kterou preukladam
+            $s2c_discount_upon_duration = get_post_meta($car_category_id, '_s2c_discount_upon_duration', true);
+
             $arr_to_save = array();
+
+            if (isset($s2c_discount_upon_duration[$params['_season_to_category']])) {
+                unset($s2c_discount_upon_duration[$params['_season_to_category']]);
+            }
+
+            // podrzim slevy na ostatni prirazene sezony
+            if (is_array($s2c_discount_upon_duration)) {
+                $arr_to_save = $s2c_discount_upon_duration;
+            }
+
             $arr_to_save[(int) $params['_season_to_category']] = array();
 
             foreach ($params['_s2c_discount_upon_duration'] as $key => $discount) {
@@ -116,7 +157,9 @@ class Car_share_CarCategory {
                 unset($discount['days']);
                 $arr_to_save[(int) $params['_season_to_category']][$day_number] = $discount;
             }
-            update_post_meta($car_category_id, '_s2c_discount_upon_duration', $arr_to_save);                    
+            update_post_meta($car_category_id, '_s2c_discount_upon_duration', $arr_to_save);
+        } else {
+            //delete_post_meta($car_category_id, '_s2c_discount_upon_duration');
         }
 
         $category = new sc_Category($car_category_id);
@@ -129,11 +172,6 @@ class Car_share_CarCategory {
     }
 
     public function add_custom_boxes() {
-
-        /*
-          add_meta_box(
-          'car_category_block_interval', __('Car block interval', $this->car_share), array($this, 'block_interval_box'), 'sc-car-category'
-          ); */
 
         add_meta_box(
                 'car_category_different_location_return_price', __('Price for return to different location', $this->car_share), array($this, 'different_location_return_price_box'), 'sc-car-category'
@@ -259,7 +297,7 @@ class Car_share_CarCategory {
 
         $car_category = new sc_Category($post_id);
         $category_day_prices = $car_category->day_prices_indexed_with_dayname($season_id);
-        
+
         $s2c_discount_upon_duration = get_post_meta($post_id, '_s2c_discount_upon_duration', true);
 
         include 'partials/car-category/s2c_days_price_inputs.php';
@@ -274,7 +312,7 @@ class Car_share_CarCategory {
 
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-season' AND post_status IN ('publish')";
         $seasons = $wpdb->get_results($sql);
-        
+
         //$s2c_discount_upon_duration = get_post_meta($car_category_id, '_s2c_discount_upon_duration', true);
 
         include 'partials/car-category/new_season_to_category.php';
@@ -288,13 +326,12 @@ class Car_share_CarCategory {
 
         $category = new sc_Category($car_category_id);
         $season2category = $category->day_prices_indexed_with_dayname();
-        
+
         $s2c_discount_upon_duration = get_post_meta($car_category_id, '_s2c_discount_upon_duration', true);
 
         include 'partials/car-category/content_assigned_season.php';
         die();
     }
-
 
     public function different_location_return_price_box($post) {
         //global $post;
@@ -322,10 +359,10 @@ class Car_share_CarCategory {
         global $post;
         $category = new sc_Category($post);
         $season2category_prices = $category->season_to_category_prices();
-        
+
         // 
         $s2c_discount_upon_duration = get_post_meta($post->ID, '_s2c_discount_upon_duration', true);
-        
+
         include 'partials/car-category/season2category.php';
     }
 
