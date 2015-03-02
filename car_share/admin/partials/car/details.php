@@ -1,9 +1,7 @@
-<?php
-
+<?php 
     $transsition_options = sc_Car::getTransmissionOptions(); 
     $fuel_option = sc_Car::getFuelOptions();
-    $air_option = sc_Car::getAirOptions();
-    
+    $air_option = sc_Car::getAirOptions(); 
 ?>
 
 <table>
