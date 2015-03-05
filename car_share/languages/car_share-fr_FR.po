@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Car share v1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-01-20 16:25:06+0000\n"
+"PO-Revision-Date: 2015-01-21 09:40:30+0000\n"
 "Last-Translator: car-plugin <radovanmail@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1022,7 +1022,7 @@ msgstr "Vous avez reçu une commande. La commande est la suivante :"
 #: public/partials/order_information_email_client.php:212
 #@ car_share
 msgid "FROM:"
-msgstr "DE :"
+msgstr "DU :"
 
 #: public/partials/email_order.php:217
 #: public/partials/email_order_client.php:219
@@ -1282,3 +1282,4 @@ msgstr "Par jour"
 #@ car_share
 msgid "Per rental"
 msgstr "Par location"
+
