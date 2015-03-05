@@ -182,7 +182,9 @@ if (!empty($_SESSION['TOKENE'])) {
     <?php endif; ?>
 
     <?php
-    //  $car_result = $Cars_cart->get_ItembyID($car_ID);
+    
+    
+    // $car_result = $Cars_cart->get_ItembyID($car_ID);
     //we have the information about the token
     //Unset all of the session variables.
     // Finally, destroy the session.
