@@ -137,27 +137,22 @@ table.SimpleCalendar tbody td div.event span.rented {
     display:block;
     height: 40px;
     padding: 5px;
-}
-
+} 
 table.SimpleCalendar tbody td.today {
-    background: #d2d2d2; }
- 
-
-
+    background: #d2d2d2; } 
 .menu-icon-sc-location
 {
     
     border-top: 1px solid #E4F1FE;
 }
 .menu-icon-generic
-{
-    
+{   
   border-bottom: 1px solid #E4F1FE;  
-}
-
+} 
 .dashicons-location:before, .dashicons-calendar-alt:before, .dashicons-category:before, .dashicons-performance:before, .dashicons-smiley:before, .dashicons-nametag:before, .dashicons-cart:before, .dashicons-admin-generic:before
 { 
-  
-    /*color:#E4F1FE!important;*/
-    
-}
+    /*color:#E4F1FE!important;*/   
+} 
+.delete-car, .clone-car, .new-car, .save-season-2-category{ 
+    display:inline!important;    
+}   

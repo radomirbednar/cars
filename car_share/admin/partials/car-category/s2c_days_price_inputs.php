@@ -54,7 +54,7 @@ if (!empty($season_id)):
     <hr>
 
     <button id="add-season-2-category-discount" class="button button-primary alignleft" type="button"><?php _e('Add discount', $this->car_share) ?></button>
-    <button id="save-season-2-category" class="button button-primary alignright" type="button"><?php _e('Save', $this->car_share) ?></button>
+    <button id="save-season-2-category" class="button button-primary alignright save-season-2-category" type="button"><?php _e('Save', $this->car_share) ?></button>
 
     <div class="clear"></div>
 </div>
