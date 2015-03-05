@@ -1,5 +1,5 @@
 <!--<form id="save-session-to-category" class="update-season2category" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>">-->
-    <input type="hidden" name="action" value="add_season_to_category">
+    <!--<input type="hidden" name="action" value="add_season_to_category">-->
     <input type="hidden" name="_car_category_id" value="<?php echo (int) $post_id ?>">
 
     <label>
