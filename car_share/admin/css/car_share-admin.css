@@ -119,19 +119,16 @@ table.SimpleCalendar tbody td div.event span.unavailable {
     border: 1px solid #C2185B;
     display:block;
     height: 40px;
-    padding: 5px;
-
+    padding: 5px; 
 }
-table.SimpleCalendar tbody td div.event span.booked {
-
+table.SimpleCalendar tbody td div.event span.booked { 
     background: #8BC34A;
     border: 1px solid #689F38;
     display:block;
     height: 40px;
     padding: 5px;
 }
-table.SimpleCalendar tbody td div.event span.rented {
-
+table.SimpleCalendar tbody td div.event span.rented { 
     background: #00BCD4;
     border: 1px solid #0097A7;
     display:block;
@@ -141,9 +138,8 @@ table.SimpleCalendar tbody td div.event span.rented {
 table.SimpleCalendar tbody td.today {
     background: #d2d2d2; } 
 .menu-icon-sc-location
-{
-    
-    border-top: 1px solid #E4F1FE;
+{ 
+  border-top: 1px solid #E4F1FE;
 }
 .menu-icon-generic
 {   
