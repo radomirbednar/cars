@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
             <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
                 <meta name="format-detection" content="telephone=no" /> <!-- disable auto telephone linking in iOS -->
                 <title></title>
@@ -93,8 +93,7 @@
                         td[class="imageContent"] img {height:auto !important; width:100% !important; max-width:100% !important;}
                         img[class="flexibleImage"]{height:auto !important; width:100% !important;max-width:100% !important;}
                         img[class="flexibleImageSmall"]{height:auto !important; width:auto !important;}
-
-
+ 
                         /*
                             Create top space for every second element in a block
                         */
@@ -137,12 +136,10 @@
                     /* end IOS targeting */
                 </style>
                 <!--
-                    Outlook Conditional CSS
-
+                    Outlook Conditional CSS 
                     These two style blocks target Outlook 2007 & 2010 specifically, forcing
                     columns into a single vertical stack as on mobile clients. This is
-                    primarily done to avoid the 'page break bug' and is optional.
-
+                    primarily done to avoid the 'page break bug' and is optional. 
                     More information here:
                     http://templates.mailchimp.com/development/css/outlook-conditional-css
                 -->

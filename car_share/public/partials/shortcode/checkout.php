@@ -2,7 +2,127 @@
 $Cars_cart = new Car_Cart('shopping_cart');
 $Cars_cart_items = $Cars_cart->getItemSearch();
 $currency = sc_Currency::get_instance();
+                            
 
+//reservation via email only we dont stock any information only send the form and reset the session 
+
+ if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']) && wp_verify_nonce($_POST['post_nonce_field'], 'post_nonce')) {  
+     
+        $sc_options = get_option('sc-pages');            
+        $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';  
+                            
+        $customer_email = sanitize_text_field($_POST['_email']);         
+                            
+        $Cars_cart = new Car_Cart('shopping_cart');
+        $Cars_cart_items = $Cars_cart->getItems(); 
+        
+        
+        
+        $car_ID = $Cars_cart_items['car_ID']; 
+        
+        $pick_up_location = $Cars_cart_items['pick_up_location'];
+        $drop_off_location = $Cars_cart_items['drop_off_location']; 
+        
+        echo $pick_up_location;
+        
+        echo $drop_off_location;
+        
+        
+        $car_dfrom = $Cars_cart_items['car_datefrom'];
+        $car_dto = $Cars_cart_items['car_dateto'];
+        
+        $car_category = $Cars_cart_items['car_category'];
+
+        $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
+        $car_dto_string = $car_dto->format('Y-m-d H:i');
+
+        $car_result = $Cars_cart->get_ItembyID($car_ID);
+            //get the item title 
+        if (!empty($car_result)) {
+            foreach ($car_result as $car) {
+                $carID = $car->ID;
+                $ItemName = get_the_title($carID);
+                //$post_thumbnail = get_the_post_thumbnail($carID, 'thumbnail');
+            }
+        }
+                            
+        
+        //get the extras infos
+                            
+        if(isset($Cars_cart_items['service'])){ 
+            
+            $extras = $Cars_cart_items['service'];                 
+        foreach ($extras as $key => $extras_id) {
+            $service_fee = get_post_meta($key, '_service_fee', true);
+            $_per_service = get_post_meta($key, '_per_service', true);
+            $service_name = get_the_title($key);
+            $service_name.= $service_name . ', ';
+        
+            
+        }
+        }
+        
+        
+        
+        $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
+        $yound_surcharge_fee = $Cars_cart->get_driver_surchage_price($car_price);
+        $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
+        $location_price = $Cars_cart->getDifferentLocationPrice();
+
+        $total_price = $Cars_cart->getTotalPrice();
+        $total_price = money_format('%.2n', $total_price); 
+        
+        $payable_price = $Cars_cart->getPaypablePrice();
+        $payable_price = money_format('%.2n', $payable_price);    
+            
+        ?> 
+        <strong><?php _e('Booking details:', $this->car_share); ?></strong>
+    <table>
+        <tr>
+            <td><?php _e('FROM', $this->car_share); ?></td>
+            <td><?php echo $car_dfrom_string; ?></td>
+            <td><?php echo get_the_title($pick_up_location); ?></td> 
+        </tr>
+
+        <tr>
+            <td><?php _e('TO', $this->car_share); ?></td>
+            <td><?php echo $car_dto_string; ?></td>
+            <td><?php echo get_the_title($drop_off_location); ?></td> 
+        </tr>
+    </table>
+
+    <table>
+        <?php $post_thumbnail = get_the_post_thumbnail($car_ID, 'thumbnail'); ?>
+        <tr>
+            <td>
+                <?php echo $post_thumbnail; ?>
+            </td>
+            <td><?php echo get_the_title($car_ID); ?></td>
+
+        </tr>
+        <?php if (!empty($extras)): ?>
+            <tr>
+                <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
+                <td>
+                    <?php
+                    foreach ($extras as $key => $extras_id) {
+                        $service_fee = get_post_meta($key, '_service_fee', true);
+                        $_per_service = get_post_meta($key, '_per_service', true);
+                        $service_name = get_the_title($key);
+                        echo $extras_id . ' x ' . $service_name . ' ';
+                    }
+                    ?>
+                </td>
+            </tr>
+        <?php endif; ?>
+    </table>
+        <?php                          
+        exit();                 
+    }    
+                            
+    /* 
+     * Navrat z paypal
+     */                             
 if (!empty($_SESSION['TOKENE'])) {
 
     $token_value = ($_SESSION['TOKENE']);
@@ -41,21 +161,17 @@ if (!empty($_SESSION['TOKENE'])) {
 
     global $wpdb;
     $dateinfo = $wpdb->get_row($wpdb->prepare("SELECT * FROM sc_single_car_status WHERE booking_id=%d", $post_ID));
-   
                             
     $car_dfrom_string = $dateinfo->date_from; 
-    $car_dto_string = $dateinfo->date_to;
-    
+    $car_dto_string = $dateinfo->date_to; 
     /* 
      * Format date - must be from admin 
-     */
-    
+     */ 
     $car_dto_string = DateTime::createFromFormat('Y-m-d H:i:s', $car_dto_string);
     $car_dto_string = $car_dto_string->format('d-m-Y H:i');
                             
     $car_dfrom_string = DateTime::createFromFormat('Y-m-d H:i:s', $car_dfrom_string);
     $car_dfrom_string = $car_dfrom_string->format('d-m-Y H:i');
-                            
                             
                             
     if ($car_order == '1') {
@@ -73,15 +189,13 @@ if (!empty($_SESSION['TOKENE'])) {
             <td><?php _e('FROM', $this->car_share); ?></td>
             <td><?php echo $car_dfrom_string; ?></td>
             <td><?php echo get_the_title($pick_up_location[0]); ?></td> 
-        </tr>
-
+        </tr> 
         <tr>
             <td><?php _e('TO', $this->car_share); ?></td>
             <td><?php echo $car_dto_string; ?></td>
             <td><?php echo get_the_title($drop_off_location[0]); ?></td> 
         </tr>
-    </table>
-
+    </table> 
     <table>
         <?php $post_thumbnail = get_the_post_thumbnail($car_ID, 'thumbnail'); ?>
         <tr>
