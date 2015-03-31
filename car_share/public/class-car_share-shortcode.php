@@ -25,12 +25,13 @@ class Car_share_Shortcode {
         add_shortcode('sc-pick_car', array($this, 'pick_car'));
         add_shortcode('sc-extras', array($this, 'extras'));
         add_shortcode('sc-checkout', array($this, 'checkout'));
-        add_action('plugins_loaded', array($this, 'search_for_car_form'));
-
-        add_action('template_redirect', array($this, 'paypal'));
+        add_action('plugins_loaded', array($this, 'search_for_car_form')); 
+        add_action('template_redirect', array($this, 'paypal')); 
+        
+        add_action('template_redirect', array($this, 'catalog_form'));    
+        
         add_filter('wp_mail_content_type', array($this, 'set_content_type'));
-
-
+ 
         if (!isset($_SESSION)) {
             session_start();
         }
@@ -39,16 +40,26 @@ class Car_share_Shortcode {
     function set_content_type($content_type) {
         return 'text/html';
     }
-
-    public function paypal() {
-
-
+     
+    
+    public function catalog_form(){
+         
+        if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']) && wp_verify_nonce($_POST['post_nonce_field'], 'post_nonce')) {
+             
+            $sc_options = get_option('sc-pages'); 
+            
+            $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
+              
+            wp_redirect($checkout_car_url);
+ 
+        }   
+    }
+     
+    public function paypal() { 
         $sc_options_paypal = get_option('second_set_arraykey');
-        $email_option = get_option('car_plugin_options_arraykey');
-
+        $email_option = get_option('car_plugin_options_arraykey'); 
         $currency = sc_Currency::get_instance()->iso();
-        $currencyforpeople = sc_Currency::get_instance()->symbol();
-
+        $currencyforpeople = sc_Currency::get_instance()->symbol(); 
         if (!empty($sc_options_paypal['apiusername-setting'])) {
             $PayPalApiUsername = $sc_options_paypal['apiusername-setting'];
         }
@@ -60,8 +71,7 @@ class Car_share_Shortcode {
         }
         if (!empty($email_option['notemail'])) {
             $option_notification_email = $email_option['notemail'];
-        }
-
+        } 
         //paypal options
         $PayPalMode = 'sandbox'; // sandbox or live
         if (!empty($sc_options_paypal['paypalsandbox-setting'])) {
@@ -71,27 +81,23 @@ class Car_share_Shortcode {
             }
         }
         //page options
-        $sc_options = get_option('sc-pages');
-
+        $sc_options = get_option('sc-pages'); 
         $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
         //currency form the setting
         $PayPalCurrencyCode = $currency; //Paypal Currency Code
         //paypal return point from setting
         $PayPalReturnURL = $checkout_car_url; //Point to process.php page
-        $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
-
+        $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel 
         include_once("paypalsdk/expresscheckout.php");
-
+ 
         if (isset($_POST['sc-checkout']) && isset($_POST['post_nonce_field']) && wp_verify_nonce($_POST['post_nonce_field'], 'post_nonce')) {
             // information for the payment
-
+   
             $customer_email = sanitize_text_field($_POST['_email']);
             $Cars_cart = new Car_Cart('shopping_cart');
-            $Cars_cart_items = $Cars_cart->getItems();
-
+            $Cars_cart_items = $Cars_cart->getItems(); 
             $extras = $Cars_cart_items['service'];
-            $car_ID = $Cars_cart_items['car_ID'];
-
+            $car_ID = $Cars_cart_items['car_ID']; 
             $pick_up_location = $Cars_cart_items['pick_up_location'];
             $drop_off_location = $Cars_cart_items['drop_off_location'];
 
@@ -160,8 +166,7 @@ class Car_share_Shortcode {
 
             $GrandTotal = money_format('%.2n', $GrandTotal);
             $ItemTotalPrice = money_format('%.2n', $ItemTotalPrice);
-
-
+ 
             //Parameters for SetExpressCheckout, which will be sent to PayPal
             $padata = '&METHOD=SetExpressCheckout' .
                     '&RETURNURL=' . urlencode($PayPalReturnURL) .
@@ -195,9 +200,7 @@ class Car_share_Shortcode {
             //We need to execute the "SetExpressCheckOut" method to obtain paypal token
             $paypal = new MyPayPal();
             $httpParsedResponseAr = $paypal->PPHttpPost('SetExpressCheckout', $padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
-
-
-
+ 
             //Respond according to message we receive from Paypal
             if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
 
@@ -277,11 +280,9 @@ class Car_share_Shortcode {
                          sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);  
                     } 
                 }
-                 }
-                
+            }                
                 $post_insert_id = $_SESSION['post_insert_id'];
-      
-
+ 
                 // save info about voucher if any
                 if (!empty($Cars_cart_items['voucher_id'])) {
                     update_post_meta($post_insert_id, '_voucher_id', (int) $Cars_cart_items['voucher_id']);
@@ -399,7 +400,7 @@ class Car_share_Shortcode {
                 /*
                   //Sometimes Payment are kept pending even when transaction is complete.
                   //hence we need to notify user about it and ask him manually approve the transiction
-                 */
+                */
 
                 if ('Completed' == $httpParsedResponseAr["PAYMENTINFO_0_PAYMENTSTATUS"]) {
 
@@ -436,9 +437,7 @@ class Car_share_Shortcode {
                     $payerid = urldecode($httpParsedResponseAr["PAYERID"]);
                     $responseamt = urldecode($httpParsedResponseAr["AMT"]);
                     $checkoutstatur = urldecode($httpParsedResponseAr["CHECKOUTSTATUS"]);
-
-
-
+ 
 
                     //save the transaction information
                     update_post_meta($post_insert_id, 'car_r_order_info', 'Completed GetExpressCheckoutDetails');

@@ -467,12 +467,10 @@ if (!empty($_SESSION['TOKENE'])) {
                 <!-- /voucher -->
             <?php endif; ?> 
         </tbody>
-        </table> 
-            
+        </table>        
         <form action="" method="post" class="form-horizontal">
             <!-- Address form -->
-            <strong><?php _e('Billing Information', $this->car_share); ?></strong>
-
+            <strong><?php _e('Billing Information', $this->car_share); ?></strong> 
             <?php
             $checkout_fields = get_enabled_checkout_fields();
 
@@ -513,7 +511,20 @@ if (!empty($_SESSION['TOKENE'])) {
                 </div>
             <?php endforeach; ?> 
             <?php wp_nonce_field('post_nonce', 'post_nonce_field'); ?> 
-            <button type="submit" class="btn btn-default" name="sc-checkout"><?php _e('Book car', $this->car_share); ?></button>
+             
+            <?php             
+                $payment_option = get_option('car_plugin_options_arraykey'); 
+                $payment_option = $payment_option['catalogoption'];        
+                if($payment_option == 1):                             
+            ?>   
+            <button type="submit" class="btn btn-default" name="sc-reservation-checkout"><?php _e('Reservation', $this->car_share); ?></button> 
+            <?php            
+                else:              
+            ?>
+            <button type="submit" class="btn btn-default" name="sc-checkout"><?php _e('Book car', $this->car_share); ?></button> 
+            <?php            
+                endif;              
+            ?> 
         </form>
         <?php
     } else { 
