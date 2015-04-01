@@ -165,17 +165,14 @@
                     <center style="background-color:#E1E1E1;">
                         <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="table-layout: fixed;max-width:100% !important;width: 100% !important;min-width: 100% !important;">
                             <tr>
-                                <td align="center" valign="top" id="bodyCell">
-
-                                    <table bgcolor="#FFFFFF"  border="0" cellpadding="0" cellspacing="0" width="650" id="emailBody">
-
+                                <td align="center" valign="top" id="bodyCell"> 
+                                    <table bgcolor="#FFFFFF"  border="0" cellpadding="0" cellspacing="0" width="650" id="emailBody"> 
                                         <tr>
                                             <td align="center" valign="top">
 
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="color:#FFFFFF;" bgcolor="#3498db">
                                                     <tr>
-                                                        <td align="center" valign="top">
-
+                                                        <td align="center" valign="top"> 
                                                             <table border="0" cellpadding="0" cellspacing="0" width="650" class="flexibleContainer">
                                                                 <tr>
                                                                     <td align="center" valign="top" width="650" class="flexibleContainerCell">
