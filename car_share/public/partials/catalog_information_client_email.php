@@ -158,27 +158,22 @@
                     <center style="background-color:#E1E1E1;">
                         <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="table-layout: fixed;max-width:100% !important;width: 100% !important;min-width: 100% !important;">
                             <tr>
-                                <td align="center" valign="top" id="bodyCell">
-
-                                    <table bgcolor="#FFFFFF"  border="0" cellpadding="0" cellspacing="0" width="650" id="emailBody">
-
+                                <td align="center" valign="top" id="bodyCell"> 
+                                    <table bgcolor="#FFFFFF"  border="0" cellpadding="0" cellspacing="0" width="650" id="emailBody"> 
                                         <tr>
-                                            <td align="center" valign="top">
-
+                                            <td align="center" valign="top"> 
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="color:#FFFFFF;" bgcolor="#3498db">
                                                     <tr>
-                                                        <td align="center" valign="top">
-
+                                                        <td align="center" valign="top"> 
                                                             <table border="0" cellpadding="0" cellspacing="0" width="650" class="flexibleContainer">
                                                                 <tr>
-                                                                    <td align="center" valign="top" width="650" class="flexibleContainerCell">
-
+                                                                    <td align="center" valign="top" width="650" class="flexibleContainerCell"> 
                                                                         <table border="0" cellpadding="30" cellspacing="0" width="100%">
                                                                             <tr>
                                                                                 <td align="center" valign="top" class="textContent">
                                                                                     <h1 style="color:#FFFFFF;line-height:100%;font-family:Helvetica,Arial,sans-serif;font-size:35px;font-weight:normal;margin-bottom:5px;text-align:center;"><?php _e('New customer booking', $this->car_share); ?></h1>
-                                                                                    <h2 style="text-align:center;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px;margin-bottom:10px;color:#205478;line-height:135%;"><?php _e('Order: #', $this->car_share); ?> <?php echo $post_insert_id; ?></h2>
-                                                                                    <div style="text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#FFFFFF;line-height:135%;">  <?php _e('You have received an order from. Their order is as follows: ', $this->car_share); ?> </div>
+                                                                                    <h2 style="text-align:center;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px;margin-bottom:10px;color:#205478;line-height:135%;"><?php _e('Order: #', $this->car_share); ?></h2>
+                                                                                    <div style="text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#FFFFFF;line-height:135%;">  <?php _e('You have received an order from. Their order is as follows: ', $this->car_share); ?></div>
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
@@ -225,8 +220,7 @@
                                             <td align="center" valign="top">
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                                     <tr>
-                                                        <td align="center" valign="top">
-
+                                                        <td align="center" valign="top"> 
                                                             <table border="0" cellpadding="30" cellspacing="0" width="650" class="flexibleContainer">
                                                                 <tr>
                                                                     <td valign="top" width="650" class="flexibleContainerCell">
@@ -246,7 +240,7 @@
                                                 </table>
                                             </td>
                                         </tr> 
-                                         <tr>
+                                        <tr>
                                             <td align="center" valign="top">
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                                     <tr>
@@ -362,12 +356,10 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td align="center" valign="top">
-
+                                            <td align="center" valign="top"> 
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                                     <tr>
-                                                        <td align="center" valign="top">
-
+                                                        <td align="center" valign="top"> 
                                                             <table border="0" cellpadding="30" cellspacing="0" width="650" class="flexibleContainer">
                                                                 <tr>
                                                                     <td valign="top" width="650" class="flexibleContainerCell">
@@ -379,8 +371,7 @@
                                                                                 </td> 
                                                                             </tr> 
                                                                             <?php
-                                                                            $checkout_fields = get_enabled_checkout_fields();
-
+                                                                            $checkout_fields = get_enabled_checkout_fields(); 
                                                                             foreach ($checkout_fields as $input_key => $field) {
                                                                                 echo '<tr>';
                                                                                 echo '<td style="text-align:left;border:1px solid #eee; padding: 10px">' . $field['label'] . '</td>';

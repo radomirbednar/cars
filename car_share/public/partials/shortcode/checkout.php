@@ -179,47 +179,43 @@ if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']
         <?php endforeach; ?>
         </table>
         <?php endif; ?>
-    <?php
+    <?php 
     /*
      *
      * Odešleme potřebný email
      *
-     */
+     */   
     
     $currencyforpeople = sc_Currency::get_instance()->symbol(); 
     $plugin_patch = plugin_dir_path(dirname(__FILE__));
     $email_option = get_option('car_plugin_options_arraykey');
 
-    ob_start();
-
     if (!empty($email_option['notemail'])) {
-        $email_customer_content = include_once($plugin_patch . 'order_information_email_client.php');
-        $option_notification_email = $email_option['notemail'];
-        $email_customer_content = ob_get_contents();
-
-        ob_end_clean();
-
-        $headers = 'From: ' . $option_notification_email . ' <' . $option_notification_email . '>';
-        $to = $customer_email;
-        $subject = 'Booking email information';
-        $message = $email_customer_content;
-        $sendmailcheck = wp_mail($to, $subject, $message, $headers);
-
-        ob_start();
-
-        $email_store_content = include_once($plugin_patch . 'order_information_email_client.php');
-        $email_store_content = ob_get_contents();
-
-        ob_end_clean();
-
-        $headers = 'From: ' . $option_notification_email . ' <' . $option_notification_email . '>';
-        $to = $option_notification_email;
-        $subject = 'Booking email information';
-        $message = $email_store_content;
-
-        //$message = include_once('/partial/email_order_client.php');
-        wp_mail($to, $subject, $message, $headers);
-    }
+                
+        
+            ob_start(); 
+            $email_customer_content = include_once($plugin_patch . 'catalog_information_client_email.php');
+            $option_notification_email = $email_option['notemail'];
+            $email_customer_content = ob_get_contents();  
+            ob_end_clean();
+                
+            $headers = 'From: ' . $option_notification_email . ' <' . $option_notification_email . '>';
+            $to = $customer_email;
+            $subject = 'Booking email information';
+            $message = $email_customer_content;
+            $sendmailcheck = wp_mail($to, $subject, $message, $headers); 
+                
+            ob_start();  
+            $email_store_content = include_once($plugin_patch . 'catalog_information_email.php');
+            $email_store_content = ob_get_contents();  
+            ob_end_clean(); 
+                
+            $headers = 'From: ' . $option_notification_email . ' <' . $option_notification_email . '>';
+            $to = $option_notification_email;
+            $subject = 'Booking email information';
+            $message = $email_store_content;              
+            $sendmailcheckstore = wp_mail($to, $subject, $message, $headers); 
+        }
     ?>
     <?php
     exit();
