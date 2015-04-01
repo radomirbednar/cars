@@ -2,103 +2,83 @@
 $Cars_cart = new Car_Cart('shopping_cart');
 $Cars_cart_items = $Cars_cart->getItemSearch();
 $currency = sc_Currency::get_instance();
-                            
 
-//reservation via email only we dont stock any information only send the form and reset the session 
+//reservation via email only we dont stock any information only send the form and reset the session
 
- if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']) && wp_verify_nonce($_POST['post_nonce_field'], 'post_nonce')) {  
-     
-        $sc_options = get_option('sc-pages');            
-        $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';  
-                            
-        $customer_email = sanitize_text_field($_POST['_email']);         
-                            
-        $Cars_cart = new Car_Cart('shopping_cart');
-        $Cars_cart_items = $Cars_cart->getItems(); 
-        
-        
-        
-        $car_ID = $Cars_cart_items['car_ID']; 
-        
-        $pick_up_location = $Cars_cart_items['pick_up_location'];
-        $drop_off_location = $Cars_cart_items['drop_off_location']; 
-        
-        echo $pick_up_location;
-        
-        echo $drop_off_location;
-        
-        
-        $car_dfrom = $Cars_cart_items['car_datefrom'];
-        $car_dto = $Cars_cart_items['car_dateto'];
-        
-        $car_category = $Cars_cart_items['car_category'];
+if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']) && wp_verify_nonce($_POST['post_nonce_field'], 'post_nonce')) {
 
-        $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
-        $car_dto_string = $car_dto->format('Y-m-d H:i');
+    $sc_options = get_option('sc-pages');
+    $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
+    $customer_email = sanitize_text_field($_POST['_email']);
+    $Cars_cart = new Car_Cart('shopping_cart');
+    $Cars_cart_items = $Cars_cart->getItems();
+    $car_ID = $Cars_cart_items['car_ID'];
+    $pick_up_location = $Cars_cart_items['pick_up_location'];
+    $drop_off_location = $Cars_cart_items['drop_off_location'];
+    $car_dfrom = $Cars_cart_items['car_datefrom'];
+    $car_dto = $Cars_cart_items['car_dateto'];
+    $car_category = $Cars_cart_items['car_category'];
+    $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
+    $car_dto_string = $car_dto->format('Y-m-d H:i');
+    $car_result = $Cars_cart->get_ItembyID($car_ID);
 
-        $car_result = $Cars_cart->get_ItembyID($car_ID);
-            //get the item title 
-        if (!empty($car_result)) {
-            foreach ($car_result as $car) {
-                $carID = $car->ID;
-                $ItemName = get_the_title($carID);
-                //$post_thumbnail = get_the_post_thumbnail($carID, 'thumbnail');
-            }
+    //get the item title
+    if (!empty($car_result)) {
+        foreach ($car_result as $car) {
+            $carID = $car->ID;
+
+            $ItemName = get_the_title($carID);
+            $post_thumbnail = get_the_post_thumbnail($carID, 'thumbnail');
         }
-                            
-        
-        //get the extras infos
-                            
-        if(isset($Cars_cart_items['service'])){ 
-            
-            $extras = $Cars_cart_items['service'];                 
+    }
+
+
+    //get the extras infos
+    if (isset($Cars_cart_items['service'])) {
+        $extras = $Cars_cart_items['service'];
         foreach ($extras as $key => $extras_id) {
             $service_fee = get_post_meta($key, '_service_fee', true);
             $_per_service = get_post_meta($key, '_per_service', true);
             $service_name = get_the_title($key);
             $service_name.= $service_name . ', ';
-        
-            
         }
-        }
-        
-        
-        
-        $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
-        $yound_surcharge_fee = $Cars_cart->get_driver_surchage_price($car_price);
-        $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
-        $location_price = $Cars_cart->getDifferentLocationPrice();
+    }
 
-        $total_price = $Cars_cart->getTotalPrice();
-        $total_price = money_format('%.2n', $total_price); 
-        
-        $payable_price = $Cars_cart->getPaypablePrice();
-        $payable_price = money_format('%.2n', $payable_price);    
-            
-        ?> 
-        <strong><?php _e('Booking details:', $this->car_share); ?></strong>
+
+    $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
+    $yound_surcharge_fee = $Cars_cart->get_driver_surchage_price($car_price);
+    $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
+    $location_price = $Cars_cart->getDifferentLocationPrice();
+    $total_price = $Cars_cart->getTotalPrice();
+    $total_price = money_format('%.2n', $total_price);
+    $payable_price = $Cars_cart->getPaypablePrice();
+    $payable_price = money_format('%.2n', $payable_price);
+    ?>
+
+
+    <?php
+    /*
+     *  booking detail
+     */
+    ?>
+
+    <strong><?php _e('Booking details:', $this->car_share); ?></strong>
     <table>
         <tr>
             <td><?php _e('FROM', $this->car_share); ?></td>
             <td><?php echo $car_dfrom_string; ?></td>
-            <td><?php echo get_the_title($pick_up_location); ?></td> 
+            <td><?php echo get_the_title($pick_up_location); ?></td>
         </tr>
-
         <tr>
             <td><?php _e('TO', $this->car_share); ?></td>
             <td><?php echo $car_dto_string; ?></td>
-            <td><?php echo get_the_title($drop_off_location); ?></td> 
+            <td><?php echo get_the_title($drop_off_location); ?></td>
         </tr>
     </table>
-
     <table>
-        <?php $post_thumbnail = get_the_post_thumbnail($car_ID, 'thumbnail'); ?>
         <tr>
-            <td>
-                <?php echo $post_thumbnail; ?>
-            </td>
-            <td><?php echo get_the_title($car_ID); ?></td>
-
+            <td><?php echo $post_thumbnail; ?></td>
+            <td><?php echo $ItemName; ?></td>
         </tr>
         <?php if (!empty($extras)): ?>
             <tr>
@@ -116,13 +96,137 @@ $currency = sc_Currency::get_instance();
             </tr>
         <?php endif; ?>
     </table>
-        <?php                          
-        exit();                 
-    }    
-                            
-    /* 
-     * Navrat z paypal
-     */                             
+    <?php
+    /*
+     *  billing information
+     */
+    ?>
+    <strong><?php _e('Billing Information', $this->car_share); ?></strong>
+    <?php
+    global $post;
+    $fields_to_show = array();
+    $default_fields = get_default_checkout_fields();
+    ?>
+    <table>
+        <tr>
+            <td><?php _e('CAR PRICE : ', $this->car_share); ?></td>
+            <td><?php echo $currency->format($car_price); ?></td>
+        </tr>
+        <?php if ($yound_surcharge_fee > 0) { ?>
+            <tr>
+                <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td>
+                <td><?php echo $currency->format($yound_surcharge_fee); ?></td>
+            </tr>
+        <?php } ?>
+        <?php if ($extras_price > 0) { ?>
+            <tr>
+                <td><?php _e('EXTRAS PRICE: ', $this->car_share); ?></td>
+                <td><?php echo $currency->format($extras_price) ?></td>
+            </tr>
+        <?php } ?>
+        <?php if ($location_price > 0) { ?>
+            <tr>
+                <td><?php _e('Different location price:', $this->car_share) ?></td>
+                <td><?php echo $currency->format($location_price) ?></td>
+            </tr>
+        <?php } ?>
+        <tr>
+            <td><?php _e('TOTAL : ', $this->car_share); ?></td>
+            <td><?php echo $currency->format($total_price) ?></td>
+        </tr>
+        <tr>
+            <td><?php _e('PAYABLE NOW : ', $this->car_share); ?></td>
+            <td><?php echo $currency->format($payable_price) ?></td>
+        </tr>
+    </table>
+    <?php
+    global $post;
+    $fields_to_show = array();
+    $default_fields = get_default_checkout_fields();
+    /*
+     *
+     * Informace z postu
+     *
+     */
+    foreach ($default_fields as $field_key => $field) {
+        if (isset($_POST[$field_key])) {
+            $field['value'] = $_POST[$field_key];
+            $fields_to_show[$field_key] = $field;
+        }
+    }
+    ?>
+    <?php if (!empty($fields_to_show)): ?>
+        <table>
+        <?php foreach ($fields_to_show as $key => $field): ?>
+                <tr>
+                    <td>
+                        <strong><?php _e($field['label'], $this->car_share) ?>: </strong>
+                    </td>
+                    <td>
+            <?php
+            switch ($key):
+                case 'cart_pick_up':
+                case 'cart_drop_off':
+                case 'cart_car_category':
+                    echo get_the_title($field['value']);
+                    break;
+                default:
+                    echo empty($field['value']) ? '-' : esc_attr($field['value']);
+            endswitch;
+            ?>
+                    </td>
+                </tr>
+        <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
+    <?php
+    /*
+     *
+     * Odešleme potřebný email
+     *
+     */
+    
+    $currencyforpeople = sc_Currency::get_instance()->symbol(); 
+    $plugin_patch = plugin_dir_path(dirname(__FILE__));
+    $email_option = get_option('car_plugin_options_arraykey');
+
+    ob_start();
+
+    if (!empty($email_option['notemail'])) {
+        $email_customer_content = include_once($plugin_patch . 'order_information_email_client.php');
+        $option_notification_email = $email_option['notemail'];
+        $email_customer_content = ob_get_contents();
+
+        ob_end_clean();
+
+        $headers = 'From: ' . $option_notification_email . ' <' . $option_notification_email . '>';
+        $to = $customer_email;
+        $subject = 'Booking email information';
+        $message = $email_customer_content;
+        $sendmailcheck = wp_mail($to, $subject, $message, $headers);
+
+        ob_start();
+
+        $email_store_content = include_once($plugin_patch . 'order_information_email_client.php');
+        $email_store_content = ob_get_contents();
+
+        ob_end_clean();
+
+        $headers = 'From: ' . $option_notification_email . ' <' . $option_notification_email . '>';
+        $to = $option_notification_email;
+        $subject = 'Booking email information';
+        $message = $email_store_content;
+
+        //$message = include_once('/partial/email_order_client.php');
+        wp_mail($to, $subject, $message, $headers);
+    }
+    ?>
+    <?php
+    exit();
+}
+/*
+ * Navrat z paypal
+ */
 if (!empty($_SESSION['TOKENE'])) {
 
     $token_value = ($_SESSION['TOKENE']);
@@ -135,9 +239,10 @@ if (!empty($_SESSION['TOKENE'])) {
             )
         )
     );
+
     $my_query = new WP_Query($args);
     if ($my_query->have_posts()) {
-        while ($my_query->have_posts()) { 
+        while ($my_query->have_posts()) {
             $my_query->the_post();
             $meta_values = get_post_custom(get_the_ID());
             $car_order = $meta_values["car_r_order_status"][0];
@@ -147,7 +252,7 @@ if (!empty($_SESSION['TOKENE'])) {
             $pick_up_location = get_post_meta($post_ID, 'cart_pick_up');
             $drop_off_location = get_post_meta($post_ID, 'cart_drop_off');
             $extras = get_post_meta($post_ID, 'cart_extras', true);
-            $car_ID = sc_Car::get_parent_by_single_id($cart_car_ID); 
+            $car_ID = sc_Car::get_parent_by_single_id($cart_car_ID);
             $checkout_cart_car_price = $meta_values["cart_car_price"][0];
             $checkout_cart_extra_price = $meta_values["cart_extra_price"][0];
             $checkout_cart_total_price = $meta_values["cart_total_price"][0];
@@ -157,23 +262,24 @@ if (!empty($_SESSION['TOKENE'])) {
             $checkout_young_surcharge_fee = $meta_values["_young_surcharge_fee"][0];
         } // end while
     } // end if
+
     wp_reset_postdata();
 
     global $wpdb;
     $dateinfo = $wpdb->get_row($wpdb->prepare("SELECT * FROM sc_single_car_status WHERE booking_id=%d", $post_ID));
-                            
-    $car_dfrom_string = $dateinfo->date_from; 
-    $car_dto_string = $dateinfo->date_to; 
-    /* 
-     * Format date - must be from admin 
-     */ 
+
+    $car_dfrom_string = $dateinfo->date_from;
+    $car_dto_string = $dateinfo->date_to;
+    /*
+     * Format date - must be from admin
+     */
     $car_dto_string = DateTime::createFromFormat('Y-m-d H:i:s', $car_dto_string);
     $car_dto_string = $car_dto_string->format('d-m-Y H:i');
-                            
+
     $car_dfrom_string = DateTime::createFromFormat('Y-m-d H:i:s', $car_dfrom_string);
     $car_dfrom_string = $car_dfrom_string->format('d-m-Y H:i');
-                            
-                            
+
+
     if ($car_order == '1') {
         _e('<p>Thank your for your booking we will send our email booking confirmation to you</p>', $this->car_share);
     } elseif ($car_order == '2') {
@@ -188,71 +294,67 @@ if (!empty($_SESSION['TOKENE'])) {
         <tr>
             <td><?php _e('FROM', $this->car_share); ?></td>
             <td><?php echo $car_dfrom_string; ?></td>
-            <td><?php echo get_the_title($pick_up_location[0]); ?></td> 
-        </tr> 
+            <td><?php echo get_the_title($pick_up_location[0]); ?></td>
+        </tr>
         <tr>
             <td><?php _e('TO', $this->car_share); ?></td>
             <td><?php echo $car_dto_string; ?></td>
-            <td><?php echo get_the_title($drop_off_location[0]); ?></td> 
+            <td><?php echo get_the_title($drop_off_location[0]); ?></td>
         </tr>
-    </table> 
+    </table>
     <table>
-        <?php $post_thumbnail = get_the_post_thumbnail($car_ID, 'thumbnail'); ?>
+    <?php $post_thumbnail = get_the_post_thumbnail($car_ID, 'thumbnail'); ?>
         <tr>
             <td>
-                <?php echo $post_thumbnail; ?>
+        <?php echo $post_thumbnail; ?>
             </td>
             <td><?php echo get_the_title($car_ID); ?></td>
-
         </tr>
-        <?php if (!empty($extras)): ?>
+    <?php if (!empty($extras)): ?>
             <tr>
                 <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
                 <td>
-                    <?php
-                    foreach ($extras as $key => $extras_id) {
-                        $service_fee = get_post_meta($key, '_service_fee', true);
-                        $_per_service = get_post_meta($key, '_per_service', true);
-                        $service_name = get_the_title($key);
-                        echo $extras_id . ' x ' . $service_name . ' ';
-                    }
-                    ?>
+        <?php
+        foreach ($extras as $key => $extras_id) {
+            $service_fee = get_post_meta($key, '_service_fee', true);
+            $_per_service = get_post_meta($key, '_per_service', true);
+            $service_name = get_the_title($key);
+            echo $extras_id . ' x ' . $service_name . ' ';
+        }
+        ?>
                 </td>
             </tr>
-        <?php endif; ?>
+                <?php endif; ?>
     </table>
-
-
     <strong><?php _e('Billing Information', $this->car_share); ?></strong>
-    <?php
-    global $post;
-    $fields_to_show = array();
-    $default_fields = get_default_checkout_fields();
-    ?>
-
+        <?php
+        global $post;
+        $fields_to_show = array();
+        $default_fields = get_default_checkout_fields();
+        ?>
     <table>
         <tr>
             <td><?php _e('CAR PRICE : ', $this->car_share); ?></td>
             <td><?php echo $currency->format($checkout_cart_car_price); ?></td>
         </tr>
-        <?php if ($checkout_young_surcharge_fee > 0) { ?>
+    <?php if ($checkout_young_surcharge_fee > 0) { ?>
             <tr>
                 <td><?php _e('YOUNG DRIVER SURCHARGE : ', $this->car_share); ?></td>
                 <td><?php echo $currency->format($checkout_young_surcharge_fee); ?></td>
             </tr>
-        <?php } ?>
-        <?php if ($checkout_cart_extra_price > 0) { ?>
+    <?php } ?>
+    <?php if ($checkout_cart_extra_price > 0) { ?>
             <tr>
                 <td><?php _e('EXTRAS PRICE: ', $this->car_share); ?></td>
                 <td><?php echo $currency->format($checkout_cart_extra_price) ?></td>
             </tr>
-        <?php } ?>
-        <?php if ($checkout_checkout_location_price > 0) { ?>
+    <?php } ?>
+    <?php if ($checkout_checkout_location_price > 0) { ?>
             <tr>
                 <td><?php _e('Different location price:', $this->car_share) ?></td>
                 <td><?php echo $currency->format($checkout_checkout_location_price) ?></td>
             </tr>
-        <?php } ?> 
+    <?php } ?>
         <tr>
             <td><?php _e('TOTAL : ', $this->car_share); ?></td>
             <td><?php echo $currency->format($checkout_cart_total_price) ?></td>
@@ -260,8 +362,9 @@ if (!empty($_SESSION['TOKENE'])) {
         <tr>
             <td><?php _e('PAYABLE NOW : ', $this->car_share); ?></td>
             <td><?php echo $currency->format($checkout_checkout_payable_price) ?></td>
-        </tr> 
-    </table> 
+        </tr>
+    </table>
+
     <?php
     foreach ($default_fields as $field_key => $field) {
         if (isset($meta_values[$field_key])) {
@@ -270,77 +373,75 @@ if (!empty($_SESSION['TOKENE'])) {
         }
     }
     ?>
+
     <?php if (!empty($fields_to_show)): ?>
         <table>
-            <?php foreach ($fields_to_show as $key => $field): ?>
+        <?php foreach ($fields_to_show as $key => $field): ?>
                 <tr>
                     <td>
                         <strong><?php _e($field['label'], $this->car_share) ?>: </strong>
                     </td>
                     <td>
-                        <?php
-                        switch ($key):
-                            case 'cart_pick_up':
-                            case 'cart_drop_off':
-                            case 'cart_car_category':
-                                echo get_the_title($field['value']);
-                                break;
-                            default:
-                                echo empty($field['value']) ? '-' : esc_attr($field['value']);
-                        endswitch;
-                        ?>
+            <?php
+            switch ($key):
+                case 'cart_pick_up':
+                case 'cart_drop_off':
+                case 'cart_car_category':
+                    echo get_the_title($field['value']);
+                    break;
+                default:
+                    echo empty($field['value']) ? '-' : esc_attr($field['value']);
+            endswitch;
+            ?>
                     </td>
                 </tr>
-            <?php endforeach; ?>
+                    <?php endforeach; ?>
         </table>
-    <?php endif; ?>
+        <?php endif; ?>
+        <?php
+        // $car_result = $Cars_cart->get_ItembyID($car_ID);
+        //we have the information about the token
+        //Unset all of the session variables.
+        // Finally, destroy the session.
 
-    <?php
-    
-    
-    // $car_result = $Cars_cart->get_ItembyID($car_ID);
-    //we have the information about the token
-    //Unset all of the session variables.
-    // Finally, destroy the session.
-                            
-    $_SESSION = array();
-    session_destroy();
-                            
-    
-} elseif (!empty($Cars_cart_items)) {
+        $_SESSION = array();
+        session_destroy();
+    } elseif (!empty($Cars_cart_items)) {
 
-    if (!empty($Cars_cart_items['service'])) {
-        $extras = $Cars_cart_items['service'];
-    }
-    if (!empty($Cars_cart_items['car_ID'])) {
-        $car_ID = $Cars_cart_items['car_ID'];
-        $car_result = $Cars_cart->get_ItembyID($car_ID);
-        if (!empty($Cars_cart_items['car_datefrom']) && !empty($Cars_cart_items['car_dateto'])) {
-           
-            
-            $car_dfrom = $Cars_cart_items['car_datefrom']; 
-            $car_dfrom_string = $car_dfrom->format('d-m-Y H:i');       
-                            
-            $car_dto = $Cars_cart_items['car_dateto'];
-            $car_dto_string = $car_dto->format('d-m-Y H:i');
-            
-            
-            $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
-            $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
-            $total_price = $car_price + $extras_price;
+        if (!empty($Cars_cart_items['service'])) {
+            $extras = $Cars_cart_items['service'];
         }
-    }
-    if (!empty($Cars_cart_items['pick_up_location'])) {
-        $pick_up_location = $Cars_cart_items['pick_up_location'];
-    }
-    if (!empty($Cars_cart_items['drop_off_location'])) {
-        $drop_off_location = $Cars_cart_items['drop_off_location'];
-    }
-    //cart category
-    if (!empty($Cars_cart_items['car_category'])) {
-        $car_category = $Cars_cart_items['car_category'];
-    }
-    ?> 
+
+        if (!empty($Cars_cart_items['car_ID'])) {
+
+            $car_ID = $Cars_cart_items['car_ID'];
+            $car_result = $Cars_cart->get_ItembyID($car_ID);
+
+            if (!empty($Cars_cart_items['car_datefrom']) && !empty($Cars_cart_items['car_dateto'])) {
+
+
+                $car_dfrom = $Cars_cart_items['car_datefrom'];
+                $car_dfrom_string = $car_dfrom->format('d-m-Y H:i');
+
+                $car_dto = $Cars_cart_items['car_dateto'];
+                $car_dto_string = $car_dto->format('d-m-Y H:i');
+
+                $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
+                $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
+                $total_price = $car_price + $extras_price;
+            }
+        }
+        if (!empty($Cars_cart_items['pick_up_location'])) {
+            $pick_up_location = $Cars_cart_items['pick_up_location'];
+        }
+        if (!empty($Cars_cart_items['drop_off_location'])) {
+            $drop_off_location = $Cars_cart_items['drop_off_location'];
+        }
+        //cart category
+        if (!empty($Cars_cart_items['car_category'])) {
+            $car_category = $Cars_cart_items['car_category'];
+        }
+        ?>
     <?php if (!empty($car_result)) { ?>
         <?php foreach ($car_result as $car): ?>
             <?php $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail'); ?>
@@ -350,47 +451,47 @@ if (!empty($_SESSION['TOKENE'])) {
                     <td><?php _e('FROM', $this->car_share); ?></td>
                     <td><?php echo $car_dfrom_string; ?></td>
                     <td><?php echo get_the_title($pick_up_location); ?></td>
-                    
+
                 </tr>
                 <tr>
                     <td><?php _e('TO', $this->car_share); ?></td>
-                     <td><?php echo $car_dto_string; ?></td>
-                    <td><?php echo get_the_title($drop_off_location); ?></td> 
+                    <td><?php echo $car_dto_string; ?></td>
+                    <td><?php echo get_the_title($drop_off_location); ?></td>
                 </tr>
             </table>
             <table>
                 <tr>
                     <td>
-                        <?php echo $post_thumbnail; ?>
+            <?php echo $post_thumbnail; ?>
                     </td>
                     <td><?php echo get_the_title($car->ID); ?></td>
                 </tr>
 
-                <?php if (!empty($Cars_cart_items['service'])) { ?>
+                        <?php if (!empty($Cars_cart_items['service'])) { ?>
                     <tr>
                         <td><?php _e('EXTRAS INFO: ', $this->car_share); ?></td>
                         <td>
-                            <?php
-                            foreach ($extras as $key => $extras_id) {
-                                $service_fee = get_post_meta($key, '_service_fee', true);
-                                $_per_service = get_post_meta($key, '_per_service', true);
-                                $service_name = get_the_title($key);
-                                echo $extras_id . ' x ' . $service_name . ' ';
-                            }
-                            ?>
+                <?php
+                foreach ($extras as $key => $extras_id) {
+                    $service_fee = get_post_meta($key, '_service_fee', true);
+                    $_per_service = get_post_meta($key, '_per_service', true);
+                    $service_name = get_the_title($key);
+                    echo $extras_id . ' x ' . $service_name . ' ';
+                }
+                ?>
                         </td>
                     </tr>
-                <?php } ?>
+                        <?php } ?>
 
             </table>
-        <?php endforeach; ?>
+                    <?php endforeach; ?>
 
         <table>
-            <tbody> 
+            <tbody>
                 <tr>
                     <td><?php _e('CAR PRICE : ', $this->car_share); ?></td>
                     <td><?php echo $currency->format($car_price) ?></td>
-                </tr> 
+                </tr>
         <?php
         if (empty($car_category)) {
             // get car category from the car-ID because we need this here
@@ -398,18 +499,16 @@ if (!empty($_SESSION['TOKENE'])) {
         }
         $surcharge_active = get_post_meta($car_category, '_surcharge_active', true);
 
-                /**
-                 * young driver surcharge
-                 */
-                if (1 == $surcharge_active):
-                    $surcharge_age = get_post_meta($car_category, '_surcharge_age', true);
+        /**
+         * young driver surcharge
+         */
+        if (1 == $surcharge_active):
+            $surcharge_age = get_post_meta($car_category, '_surcharge_age', true);
 
-                    /*
-                     *
-                     * do paticky
-                     *
-                     */
-                    ?>
+            /*
+             * do paticky
+             */
+            ?>
                 <script>
                     jQuery(document).ready(function ($) {
 
@@ -459,15 +558,15 @@ if (!empty($_SESSION['TOKENE'])) {
                         <form id="surcharge-form" method="" action="">
                             <label>
                                 <input id="apply-surcharge" type="checkbox" name="apply_surcharge" value="1">
-                                <?php printf(__('I am under %d.', $this->car_share), $surcharge_age); ?>
+            <?php printf(__('I am under %d.', $this->car_share), $surcharge_age); ?>
                             </label>
                         </form>
                         <span id="surcharge-price"></span>
                     </td>
                 </tr>
-            <?php endif; ?>
+                            <?php endif; ?>
 
-            <?php if (!empty($extras_price)) { ?>
+        <?php if (!empty($extras_price)) { ?>
                 <tr>
                     <td><?php _e('EXTRAS PRICE: ', $this->car_share); ?></td>
                     <td><?php echo $currency->format($extras_price) ?></td>
@@ -482,69 +581,66 @@ if (!empty($_SESSION['TOKENE'])) {
                 ?>
                 <tr>
                     <td>
-                        <?php _e('Different location price:', $this->car_share) ?>
+                <?php _e('Different location price:', $this->car_share) ?>
                     </td>
                     <td>
-                        <?php echo $currency->format($different_location_price) ?>
+                <?php echo $currency->format($different_location_price) ?>
                     </td>
                 </tr>
-                <?php
-            endif;
-
-            /**
-             * Total price and payable now price
-             */
-            $total_price = $Cars_cart->getTotalPrice();
-            $paypable_now = round($Cars_cart->getPaypablePrice(), 2);
-            ?>
+                        <?php
+                    endif;
+                    /**
+                     * Total price and payable now price
+                     */
+                    $total_price = $Cars_cart->getTotalPrice();
+                    $paypable_now = round($Cars_cart->getPaypablePrice(), 2);
+                    ?>
             <tr>
                 <td><?php _e('TOTAL : ', $this->car_share); ?></td>
                 <td>
                     <span id="price-total_total" class="price">
-                        <?php echo $currency->format($total_price) ?>
+            <?php echo $currency->format($total_price) ?>
                     </span>
                 </td>
             </tr>
-             
             <tr class="hidden">
                 <td><?php _e('TOTAL WITH VOUCHER: ', $this->car_share); ?></td>
                 <td>
                     <span id="price-total" class="price">
-                        <?php echo $currency->format($total_price) ?>
+        <?php echo $currency->format($total_price) ?>
                     </span>
                 </td>
             </tr>
-            
-        <?php    
-            $sc_setting = get_option('sc_setting'); 
-            if(isset($sc_setting['deposit_active']) && 1 == $sc_setting['deposit_active']){            
-            $deposit_percentage = floatval($sc_setting['deposit_amount']);                                
-            } 
-        ?> 
+        <?php
+        $sc_setting = get_option('sc_setting');
+        if (isset($sc_setting['deposit_active']) && 1 == $sc_setting['deposit_active']) {
+            $deposit_percentage = floatval($sc_setting['deposit_amount']);
+        }
+        ?>
             <tr>
                 <td><?php _e('PAYABLE NOW : ', $this->car_share); ?></td>
                 <td>
                     <span id="price-payable-now" class="price">
-                        <?php echo $currency->format($paypable_now) ?>
+            <?php echo $currency->format($paypable_now) ?>
 
-                    </span> <?php if(isset($deposit_percentage)){ echo '('.$deposit_percentage.' %)';} ?>
-                  
+                    </span> <?php if (isset($deposit_percentage)) {
+            echo '(' . $deposit_percentage . ' %)';
+        } ?>
                 </td>
             </tr>
-             
-            <?php
-            // does exist any voucher ??
-            global $wpdb;
-            $sql = "SELECT ID FROM $wpdb->posts WHERE post_status='publish' AND post_type='sc-voucher'";
-            $exists = $wpdb->get_var($sql);
+        <?php
+        // does exist any voucher ??
+        global $wpdb;
+        $sql = "SELECT ID FROM $wpdb->posts WHERE post_status='publish' AND post_type='sc-voucher'";
+        $exists = $wpdb->get_var($sql);
 
-            if (!empty($exists)):
-                ?>
+        if (!empty($exists)):
+            ?>
                 <!-- voucher -->
                 <script>
                     jQuery(document).ready(function ($) {
                         jQuery('#voucher-form').submit(function (e) {
-                            e.preventDefault(); 
+                            e.preventDefault();
                             $.ajax({
                                 type: 'post',
                                 dataType: 'json',
@@ -556,12 +652,12 @@ if (!empty($_SESSION['TOKENE'])) {
                                 beforeSend: function () {
                                     //self.prop("disabled", true);
                                 }
-                            }).done(function (ret) { 
-                                $('.hidden').removeClass( "hidden" ).addClass( "show" ); 
+                            }).done(function (ret) {
+                                $('.hidden').removeClass("hidden").addClass("show");
                                 $('#price-total').html(ret.total_price);
                                 $('#price-payable-now').html(ret.paypable_now);
                                 $('#voucher-message').html(ret.message);
-                            }).fail(function (ret) { 
+                            }).fail(function (ret) {
                             }).always(function () {
                                 //self.prop("disabled", false);
                             });
@@ -579,72 +675,71 @@ if (!empty($_SESSION['TOKENE'])) {
                     </td>
                 </tr>
                 <!-- /voucher -->
-            <?php endif; ?> 
+        <?php endif; ?>
         </tbody>
-        </table>        
+        </table>
         <form action="" method="post" class="form-horizontal">
             <!-- Address form -->
-            <strong><?php _e('Billing Information', $this->car_share); ?></strong> 
-            <?php
-            $checkout_fields = get_enabled_checkout_fields();
-
-            foreach ($checkout_fields as $input_key => $field):
-                ?>
+            <strong><?php _e('Billing Information', $this->car_share); ?></strong>
+        <?php
+        $checkout_fields = get_enabled_checkout_fields();
+        foreach ($checkout_fields as $input_key => $field):
+            ?>
                 <div class="control-group">
                     <label class="control-label"><?php _e($field['label'], $this->car_share); ?></label>
                     <div class="controls">
-                        
-                        <?php 
-                        switch($field['type']): 
-                            case 'country':
-                                ?>
+
+            <?php
+            switch ($field['type']):
+                case 'country':
+                    ?>
                                 <select name="<?php echo esc_attr($input_key) ?>" <?php echo $field['required'] ? "required" : '' ?>>
                                     <option value=""><?php _e($field['placeholder'], $this->car_share); ?></option>
-                                    <?php
-                                    $countries = sc_get_countries(); 
-                                    foreach($countries as $iso => $country):
+                                <?php
+                                $countries = sc_get_countries();
+                                foreach ($countries as $iso => $country):
                                     ?>
                                         <option value="<?php echo $iso ?>"><?php _e($country, $this->car_share) ?></option>
                                     <?php endforeach; ?>
-                                </select>    
-                                <?php
-                                break;
-                            case 'email':    
-                                ?>
+                                </select>
+                                    <?php
+                                    break;
+                                case 'email':
+                                    ?>
                                 <input name="<?php echo esc_attr($input_key) ?>" type="email" placeholder="<?php _e($field['placeholder'], $this->car_share); ?>" <?php echo $field['required'] ? "required" : '' ?> class="input-xlarge">
                                 <?php
                                 break;
                             default:
                                 ?>
                                 <input name="<?php echo esc_attr($input_key) ?>" type="text" placeholder="<?php _e($field['placeholder'], $this->car_share); ?>" <?php echo $field['required'] ? "required" : '' ?> class="input-xlarge">
-                                <p class="help-block"></p>                        
-                                <?php
-                        endswitch; 
-                        ?>                         
+                                <p class="help-block"></p>
+                            <?php
+                        endswitch;
+                        ?>
                     </div>
                 </div>
-            <?php endforeach; ?> 
-            <?php wp_nonce_field('post_nonce', 'post_nonce_field'); ?> 
-             
-            <?php             
-                $payment_option = get_option('car_plugin_options_arraykey'); 
-                $payment_option = $payment_option['catalogoption'];        
-                if($payment_option == 1):                             
-            ?>   
-            <button type="submit" class="btn btn-default" name="sc-reservation-checkout"><?php _e('Reservation', $this->car_share); ?></button> 
-            <?php            
-                else:              
+                    <?php endforeach; ?>
+                    <?php wp_nonce_field('post_nonce', 'post_nonce_field'); ?>
+
+            <?php
+            $payment_option = get_option('car_plugin_options_arraykey');
+            $payment_option = $payment_option['catalogoption'];
+            if ($payment_option == 1):
+                ?>
+                <button type="submit" class="btn btn-default" name="sc-reservation-checkout"><?php _e('Reservation', $this->car_share); ?></button>
+                <?php
+            else:
+                ?>
+                <button type="submit" class="btn btn-default" name="sc-checkout"><?php _e('Book car', $this->car_share); ?></button>
+            <?php
+            endif;
             ?>
-            <button type="submit" class="btn btn-default" name="sc-checkout"><?php _e('Book car', $this->car_share); ?></button> 
-            <?php            
-                endif;              
-            ?> 
         </form>
-        <?php
-    } else { 
+            <?php
+        } else {
+            _e('Please go back and chose a car.', $this->car_share);
+        }
+    } else {
         _e('Please go back and chose a car.', $this->car_share);
     }
-} else { 
-    _e('Please go back and chose a car.', $this->car_share);
-}
-?>
+    ?>
