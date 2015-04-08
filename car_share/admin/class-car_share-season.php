@@ -114,7 +114,7 @@ class Car_share_Season {
     }
     
     public function date_interval_row(){
-        echo date_row_static('', '', true);
+        echo Car_share_Season::date_row_static('', '', true);
         exit();
     }
 

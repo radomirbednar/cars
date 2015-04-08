@@ -1,26 +1,37 @@
 <script>
-    /*
-     jQuery(function ($) {
+    jQuery(function ($) {
+        
+        // remove status
+        $('#date_interval').on('click', 'tbody .remove-row', function (event) {
+            console.log('remove');
+            $(this).parents(".item").remove();
+        });        
 
-     $('#date-from').datepicker({
-     dateFormat: 'dd.mm.yy',
-<?php echo empty($date_to) ? '' : "maxDate: '" . $date_to->format('d.m.Y') . "'," ?>
-     onSelect: function (date_from) {
-     $('#date-to').datepicker("option", "minDate", date_from);
-     }
-     });
-     $('#date-to').datepicker({
-     dateFormat: 'dd.mm.yy',
-<?php echo empty($date_from) ? '' : "minDate: '" . $date_from->format('d.m.Y') . "'," ?>
-     onSelect: function (date_to) {
-     $('#date-from').datepicker("option", "maxDate", date_to);
-     }
-     });
-     });
-     */
+        $("#add-new-date").click(function () {
+
+            var self = $(this);
+
+            jQuery.ajax({
+                type: 'post',
+                url: ajaxurl,                
+                data: {
+                    'action': 'date_interval_row',
+                },
+                beforeSend: function () {
+                    self.prop("disabled", true);
+                }
+            }).done(function (ret) {
+                $('#date-rows').append(ret);
+            }).fail(function (ret) {
+                
+            }).always(function () {
+                self.prop("disabled", false);
+            });
+        });
+    });
 </script>
 
-<table class="status date_interval">
+<table id="date_interval" class="status date_interval">
     <thead>
         <tr>
             <td>
@@ -32,7 +43,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="date-rows">
         <?php
         $season_dates = sc_Season::get_dates($post->ID);
 
@@ -50,38 +61,8 @@
     <tfoot>
         <tr>
             <td colspan="3">
-                <button id="add-new-date" type="button" class="add-status button button-primary"><?php _e('Add new date interval', 'car_share') ?></button>
+                <button id="add-new-date" class="add-status button button-primary" type="button"><?php _e('Add new date interval', 'car_share') ?></button>
             </td>
         </tr>
     </tfoot>
 </table>
-
-<script>
-    jQuery(function ($) {
-        $("#add-new-date").click(function () {
-            
-           jQuery.ajax({
-                type: 'post',
-                url: ajaxurl,
-                //dataType: "json",
-                data: {
-                    'id': id,
-                    'action': 'date_interval_row',
-                },
-                beforeSend: function () {
-                        self.prop("disabled", true);
-                    }
-                }).done(function (ret) {
-                    console.log(ret);
-                    //var new_element = $('#single_car_box_' + id).after(ret);
-                }).fail(function (ret) {
-                    //alert('<?php esc_attr_e('Create new car failed', $this->car_share) ?>');
-                }).always(function () {
-                    self.prop("disabled", false);
-                });            
-            
-            //console.log('add new date');
-            //var inputs = '<?php echo Car_share_Season::date_row('', '', true); ?>';
-        });
-    });
-</script>
