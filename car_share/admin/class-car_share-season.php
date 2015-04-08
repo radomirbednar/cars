@@ -36,6 +36,9 @@ class Car_share_Season {
 
         add_filter('manage_sc-season_posts_columns', array($this, 'column_head'));
         add_action('manage_sc-season_posts_custom_column', array($this, 'column_content'), 10, 2);
+        
+        add_action('wp_ajax_date_interval_row', array($this, 'date_interval_row'));
+        add_action('wp_ajax_date_interval_row', array($this, 'date_interval_row'));                
     }
 
     public function column_head($defaults) {
@@ -109,8 +112,13 @@ class Car_share_Season {
             }
         }
     }
+    
+    public function date_interval_row(){
+        echo date_row_static('', '', true);
+        exit();
+    }
 
-    public static function date_row($date_from, $date_to, $delete_button = false){
+    public static function date_row_static($date_from, $date_to, $delete_button = false){
         ob_start();
         include 'partials/season/date_row.php';
         $content = ob_get_clean();

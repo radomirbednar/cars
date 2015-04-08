@@ -20,7 +20,7 @@
      */
 </script>
 
-<table id="car-status-<?php echo $car_id ?>" class="status">
+<table class="status date_interval">
     <thead>
         <tr>
             <td>
@@ -37,12 +37,12 @@
         $season_dates = sc_Season::get_dates($post->ID);
 
         if (empty($season_dates)):
-            echo Car_share_Season::date_row('', '');
+            echo Car_share_Season::date_row_static('', '');
         else:
             foreach ($season_dates as $val):
                 $date_from = DateTime::createFromFormat('Y-m-d H:i:s', $val->date_from);
                 $date_to = DateTime::createFromFormat('Y-m-d H:i:s', $val->date_to);
-                echo Car_share_Season::date_row($date_from, $date_to, true);
+                echo Car_share_Season::date_row_static($date_from, $date_to, true);
             endforeach;
         endif;
         ?>
@@ -59,8 +59,29 @@
 <script>
     jQuery(function ($) {
         $("#add-new-date").click(function () {
-            console.log('add new date');
-            var inputs = '<?php echo Car_share_Season::date_row('', '', true); ?>';
+            
+           jQuery.ajax({
+                type: 'post',
+                url: ajaxurl,
+                //dataType: "json",
+                data: {
+                    'id': id,
+                    'action': 'date_interval_row',
+                },
+                beforeSend: function () {
+                        self.prop("disabled", true);
+                    }
+                }).done(function (ret) {
+                    console.log(ret);
+                    //var new_element = $('#single_car_box_' + id).after(ret);
+                }).fail(function (ret) {
+                    //alert('<?php esc_attr_e('Create new car failed', $this->car_share) ?>');
+                }).always(function () {
+                    self.prop("disabled", false);
+                });            
+            
+            //console.log('add new date');
+            //var inputs = '<?php echo Car_share_Season::date_row('', '', true); ?>';
         });
     });
 </script>
