@@ -79,15 +79,12 @@ class Car_share_Setting {
 
     public function checkout_form_setup() {
         //$screen = get_current_screen();
-        if (isset($_POST['save_checkout_form_setup'])) {
-
+        if (isset($_POST['save_checkout_form_setup'])) { 
             $default_fields = get_default_checkout_fields();
             $arr_to_save = array();
-            foreach ($default_fields as $input_key => $input_value) {
-
+            foreach ($default_fields as $input_key => $input_value) { 
                 $enabled = isset($_POST['billing_inputs'][$input_key]['enabled']) && 1 == $_POST['billing_inputs'][$input_key]['enabled'] ? 1 : 0;
-                $required = isset($_POST['billing_inputs'][$input_key]['required']) && 1 == $_POST['billing_inputs'][$input_key]['required'] ? 1 : 0;
-
+                $required = isset($_POST['billing_inputs'][$input_key]['required']) && 1 == $_POST['billing_inputs'][$input_key]['required'] ? 1 : 0; 
                 $arr_to_save[$input_key] = array(
                     'enabled' => $enabled,
                     'required' => $required,
@@ -96,8 +93,7 @@ class Car_share_Setting {
             update_option('sc-checkout-inputs', $arr_to_save);
         }
 
-        $checkout_fields = get_checkout_fields();
-
+        $checkout_fields = get_checkout_fields(); 
         include_once( 'partials/checkout_form_setup.php' );
         wp_nonce_field(__FILE__, 'checkout_form_nonce');
     }
@@ -109,25 +105,20 @@ class Car_share_Setting {
      */
     public function display_plugin_admin_page() {
         include_once( 'partials/car_share-admin-display.php' );
-    }
-
-    function register_settings() {
-
+    } 
+    function register_settings() { 
         /**
          * Rent car subsection
          */
         add_settings_section(
                 'main-settings-demand-deposit', __('Rent car setting', $this->car_share), array($this, 'print_demand_deposit_section_info'), 'car-share-deposit-settings-section'
-        );
-
+        ); 
         add_settings_field(
                 'deposit_amount_field', __('Payable now amount (%)', $this->car_share), array($this, 'create_input_deposit_amount'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
-        );
-
+        ); 
         add_settings_field(
                 'deposit_active_field', __('Apply payable now', $this->car_share), array($this, 'create_input_deposit_active'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
-        );
-
+        ); 
         add_settings_field(
                 'block_car_field', __('Block car interval', $this->car_share), array($this, 'create_input_block_car_interval'), 'car-share-deposit-settings-section', 'main-settings-demand-deposit'
         );
@@ -161,7 +152,11 @@ class Car_share_Setting {
         );
         add_settings_field(
                 'showcategory', 'Show category:', array($this, 'create_input_some_show_cat'), 'car-plugin-main-settings-section', 'main-settings-section'
+        ); 
+        add_settings_field(
+                'catalogoption', 'Catalog - order by email', array($this, 'create_input_some_show_catalog'), 'car-plugin-main-settings-section', 'main-settings-section'
         );
+        
         
         
         // register_setting( $option_group, $option_name, $sanitize_callback )
@@ -418,10 +413,8 @@ class Car_share_Setting {
         $options = get_option('car_plugin_options_arraykey');
         ?><input type="text" name="car_plugin_options_arraykey[notemail]" value="<?php echo isset($options['notemail']) ? $options['notemail'] : '' ?>" />
         <?php
-    }
-
-    function create_input_some_show_cat() {
-
+    } 
+    function create_input_some_show_cat() { 
         $options = get_option('car_plugin_options_arraykey');
         ?>
         <input type="checkbox" name="car_plugin_options_arraykey[showcategory]" value="1" <?php
@@ -430,22 +423,27 @@ class Car_share_Setting {
         }
         ?> />
         <?php
-    }
-
-
+    } 
+    function create_input_some_show_catalog() {  
+        $options = get_option('car_plugin_options_arraykey'); 
+        ?>
+        <input type="checkbox" name="car_plugin_options_arraykey[catalogoption]" value="1" <?php
+        if (isset($options['catalogoption']) && ($options['catalogoption'] == 1)) {
+            echo 'checked';
+        }
+        ?> />
+        <?php
+    } 
     /**
      * @param type $arr_input
      */
     function sc_settings_validate($arr_input) {
         $arr_input['deposit_amount'] = floatval($arr_input['deposit_amount']);
         $arr_input['deposit_active'] = intval($arr_input['deposit_active']);
-
         $arr_input['block_interval'] = floatval($arr_input['block_interval']);
-        $arr_input['block_interval_diff_loc'] = floatval($arr_input['block_interval_diff_loc']);
-
+        $arr_input['block_interval_diff_loc'] = floatval($arr_input['block_interval_diff_loc']); 
         $arr_input['block_type'] = isset($_POST['block_type']) ? esc_attr($_POST['block_type']) : '';
-        $arr_input['block_type_diff_loc'] = isset($_POST['block_type_diff_loc']) ? esc_attr($_POST['block_type_diff_loc']) : '';
-
+        $arr_input['block_type_diff_loc'] = isset($_POST['block_type_diff_loc']) ? esc_attr($_POST['block_type_diff_loc']) : ''; 
         return $arr_input;
     }
 
@@ -453,6 +451,7 @@ class Car_share_Setting {
         $options = get_option('car_plugin_options_arraykey');
         $options['notemail'] = trim($arr_input['notemail']);
         $options['showcategory'] = trim($arr_input['showcategory']);
+        $options['catalogoption'] = trim($arr_input['catalogoption']);   
         $options['companyname-setting'] = trim($arr_input['companyname-setting']);
         $options['streetaddress-setting'] = trim($arr_input['streetaddress-setting']);
         $options['city-setting'] = trim($arr_input['city-setting']);
@@ -535,8 +534,7 @@ class Car_share_Setting {
     }
 
     function plugin_additional_settings_validate($arr_input) {
-
-
+ 
         $options = get_option('second_set_arraykey');
         $options['sc-unit'] = trim($arr_input['sc-unit']);
         $options['sc-currency'] = trim($arr_input['sc-currency']);
@@ -546,11 +544,9 @@ class Car_share_Setting {
         $options['paypalemail_setting'] = trim($arr_input['paypalemail_setting']);
         $options['paypalsandbox-setting'] = trim($arr_input['paypalsandbox-setting']);
         $options['payablenow-setting'] = trim($arr_input['payablenow-setting']);
-
-
+ 
         return $options;
-    }
-
+    } 
     /**
      * Add settings action link to the plugins page.
      *
@@ -562,16 +558,12 @@ class Car_share_Setting {
             'settings' => '<a href="' . admin_url('options-general.php?page=' . $this->car_share) . '">' . __('Settings', $this->car_share) . '</a>'
                 ), $links
         );
-    }
-
+    } 
     /*
      *
      * create the page for the plugin
      *
-     */
-
-    public function my_plugin_install_function() {
-
-    }
-
+     */ 
+    public function my_plugin_install_function() { 
+    } 
 }

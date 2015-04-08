@@ -14,23 +14,22 @@ class Car_share_Shortcode {
     public $currency;
     private $token_result;
     private $customer_id;
-
+ 
+    
     public function __construct($car_share, $version) {
 
         $this->car_share = $car_share;
         $this->version = $version;
-        //$this->setcurrency();
-
+        //$this->setcurrency(); 
         add_shortcode('sc-search_for_car', array($this, 'search_for_car'));
         add_shortcode('sc-pick_car', array($this, 'pick_car'));
         add_shortcode('sc-extras', array($this, 'extras'));
         add_shortcode('sc-checkout', array($this, 'checkout'));
-        add_action('plugins_loaded', array($this, 'search_for_car_form'));
-
-        add_action('template_redirect', array($this, 'paypal'));
+        add_action('plugins_loaded', array($this, 'search_for_car_form')); 
+        add_action('template_redirect', array($this, 'paypal'));  
+    
         add_filter('wp_mail_content_type', array($this, 'set_content_type'));
-
-
+ 
         if (!isset($_SESSION)) {
             session_start();
         }
@@ -39,16 +38,16 @@ class Car_share_Shortcode {
     function set_content_type($content_type) {
         return 'text/html';
     }
-
-    public function paypal() {
-
-
+  
+     
+    public function paypal() { 
+         
         $sc_options_paypal = get_option('second_set_arraykey');
-        $email_option = get_option('car_plugin_options_arraykey');
-
+        $email_option = get_option('car_plugin_options_arraykey'); 
         $currency = sc_Currency::get_instance()->iso();
-        $currencyforpeople = sc_Currency::get_instance()->symbol();
-
+        $currencyforpeople = sc_Currency::get_instance()->symbol(); 
+         
+        //paypal options
         if (!empty($sc_options_paypal['apiusername-setting'])) {
             $PayPalApiUsername = $sc_options_paypal['apiusername-setting'];
         }
@@ -60,9 +59,7 @@ class Car_share_Shortcode {
         }
         if (!empty($email_option['notemail'])) {
             $option_notification_email = $email_option['notemail'];
-        }
-
-        //paypal options
+        }  
         $PayPalMode = 'sandbox'; // sandbox or live
         if (!empty($sc_options_paypal['paypalsandbox-setting'])) {
 
@@ -71,30 +68,30 @@ class Car_share_Shortcode {
             }
         }
         //page options
-        $sc_options = get_option('sc-pages');
-
+        $sc_options = get_option('sc-pages'); 
         $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
         //currency form the setting
         $PayPalCurrencyCode = $currency; //Paypal Currency Code
         //paypal return point from setting
         $PayPalReturnURL = $checkout_car_url; //Point to process.php page
-        $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel
-
+        $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel 
+        
         include_once("paypalsdk/expresscheckout.php");
-
+ 
         if (isset($_POST['sc-checkout']) && isset($_POST['post_nonce_field']) && wp_verify_nonce($_POST['post_nonce_field'], 'post_nonce')) {
             // information for the payment
-
-            $customer_email = sanitize_text_field($_POST['_email']);
+   
+            $customer_email = sanitize_text_field($_POST['_email']);         
             $Cars_cart = new Car_Cart('shopping_cart');
-            $Cars_cart_items = $Cars_cart->getItems();
-
-            $extras = $Cars_cart_items['service'];
-            $car_ID = $Cars_cart_items['car_ID'];
-
+            $Cars_cart_items = $Cars_cart->getItems(); 
+      
+            if(isset($Cars_cart_items['service'])){ 
+              $extras = $Cars_cart_items['service'];      
+            }
+             
+            $car_ID = $Cars_cart_items['car_ID']; 
             $pick_up_location = $Cars_cart_items['pick_up_location'];
-            $drop_off_location = $Cars_cart_items['drop_off_location'];
-
+            $drop_off_location = $Cars_cart_items['drop_off_location']; 
             $car_dfrom = $Cars_cart_items['car_datefrom'];
             $car_dto = $Cars_cart_items['car_dateto'];
             $car_category = $Cars_cart_items['car_category'];
@@ -103,8 +100,8 @@ class Car_share_Shortcode {
             $car_dto_string = $car_dto->format('Y-m-d H:i');
 
             $car_result = $Cars_cart->get_ItembyID($car_ID);
-            //get the item title
-
+            
+            //get the item title 
             if (!empty($car_result)) {
                 foreach ($car_result as $car) {
                     $carID = $car->ID;
@@ -112,7 +109,7 @@ class Car_share_Shortcode {
                     //$post_thumbnail = get_the_post_thumbnail($carID, 'thumbnail');
                 }
             }
-
+        
             //get the extras infos
             foreach ($extras as $key => $extras_id) {
                 $service_fee = get_post_meta($key, '_service_fee', true);
@@ -160,8 +157,7 @@ class Car_share_Shortcode {
 
             $GrandTotal = money_format('%.2n', $GrandTotal);
             $ItemTotalPrice = money_format('%.2n', $ItemTotalPrice);
-
-
+ 
             //Parameters for SetExpressCheckout, which will be sent to PayPal
             $padata = '&METHOD=SetExpressCheckout' .
                     '&RETURNURL=' . urlencode($PayPalReturnURL) .
@@ -195,9 +191,7 @@ class Car_share_Shortcode {
             //We need to execute the "SetExpressCheckOut" method to obtain paypal token
             $paypal = new MyPayPal();
             $httpParsedResponseAr = $paypal->PPHttpPost('SetExpressCheckout', $padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
-
-
-
+ 
             //Respond according to message we receive from Paypal
             if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
 
@@ -222,10 +216,8 @@ class Car_share_Shortcode {
                         }
                         //post meta information about booking
                         //nezapomenout smazat na konci veskerou session !!!!!!!
-                        $_SESSION['post_insert_id'] = $post_insert_id;
-       
-                         sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);
-                        
+                        $_SESSION['post_insert_id'] = $post_insert_id; 
+                        sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id); 
                     }
                 } else {
                     $post_insert_id = $_SESSION['post_insert_id'];
@@ -235,10 +227,11 @@ class Car_share_Shortcode {
                         'post_title' => $booking_title,
                         'post_type' => 'sc-booking',
                         'post_status' => 'publish'
-                    );
-                    
-                    $update_info = wp_update_post($post_information); 
-                    
+                    ); 
+                    $update_info = wp_update_post($post_information);      
+                    /*
+                    * Information from the input form fields
+                    */ 
                     if($update_info){
                     $checkout_fields = get_enabled_checkout_fields();
                     if ($update_info) {
@@ -246,13 +239,9 @@ class Car_share_Shortcode {
                         foreach ($checkout_fields as $input_key => $field) {
                             //$field['required'];
                             update_post_meta($post_insert_id, $input_key, esc_attr(strip_tags($_POST[$input_key])));
-                        }
-                     
-                    sc_Car::updateStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);       
-                    
-                    
-                    
-                        }
+                        } 
+                        sc_Car::updateStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);       
+                    } 
                     }
                     else
                     {
@@ -277,11 +266,9 @@ class Car_share_Shortcode {
                          sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);  
                     } 
                 }
-                 }
-                
+            }                
                 $post_insert_id = $_SESSION['post_insert_id'];
-      
-
+ 
                 // save info about voucher if any
                 if (!empty($Cars_cart_items['voucher_id'])) {
                     update_post_meta($post_insert_id, '_voucher_id', (int) $Cars_cart_items['voucher_id']);
@@ -303,42 +290,34 @@ class Car_share_Shortcode {
                 update_post_meta($post_insert_id, 'cart_extra_price', esc_attr(strip_tags($extras_price)));
                 update_post_meta($post_insert_id, 'cart_total_price', esc_attr(strip_tags($total_price)));
                 update_post_meta($post_insert_id, 'cart_extras', ($extras));
-                update_post_meta($post_insert_id, 'cart_currency', ($currency));
-
+                update_post_meta($post_insert_id, 'cart_currency', ($currency)); 
                 //set to order status to pending - 2
-                update_post_meta($post_insert_id, 'car_r_order_status', '2');
-
+                update_post_meta($post_insert_id, 'car_r_order_status', '2'); 
                 //odeslani informace obchodnikovi o objednavce - protoze objednavku ukladame uz v tomto kroku
                 // Example using the array form of $headers
                 // assumes $to, $subject, $message have already been defined earlier...
 
-
+                
                 ob_start();
                 include_once('partials/email_order_client.php');
                 $email_customer_content = ob_get_contents();
                 ob_end_clean();
-
-
+ 
                 $headers = 'From:  '. $option_notification_email.' <' . $option_notification_email . '>';
                 $to = $customer_email;
                 $subject = 'Booking email information';
                 $message = $email_customer_content;
-
-
-                wp_mail($to, $subject, $message, $headers);
  
+                wp_mail($to, $subject, $message, $headers); 
                 ob_start();
                 include_once('partials/email_order.php');
                 $email_store_content = ob_get_contents();
-                ob_end_clean();
- 
+                ob_end_clean(); 
                 $headers = 'From: '. $option_notification_email.' <' . $option_notification_email . '>';
                 $to = $option_notification_email;
                 $subject = 'Booking email information';
-                $message = $email_store_content;
-
-                //$message = include_once('/partial/email_order_client.php');
-
+                $message = $email_store_content;                
+                //$message = include_once('/partial/email_order_client.php'); 
                 wp_mail($to, $subject, $message, $headers);
 
                 //Redirect user to PayPal store with Token received.
@@ -399,7 +378,7 @@ class Car_share_Shortcode {
                 /*
                   //Sometimes Payment are kept pending even when transaction is complete.
                   //hence we need to notify user about it and ask him manually approve the transiction
-                 */
+                */
 
                 if ('Completed' == $httpParsedResponseAr["PAYMENTINFO_0_PAYMENTSTATUS"]) {
 
@@ -436,9 +415,7 @@ class Car_share_Shortcode {
                     $payerid = urldecode($httpParsedResponseAr["PAYERID"]);
                     $responseamt = urldecode($httpParsedResponseAr["AMT"]);
                     $checkoutstatur = urldecode($httpParsedResponseAr["CHECKOUTSTATUS"]);
-
-
-
+ 
 
                     //save the transaction information
                     update_post_meta($post_insert_id, 'car_r_order_info', 'Completed GetExpressCheckoutDetails');
@@ -604,7 +581,9 @@ class Car_share_Shortcode {
                 $Cars_cart = new Car_Cart('shopping_cart');
                 $Cars_cart->setItemSearch($pick_up_location, $drop_off_location, $car_dfrom, $car_dto, $car_category);
                 $Cars_cart->save();
+                 
                 wp_redirect($pick_car_url);
+                
                 exit;
             }
         }
