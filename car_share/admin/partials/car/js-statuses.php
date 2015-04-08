@@ -29,7 +29,7 @@
         str +='</select>' +
                 '</td>' +
                 '<td>' +
-                '<input id="status-date-from-' + car_id + '_'+ status_key +'" class="status-date-from" type="text" name="car[' + car_id + '][status][' + status_key + '][from]" value="' + from_date + '">' +
+                '<input id="date-from-' + car_id + '_'+ status_key +'" class="date-from" type="text" name="car[' + car_id + '][status][' + status_key + '][from]" value="' + from_date + '">' +
                 '<select  name="car[' + car_id + '][status][' + status_key + '][from_hour]">';
 
                 <?php for($i = 0; $i < 24; $i++): ?>
@@ -50,7 +50,7 @@
         str +=  '</select>' +
                 '</td>' +
                 '<td>' +
-                '<input id="status-date-to-' + car_id + '_'+ status_key +'" class="status-date-to" type="text" name="car[' + car_id + '][status][' + status_key + '][to]" value="' + to_date + '">' +
+                '<input id="date-to-' + car_id + '_'+ status_key +'" class="date-to" type="text" name="car[' + car_id + '][status][' + status_key + '][to]" value="' + to_date + '">' +
                 '<select  name="car[' + car_id + '][status][' + status_key + '][to_hour]">';
 
                 <?php for($i = 0; $i < 24; $i++): ?>
@@ -82,8 +82,8 @@
 
     function apply_datepicker(element){
 
-            var date_from = element.find(".status-date-from");
-            var date_to = element.find(".status-date-to");
+            var date_from = element.find(".date-from");
+            var date_to = element.find(".date-to");
 
             date_from.datepicker({
                 dateFormat: 'dd.mm.yy',
