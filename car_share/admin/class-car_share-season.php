@@ -69,12 +69,9 @@ class Car_share_Season {
     }
 
     public function date_box() {
-        global $post;
-        $session = new sc_Season($post);
-        $date_from = $session->from();
-        $date_to = $session->to();
-
-        include 'partials/season/date_interval.php';
+        global $post;        
+        $session = new sc_Season($post);        
+        include 'partials/season/date_interval.php';        
         wp_nonce_field(__FILE__, 'season_nonce');
     }
 
@@ -85,19 +82,29 @@ class Car_share_Season {
             global $post;
             global $wpdb;
 
-            $date_from = DateTime::createFromFormat('d.m.Y H:i:s', $_POST['_from'] . ' 00:00:00');
-            $date_to = DateTime::createFromFormat('d.m.Y H:i:s', $_POST['_to'] . ' 23:59:59');
+            $sql = "DELETE FROM sc_season_date WHERE post_id = '" . $post->ID . "'";
+            $wpdb->query($sql);
 
-            if (!empty($date_from)) {
-                update_date_meta($post->ID, '_from', $date_from);
-            } else {
-                delete_date_meta($post->ID, '_from');
-            }
+            foreach ($_POST['_from'] as $key => $from) {
 
-            if (!empty($date_to)) {
-                update_date_meta($post->ID, '_to', $date_to);
-            } else {
-                delete_date_meta($post->ID, '_to');
+                $to = $_POST['_to'][$key];
+
+                $date_from = DateTime::createFromFormat('d.m.Y H:i:s', $from . ' 00:00:00');
+                $date_to = DateTime::createFromFormat('d.m.Y H:i:s', $to . ' 23:59:59');
+
+                if (!empty($date_from) && !empty($date_to)) {
+                    $sql = "
+                        INSERT INTO
+                            sc_season_date (post_id, date_from, date_to)
+                        VALUES (
+                           '" . $post->ID . "',
+                           '" . $date_from->format('Y-m-d H:i:s') . "',
+                           '" . $date_to->format('Y-m-d H:i:s') . "'
+                        )
+                    ";
+
+                    $wpdb->query($sql);
+                }
             }
         }
     }

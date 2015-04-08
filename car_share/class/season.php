@@ -23,4 +23,22 @@ class sc_Season {
         return get_date_meta($this->id, '_to');
     }
 
+    
+    public static function get_dates($season_id){
+        
+        global $wpdb;
+        
+        $sql = "
+            SELECT 
+                *
+            FROM
+                sc_season_date
+            WHERE            
+                post_id = '" . $season_id . "'
+        ";
+        
+        $dates = $wpdb->get_results($sql);
+        return $dates;        
+    }
+    
 }
