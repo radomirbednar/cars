@@ -34,8 +34,8 @@ class sc_Car {
     public static function getTransmissionOptions(){
         
         $arr = array(
-            1 => 'Manual',
-            2 => 'Automatic',
+            1 => __('Manual', 'car_share'),
+            2 => __('Automatic', 'car_share'),
         );
         
         return $arr;        

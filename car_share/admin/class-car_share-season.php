@@ -69,9 +69,9 @@ class Car_share_Season {
     }
 
     public function date_box() {
-        global $post;        
-        $session = new sc_Season($post);        
-        include 'partials/season/date_interval.php';        
+        global $post;
+        $session = new sc_Season($post);
+        include 'partials/season/date_interval.php';
         wp_nonce_field(__FILE__, 'season_nonce');
     }
 
@@ -93,6 +93,7 @@ class Car_share_Season {
                 $date_to = DateTime::createFromFormat('d.m.Y H:i:s', $to . ' 23:59:59');
 
                 if (!empty($date_from) && !empty($date_to)) {
+
                     $sql = "
                         INSERT INTO
                             sc_season_date (post_id, date_from, date_to)
@@ -109,4 +110,11 @@ class Car_share_Season {
         }
     }
 
+    public static function date_row($date_from, $date_to, $delete_button = false){
+        ob_start();
+        include 'partials/season/date_row.php';
+        $content = ob_get_clean();
+        return $content;
+    }
+    
 }
