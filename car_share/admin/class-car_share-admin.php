@@ -270,7 +270,7 @@ class Car_share_Admin {
                     $date_from = DateTime::createFromFormat('d.m.Y H:i', $from_string);
 
                     $to_string = $val['to'] . ' ' . sprintf("%02s", $val['to_hour']) . ':' . sprintf("%02s", $val['to_min']);
-                    ;
+                    
                     $date_to = DateTime::createFromFormat('d.m.Y H:i', $to_string);
 
                     if (!empty($date_from)) {

@@ -74,7 +74,8 @@ class sc_Car {
             '" . (int) $booking_id . "'
         )";
 
-        $wpdb->query($sql);        
+       $r = $wpdb->query($sql);        
+       return $r;
         
     }
     
