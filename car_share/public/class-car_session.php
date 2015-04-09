@@ -207,6 +207,7 @@ class Car_Cart {
                 if (isset($category_prices[$day_name])) {
                     $day_price = isset($category_prices[$day_name]) ? $category_prices[$day_name] : 0;
                     
+                    // v $day_discount neni sleva ale cena po sleve !!!!!!!
                     $day_discount = $this->day_discount($days, $day_name, $category_id);
                     
                     if(!empty($day_discount)){

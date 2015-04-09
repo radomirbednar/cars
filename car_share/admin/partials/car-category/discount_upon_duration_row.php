@@ -9,7 +9,7 @@
 
     <?php foreach ($days as $day_name => $day): ?>
         <td>
-            <label><?php _e($day, $this->car_share) ?>
+            <label><?php _e($day, $this->car_share) ?>:
                 <input type="number" step="0.5" class="day-price" name="<?php echo $input_name ?>[<?php echo esc_attr($row_key) ?>][<?php echo esc_attr($day_name) ?>][discount]" value="<?php echo isset($discount[$day_name]['discount']) ? esc_attr($discount[$day_name]['discount']) : '' ?>">
             </label>
         </td>

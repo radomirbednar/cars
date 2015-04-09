@@ -18,30 +18,6 @@ class sc_Season {
         }
     }
 
-    /*
-    public function from(){
-
-        if(empty(sc_Season::$dates[$this->id])){
-            $this->load_date_interval($this->id);
-        }
-
-        return sc_Season::$dates[$this->id]['from'];
-
-        //return get_date_meta($this->id, '_from');
-    }
-
-    public function to(){
-
-        if(empty(sc_Season::$dates[$this->id])){
-            $this->load_date_interval($this->id);
-        }
-
-        return sc_Season::$dates[$this->id]['to'];
-
-        //return get_date_meta($this->id, '_to');
-    }*/
-
-
     public static function get_dates($season_id){
 
         global $wpdb;
