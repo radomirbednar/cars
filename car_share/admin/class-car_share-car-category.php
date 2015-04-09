@@ -229,7 +229,11 @@ class Car_share_CarCategory {
 
         if (empty($assigned_season_intervals)) {
             header("HTTP/1.0 404 Not Found");
-            _e('Please, first define start and end date on this season.', $this->car_share);
+            //_e('Please, first define start and end date on this season.', $this->car_share);
+            $date_error = array(
+                'message' => __('Error, this season is already assigned..')
+            );
+            json_encode($date_error);  
             exit;
         }
 
@@ -252,7 +256,10 @@ class Car_share_CarCategory {
 
             if (!empty($exists)) {
                 header("HTTP/1.0 404 Not Found");
-                _e('Error, this season is already assigned..', $this->car_share);
+                $date_error = array(
+                    'message' => __('Error, this season is already assigned..')
+                );
+                json_encode($date_error);                
                 exit;
             }
             
@@ -293,14 +300,12 @@ class Car_share_CarCategory {
             }            
         }
 
-        if (!empty($applied_seasons)) {
+        if (!empty($date_error)) {
             header("HTTP/1.0 404 Not Found");
-            _e('You cannot assign two season with overlaping dates.', $this->car_share);
+            //_e('You cannot assign two season with overlaping dates.', $this->car_share);
+            json_encode($date_error);
             exit;
         }
-
-
-
 
         include 'partials/car-category/s2c_days_price_inputs.php';
         die();
