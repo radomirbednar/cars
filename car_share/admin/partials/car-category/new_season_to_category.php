@@ -20,10 +20,7 @@
     jQuery(document).ready(function ($) {
         $('#poststuff').on('change', '#season2category-select', function (event) {
             
-            //console.log('onchange');
-            
             var self = $(this);
-            //var id = $(this).data('car_id');
             
             var season_id = $(this).val();
             
@@ -44,13 +41,12 @@
                         //self.prop("disabled", true);
                     }
                 }).done(function (ret) {
-                    $('#pick-season-response').html(ret);
-                    //var new_element = $('#single_car_box_' + id).after(ret);
+                    $('#pick-season-response').html(ret);                    
                 }).fail(function (ret) {
                     $('#pick-season-response').html(ret.responseText);
                     
                 }).always(function () {
-                    //self.prop("disabled", false);
+                    
                 });            
         });
     });

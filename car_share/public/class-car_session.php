@@ -166,6 +166,7 @@ class Car_Cart {
         $applied_sessions = array();
 
         foreach ((array) $seasons as $season) {
+            
             $begin = DateTime::createFromFormat('Y-m-d H:i:s', $season->date_from);
             $end = DateTime::createFromFormat('Y-m-d H:i:s', $season->date_to);
 

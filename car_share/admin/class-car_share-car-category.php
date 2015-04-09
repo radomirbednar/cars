@@ -219,6 +219,8 @@ class Car_share_CarCategory {
      */
     function ajax_season2category_days() {
 
+        $date_error = array();
+
         $post_id = $_POST['id']; // category id
         $season_id = $_POST['season_id'];
         global $wpdb;
@@ -230,14 +232,12 @@ class Car_share_CarCategory {
         if (empty($assigned_season_intervals)) {
             header("HTTP/1.0 404 Not Found");
             //_e('Please, first define start and end date on this season.', $this->car_share);
-            $date_error = array(
+            $date_error[] = array(
                 'message' => __('Error, this season is already assigned..')
             );
-            json_encode($date_error);  
+            json_encode($date_error);
             exit;
         }
-
-        $date_error = array();
 
         foreach ($assigned_season_intervals as $interval) {
 
@@ -256,13 +256,16 @@ class Car_share_CarCategory {
 
             if (!empty($exists)) {
                 header("HTTP/1.0 404 Not Found");
-                $date_error = array(
+                $date_error[] = array(
                     'message' => __('Error, this season is already assigned..')
                 );
-                json_encode($date_error);                
+                json_encode($date_error);
                 exit;
             }
-            
+
+            $new_season_from = DateTime::createFromFormat('Y-m-d H:i:s', $interval->date_from);
+            $new_season_to = DateTime::createFromFormat('Y-m-d H:i:s', $interval->date_to);
+
             // find all assigned season, which are in conflict with new assigned season
             $sql = "SELECT
                         s.post_title,
@@ -289,15 +292,15 @@ class Car_share_CarCategory {
                 ";
 
             $conflict_seasons = $wpdb->query($sql);
-            
-            if (!empty($conflict_seasons)) {                
+
+            if (!empty($conflict_seasons)) {
                 foreach($conflict_seasons as $cs){
                     $date_error[] = array(
                         'season_id' => $cs->ID,
                         'message' => sprintf(__('Error: date intervals of picked season are in conflict with date intervals in season %s:'), __($cs->post_title))
                     );
                 }
-            }            
+            }
         }
 
         if (!empty($date_error)) {
@@ -381,7 +384,7 @@ class Car_share_CarCategory {
         $category = new sc_Category($post);
         $season2category_prices = $category->season_to_category_prices();
 
-        // 
+        //
         $s2c_discount_upon_duration = get_post_meta($post->ID, '_s2c_discount_upon_duration', true);
 
         include 'partials/car-category/season2category.php';
