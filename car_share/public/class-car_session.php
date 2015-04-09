@@ -164,11 +164,10 @@ class Car_Cart {
                 ";        
 
         $seasons = $wpdb->get_results($sql); // všechny sezony aplikovane na kategorii v intervalu výpůjčky
-
         
         $applied_sessions = array(); // sezony aplikovane na kategorii, prevedeny do vhodnejsiho tvaru pro vypocet
 
-        foreach ((array) $seasons as $season) {
+        foreach ((array) $seasons as $season) {  
             
             $begin = DateTime::createFromFormat('Y-m-d H:i:s', $season->date_from);
             $end = DateTime::createFromFormat('Y-m-d H:i:s', $season->date_to);
@@ -182,9 +181,6 @@ class Car_Cart {
                 'ID' => $season->ID,
             );
         }
-
-        //$price_without_discount = 0;
-        //$discount = 0;
 
         $total_price = 0;
 
@@ -203,7 +199,7 @@ class Car_Cart {
                     $day_discount = $this->day_discount($days, $day_name, $category_id, $applied_season['ID']);
                     
                     if(!empty($day_discount)){
-                        $day_price = $day_discount;
+                        $day_price = $day_price - $day_discount;
                     }                    
                 }
             }
