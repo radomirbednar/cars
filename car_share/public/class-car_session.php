@@ -192,7 +192,7 @@ class Car_Cart {
             $mam = false;
 
             foreach ($applied_sessions as $applied_season) {
-                if (($applied_season['start'] < $day) && ($day < $applied_season['end'])) {
+                if ($applied_season['start'] < $day && $day < $applied_season['end']) {
                     $mam = true;
                     $day_price = isset($applied_season['prices'][$day_name]) ? $applied_season['prices'][$day_name] : 0;
 
@@ -211,7 +211,7 @@ class Car_Cart {
                     $day_discount = $this->day_discount($days, $day_name, $category_id);
                     
                     if(!empty($day_discount)){
-                        $day_price = $day_discount;
+                        $day_price = $day_price - $day_discount;
                     }
                     
                     // find out discount on day
