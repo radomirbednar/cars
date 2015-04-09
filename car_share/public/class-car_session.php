@@ -194,10 +194,11 @@ class Car_Cart {
                     $mam = true;
                     $day_price = isset($applied_season['prices'][$day_name]) ? $applied_season['prices'][$day_name] : 0;
 
+                    // v $day_discount neni sleva ale cena po sleve !!!!!!!
                     $day_discount = $this->day_discount($days, $day_name, $category_id, $applied_season['ID']);
                     
                     if(!empty($day_discount)){
-                        $day_price = $day_price - $day_discount;
+                        $day_price = $day_discount;
                     }                    
                 }
             }
@@ -209,7 +210,7 @@ class Car_Cart {
                     $day_discount = $this->day_discount($days, $day_name, $category_id);
                     
                     if(!empty($day_discount)){
-                        $day_price = $day_price - $day_discount;
+                        $day_price = $day_discount;
                     }
                 }
             }
