@@ -225,66 +225,82 @@ class Car_share_CarCategory {
 
         $season = new sc_Season($season_id);
 
-        $new_season_from = $season->from();
-        $new_season_to = $season->to();
+        $assigned_season_intervals = sc_Season::get_dates($season_id);
 
-        if (empty($new_season_from) || empty($new_season_to)) {
+        if (empty($assigned_season_intervals)) {
             header("HTTP/1.0 404 Not Found");
-            _e('Please first define season start and end date.', $this->car_share);
+            _e('Please, first define start and end date on this season.', $this->car_share);
             exit;
         }
 
-        $sql = "
-            SELECT
-                season_id
-            FROM
-                day_prices
-            WHERE
-                car_category_id = '" . (int) $post_id . "'
-            AND
-                season_id = '" . (int) $season_id . "'
-        ";
+        $date_error = array();
 
-        $exists = $wpdb->get_var($sql);
+        foreach ($assigned_season_intervals as $interval) {
 
-        if (!empty($exists)) {
-            header("HTTP/1.0 404 Not Found");
-            _e('Please, pick a season which is not applied yet.', $this->car_share);
-            exit;
-        }
-
-        //
-        // find all assigned season
-        $sql = "SELECT
-                    ID,
-                    start.meta_value as date_from,
-                    end.meta_value as date_to
+            $sql = "
+                SELECT
+                    season_id
                 FROM
-                    $wpdb->posts s
-                JOIN
-                    postmeta_date start ON s.ID = start.post_id AND start.meta_key = '_from'
-                JOIN
-                    postmeta_date end ON s.ID = end.post_id AND end.meta_key = '_to'
+                    day_prices
                 WHERE
-                    s.post_status NOT IN ('trash') AND s.post_type='sc-season'
+                    car_category_id = '" . (int) $post_id . "'
                 AND
-                    s.ID != '" . (int) $season_id . "'
-                AND
-                (
-                    (start.meta_value BETWEEN '" . $new_season_from->format('Y-m-d  H:i:s') . "' AND '" . $new_season_to->format('Y-m-d  H:i:s') . "')
-                        OR
-                    ('" . $new_season_from->format('Y-m-d  H:i:s') . "' BETWEEN start.meta_value AND end.meta_value)
-                )
-                GROUP BY s.ID
+                    season_id = '" . (int) $season_id . "'
+            ";
+
+            $exists = $wpdb->get_var($sql);
+
+            if (!empty($exists)) {
+                header("HTTP/1.0 404 Not Found");
+                _e('Error, this season is already assigned..', $this->car_share);
+                exit;
+            }
+            
+            // find all assigned season, which are in conflict with new assigned season
+            $sql = "SELECT
+                        s.post_title,
+                        ID,
+                        start.meta_value as date_from,
+                        end.meta_value as date_to
+                    FROM
+                        $wpdb->posts s
+                    JOIN
+                        postmeta_date start ON s.ID = start.post_id AND start.meta_key = '_from'
+                    JOIN
+                        postmeta_date end ON s.ID = end.post_id AND end.meta_key = '_to'
+                    WHERE
+                        s.post_status NOT IN ('trash') AND s.post_type='sc-season'
+                    AND
+                        s.ID != '" . (int) $season_id . "'
+                    AND
+                    (
+                        (start.meta_value BETWEEN '" . $new_season_from->format('Y-m-d  H:i:s') . "' AND '" . $new_season_to->format('Y-m-d  H:i:s') . "')
+                            OR
+                        ('" . $new_season_from->format('Y-m-d  H:i:s') . "' BETWEEN start.meta_value AND end.meta_value)
+                    )
+                    GROUP BY s.ID
                 ";
 
-        $applied_seasons = $wpdb->query($sql);
+            $conflict_seasons = $wpdb->query($sql);
+            
+            if (!empty($conflict_seasons)) {                
+                foreach($conflict_seasons as $cs){
+                    $date_error[] = array(
+                        'season_id' => $cs->ID,
+                        'message' => sprintf(__('Error: date intervals of picked season are in conflict with date intervals in season %s:'), __($cs->post_title))
+                    );
+                }
+            }            
+        }
 
         if (!empty($applied_seasons)) {
             header("HTTP/1.0 404 Not Found");
             _e('You cannot assign two season with overlaping dates.', $this->car_share);
             exit;
         }
+
+
+
 
         include 'partials/car-category/s2c_days_price_inputs.php';
         die();
