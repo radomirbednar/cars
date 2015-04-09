@@ -136,6 +136,30 @@ class Car_Cart {
                 )
                 GROUP BY s.ID
                 ";
+        
+        
+        $sql = "SELECT
+                    ID,
+                    start.meta_value as date_from,
+                    end.meta_value as date_to
+                FROM
+                    $wpdb->posts s
+                JOIN
+                    sc_season_date sdate
+                ON
+                    sdate.post_id = s.ID
+                JOIN
+                    day_prices dp ON dp.season_id = s.ID AND car_category_id = '" . (int) $category_id . "'
+                WHERE
+                    s.post_status = 'publish' AND s.post_type='sc-season'
+                AND
+                (
+                    (sdate.date_from BETWEEN '" . $from->format('Y-m-d  H:i:s') . "' AND '" . $to->format('Y-m-d  H:i:s') . "')
+                        OR
+                    ('" . $from->format('Y-m-d  H:i:s') . "' BETWEEN sdate.date_from AND sdate.date_to)
+                )
+                GROUP BY s.ID
+                ";        
 
         $seasons = $wpdb->get_results($sql);
 

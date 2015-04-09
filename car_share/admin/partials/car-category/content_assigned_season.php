@@ -12,13 +12,13 @@ $days = get_days_of_week();
 
 foreach ($season2category_prices as $season_id => $season_price):
     $season = new sc_Season($season_id);
-    $from = $season->from();
-    $to = $season->to();
+    //$from = $season->from();
+    //$to = $season->to();
     ?>
     <tr id="s2c-label-<?php echo $season_id ?>" class="s2c-row assigned-session-<?php echo esc_attr($season_id) ?>">
         <td colspan="8">
             <strong><?php echo get_the_title($season_id) ?></strong>
-            ( <?php echo empty($from) ? '' : $from->format(get_option('date_format')) ?> - <?php echo empty($from) ? '' : $to->format(get_option('date_format')) ?> )
+            
         </td>
         <td>
             <a href="#" class="edit-s2c" data-season_id="<?php echo $season_id ?>" data-car_category_id="<?php echo $season_price['car_category_id'] ?>">
