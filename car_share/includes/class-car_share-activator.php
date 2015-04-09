@@ -136,5 +136,4 @@ class Car_share_Activator {
 
         dbDelta($sql);
     }
-
 }
