@@ -1,19 +1,28 @@
 <script>
     jQuery(function ($) {
-        
+
+        //
+        $('#date-rows .item').each(function( index ) {
+            //console.log( index + ": " + $( this ).text() );
+            //console.log(this);
+            apply_datepicker($(this));
+        })
+
         // remove status
         $('#date_interval').on('click', 'tbody .remove-row', function (event) {
             //console.log('remove');
             $(this).parents(".item").remove();
-        });        
+        });
 
         $("#add-new-date").click(function () {
+
+            //console.log('add-new-date');
 
             var self = $(this);
 
             jQuery.ajax({
                 type: 'post',
-                url: ajaxurl,                
+                url: ajaxurl,
                 data: {
                     'action': 'date_interval_row',
                 },
@@ -23,9 +32,9 @@
             }).done(function (ret) {
                 $('#date-rows').append(ret);
                 var element = $('#date-rows').find('.item:last');
-                apply_datepicker  (element);                
+                apply_datepicker(element);
             }).fail(function (ret) {
-                
+
             }).always(function () {
                 self.prop("disabled", false);
             });
