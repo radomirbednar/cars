@@ -227,21 +227,9 @@ class Car_share_CarCategory {
 
         $season = new sc_Season($season_id);
 
-        $assigned_season_intervals = sc_Season::get_dates($season_id);
 
-        if (empty($assigned_season_intervals)) {
-            header("HTTP/1.0 404 Not Found");
-            //_e('Please, first define start and end date on this season.', $this->car_share);
-            $date_error[] = array(
-                'message' => __('Error, this season is already assigned..')
-            );
-            echo json_encode($date_error);
-            exit;
-        }
 
-        foreach ($assigned_season_intervals as $interval) {
-
-            $sql = "
+        $sql = "
                 SELECT
                     season_id
                 FROM
@@ -252,16 +240,31 @@ class Car_share_CarCategory {
                     season_id = '" . (int) $season_id . "'
             ";
 
-            $exists = $wpdb->get_var($sql);
+        $exists = $wpdb->get_var($sql);
 
-            if (!empty($exists)) {
-                header("HTTP/1.0 404 Not Found");
-                $date_error[] = array(
-                    'message' => __('Error, this season is already assigned..')
-                );
-                echo json_encode($date_error);
-                exit;
-            }
+        if (!empty($exists)) {
+            header("HTTP/1.0 404 Not Found");
+            $date_error[] = array(
+                'message' => __('Error, this season is already assigned..')
+            );
+            echo json_encode($date_error);
+            exit;
+        }
+
+        $assigned_season_intervals = sc_Season::get_dates($season_id);
+
+        if (empty($assigned_season_intervals)) {
+            header("HTTP/1.0 404 Not Found");
+            //_e('Please, first define start and end date on this season.', $this->car_share);
+            $date_error[] = array(
+                //'message' => __('Error, please fill some date intervals in season..')
+                'message' => sprintf(__('Error: date intervals of picked season are in conflict with date intervals in season %s:'),  get_the_title($season_id))
+            );
+            echo json_encode($date_error);
+            exit;
+        }
+
+        foreach ($assigned_season_intervals as $interval) {
 
             $new_season_from = DateTime::createFromFormat('Y-m-d H:i:s', $interval->date_from);
             $new_season_to = DateTime::createFromFormat('Y-m-d H:i:s', $interval->date_to);
@@ -269,35 +272,41 @@ class Car_share_CarCategory {
             // find all assigned season, which are in conflict with new assigned season
             $sql = "SELECT
                         s.post_title,
-                        ID,
-                        start.meta_value as date_from,
-                        end.meta_value as date_to
+                        s.ID,
+                        sdate.date_from as date_from,
+                        sdate.date_to as date_to
                     FROM
                         $wpdb->posts s
                     JOIN
-                        postmeta_date start ON s.ID = start.post_id AND start.meta_key = '_from'
-                    JOIN
-                        postmeta_date end ON s.ID = end.post_id AND end.meta_key = '_to'
+                        sc_season_date as sdate
                     WHERE
                         s.post_status NOT IN ('trash') AND s.post_type='sc-season'
                     AND
                         s.ID != '" . (int) $season_id . "'
                     AND
+                        sdate.date_to > NOW()
+                    AND
                     (
-                        (start.meta_value BETWEEN '" . $new_season_from->format('Y-m-d  H:i:s') . "' AND '" . $new_season_to->format('Y-m-d  H:i:s') . "')
+                        (sdate.date_from BETWEEN '" . $new_season_from->format('Y-m-d  H:i:s') . "' AND '" . $new_season_to->format('Y-m-d  H:i:s') . "')
                             OR
-                        ('" . $new_season_from->format('Y-m-d  H:i:s') . "' BETWEEN start.meta_value AND end.meta_value)
+                        ('" . $new_season_from->format('Y-m-d  H:i:s') . "' BETWEEN sdate.date_from AND sdate.date_to)
                     )
                     GROUP BY s.ID
                 ";
 
-            $conflict_seasons = $wpdb->query($sql);
+            $conflict_seasons = $wpdb->get_results($sql);
 
             if (!empty($conflict_seasons)) {
-                foreach($conflict_seasons as $cs){
+                foreach ($conflict_seasons as $cs) {
+                    
+                    $from = DateTime::createFromFormat('Y-m-d H:i:s', $cs->date_from);
+                    $to = DateTime::createFromFormat('Y-m-d H:i:s', $cs->date_to); 
+                    
+                    $interval = $from->format(get_option('date_format')) . ' - ' . $to->format(get_option('date_format')); 
+                    
                     $date_error[] = array(
                         'season_id' => $cs->ID,
-                        'message' => sprintf(__('Error: date intervals of picked season are in conflict with date intervals in season %s:'), __($cs->post_title))
+                        'message' => sprintf(__('Error: date intervals of picked season are in conflict with date intervals in season %s: (%s)'), __($cs->post_title), $interval) . '<br>'
                     );
                 }
             }
@@ -306,7 +315,7 @@ class Car_share_CarCategory {
         if (!empty($date_error)) {
             header("HTTP/1.0 404 Not Found");
             //_e('You cannot assign two season with overlaping dates.', $this->car_share);
-            
+
             echo json_encode($date_error);
             exit;
         }
