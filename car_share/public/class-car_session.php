@@ -49,10 +49,8 @@ class Car_Cart {
     }
 
     /**
-     * getItemPrice() - Get the price of an item.
-     *
-     * @param string $order_code The order code of the item.
-     * @return int The price.
+     * 
+     * 
      */
     public function day_discount($days_count, $day_name, $car_category_id, $session_id = 0) {
 
@@ -213,41 +211,12 @@ class Car_Cart {
                     if(!empty($day_discount)){
                         $day_price = $day_price - $day_discount;
                     }
-                    
-                    // find out discount on day
-                    //$day_discount = $this->day_discount($days, $day_name, $category_id);
                 }
             }
 
             $total_price += $day_price;
-            //$discount += floatval($day_discount);
-            //$price_without_discount += floatval($day_price);
         }
-
-        // apply time discount
-        /*
-          $time_discount = get_post_meta($category_id, '_discount_upon_duration', true);
-
-          $discount = 0;
-
-          if (!empty($time_discount)) {
-          ksort($time_discount);
-          foreach ($time_discount as $key => $val) {
-          if ($key < $days) {
-          $discount = $val;
-          } else {
-          break;
-          }
-          }
-          } */
-
-        //
-        /*
-          if ($discount > 0) {
-          $total_price = $total_price - $total_price * $discount / 100;
-          } */
-
-
+        
         //
         return $total_price;
     }

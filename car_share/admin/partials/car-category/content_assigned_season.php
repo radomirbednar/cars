@@ -1,14 +1,5 @@
 <?php
 $days = get_days_of_week();
-/*
-  $days_row = '<tr>';
-  foreach ($days as $day_name => $label):
-  $days_row .= '<td>';
-  $days_row .= __($label, $this->car_share);
-  $days_row .= '</td>';
-  endforeach;
-  $days_row .= '<td></td></tr>';
- */
 
 foreach ($season2category_prices as $season_id => $season_price):
     $season = new sc_Season($season_id);
@@ -16,10 +7,10 @@ foreach ($season2category_prices as $season_id => $season_price):
     //$to = $season->to();
     ?>
     <tr id="s2c-label-<?php echo $season_id ?>" class="s2c-row assigned-session-<?php echo esc_attr($season_id) ?>">
-        <td colspan="4">
+        <td colspan="1">
             <strong><?php echo get_the_title($season_id) ?></strong>
         </td>
-        <td colspan="4">
+        <td colspan="7" class="season-dates">
             <?php
             $dates = sc_Season::date_to_column($season_id);
 
@@ -28,11 +19,8 @@ foreach ($season2category_prices as $season_id => $season_price):
                 $to = DateTime::createFromFormat('Y-m-d H:i:s', $date->date_to);
 
                 $str = $from->format(get_option('date_format')) . ' - ' . $to->format(get_option('date_format'));
-
                 echo $str . '<br>';
-                ?>
-
-            <?php endforeach; ?>
+            endforeach; ?>
         </td>
         <td>
             <a href="#" class="edit-s2c" data-season_id="<?php echo $season_id ?>" data-car_category_id="<?php echo $season_price['car_category_id'] ?>">
