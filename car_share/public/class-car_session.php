@@ -91,17 +91,17 @@ class Car_Cart {
         //$car_id = $wpdb->get_var("SELECT parent FROM sc_single_car WHERE single_car_id = '" . (int) $single_car_id . "'");
         $car_id = sc_car::get_parent_by_single_id($single_car_id);
         $day_interval = DateInterval::createFromDateString('1 day');
-        $period = new DatePeriod($from, $day_interval, $to);
-        $diff = $to->diff($from);
         
-        $days = $diff->days;
+        /**
+         * interval výpujčky
+         */
+        $period = new DatePeriod($from, $day_interval, $to);
+        
+        $diff = $to->diff($from);        
+        $days = $diff->days; // kolik dní trvá výpujčka
 
-        //$hours = $diff->days * 24 + $diff->h;
-
-        //$days = $diff->days;
-        //$days = ceil($hours / 24);
-
-        $category_id = (int) get_post_meta($car_id, '_car_category', true);
+        
+        $category_id = (int) get_post_meta($car_id, '_car_category', true); // kategorie auta
 
         /**
          *
@@ -114,6 +114,7 @@ class Car_Cart {
         $category_prices = $car_category->day_prices_indexed_with_dayname();
 
         // find all assigned season
+        /*
         $sql = "SELECT
                     ID,
                     start.meta_value as date_from,
@@ -136,12 +137,12 @@ class Car_Cart {
                 )
                 GROUP BY s.ID
                 ";
-        
+        */
         
         $sql = "SELECT
-                    ID,
-                    start.meta_value as date_from,
-                    end.meta_value as date_to
+                    s.ID,
+                    sdate.date_from as date_from,
+                    sdate.date_to as date_to
                 FROM
                     $wpdb->posts s
                 JOIN
@@ -158,12 +159,14 @@ class Car_Cart {
                         OR
                     ('" . $from->format('Y-m-d  H:i:s') . "' BETWEEN sdate.date_from AND sdate.date_to)
                 )
-                GROUP BY s.ID
+                GROUP BY 
+                    sdate.id
                 ";        
 
-        $seasons = $wpdb->get_results($sql);
+        $seasons = $wpdb->get_results($sql); // všechny sezony aplikovane na kategorii v intervalu výpůjčky
 
-        $applied_sessions = array();
+        
+        $applied_sessions = array(); // sezony aplikovane na kategorii, prevedeny do vhodnejsiho tvaru pro vypocet
 
         foreach ((array) $seasons as $season) {
             
@@ -189,10 +192,6 @@ class Car_Cart {
 
             // find out if day belongs to some season
             $day_name = $day->format("l");
-            //$day_shortname = $day->format("D");
-
-            //$day_price = 0;
-            //$day_discount = 0;
 
             $mam = false;
 
@@ -205,10 +204,7 @@ class Car_Cart {
                     
                     if(!empty($day_discount)){
                         $day_price = $day_discount;
-                    }
-                    
-                    
-                    // find out discount on day
+                    }                    
                 }
             }
 

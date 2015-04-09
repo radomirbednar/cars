@@ -1,47 +1,59 @@
 <?php if (!empty($this->cars)): ?>
-    <?php if ( get_option('permalink_structure') ) { $sc_pr = '?'; }
-          else { $sc_pr = '&'; }
+    <?php
+    if (get_option('permalink_structure')) {
+        $sc_pr = '?';
+    } else {
+        $sc_pr = '&';
+    }
     ?>
     <?php foreach ($this->cars as $car): ?>
-          <div class="col-md-12">
+        <div class="col-md-12">
             <?php
-                $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail');
-                //predefinovane informace k autu
-                $number_of_seats = get_post_meta($car->ID, '_number_of_seats', true);
-                $number_of_doors = get_post_meta($car->ID, '_number_of_doors', true);
-                $number_of_suitcases = get_post_meta($car->ID, '_number_of_suitcases', true);
-                $transmission = get_post_meta($car->ID, '_transmission', true);
-                $aircondition = get_post_meta($car->ID, '_aircondition', true);
-                $fuel = get_post_meta($car->ID, '_fuel', true);
-                $number_of_seats = esc_attr($number_of_seats);
-                $number_of_doors = esc_attr($number_of_doors);
-                $number_of_suitcases = esc_attr($number_of_suitcases);
+            $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail');
+            //predefinovane informace k autu
+            $number_of_seats = get_post_meta($car->ID, '_number_of_seats', true);
+            $number_of_doors = get_post_meta($car->ID, '_number_of_doors', true);
+            $number_of_suitcases = get_post_meta($car->ID, '_number_of_suitcases', true);
+            $transmission = get_post_meta($car->ID, '_transmission', true);
+            $aircondition = get_post_meta($car->ID, '_aircondition', true);
+            $fuel = get_post_meta($car->ID, '_fuel', true);
+            $number_of_seats = esc_attr($number_of_seats);
+            $number_of_doors = esc_attr($number_of_doors);
+            $number_of_suitcases = esc_attr($number_of_suitcases);
 
-                //
-                $aircondition = sc_Car::airCondition($aircondition);
-                //
-                $transmission = sc_Car::transmission($transmission);
-                //
-                $fuel = sc_Car::fuel($fuel);
+            //
+            $aircondition = sc_Car::airCondition($aircondition);
+            //
+            $transmission = sc_Car::transmission($transmission);
+            //
+            $fuel = sc_Car::fuel($fuel);
 
-                $Cars_cart = new Car_Cart('shopping_cart');
-                $Cars_cart_items = $Cars_cart->getItems();
-                //improve for sanitize
-                $pick_up_location = $Cars_cart_items['pick_up_location'];
-                $drop_off_location = $Cars_cart_items['drop_off_location'];
-                $car_dfrom = $Cars_cart_items['car_datefrom'];
-                $car_dto = $Cars_cart_items['car_dateto'];
-                $car_category = $Cars_cart_items['car_category'];
+            $Cars_cart = new Car_Cart('shopping_cart');
+            $Cars_cart_items = $Cars_cart->getItems();
+            //improve for sanitize
+            $pick_up_location = $Cars_cart_items['pick_up_location'];
+            $drop_off_location = $Cars_cart_items['drop_off_location'];
+            $car_dfrom = $Cars_cart_items['car_datefrom'];
+            $car_dto = $Cars_cart_items['car_dateto'];
+            $car_category = $Cars_cart_items['car_category'];
 
-                $currency = sc_Currency::get_instance();
-
+            $currency = sc_Currency::get_instance();
+            
+            $category_id = (int) get_post_meta($car->ID, '_car_category', true);
             ?>
-              <table>
-               <tr><td><h3><?php echo get_the_title($car->ID) ?></h3> </td><td><?php echo $post_thumbnail; ?> </td></tr>
-              </table>
-                <h3><?php _e('Price: ', $this->car_share); ?>
+            <table class="category-<?php echo $category_id ?>">
+                <tr>
+                    <td>
+                        <h3><?php echo get_the_title($car->ID) ?></h3> 
+                    </td>
+                    <td>
+                        <?php echo $post_thumbnail; ?> 
+                    </td>
+                </tr>
+            </table>
+            <h3><?php _e('Price: ', $this->car_share); ?>
                 <?php $price = $Cars_cart->get_car_price($car->single_car_id, $car_dfrom, $car_dto); ?>
-                <?php echo !empty($price) ?  $currency->format($price) : ''; ?></h3>
+                <?php echo!empty($price) ? $currency->format($price) : ''; ?></h3>
 
             <table>
                 <?php if (!empty($number_of_seats)) { ?>

@@ -73,7 +73,7 @@ class sc_Season {
                 WHERE
                     post_id = '" . (int) $post_id . "'
                 AND
-                    date_from > NOW()
+                    date_to > NOW()
                 ORDER BY
                     date_from ASC
             ";
