@@ -719,7 +719,8 @@ if (!empty($_SESSION['TOKENE'])) {
 
             <?php
             $payment_option = get_option('car_plugin_options_arraykey');
-            $payment_option = $payment_option['catalogoption'];
+            $payment_option = isset($payment_option['catalogoption']) ? $payment_option['catalogoption'] : 0;
+            
             if ($payment_option == 1):
                 ?>
                 <button type="submit" class="btn btn-default" name="sc-reservation-checkout"><?php _e('Reservation', $this->car_share); ?></button>
