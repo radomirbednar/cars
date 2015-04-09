@@ -36,9 +36,9 @@ class Car_share_Season {
 
         add_filter('manage_sc-season_posts_columns', array($this, 'column_head'));
         add_action('manage_sc-season_posts_custom_column', array($this, 'column_content'), 10, 2);
-        
+
         add_action('wp_ajax_date_interval_row', array($this, 'date_interval_row'));
-        add_action('wp_ajax_date_interval_row', array($this, 'date_interval_row'));                
+        add_action('wp_ajax_date_interval_row', array($this, 'date_interval_row'));
     }
 
     public function column_head($defaults) {
@@ -49,17 +49,23 @@ class Car_share_Season {
 
     public function column_content($column_name, $post_id) {
 
+        $dates = sc_Season::date_to_column($post_id);
+
         switch ($column_name) {
             case 'date_from':
-                $from = get_date_meta($post_id, '_from');
-                if (!empty($from)) {
-                    echo $from->format(get_option('date_format'));
+                foreach ($dates as $date) {
+                    $from = DateTime::createFromFormat('Y-m-d H:i:s', $date->date_from);
+                    if (!empty($from)) {
+                        echo $from->format(get_option('date_format')) . '<br>';
+                    }
                 }
                 break;
             case 'date_to':
-                $to = get_date_meta($post_id, '_to');
-                if (!empty($to)) {
-                    echo $to->format(get_option('date_format'));
+                foreach ($dates as $date) {
+                    $to = DateTime::createFromFormat('Y-m-d H:i:s', $date->date_to);
+                    if (!empty($to)) {
+                        echo $to->format(get_option('date_format')) . '<br>';
+                    }
                 }
                 break;
         }
@@ -112,17 +118,17 @@ class Car_share_Season {
             }
         }
     }
-    
-    public function date_interval_row(){
+
+    public function date_interval_row() {
         echo Car_share_Season::date_row_static('', '', true);
         exit();
     }
 
-    public static function date_row_static($date_from, $date_to, $delete_button = false){
+    public static function date_row_static($date_from, $date_to, $delete_button = false) {
         ob_start();
         include 'partials/season/date_row.php';
         $content = ob_get_clean();
         return $content;
     }
-    
+
 }

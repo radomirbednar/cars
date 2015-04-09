@@ -235,7 +235,7 @@ class Car_share_CarCategory {
             $date_error[] = array(
                 'message' => __('Error, this season is already assigned..')
             );
-            json_encode($date_error);
+            echo json_encode($date_error);
             exit;
         }
 
@@ -259,7 +259,7 @@ class Car_share_CarCategory {
                 $date_error[] = array(
                     'message' => __('Error, this season is already assigned..')
                 );
-                json_encode($date_error);
+                echo json_encode($date_error);
                 exit;
             }
 
@@ -306,7 +306,8 @@ class Car_share_CarCategory {
         if (!empty($date_error)) {
             header("HTTP/1.0 404 Not Found");
             //_e('You cannot assign two season with overlaping dates.', $this->car_share);
-            json_encode($date_error);
+            
+            echo json_encode($date_error);
             exit;
         }
 
