@@ -3,7 +3,7 @@
         
         // remove status
         $('#date_interval').on('click', 'tbody .remove-row', function (event) {
-            console.log('remove');
+            //console.log('remove');
             $(this).parents(".item").remove();
         });        
 
@@ -22,6 +22,8 @@
                 }
             }).done(function (ret) {
                 $('#date-rows').append(ret);
+                var element = $('#date-rows').find('.item:last');
+                apply_datepicker  (element);                
             }).fail(function (ret) {
                 
             }).always(function () {
