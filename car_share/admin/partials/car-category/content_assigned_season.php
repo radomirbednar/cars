@@ -53,7 +53,7 @@ foreach ($season2category_prices as $season_id => $season_price):
     </tr>
 
     <tr id="s2c-price-<?php echo $season_id ?>" class="assigned-session-<?php echo esc_attr($season_id) ?>">
-        <td></td>
+        <td><?php _e('Price in season:', $this->car_share) ?></td>
         <?php foreach ($days as $day_name => $label): ?>
             <td><?php echo isset($season_price['days'][$day_name]) ? esc_attr($season_price['days'][$day_name]) : '' ?></td>
         <?php endforeach; ?>
@@ -66,7 +66,7 @@ foreach ($season2category_prices as $season_id => $season_price):
             ?>
             <tr class="assigned-session-<?php echo esc_attr($season_id) ?>">
 
-                <td><?php _e('From days:', $this->car_share) ?> <?php echo (int) $day_number ?></td>
+                <td><?php _e('Discount from days:', $this->car_share) ?> <?php echo (int) $day_number ?></td>
 
                 <?php foreach ($discount as $day_key => $day_discount): ?>
                     <td><?php echo esc_attr($day_discount['discount']) ?></td>

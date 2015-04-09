@@ -23,7 +23,7 @@ if (!empty($season_id)):
             </tr>
 
             <tr>
-                <td></td>
+                <td><?php _e('Price in season:', $this->car_share) ?></td>
                 <?php foreach ($days as $day_name => $label): ?>
                     <td><input type="number" step="0.01" name="_season_to_category_prices[<?php echo $day_name ?>]" class="day-price" value="<?php echo isset($category_day_prices[$day_name]) ? $category_day_prices[$day_name] : 0 ?>"></td>
                 <?php endforeach; ?>
