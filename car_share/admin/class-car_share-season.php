@@ -91,7 +91,7 @@ class Car_share_Season {
             global $post;
             global $wpdb;
 
-            $sql = "DELETE FROM sc_season_date WHERE post_id = '" . $post->ID . "'";
+            $sql = "DELETE FROM sc_season_date WHERE post_id = '" . (int) $post->ID . "'";
             $wpdb->query($sql);
 
             foreach ($_POST['_from'] as $key => $from) {

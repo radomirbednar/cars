@@ -264,6 +264,7 @@ class Car_share_CarCategory {
             exit;
         }
 
+        /*
         foreach ($assigned_season_intervals as $interval) {
 
             $new_season_from = DateTime::createFromFormat('Y-m-d H:i:s', $interval->date_from);
@@ -310,7 +311,7 @@ class Car_share_CarCategory {
                     );
                 }
             }
-        }
+        }*/
 
         if (!empty($date_error)) {
             header("HTTP/1.0 404 Not Found");
