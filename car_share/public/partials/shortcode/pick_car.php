@@ -11,23 +11,19 @@
             <?php
             $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail');
             //predefinovane informace k autu
+            
             $number_of_seats = get_post_meta($car->ID, '_number_of_seats', true);
             $number_of_doors = get_post_meta($car->ID, '_number_of_doors', true);
             $number_of_suitcases = get_post_meta($car->ID, '_number_of_suitcases', true);
             $transmission = get_post_meta($car->ID, '_transmission', true);
-            $aircondition = get_post_meta($car->ID, '_aircondition', true);
-            $fuel = get_post_meta($car->ID, '_fuel', true);
+            $aircondition = get_post_meta($car->ID, '_aircondition', true); 
+            $fuel = get_post_meta($car->ID, '_fuel', true); 
             $number_of_seats = esc_attr($number_of_seats);
             $number_of_doors = esc_attr($number_of_doors);
-            $number_of_suitcases = esc_attr($number_of_suitcases);
-
-            //
-            $aircondition = sc_Car::airCondition($aircondition);
-            //
-            $transmission = sc_Car::transmission($transmission);
-            //
-            $fuel = sc_Car::fuel($fuel);
-
+            $number_of_suitcases = esc_attr($number_of_suitcases);  
+            $aircondition = sc_Car::airCondition($aircondition); 
+            $transmission = sc_Car::transmission($transmission); 
+            $fuel = sc_Car::fuel($fuel); 
             $Cars_cart = new Car_Cart('shopping_cart');
             $Cars_cart_items = $Cars_cart->getItems();
             //improve for sanitize
@@ -35,11 +31,10 @@
             $drop_off_location = $Cars_cart_items['drop_off_location'];
             $car_dfrom = $Cars_cart_items['car_datefrom'];
             $car_dto = $Cars_cart_items['car_dateto'];
-            $car_category = $Cars_cart_items['car_category'];
-
-            $currency = sc_Currency::get_instance();
-            
+            $car_category = $Cars_cart_items['car_category']; 
+            $currency = sc_Currency::get_instance(); 
             $category_id = (int) get_post_meta($car->ID, '_car_category', true);
+            
             ?>
             <table class="category-<?php echo $category_id ?>">
                 <tr>
@@ -51,10 +46,32 @@
                     </td>
                 </tr>
             </table>
-            <h3><?php _e('Price: ', $this->car_share); ?>
-                <?php $price = $Cars_cart->get_car_price($car->single_car_id, $car_dfrom, $car_dto); ?>
-                <?php echo!empty($price) ? $currency->format($price) : ''; ?></h3>
-
+                 
+                <?php $price = $Cars_cart->get_car_price($car->single_car_id, $car_dfrom, $car_dto); 
+ 
+                      $day_interval = DateInterval::createFromDateString('1 day'); 
+                      $period = new DatePeriod($car_dfrom, $day_interval, $car_dto);
+                      $diff = $car_dto->diff($car_dfrom);
+                      $hours = $diff->days * 24 + $diff->h;   
+                      $days = ceil($hours / 24); 
+                      //asi lepsi udelat z toho funkci
+                      $price_per_day_raw = $price/$days;  
+                      $price_per_day_format = $currency->format($price_per_day_raw);        
+                ?>  
+                <h3><?php _e('Price: ', $this->car_share); ?>  
+                <?php  
+                    if(!empty($price)){ 
+                    echo $currency->format($price); 
+                    }
+                ?>     
+                <small> 
+                <?php     
+                     _e(' - soit ', $this->car_share);  
+                     echo $price_per_day_format;   
+                     _e(' par jour', $this->car_share); 
+                 ?>
+                </small> 
+                </h3>     
             <table>
                 <?php if (!empty($number_of_seats)) { ?>
                     <tr>
