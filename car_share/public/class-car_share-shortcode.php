@@ -60,13 +60,14 @@ class Car_share_Shortcode {
         if (!empty($email_option['notemail'])) {
             $option_notification_email = $email_option['notemail'];
         }  
+        
+        
         $PayPalMode = 'sandbox'; // sandbox or live
-        if (!empty($sc_options_paypal['paypalsandbox-setting'])) {
-
-            if ($sc_options_paypal['paypalsandbox-setting'] == '0') {
+  
+            if (empty($sc_options_paypal['paypalsandbox-setting'])) {
                 $PayPalMode = 'live';
             }
-        }
+             
         //page options
         $sc_options = get_option('sc-pages'); 
         $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
@@ -75,12 +76,13 @@ class Car_share_Shortcode {
         //paypal return point from setting
         $PayPalReturnURL = $checkout_car_url; //Point to process.php page
         $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel 
-        
+     
         include_once("paypalsdk/expresscheckout.php");
- 
+        
         if (isset($_POST['sc-checkout']) && isset($_POST['post_nonce_field']) && wp_verify_nonce($_POST['post_nonce_field'], 'post_nonce')) {
             // information for the payment
    
+             
             $customer_email = sanitize_text_field($_POST['_email']);         
             $Cars_cart = new Car_Cart('shopping_cart');
             $Cars_cart_items = $Cars_cart->getItems(); 
