@@ -60,13 +60,12 @@ class Car_share_Shortcode {
         if (!empty($email_option['notemail'])) {
             $option_notification_email = $email_option['notemail'];
         }  
-        
-        
+         
         $PayPalMode = 'sandbox'; // sandbox or live
-  
-            if (empty($sc_options_paypal['paypalsandbox-setting'])) {
-                $PayPalMode = 'live';
-            }
+    
+        if (empty($sc_options_paypal['paypalsandbox-setting'])) {
+            $PayPalMode = 'live';
+        }
              
         //page options
         $sc_options = get_option('sc-pages'); 
@@ -595,16 +594,17 @@ class Car_share_Shortcode {
 
         $sc_options = get_option('sc-pages');
         $this->extras_car_url = isset($sc_options['extras']) ? get_page_link($sc_options['extras']) : '';
-
-        $Cars_cart = new Car_Cart('shopping_cart');
+ 
+        $Cars_cart = new Car_Cart('shopping_cart');         
         $Cars_cart_items = $Cars_cart->getItems();
-
-        $pick_up_location = $Cars_cart_items['pick_up_location'];
-        $drop_off_location = $Cars_cart_items['drop_off_location'];
-        $car_dfrom = $Cars_cart_items['car_datefrom'];
-        $car_dto = $Cars_cart_items['car_dateto'];
+         
+        $pick_up_location = $Cars_cart_items['pick_up_location'];   
+        $drop_off_location = $Cars_cart_items['drop_off_location']; 
+        $car_dfrom = $Cars_cart_items['car_datefrom']; 
+        $car_dto = $Cars_cart_items['car_dateto']; 
         $car_category = $Cars_cart_items['car_category'];
-        $car_dfrom_string = $car_dfrom->format('Y-m-d H:i:s');
+         
+        $car_dfrom_string = $car_dfrom->format('Y-m-d H:i:s');          
         $car_dto_string = $car_dto->format('Y-m-d H:i:s');
 
         /*
@@ -619,8 +619,7 @@ class Car_share_Shortcode {
         }
 
         $sc_setting = get_option('sc_setting');
-
-
+ 
         // base block, just allow select car from last return time..
         $booking_block_sql = "
                         OR
