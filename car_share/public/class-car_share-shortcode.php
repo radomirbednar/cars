@@ -297,21 +297,18 @@ class Car_share_Shortcode {
                 //odeslani informace obchodnikovi o objednavce - protoze objednavku ukladame uz v tomto kroku
                 // Example using the array form of $headers
                 // assumes $to, $subject, $message have already been defined earlier...
-
-                
+           
                 ob_start();
-                include_once('partials/email_order_client.php');
+                include_once('partials/order_information_email_client.php');
                 $email_customer_content = ob_get_contents();
-                ob_end_clean();
- 
+                ob_end_clean(); 
                 $headers = 'From:  '. $option_notification_email.' <' . $option_notification_email . '>';
                 $to = $customer_email;
                 $subject = 'Booking email information';
-                $message = $email_customer_content;
- 
-                wp_mail($to, $subject, $message, $headers); 
-                ob_start();
-                include_once('partials/email_order.php');
+                $message = $email_customer_content; 
+                $testmail = wp_mail($to, $subject, $message, $headers);                  
+                ob_start(); 
+                include_once('partials/order_information_email.php');
                 $email_store_content = ob_get_contents();
                 ob_end_clean(); 
                 $headers = 'From: '. $option_notification_email.' <' . $option_notification_email . '>';
@@ -426,7 +423,7 @@ class Car_share_Shortcode {
                     update_post_meta($post_insert_id, 'paypal_c_email', $buyerEmail);
 
 
-                    /*       $url = site_url();
+                      $url = site_url();
 
                       ob_start();
                       include_once('partials/email_order_client.php');
@@ -440,18 +437,18 @@ class Car_share_Shortcode {
 
                       $headers[] = 'From:  <' . $option_notification_email . '>';
                       $to = $customer_email;
-                      $subject = 'test email';
+                      $subject = 'Booking email confirmation';
                       $message = $email_customer_content;
 
                       wp_mail($to, $subject, $message, $headers);
 
                       $headers[] = 'From:  <' . $option_notification_email . '>';
                       $to = $option_notification_email;
-                      $subject = 'test email';
+                      $subject = 'Booking email confirmation';
                       $message = $email_store_content;
 
                       //$message = include_once('/partial/email_order_client.php');
-                      wp_mail($to, $subject, $message, $headers); */
+                      wp_mail($to, $subject, $message, $headers);  
 
                     //muzeme ukladat i dalsi hodnoty
                     //save the information in database

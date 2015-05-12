@@ -72,7 +72,7 @@
     <tfoot>
         <tr>
             <td colspan="3">
-                <button id="add-new-date" class="add-status button button-primary" type="button"><?php _e('Add new date interval', 'car_share') ?></button>
+                <button id="add-new-date" class="add-status button button-primary" type="button"><?php _e('Ajouter un nouvel intervalle de dates', 'car_share') ?></button>
             </td>
         </tr>
     </tfoot>
