@@ -152,3 +152,313 @@ table.SimpleCalendar tbody td.today {
 .delete-car, .clone-car, .new-car, .save-season-2-category{ 
     display:inline!important;    
 }   
+
+
+
+/* reservation styles */
+.reservation {
+    margin-top: 35px;
+    width: 1190px;
+    position: relative;
+}
+
+.reservation .overview {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.5);     
+    z-index: 500;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;    
+}
+.reservation .overview .loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+.reservation .overview .loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
+.reservation .navigation {
+    position: relative;
+    font-size: 35px;
+    height: 35px;
+}
+.reservation .navigation a {
+    text-decoration: none;
+    position: absolute;
+}
+.reservation .navigation a.prev {
+    right: 862px;
+}
+.reservation .navigation a.next {
+    right: 18px;
+}
+
+.reservation .months .month:first-child {
+    border-right: 4px solid black;
+}
+
+.reservation .day,
+.reservation .month-label,
+.reservation .car-label,
+.reservation .car-cell, 
+.reservation .month-label, 
+.reservation .car {
+    height: 18px;
+    overflow: hidden;
+}
+.reservation .car-label {
+    padding-left: 5px; 
+    padding-right: 5px;
+    width: 300px;
+    background: white;
+}
+.reservation .car-label,
+.reservation .day-cell {
+    border-left: 1px solid black; 
+    border-bottom: 1px solid black;    
+}
+.reservation .car-list {
+    margin-top: 73px;
+}
+.reservation .car-list .car-label:first-child {
+    border-top: 1px solid black;    
+}
+
+.reservation .day-cell {
+    width: 13px;
+}
+
+
+.reservation .car.rented {
+    background: #ff0000;
+}
+.reservation .car.booked {
+    background: #ffff00;
+}
+.reservation .car.unavailable {
+    background: #000000;
+}
+.reservation .car.free {
+    background: #40e52a;
+}
+.reservation .month,
+.reservation .car-col {
+    float: left;    
+}
+.reservation .month {
+    border-right: 1px solid black;
+    background: #f0ebd8;
+}
+.reservation .day {
+    background: #d8e7f0;
+}
+.reservation .state-col {
+    
+}
+
+.reservation .month-label {    
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+}
+.reservation .month-label,
+.reservation .day {
+    text-align: center;
+}
+.reservation .day {
+    font-size: 11px;
+}
+
+
+
+/* ajax loader animation */
+#fountainG{
+position:relative;
+width:80px;
+height:10px}
+
+.fountainG{
+position:absolute;
+top:0;
+background-color:#FFFFFF;
+width:10px;
+height:10px;
+-moz-animation-name:bounce_fountainG;
+-moz-animation-duration:1.3s;
+-moz-animation-iteration-count:infinite;
+-moz-animation-direction:normal;
+-moz-transform:scale(.3);
+-moz-border-radius:7px;
+-webkit-animation-name:bounce_fountainG;
+-webkit-animation-duration:1.3s;
+-webkit-animation-iteration-count:infinite;
+-webkit-animation-direction:normal;
+-webkit-transform:scale(.3);
+-webkit-border-radius:7px;
+-ms-animation-name:bounce_fountainG;
+-ms-animation-duration:1.3s;
+-ms-animation-iteration-count:infinite;
+-ms-animation-direction:normal;
+-ms-transform:scale(.3);
+-ms-border-radius:7px;
+-o-animation-name:bounce_fountainG;
+-o-animation-duration:1.3s;
+-o-animation-iteration-count:infinite;
+-o-animation-direction:normal;
+-o-transform:scale(.3);
+-o-border-radius:7px;
+animation-name:bounce_fountainG;
+animation-duration:1.3s;
+animation-iteration-count:infinite;
+animation-direction:normal;
+transform:scale(.3);
+border-radius:7px;
+}
+
+#fountainG_1{
+left:0;
+-moz-animation-delay:0.52s;
+-webkit-animation-delay:0.52s;
+-ms-animation-delay:0.52s;
+-o-animation-delay:0.52s;
+animation-delay:0.52s;
+}
+
+#fountainG_2{
+left:10px;
+-moz-animation-delay:0.65s;
+-webkit-animation-delay:0.65s;
+-ms-animation-delay:0.65s;
+-o-animation-delay:0.65s;
+animation-delay:0.65s;
+}
+
+#fountainG_3{
+left:20px;
+-moz-animation-delay:0.78s;
+-webkit-animation-delay:0.78s;
+-ms-animation-delay:0.78s;
+-o-animation-delay:0.78s;
+animation-delay:0.78s;
+}
+
+#fountainG_4{
+left:30px;
+-moz-animation-delay:0.91s;
+-webkit-animation-delay:0.91s;
+-ms-animation-delay:0.91s;
+-o-animation-delay:0.91s;
+animation-delay:0.91s;
+}
+
+#fountainG_5{
+left:40px;
+-moz-animation-delay:1.04s;
+-webkit-animation-delay:1.04s;
+-ms-animation-delay:1.04s;
+-o-animation-delay:1.04s;
+animation-delay:1.04s;
+}
+
+#fountainG_6{
+left:50px;
+-moz-animation-delay:1.17s;
+-webkit-animation-delay:1.17s;
+-ms-animation-delay:1.17s;
+-o-animation-delay:1.17s;
+animation-delay:1.17s;
+}
+
+#fountainG_7{
+left:60px;
+-moz-animation-delay:1.3s;
+-webkit-animation-delay:1.3s;
+-ms-animation-delay:1.3s;
+-o-animation-delay:1.3s;
+animation-delay:1.3s;
+}
+
+#fountainG_8{
+left:70px;
+-moz-animation-delay:1.43s;
+-webkit-animation-delay:1.43s;
+-ms-animation-delay:1.43s;
+-o-animation-delay:1.43s;
+animation-delay:1.43s;
+}
+
+@-moz-keyframes bounce_fountainG{
+0%{
+-moz-transform:scale(1);
+background-color:#FFFFFF;
+}
+
+100%{
+-moz-transform:scale(.3);
+background-color:#000000;
+}
+
+}
+
+@-webkit-keyframes bounce_fountainG{
+0%{
+-webkit-transform:scale(1);
+background-color:#FFFFFF;
+}
+
+100%{
+-webkit-transform:scale(.3);
+background-color:#000000;
+}
+
+}
+
+@-ms-keyframes bounce_fountainG{
+0%{
+-ms-transform:scale(1);
+background-color:#FFFFFF;
+}
+
+100%{
+-ms-transform:scale(.3);
+background-color:#000000;
+}
+
+}
+
+@-o-keyframes bounce_fountainG{
+0%{
+-o-transform:scale(1);
+background-color:#FFFFFF;
+}
+
+100%{
+-o-transform:scale(.3);
+background-color:#000000;
+}
+
+}
+
+@keyframes bounce_fountainG{
+0%{
+transform:scale(1);
+background-color:#FFFFFF;
+}
+
+100%{
+transform:scale(.3);
+background-color:#000000;
+}
+
+} 

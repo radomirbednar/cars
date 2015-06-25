@@ -787,7 +787,6 @@ class Car_share_Shortcode {
     }
 
     public function pick_car($atts) {
-
         $this->pick_car_form();
         ob_start();
         include_once( 'partials/shortcode/pick_car.php' );
@@ -802,7 +801,6 @@ class Car_share_Shortcode {
     }
 
     public function checkout() {
-
         $this->checkout_form();
         ob_start();
         include_once( 'partials/shortcode/checkout.php' );

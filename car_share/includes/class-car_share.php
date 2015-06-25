@@ -154,7 +154,9 @@ class Car_share {
         /**
          *
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-car_share-voucher.php';       
+        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-car_share-voucher.php';    
+        
+        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-car_share-reservation.php';
 
 
         /*
@@ -230,6 +232,7 @@ class Car_share {
         $car_order = new Car_share_Order($this->get_car_share(), $this->get_version());
         $voucher = new Car_share_Voucher($this->get_car_share(), $this->get_version());
         $booking = new Car_share_Booking($this->get_car_share(), $this->get_version());
+        $booking = new Car_share_Reservation($this->get_car_share(), $this->get_version());
 
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
