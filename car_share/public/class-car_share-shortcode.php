@@ -60,13 +60,13 @@ class Car_share_Shortcode {
         if (!empty($email_option['notemail'])) {
             $option_notification_email = $email_option['notemail'];
         }  
+         
         $PayPalMode = 'sandbox'; // sandbox or live
-        if (!empty($sc_options_paypal['paypalsandbox-setting'])) {
-
-            if ($sc_options_paypal['paypalsandbox-setting'] == '0') {
-                $PayPalMode = 'live';
-            }
+    
+        if (empty($sc_options_paypal['paypalsandbox-setting'])) {
+            $PayPalMode = 'live';
         }
+             
         //page options
         $sc_options = get_option('sc-pages'); 
         $checkout_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : '';
@@ -75,12 +75,13 @@ class Car_share_Shortcode {
         //paypal return point from setting
         $PayPalReturnURL = $checkout_car_url; //Point to process.php page
         $PayPalCancelURL = $checkout_car_url; //Cancel URL if user clicks cancel 
-        
+     
         include_once("paypalsdk/expresscheckout.php");
- 
+        
         if (isset($_POST['sc-checkout']) && isset($_POST['post_nonce_field']) && wp_verify_nonce($_POST['post_nonce_field'], 'post_nonce')) {
             // information for the payment
    
+             
             $customer_email = sanitize_text_field($_POST['_email']);         
             $Cars_cart = new Car_Cart('shopping_cart');
             $Cars_cart_items = $Cars_cart->getItems(); 
@@ -296,21 +297,18 @@ class Car_share_Shortcode {
                 //odeslani informace obchodnikovi o objednavce - protoze objednavku ukladame uz v tomto kroku
                 // Example using the array form of $headers
                 // assumes $to, $subject, $message have already been defined earlier...
-
-                
+           
                 ob_start();
-                include_once('partials/email_order_client.php');
+                include_once('partials/order_information_email_client.php');
                 $email_customer_content = ob_get_contents();
-                ob_end_clean();
- 
+                ob_end_clean(); 
                 $headers = 'From:  '. $option_notification_email.' <' . $option_notification_email . '>';
                 $to = $customer_email;
                 $subject = 'Booking email information';
-                $message = $email_customer_content;
- 
-                wp_mail($to, $subject, $message, $headers); 
-                ob_start();
-                include_once('partials/email_order.php');
+                $message = $email_customer_content; 
+                $testmail = wp_mail($to, $subject, $message, $headers);                  
+                ob_start(); 
+                include_once('partials/order_information_email.php');
                 $email_store_content = ob_get_contents();
                 ob_end_clean(); 
                 $headers = 'From: '. $option_notification_email.' <' . $option_notification_email . '>';
@@ -425,7 +423,7 @@ class Car_share_Shortcode {
                     update_post_meta($post_insert_id, 'paypal_c_email', $buyerEmail);
 
 
-                    /*       $url = site_url();
+                      $url = site_url();
 
                       ob_start();
                       include_once('partials/email_order_client.php');
@@ -439,18 +437,18 @@ class Car_share_Shortcode {
 
                       $headers[] = 'From:  <' . $option_notification_email . '>';
                       $to = $customer_email;
-                      $subject = 'test email';
+                      $subject = 'Booking email confirmation';
                       $message = $email_customer_content;
 
                       wp_mail($to, $subject, $message, $headers);
 
                       $headers[] = 'From:  <' . $option_notification_email . '>';
                       $to = $option_notification_email;
-                      $subject = 'test email';
+                      $subject = 'Booking email confirmation';
                       $message = $email_store_content;
 
                       //$message = include_once('/partial/email_order_client.php');
-                      wp_mail($to, $subject, $message, $headers); */
+                      wp_mail($to, $subject, $message, $headers);  
 
                     //muzeme ukladat i dalsi hodnoty
                     //save the information in database
@@ -593,16 +591,17 @@ class Car_share_Shortcode {
 
         $sc_options = get_option('sc-pages');
         $this->extras_car_url = isset($sc_options['extras']) ? get_page_link($sc_options['extras']) : '';
-
-        $Cars_cart = new Car_Cart('shopping_cart');
+ 
+        $Cars_cart = new Car_Cart('shopping_cart');         
         $Cars_cart_items = $Cars_cart->getItems();
-
-        $pick_up_location = $Cars_cart_items['pick_up_location'];
-        $drop_off_location = $Cars_cart_items['drop_off_location'];
-        $car_dfrom = $Cars_cart_items['car_datefrom'];
-        $car_dto = $Cars_cart_items['car_dateto'];
+         
+        $pick_up_location = $Cars_cart_items['pick_up_location'];   
+        $drop_off_location = $Cars_cart_items['drop_off_location']; 
+        $car_dfrom = $Cars_cart_items['car_datefrom']; 
+        $car_dto = $Cars_cart_items['car_dateto']; 
         $car_category = $Cars_cart_items['car_category'];
-        $car_dfrom_string = $car_dfrom->format('Y-m-d H:i:s');
+         
+        $car_dfrom_string = $car_dfrom->format('Y-m-d H:i:s');          
         $car_dto_string = $car_dto->format('Y-m-d H:i:s');
 
         /*
@@ -617,8 +616,7 @@ class Car_share_Shortcode {
         }
 
         $sc_setting = get_option('sc_setting');
-
-
+ 
         // base block, just allow select car from last return time..
         $booking_block_sql = "
                         OR

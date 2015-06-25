@@ -10,8 +10,7 @@
         <div class="col-md-12">
             <?php
             $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail');
-            //predefinovane informace k autu
-            
+            //predefinovane informace k autu           
             $number_of_seats = get_post_meta($car->ID, '_number_of_seats', true);
             $number_of_doors = get_post_meta($car->ID, '_number_of_doors', true);
             $number_of_suitcases = get_post_meta($car->ID, '_number_of_suitcases', true);
@@ -40,10 +39,7 @@
                 <tr>
                     <td>
                         <h3><?php echo get_the_title($car->ID) ?></h3> 
-                    </td>
-                    <td>
-                        <?php echo $post_thumbnail; ?> 
-                    </td>
+                    </td> 
                 </tr>
             </table>
                  
@@ -76,13 +72,16 @@
                 <?php if (!empty($number_of_seats)) { ?>
                     <tr>
                         <th><?php _e('Seats', $this->car_share); ?></th>
-                        <td><?php echo $number_of_seats; ?></td>
+                        <td><?php echo $number_of_seats; ?></td> 
+                        <td rowspan="6">
+                            <?php echo $post_thumbnail; ?> 
+                        </td> 
                     </tr>
                 <?php }; ?>
                 <?php if (!empty($number_of_doors)) { ?>
                     <tr>
                         <th><?php _e('Doors', $this->car_share); ?></th>
-                        <td><?php echo $number_of_doors; ?></td>
+                        <td><?php echo $number_of_doors; ?></td>  
                     </tr>
                 <?php }; ?>
                 <?php if (!empty($number_of_suitcases)) { ?>
@@ -107,7 +106,7 @@
                     <tr>
                         <th><?php _e('Air condition', $this->car_share); ?></th>
                         <td><?php echo $aircondition; ?></td>
-                    </tr>
+                    </tr> 
                 <?php }; ?>
             </table>
             <a class="continue btn btn-default" href="<?php echo $this->extras_car_url; ?><?php echo $sc_pr; ?>chcar=<?php echo $car->single_car_id; ?>"><?php _e('Book a car', $this->car_share); ?></a>

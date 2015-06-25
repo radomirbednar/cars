@@ -252,7 +252,8 @@
                                                 </table>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <?php if (!empty($extras)): ?>
+                                        <tr> 
                                             <td align="center" valign="top">
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                                     <tr>
@@ -268,12 +269,18 @@
 
                                                                                 <td>
                                                                                 <?php
+                                                                                
+                                                                                
+                                                                                
                                                                                 foreach ($extras as $key => $extras_id) {
                                                                                     $service_fee = get_post_meta($key, '_service_fee', true);
                                                                                     $_per_service = get_post_meta($key, '_per_service', true);
                                                                                     $service_name = get_the_title($key);
                                                                                     echo $extras_id . ' x ' . $service_name . ' ';
                                                                                 }
+                                                                                
+                                                                                
+                                                                                
                                                                                 ?>
                                                                                 </td> 
                                                                             </tr>
@@ -286,6 +293,7 @@
                                                 </table>
                                             </td>
                                         </tr>
+                                        <?php endif; ?>
                                         <tr>
                                             <td align="center" valign="top">
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
