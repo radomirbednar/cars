@@ -141,9 +141,10 @@ table.SimpleCalendar tbody td.today {
 { 
   border-top: 1px solid #E4F1FE;
 }
-.menu-icon-generic
+/*.menu-icon-generic*/
+#toplevel_page_car_share
 {   
-  border-bottom: 1px solid #E4F1FE;  
+  border-bottom: 1px solid #E4F1FE !important;  
 } 
 .dashicons-location:before, .dashicons-calendar-alt:before, .dashicons-category:before, .dashicons-performance:before, .dashicons-smiley:before, .dashicons-nametag:before, .dashicons-cart:before, .dashicons-admin-generic:before
 { 

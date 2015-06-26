@@ -57,7 +57,7 @@ class Car_share_Reservation {
                 'car_reservation', 
                 array($this, 'car_reservation'), 
                 "dashicons-clipboard", 
-                109 
+                89 
         );
     }    
     

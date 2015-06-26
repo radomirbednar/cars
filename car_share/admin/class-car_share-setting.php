@@ -54,7 +54,6 @@ class Car_share_Setting {
         add_action('admin_menu', array($this, 'add_plugin_admin_menu'));
         add_action('admin_init', array($this, 'register_settings'));
 
-
         // Add an action link pointing to the options page.
         $plugin_basename = plugin_basename(plugin_dir_path(__DIR__) . $this->car_share . '.php');
         add_filter('plugin_action_links_' . $plugin_basename, array($this, 'add_action_links'));
@@ -75,7 +74,9 @@ class Car_share_Setting {
                 __('Car plugin setting', $this->car_share), 
                 'manage_options', 
                 $this->car_share, 
-                array($this, 'display_plugin_admin_page')
+                array($this, 'display_plugin_admin_page'),
+                'dashicons-admin-tools',
+                90
         );
 
         add_submenu_page(
