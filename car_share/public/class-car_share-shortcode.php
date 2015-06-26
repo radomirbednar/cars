@@ -43,7 +43,7 @@ class Car_share_Shortcode {
     public function paypal() { 
          
         $sc_options_paypal = get_option('second_set_arraykey');
-        $email_option = get_option('car_plugin_options_arraykey'); 
+        $plugin_option = get_option('car_plugin_options_arraykey'); 
         $currency = sc_Currency::get_instance()->iso();
         $currencyforpeople = sc_Currency::get_instance()->symbol(); 
          
@@ -57,8 +57,8 @@ class Car_share_Shortcode {
         if (!empty($sc_options_paypal['apisignature-setting'])) {
             $PayPalApiSignature = $sc_options_paypal['apisignature-setting'];
         }
-        if (!empty($email_option['notemail'])) {
-            $option_notification_email = $email_option['notemail'];
+        if (!empty($plugin_option['notemail'])) {
+            $option_notification_email = $plugin_option['notemail'];
         }  
          
         $PayPalMode = 'sandbox'; // sandbox or live
@@ -297,6 +297,8 @@ class Car_share_Shortcode {
                 //odeslani informace obchodnikovi o objednavce - protoze objednavku ukladame uz v tomto kroku
                 // Example using the array form of $headers
                 // assumes $to, $subject, $message have already been defined earlier...
+                
+                $email_subject = empty($plugin_option['name_of_company']) ? __('Booking email information', 'car_share') : $plugin_option['name_of_company'];
            
                 ob_start();
                 include_once('partials/order_information_email_client.php');
@@ -304,7 +306,7 @@ class Car_share_Shortcode {
                 ob_end_clean(); 
                 $headers = 'From:  '. $option_notification_email.' <' . $option_notification_email . '>';
                 $to = $customer_email;
-                $subject = 'Booking email information';
+                $subject = $email_subject;
                 $message = $email_customer_content; 
                 $testmail = wp_mail($to, $subject, $message, $headers);                  
                 ob_start(); 
@@ -313,7 +315,7 @@ class Car_share_Shortcode {
                 ob_end_clean(); 
                 $headers = 'From: '. $option_notification_email.' <' . $option_notification_email . '>';
                 $to = $option_notification_email;
-                $subject = 'Booking email information';
+                $subject = $email_subject;
                 $message = $email_store_content;                
                 //$message = include_once('/partial/email_order_client.php'); 
                 wp_mail($to, $subject, $message, $headers);

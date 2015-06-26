@@ -188,20 +188,21 @@ if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']
     
     $currencyforpeople = sc_Currency::get_instance()->symbol(); 
     $plugin_patch = plugin_dir_path(dirname(__FILE__));
-    $email_option = get_option('car_plugin_options_arraykey');
+    $plugin_option = get_option('car_plugin_options_arraykey');
 
-    if (!empty($email_option['notemail'])) {
+    if (!empty($plugin_option['notemail'])) {
                 
+            $email_subject = empty($plugin_option['name_of_company']) ? __('Booking email information', 'car_share') : $plugin_option['name_of_company'];
         
             ob_start(); 
             $email_customer_content = include_once($plugin_patch . 'catalog_information_client_email.php');
-            $option_notification_email = $email_option['notemail'];
+            $option_notification_email = $plugin_option['notemail'];
             $email_customer_content = ob_get_contents();  
             ob_end_clean();
                 
             $headers = 'From: ' . $option_notification_email . ' <' . $option_notification_email . '>';
             $to = $customer_email;
-            $subject = 'Booking email information';
+            $subject = $email_subject;
             $message = $email_customer_content;
             $sendmailcheck = wp_mail($to, $subject, $message, $headers); 
                 
@@ -212,7 +213,7 @@ if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']
                 
             $headers = 'From: ' . $option_notification_email . ' <' . $option_notification_email . '>';
             $to = $option_notification_email;
-            $subject = 'Booking email information';
+            $subject = $email_subject;
             $message = $email_store_content;              
             $sendmailcheckstore = wp_mail($to, $subject, $message, $headers); 
         }

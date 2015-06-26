@@ -159,6 +159,11 @@ class Car_share_Setting {
                 'main-settings-section', 'General Settings', array($this, 'print_main_settings_section_info'), 'car-plugin-main-settings-section'
         );
         // add_settings_field( $id, $title, $callback, $page, $section, $args )
+        
+        add_settings_field(
+                'name_of_company', __('Name of the company:', 'car_share'), array($this, 'create_input_name_of_company'), 'car-plugin-main-settings-section', 'main-settings-section'
+        );        
+        
         add_settings_field(
                 'notemail', 'Notification Email:', array($this, 'create_input_some_setting'), 'car-plugin-main-settings-section', 'main-settings-section'
         );
@@ -420,6 +425,12 @@ class Car_share_Setting {
         <input type="checkbox" name="sc_setting[block_to_next_day_diff_loc]" value="1" <?php echo isset($sc_setting['block_to_next_day_diff_loc']) && 1 == $sc_setting['block_to_next_day_diff_loc'] ? 'checked="checked" ' : '' ?> />
         <?php
     }    */
+    
+    function create_input_name_of_company(){
+        $options = get_option('car_plugin_options_arraykey');
+        ?><input type="text" name="car_plugin_options_arraykey[name_of_company]" value="<?php echo isset($options['name_of_company']) ? $options['name_of_company'] : '' ?>" />
+        <?php        
+    }
 
     function create_input_some_setting() {
         $options = get_option('car_plugin_options_arraykey');
@@ -460,7 +471,14 @@ class Car_share_Setting {
     }
 
     function plugin_main_settings_validate($arr_input) {
-        $options = get_option('car_plugin_options_arraykey');
+        //$options = get_option('car_plugin_options_arraykey');
+        
+        array_walk($arr_input, 'trim');
+        return $arr_input;
+        
+        
+        
+        /*
         $options['notemail'] = trim($arr_input['notemail']);
         $options['showcategory'] = trim($arr_input['showcategory']);
         $options['catalogoption'] = trim($arr_input['catalogoption']);   
@@ -473,8 +491,9 @@ class Car_share_Setting {
         $options['phone-setting'] = trim($arr_input['phone-setting']);
         $options['fax-setting'] = trim($arr_input['fax-setting']);
         $options['email-setting'] = trim($arr_input['email-setting']);
+        */
 
-        return $options;
+        //return $options;
     }
 
     function print_additional_settings_section_info() {
@@ -547,6 +566,10 @@ class Car_share_Setting {
 
     function plugin_additional_settings_validate($arr_input) {
  
+        array_walk($arr_input, 'trim');
+        return $arr_input;
+        
+        /*
         $options = get_option('second_set_arraykey');
         $options['sc-unit'] = trim($arr_input['sc-unit']);
         $options['sc-currency'] = trim($arr_input['sc-currency']);
@@ -558,6 +581,7 @@ class Car_share_Setting {
         $options['payablenow-setting'] = trim($arr_input['payablenow-setting']);
  
         return $options;
+        */
     } 
     /**
      * Add settings action link to the plugins page.
