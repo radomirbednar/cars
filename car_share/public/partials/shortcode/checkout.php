@@ -192,7 +192,8 @@ if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']
 
     if (!empty($plugin_option['notemail'])) {
                 
-            $email_subject = empty($plugin_option['name_of_company']) ? __('Booking email information', 'car_share') : $plugin_option['name_of_company'];
+            $email_subject = empty($plugin_option['name_of_company']) ? '' : $plugin_option['name_of_company'] . ' - ';
+            $email_subject .= __('Booking email information', 'car_share');
         
             ob_start(); 
             $email_customer_content = include_once($plugin_patch . 'catalog_information_client_email.php');

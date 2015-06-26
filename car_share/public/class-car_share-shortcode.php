@@ -298,7 +298,9 @@ class Car_share_Shortcode {
                 // Example using the array form of $headers
                 // assumes $to, $subject, $message have already been defined earlier...
                 
-                $email_subject = empty($plugin_option['name_of_company']) ? __('Booking email information', 'car_share') : $plugin_option['name_of_company'];
+                //$email_subject = empty($plugin_option['name_of_company']) ? __('Booking email information', 'car_share') : $plugin_option['name_of_company'];
+                $email_subject = empty($plugin_option['name_of_company']) ? '' : $plugin_option['name_of_company'] . ' - ';
+                $email_subject .= __('Booking email information', 'car_share');                
            
                 ob_start();
                 include_once('partials/order_information_email_client.php');
