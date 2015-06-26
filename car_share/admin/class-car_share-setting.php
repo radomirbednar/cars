@@ -71,10 +71,21 @@ class Car_share_Setting {
          *
          */
         $this->plugin_screen_hook_suffix = add_menu_page(
-                __('Car plugin settings', $this->car_share), __('Car plugin setting', $this->car_share), 'manage_options', $this->car_share, array($this, 'display_plugin_admin_page')
+                __('Car plugin settings', $this->car_share), 
+                __('Car plugin setting', $this->car_share), 
+                'manage_options', 
+                $this->car_share, 
+                array($this, 'display_plugin_admin_page')
         );
 
-        add_submenu_page($this->car_share, __('Checkout form setup', $this->car_share), __('Checkout form setup', $this->car_share), 'manage_options', 'checkout-form-setup', array($this, 'checkout_form_setup'));
+        add_submenu_page(
+                $this->car_share, 
+                __('Checkout form setup', $this->car_share), 
+                __('Checkout form setup', $this->car_share), 
+                'manage_options', 
+                'checkout-form-setup', 
+                array($this, 'checkout_form_setup')
+        );        
     }
 
     public function checkout_form_setup() {
@@ -554,8 +565,8 @@ class Car_share_Setting {
      */
     public function add_action_links($links) {
         return array_merge(
-                array(
-            'settings' => '<a href="' . admin_url('options-general.php?page=' . $this->car_share) . '">' . __('Settings', $this->car_share) . '</a>'
+                array(                    
+                    'settings' => '<a href="' . admin_url('options-general.php?page=' . $this->car_share) . '">' . __('Settings', $this->car_share) . '</a>'
                 ), $links
         );
     } 

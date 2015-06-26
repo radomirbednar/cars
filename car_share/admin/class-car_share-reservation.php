@@ -40,6 +40,7 @@ class Car_share_Reservation {
      *
      */
     public function admin_menu(){
+        /*
         add_submenu_page(
                 'edit.php?post_type=sc-car',
                 __('Reservations', $this->car_share),
@@ -47,6 +48,16 @@ class Car_share_Reservation {
                 'manage_options',
                 'car_reservation',
                 array($this, 'car_reservation')
+        );*/
+        
+        add_menu_page( 
+                __('Calendar', $this->car_share), 
+                __('Calendar', $this->car_share), 
+                'manage_options', 
+                'car_reservation', 
+                array($this, 'car_reservation'), 
+                "dashicons-clipboard", 
+                109 
         );
     }    
     
