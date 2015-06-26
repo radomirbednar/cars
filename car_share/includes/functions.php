@@ -288,7 +288,7 @@ function get_booking_fields(){
             'type' => 'price',
         ),
 
-        //'separator' => '<div>',
+        
 
         '_voucher_id' => array(
             'label' => __('Voucher ID', 'car_share'),
@@ -312,7 +312,7 @@ function get_booking_fields(){
             'type' => 'price'
         ),
 
-        //'separator' => '',
+        
 
         'cart_total_price' => array (
             'label' => __('Total Price', 'car_share'),
