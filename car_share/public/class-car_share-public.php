@@ -136,7 +136,7 @@ class Car_share_Public {
             //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 100
+             'menu_position' => 80
         ); 
         register_post_type('sc-location', $args); 
         // season
@@ -165,7 +165,7 @@ class Car_share_Public {
             //'page-attributes'
             ),
             'hierarchical' => false,
-            'menu_position' => 100
+            'menu_position' => 81
         );
 
         register_post_type('sc-season', $args);
@@ -195,7 +195,7 @@ class Car_share_Public {
             //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 100
+             'menu_position' => 82
         );
 
         register_post_type('sc-car-category', $args);
@@ -224,7 +224,7 @@ class Car_share_Public {
                 //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 100
+             'menu_position' => 83
         );
 
         register_post_type('sc-car', $args);
@@ -255,7 +255,7 @@ class Car_share_Public {
             //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 100
+             'menu_position' => 84
         );
 
         register_post_type('sc-service', $args);
@@ -287,7 +287,7 @@ class Car_share_Public {
                 //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 100
+             'menu_position' => 85
         );
 
         register_post_type('sc-voucher', $args);
@@ -317,7 +317,7 @@ class Car_share_Public {
             //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 100
+             'menu_position' => 86
         );
 
         register_post_type('sc-booking', $args);

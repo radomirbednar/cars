@@ -66,7 +66,6 @@ class Car_share_Admin {
         add_action('wp_ajax_delete_single_car', array($this, 'delete_single_car_ajax'));
         add_action('wp_ajax_create_single_car', array($this, 'create_single_car_ajax'));
 
-
         add_action('wp_ajax_calendar_single_car', array($this, 'calendar_single_car_ajax'));
 
         add_action('admin_init', array($this, 'admin_init'));
