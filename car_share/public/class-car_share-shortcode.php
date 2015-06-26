@@ -173,7 +173,7 @@ class Car_share_Shortcode {
                     '&PAYMENTREQUEST_0_ITEMAMT=' . urlencode($ItemTotalPrice) .
                     '&PAYMENTREQUEST_0_AMT=' . urlencode($GrandTotal) .
                     '&PAYMENTREQUEST_0_CURRENCYCODE=' . urlencode($PayPalCurrencyCode) .
-                    '&LOCALECODE=GB' . //PayPal pages to match the language on your website.
+                    '&LOCALECODE=FR' . //PayPal pages to match the language on your website.
                     '&ALLOWNOTE=0';
 
             /*
