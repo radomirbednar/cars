@@ -186,7 +186,7 @@
                                                                             <tr>
                                                                                 <td align="center" valign="top" class="textContent">
                                                                                     <h1 style="color:#FFFFFF;line-height:100%;font-family:Helvetica,Arial,sans-serif;font-size:35px;font-weight:normal;margin-bottom:5px;text-align:center;"><?php _e('Thank you for your booking', $this->car_share); ?></h1>
-                                                                                    <h2 style="text-align:center;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px;margin-bottom:10px;color:#205478;line-height:135%;"><?php _e('Order: #', $this->car_share); ?> <?php echo $post_insert_id; ?></h2>
+                                                                                    <h2 style="text-align:center;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px;margin-bottom:10px;color:#205478;line-height:135%;"><?php _e('Order:', $this->car_share); ?> <?php echo $post_insert_id; ?></h2>
                                                                                     <div style="text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#FFFFFF;line-height:135%;">  <?php _e('Your booking has been received and is now being processed. Your order details are shown below for your reference: ', $this->car_share); ?> </div>
                                                                                 </td>
                                                                             </tr>

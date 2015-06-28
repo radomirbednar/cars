@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Car share v1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-06-26 16:09:05+0000\n"
+"PO-Revision-Date: 2015-06-28 21:53:12+0000\n"
 "Last-Translator: car-plugin <radovanmail@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -584,7 +584,7 @@ msgstr "Véhicules"
 #: public/partials/email_order.php:298
 #: public/partials/email_order_client.php:308
 #: public/partials/order_information_email.php:311
-#: public/partials/order_information_email_client.php:306
+#: public/partials/order_information_email_client.php:305
 #@ car_share
 msgid "Car"
 msgstr "Véhicule"
@@ -774,7 +774,7 @@ msgstr "Au"
 #: public/partials/email_order.php:307
 #: public/partials/email_order_client.php:317
 #: public/partials/order_information_email.php:320
-#: public/partials/order_information_email_client.php:315
+#: public/partials/order_information_email_client.php:314
 #@ car_share
 msgid "Extras"
 msgstr "Extras"
@@ -990,15 +990,6 @@ msgstr "Carburant"
 msgid "New customer booking"
 msgstr "Nouvelle réservation client"
 
-#: public/partials/catalog_information_client_email.php:175
-#: public/partials/email_order.php:183
-#: public/partials/email_order_client.php:189
-#: public/partials/order_information_email.php:187
-#: public/partials/order_information_email_client.php:187
-#@ car_share
-msgid "Order: #"
-msgstr "Commande:#"
-
 #: public/partials/catalog_information_client_email.php:176
 #: public/partials/email_order.php:184
 #@ car_share
@@ -1040,7 +1031,7 @@ msgstr "Infos extras"
 #: public/partials/email_order.php:317
 #: public/partials/email_order_client.php:327
 #: public/partials/order_information_email.php:330
-#: public/partials/order_information_email_client.php:325
+#: public/partials/order_information_email_client.php:324
 #@ car_share
 msgid "Young surcharge fee"
 msgstr "Surcoût jeune conducteur"
@@ -1050,7 +1041,7 @@ msgstr "Surcoût jeune conducteur"
 #: public/partials/email_order.php:327
 #: public/partials/email_order_client.php:337
 #: public/partials/order_information_email.php:340
-#: public/partials/order_information_email_client.php:335
+#: public/partials/order_information_email_client.php:334
 #@ car_share
 msgid "Different location price: "
 msgstr "Prix pour dépôt agence différente"
@@ -1060,7 +1051,7 @@ msgstr "Prix pour dépôt agence différente"
 #: public/partials/email_order.php:337
 #: public/partials/email_order_client.php:347
 #: public/partials/order_information_email.php:350
-#: public/partials/order_information_email_client.php:345
+#: public/partials/order_information_email_client.php:344
 #@ car_share
 msgid "Voucher information: "
 msgstr "Détails du coupon"
@@ -1071,7 +1062,7 @@ msgstr "Détails du coupon"
 #: public/partials/email_order.php:346
 #: public/partials/email_order_client.php:356
 #: public/partials/order_information_email.php:359
-#: public/partials/order_information_email_client.php:354
+#: public/partials/order_information_email_client.php:353
 #@ car_share
 msgid "Total Price"
 msgstr "Prix total"
@@ -1082,7 +1073,7 @@ msgstr "Prix total"
 #: public/partials/email_order.php:354
 #: public/partials/email_order_client.php:364
 #: public/partials/order_information_email.php:367
-#: public/partials/order_information_email_client.php:362
+#: public/partials/order_information_email_client.php:361
 #@ car_share
 msgid "Payable price"
 msgstr "Prix à payer"
@@ -1092,7 +1083,7 @@ msgstr "Prix à payer"
 #: public/partials/email_order.php:383
 #: public/partials/email_order_client.php:394
 #: public/partials/order_information_email.php:397
-#: public/partials/order_information_email_client.php:392
+#: public/partials/order_information_email_client.php:391
 #@ car_share
 msgid "Customer details"
 msgstr "Détails client"
@@ -2617,4 +2608,13 @@ msgstr ""
 #@ car_share
 msgid " par jour"
 msgstr ""
+
+#: public/partials/catalog_information_client_email.php:175
+#: public/partials/email_order.php:183
+#: public/partials/email_order_client.php:189
+#: public/partials/order_information_email.php:187
+#: public/partials/order_information_email_client.php:187
+#@ car_share
+msgid "Order:"
+msgstr "Commande:"
 
