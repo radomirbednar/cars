@@ -182,7 +182,7 @@ if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']
         //post meta information about booking
         //nezapomenout smazat na konci veskerou session !!!!!!!
         //$_SESSION['post_insert_id'] = $post_insert_id;
-        //sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);
+        sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);
     }
     
     
@@ -457,7 +457,9 @@ if (!empty($_SESSION['TOKENE'])) {
             $car_dfrom_string = $car_dfrom->format('d-m-Y H:i');
 
             $car_dto = $Cars_cart_items['car_dateto'];
-            $car_dto_string = $car_dto->format('d-m-Y H:i');
+            
+            //$car_dto_string = $car_dto->format('d-m-Y H:i');
+            $car_dto_string = date_i18n( get_option( 'date_format' ), $car_dto->getTimestamp());
 
             $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
             $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
