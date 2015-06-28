@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: Car share v1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-01-20 16:25:06+0000\n"
+"PO-Revision-Date: 2015-06-26 16:09:05+0000\n"
 "Last-Translator: car-plugin <radovanmail@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
 "X-Generator: CSL v1.x\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
@@ -20,61 +20,63 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Textdomain-Support: yes"
 
-#: admin/class-car_share-admin.php:118
+#: admin/class-car_share-admin.php:135
 #@ car_share
 msgid "<< Prew"
 msgstr "<< Précédent"
 
-#: admin/class-car_share-admin.php:121
+#: admin/class-car_share-admin.php:138
 #@ car_share
 msgid "Next >>"
 msgstr "Suivant >>"
 
-#: admin/class-car_share-admin.php:271
-#: public/class-car_share-public.php:219
+#: admin/class-car_share-admin.php:289
+#: public/class-car_share-public.php:212
 #@ car_share
 msgid "New car"
 msgstr "Nouveau véhicule"
 
-#: admin/class-car_share-admin.php:380
+#: admin/class-car_share-admin.php:398
 #, php-format
 #@ car_share
 msgid "Single car #%s"
 msgstr "Véhicule"
 
-#: admin/class-car_share-admin.php:388
+#: admin/class-car_share-admin.php:406
 #@ car_share
 msgid "Category"
 msgstr "Catégorie"
 
-#: admin/class-car_share-admin.php:392
+#: admin/class-car_share-admin.php:410
 #@ car_share
 msgid "Details"
 msgstr "Détails"
 
-#: admin/class-car_share-admin.php:401
-#: admin/class-car_share-car-category.php:106
+#: admin/class-car_share-admin.php:419
+#: admin/class-car_share-car-category.php:185
 #@ car_share
 msgid "Price"
 msgstr "Prix"
 
-#: admin/class-car_share-admin.php:405
+#: admin/class-car_share-admin.php:423
 #@ car_share
 msgid "Quantity"
 msgstr "Quantité"
 
 #: admin/class-car_share-booking.php:55
-#: admin/class-car_share-season.php:42
+#: admin/class-car_share-season.php:45
 #: admin/partials/car/single_car.php:37
 #: admin/partials/location/opening_hours.php:9
+#: admin/partials/season/date_interval.php:49
 #@ car_share
 msgid "From"
 msgstr "Du"
 
 #: admin/class-car_share-booking.php:56
-#: admin/class-car_share-season.php:43
+#: admin/class-car_share-season.php:46
 #: admin/partials/car/single_car.php:40
 #: admin/partials/location/opening_hours.php:10
+#: admin/partials/season/date_interval.php:52
 #@ car_share
 msgid "To"
 msgstr "Au"
@@ -89,52 +91,37 @@ msgstr "Informations client"
 msgid "Booking info"
 msgstr "Informations de réservation"
 
-#: admin/class-car_share-car-category.php:98
+#: admin/class-car_share-car-category.php:177
 #@ car_share
 msgid "Price for return to different location"
 msgstr "Surcoût pour dépôt du véhicule dans une agence différente"
 
-#: admin/class-car_share-car-category.php:102
+#: admin/class-car_share-car-category.php:181
 #@ car_share
 msgid "Young driver surcharge "
 msgstr "Surcoût pour jeune conducteur"
 
-#: admin/class-car_share-car-category.php:110
+#: admin/class-car_share-car-category.php:189
 #@ car_share
 msgid "Discount upon duration"
 msgstr "Discount lié à la durée"
 
-#: admin/class-car_share-car-category.php:114
+#: admin/class-car_share-car-category.php:193
 #@ car_share
 msgid "Assigned seasons"
 msgstr "Saisons assignées"
-
-#: admin/class-car_share-car-category.php:155
-#@ car_share
-msgid "Please first define season start and end date."
-msgstr "Définissez les dates de début et de fin de saison"
-
-#: admin/class-car_share-car-category.php:174
-#@ car_share
-msgid "Please, pick a season which is not applied yet."
-msgstr "Merci de sélectionner une saison qui n'est pas déjà assignée"
-
-#: admin/class-car_share-car-category.php:207
-#@ car_share
-msgid "You cannot assign two season with overlaping dates."
-msgstr "Vous ne pouvez pas assigner deux saisons dont les dates se chevauchent"
 
 #: admin/class-car_share-location.php:42
 #@ car_share
 msgid "Opening hours"
 msgstr "Heures d'ouverture"
 
-#: admin/class-car_share-season.php:67
+#: admin/class-car_share-season.php:76
 #@ car_share
 msgid "Date interval"
 msgstr "Intervalle de dates"
 
-#: admin/class-car_share-setting.php:74
+#: admin/class-car_share-setting.php:73
 #@ car_share
 msgid "Car plugin settings"
 msgstr "Réglages"
@@ -144,38 +131,39 @@ msgstr "Réglages"
 msgid "Car plugin setting"
 msgstr "Réglages"
 
-#: admin/class-car_share-setting.php:77
+#: admin/class-car_share-setting.php:84
+#: admin/class-car_share-setting.php:85
 #: admin/partials/checkout_form_setup.php:2
 #@ car_share
 msgid "Checkout form setup"
 msgstr "Configuration du formulaire de réservation"
 
-#: admin/class-car_share-setting.php:120
+#: admin/class-car_share-setting.php:126
 #@ car_share
 msgid "Rent car setting"
 msgstr "Réglages"
 
-#: admin/class-car_share-setting.php:124
+#: admin/class-car_share-setting.php:129
 #@ car_share
 msgid "Payable now amount (%)"
 msgstr "Montant de l'acompte (%)"
 
-#: admin/class-car_share-setting.php:128
+#: admin/class-car_share-setting.php:132
 #@ car_share
 msgid "Apply payable now"
 msgstr "Demander un acompte au moment de la réservation"
 
-#: admin/class-car_share-setting.php:311
+#: admin/class-car_share-setting.php:326
 #@ car_share
 msgid "Rent car setting."
 msgstr "Réglages"
 
-#: admin/class-car_share-setting.php:315
+#: admin/class-car_share-setting.php:330
 #@ car_share
 msgid "General Setting."
 msgstr "Réglages généraux"
 
-#: admin/class-car_share-setting.php:564
+#: admin/class-car_share-setting.php:594
 #: admin/partials/car_share-admin-display.php:18
 #@ car_share
 msgid "Settings"
@@ -205,8 +193,9 @@ msgstr "Discount (pourcentage)"
 #: admin/partials/booking/field_list.php:6
 #: admin/partials/booking/payment_info.php:6
 #: admin/partials/checkout_form_setup.php:9
-#: public/partials/shortcode/checkout.php:150
-#: public/partials/shortcode/checkout.php:459
+#: public/partials/shortcode/checkout.php:163
+#: public/partials/shortcode/checkout.php:380
+#: public/partials/shortcode/checkout.php:687
 #@ car_share
 msgid "label"
 msgstr "label"
@@ -221,28 +210,28 @@ msgstr "Du :"
 msgid "To:"
 msgstr "Au :"
 
-#: admin/partials/car/details.php:11
+#: admin/partials/car/details.php:9
 #@ car_share
 msgid "Number of seats"
 msgstr "Nombre de sièges"
 
-#: admin/partials/car/details.php:21
+#: admin/partials/car/details.php:19
 #@ car_share
 msgid "Number of doors"
 msgstr "Nombre de portes"
 
-#: admin/partials/car/details.php:31
+#: admin/partials/car/details.php:29
 #@ car_share
 msgid "Number of suitcases"
 msgstr "Nombres de valises"
 
-#: admin/partials/car/details.php:41
+#: admin/partials/car/details.php:39
 #@ car_share
 msgid "Gear transmission"
 msgstr "Boite de vitesses"
 
 #: admin/partials/car/js-statuses.php:75
-#: admin/partials/car-category/discount_upon_duration.php:33
+#: admin/partials/car-category/discount_upon_duration_row.php:20
 #@ car_share
 msgid "X"
 msgstr "X"
@@ -299,7 +288,7 @@ msgid "Add status"
 msgstr "Ajouter un statut"
 
 #: admin/partials/car/single_car.php:58
-#: admin/partials/car-category/content_assigned_season.php:28
+#: admin/partials/car-category/content_assigned_season.php:30
 #@ car_share
 msgid "Delete"
 msgstr "Supprimer"
@@ -319,8 +308,7 @@ msgstr "Nouveau"
 msgid "Single car"
 msgstr "Véhicule"
 
-#: admin/partials/car-category/content_assigned_season.php:25
-#: admin/partials/car-category/content_assigned_season.php:53
+#: admin/partials/car-category/content_assigned_season.php:27
 #@ car_share
 msgid "Edit"
 msgstr "Éditer"
@@ -335,20 +323,11 @@ msgstr "Prix :"
 msgid "Apply:"
 msgstr "Appliquer :"
 
-#: admin/partials/car-category/discount_upon_duration.php:8
+#: admin/partials/car-category/discount_upon_duration.php:20
+#: admin/partials/car-category/s2c_days_price_inputs.php:60
 #@ car_share
 msgid "Add discount"
 msgstr "Ajouter un discount"
-
-#: admin/partials/car-category/discount_upon_duration.php:23
-#@ car_share
-msgid "After days:"
-msgstr "Au dessus de ce nombre de jours :"
-
-#: admin/partials/car-category/discount_upon_duration.php:28
-#@ car_share
-msgid "Discount (%) of total amount:"
-msgstr "Discount (%) sur le montant total :"
 
 #: admin/partials/car-category/edit_s2c.php:24
 #@ car_share
@@ -375,18 +354,18 @@ msgstr "Augmentation du prix (pourcentage) :"
 msgid "--Pick a season--"
 msgstr "-- Choisir une saison --"
 
-#: admin/partials/car-category/s2c_days_price_inputs.php:31
+#: admin/partials/car-category/s2c_days_price_inputs.php:61
 #: admin/partials/checkout_form_setup.php:25
 #@ car_share
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: admin/partials/car-category/season2category.php:7
+#: admin/partials/car-category/season2category.php:8
 #@ car_share
 msgid "Assign new season"
 msgstr "Assigner une nouvelle saison"
 
-#: admin/partials/car-category/season2category.php:25
+#: admin/partials/car-category/season2category.php:23
 #@ car_share
 msgid "Are you sure?"
 msgstr "Êtes-vous sûr ?"
@@ -396,7 +375,7 @@ msgstr "Êtes-vous sûr ?"
 msgid "Save Changes"
 msgstr "Sauvegarder les changements"
 
-#: admin/partials/car_share-admin-display.php:117
+#: admin/partials/car_share-admin-display.php:113
 #@ default
 msgid "Create Page"
 msgstr ""
@@ -415,16 +394,6 @@ msgstr "Requis"
 #@ car_share
 msgid "Open"
 msgstr "Ouvert"
-
-#: admin/partials/season/date_interval.php:24
-#@ car_share
-msgid "Date from:"
-msgstr "Du :"
-
-#: admin/partials/season/date_interval.php:25
-#@ car_share
-msgid "Date to:"
-msgstr "Au :"
 
 #: admin/partials/service/price_box.php:1
 #@ car_share
@@ -467,305 +436,310 @@ msgstr "Mon nom"
 msgid "1.0.0"
 msgstr "1.0.0"
 
-#: public/class-car_share-public.php:124
-#: public/class-car_share-public.php:125
+#: public/class-car_share-public.php:119
+#: public/class-car_share-public.php:120
 #@ car_share
 msgid "Location"
 msgstr "Agence"
 
-#: public/class-car_share-public.php:126
-#: public/class-car_share-public.php:216
-#: public/class-car_share-public.php:247
-#: public/class-car_share-public.php:278
+#: public/class-car_share-public.php:121
+#: public/class-car_share-public.php:209
+#: public/class-car_share-public.php:240
+#: public/class-car_share-public.php:271
 #@ car_share
 msgid "Add new"
 msgstr "Ajouter nouveau"
 
-#: public/class-car_share-public.php:127
+#: public/class-car_share-public.php:122
 #@ car_share
 msgid "Add new location"
 msgstr "Ajouter une nouvelle agence"
 
-#: public/class-car_share-public.php:128
+#: public/class-car_share-public.php:123
 #@ car_share
 msgid "Edit location"
 msgstr "Éditer la agence"
 
-#: public/class-car_share-public.php:129
+#: public/class-car_share-public.php:124
 #@ car_share
 msgid "New location"
 msgstr "Nouvelle agence"
 
-#: public/class-car_share-public.php:130
+#: public/class-car_share-public.php:125
 #@ car_share
 msgid "All locations"
 msgstr "Toutes les agence"
 
-#: public/class-car_share-public.php:131
+#: public/class-car_share-public.php:126
 #@ car_share
 msgid "View location"
 msgstr "Voir la agence"
 
-#: public/class-car_share-public.php:132
+#: public/class-car_share-public.php:127
 #@ car_share
 msgid "Search locations"
 msgstr "Chercher une agence"
 
-#: public/class-car_share-public.php:133
+#: public/class-car_share-public.php:128
 #@ car_share
 msgid "Locations"
 msgstr "Agence"
 
-#: public/class-car_share-public.php:155
-#: public/class-car_share-public.php:156
+#: public/class-car_share-public.php:148
+#: public/class-car_share-public.php:149
 #@ car_share
 msgid "Season"
 msgstr "Saison"
 
-#: public/class-car_share-public.php:157
-#: public/class-car_share-public.php:158
+#: public/class-car_share-public.php:150
+#: public/class-car_share-public.php:151
 #@ car_share
 msgid "Add new season"
 msgstr "Ajouter une nouvelle saison"
 
-#: public/class-car_share-public.php:159
+#: public/class-car_share-public.php:152
 #@ car_share
 msgid "Edit season"
 msgstr "Éditer la saison"
 
-#: public/class-car_share-public.php:160
+#: public/class-car_share-public.php:153
 #@ car_share
 msgid "New season"
 msgstr "Nouvelle saison"
 
-#: public/class-car_share-public.php:161
+#: public/class-car_share-public.php:154
 #@ car_share
 msgid "All seasons"
 msgstr "Toutes les saisons"
 
-#: public/class-car_share-public.php:162
+#: public/class-car_share-public.php:155
 #@ car_share
 msgid "View season"
 msgstr "Voir la saison"
 
-#: public/class-car_share-public.php:163
+#: public/class-car_share-public.php:156
 #@ car_share
 msgid "Search season"
 msgstr "Chercher une saison"
 
-#: public/class-car_share-public.php:164
+#: admin/class-car_share-car-category.php:60
+#: public/class-car_share-public.php:157
 #@ car_share
 msgid "Seasons"
 msgstr "Saisons"
 
+#: admin/class-car_share-admin.php:80
 #: includes/functions.php:263
-#: public/class-car_share-public.php:184
-#: public/class-car_share-public.php:185
+#: public/class-car_share-public.php:177
+#: public/class-car_share-public.php:178
 #@ car_share
 msgid "Car category"
 msgstr "Catégorie de véhicule"
 
-#: public/class-car_share-public.php:186
-#: public/class-car_share-public.php:187
+#: public/class-car_share-public.php:179
+#: public/class-car_share-public.php:180
 #@ car_share
 msgid "Add car category"
 msgstr "Ajouter une nouvelle catégorie de véhicule"
 
-#: public/class-car_share-public.php:188
+#: public/class-car_share-public.php:181
 #@ car_share
 msgid "Edit car category"
 msgstr "Éditer la catégorie de véhicule"
 
-#: public/class-car_share-public.php:189
+#: public/class-car_share-public.php:182
 #@ car_share
 msgid "New car category"
 msgstr "Nouvelle catégorie de véhicule"
 
-#: public/class-car_share-public.php:190
+#: public/class-car_share-public.php:183
 #@ car_share
 msgid "All car categories"
 msgstr "Toutes les catégories de véhicules"
 
-#: public/class-car_share-public.php:191
+#: public/class-car_share-public.php:184
 #@ car_share
 msgid "View car category"
 msgstr "Voir la catégorie de véhicule"
 
-#: public/class-car_share-public.php:192
+#: public/class-car_share-public.php:185
 #@ car_share
 msgid "Search car categories"
 msgstr "Chercher une catégorie de véhicule"
 
-#: public/class-car_share-public.php:193
+#: public/class-car_share-public.php:186
 #@ car_share
 msgid "Car categories"
 msgstr "Catégories de véhicules"
 
-#: public/class-car_share-public.php:214
-#: public/class-car_share-public.php:223
+#: public/class-car_share-public.php:207
+#: public/class-car_share-public.php:216
 #@ car_share
 msgid "Cars"
 msgstr "Véhicules"
 
-#: public/class-car_share-public.php:215
-#: public/partials/email_order.php:299
-#: public/partials/email_order_client.php:305
-#: public/partials/order_information_email.php:303
-#: public/partials/order_information_email_client.php:303
+#: public/class-car_share-public.php:208
+#: public/partials/catalog_information_client_email.php:287
+#: public/partials/catalog_information_email.php:304
+#: public/partials/email_order.php:298
+#: public/partials/email_order_client.php:308
+#: public/partials/order_information_email.php:311
+#: public/partials/order_information_email_client.php:306
 #@ car_share
 msgid "Car"
 msgstr "Véhicule"
 
-#: public/class-car_share-public.php:217
+#: public/class-car_share-public.php:210
 #@ car_share
 msgid "Add new car"
 msgstr "Ajouter un nouveau véhicule"
 
-#: public/class-car_share-public.php:218
+#: public/class-car_share-public.php:211
 #@ car_share
 msgid "Edit car"
 msgstr "Éditer le véhicule"
 
-#: public/class-car_share-public.php:220
+#: public/class-car_share-public.php:213
 #@ car_share
 msgid "All cars"
 msgstr "Tous les véhicules"
 
-#: public/class-car_share-public.php:221
+#: public/class-car_share-public.php:214
 #@ car_share
 msgid "View car"
 msgstr "Voir le véhicule"
 
-#: public/class-car_share-public.php:222
+#: public/class-car_share-public.php:215
 #@ car_share
 msgid "Search car"
 msgstr "Chercher un véhicule"
 
-#: public/class-car_share-public.php:245
-#: public/class-car_share-public.php:246
+#: public/class-car_share-public.php:238
+#: public/class-car_share-public.php:239
 #@ car_share
 msgid "Service"
 msgstr "Service"
 
-#: public/class-car_share-public.php:248
+#: public/class-car_share-public.php:241
 #@ car_share
 msgid "Add new service"
 msgstr "Ajouter un nouveau service"
 
-#: public/class-car_share-public.php:249
+#: public/class-car_share-public.php:242
 #@ car_share
 msgid "Edit service"
 msgstr "Éditer le service"
 
-#: public/class-car_share-public.php:250
+#: public/class-car_share-public.php:243
 #@ car_share
 msgid "New service"
 msgstr "Nouveau service"
 
-#: public/class-car_share-public.php:251
+#: public/class-car_share-public.php:244
 #@ car_share
 msgid "All services"
 msgstr "Tous les services"
 
-#: public/class-car_share-public.php:252
+#: public/class-car_share-public.php:245
 #@ car_share
 msgid "View service"
 msgstr "Voir le service"
 
-#: public/class-car_share-public.php:253
+#: public/class-car_share-public.php:246
 #@ car_share
 msgid "Search services"
 msgstr "Chercher des services"
 
-#: public/class-car_share-public.php:254
+#: public/class-car_share-public.php:247
 #@ car_share
 msgid "Services"
 msgstr "Services"
 
-#: public/class-car_share-public.php:276
-#: public/class-car_share-public.php:277
+#: public/class-car_share-public.php:269
+#: public/class-car_share-public.php:270
 #@ car_share
 msgid "Voucher"
 msgstr "Coupon"
 
-#: public/class-car_share-public.php:279
+#: public/class-car_share-public.php:272
 #@ car_share
 msgid "Add new voucher"
 msgstr "Ajouter un nouveau coupon"
 
-#: public/class-car_share-public.php:280
+#: public/class-car_share-public.php:273
 #@ car_share
 msgid "Edit voucher"
 msgstr "Éditer le coupon"
 
-#: public/class-car_share-public.php:281
+#: public/class-car_share-public.php:274
 #@ car_share
 msgid "New voucher"
 msgstr "Nouveau coupon"
 
-#: public/class-car_share-public.php:282
+#: public/class-car_share-public.php:275
 #@ car_share
 msgid "All vouchers"
 msgstr "Tous les coupons"
 
-#: public/class-car_share-public.php:283
+#: public/class-car_share-public.php:276
 #@ car_share
 msgid "View voucher"
 msgstr "Voir le coupon"
 
-#: public/class-car_share-public.php:284
+#: public/class-car_share-public.php:277
 #@ car_share
 msgid "Search voucher"
 msgstr "Chercher un coupon"
 
-#: public/class-car_share-public.php:285
+#: public/class-car_share-public.php:278
 #@ car_share
 msgid "Vouchers"
 msgstr "Coupons"
 
-#: public/class-car_share-public.php:306
-#: public/class-car_share-public.php:307
+#: public/class-car_share-public.php:299
+#: public/class-car_share-public.php:300
 #@ car_share
 msgid "Booking"
 msgstr "Réservation"
 
-#: public/class-car_share-public.php:308
-#: public/class-car_share-public.php:309
-#: public/class-car_share-public.php:311
+#: public/class-car_share-public.php:301
+#: public/class-car_share-public.php:302
+#: public/class-car_share-public.php:304
 #@ car_share
 msgid "Make a new booking"
 msgstr ""
 
-#: public/class-car_share-public.php:310
+#: public/class-car_share-public.php:303
 #@ car_share
 msgid "Edit booking"
 msgstr "Éditer une réservation"
 
-#: public/class-car_share-public.php:312
+#: public/class-car_share-public.php:305
 #@ car_share
 msgid "All booking"
 msgstr "Toutes les réservations"
 
-#: public/class-car_share-public.php:313
+#: public/class-car_share-public.php:306
 #@ car_share
 msgid "View car booking"
 msgstr "Voir les réservation"
 
-#: public/class-car_share-public.php:314
+#: public/class-car_share-public.php:307
 #@ car_share
 msgid "Search car booking"
 msgstr "Chercher une réservation"
 
-#: public/class-car_share-public.php:315
+#: public/class-car_share-public.php:308
 #@ car_share
 msgid "Car booking"
 msgstr "Réservation de véhicule"
 
-#: public/class-car_share-public.php:368
+#: public/class-car_share-public.php:361
 #@ car_share
 msgid "Invalid voucher"
 msgstr "Coupon invalide"
 
+#: public/partials/catalog_information_email.php:183
 #: public/partials/email_order_client.php:188
 #: public/partials/order_information_email.php:186
 #: public/partials/order_information_email_client.php:186
@@ -773,6 +747,7 @@ msgstr "Coupon invalide"
 msgid "Thank you for your booking"
 msgstr "Merci pour votre réservation"
 
+#: public/partials/catalog_information_email.php:185
 #: public/partials/email_order_client.php:190
 #: public/partials/order_information_email.php:188
 #: public/partials/order_information_email_client.php:188
@@ -780,113 +755,124 @@ msgstr "Merci pour votre réservation"
 msgid "Your booking has been received and is now being processed. Your order details are shown below for your reference: "
 msgstr "Nous avons bien enregistré votre réservation. Elle est actuellement en cours de traitement. Veuillez trouver ci-dessous les détails de votre réservation :"
 
-#: public/partials/shortcode/checkout.php:59
-#: public/partials/shortcode/checkout.php:213
+#: public/partials/shortcode/checkout.php:68
+#: public/partials/shortcode/checkout.php:293
+#: public/partials/shortcode/checkout.php:449
 #@ car_share
 msgid "FROM"
 msgstr "Du"
 
-#: public/partials/shortcode/checkout.php:65
-#: public/partials/shortcode/checkout.php:219
+#: public/partials/shortcode/checkout.php:73
+#: public/partials/shortcode/checkout.php:298
+#: public/partials/shortcode/checkout.php:455
 #@ car_share
 msgid "TO"
 msgstr "Au"
 
-#: public/partials/email_order.php:308
-#: public/partials/email_order_client.php:314
-#: public/partials/order_information_email.php:312
-#: public/partials/order_information_email_client.php:312
+#: public/partials/catalog_information_client_email.php:296
+#: public/partials/catalog_information_email.php:313
+#: public/partials/email_order.php:307
+#: public/partials/email_order_client.php:317
+#: public/partials/order_information_email.php:320
+#: public/partials/order_information_email_client.php:315
 #@ car_share
 msgid "Extras"
 msgstr "Extras"
 
-#: public/class-car_share-shortcode.php:563
+#: public/class-car_share-shortcode.php:580
 #@ car_share
 msgid "Sorry, we won't be here. Please choose another time."
 msgstr "L'agence est fermée aux heures sélectionnées. Veuillez en choisir d'autres"
 
-#: public/partials/shortcode/checkout.php:56
+#: public/partials/shortcode/checkout.php:65
+#: public/partials/shortcode/checkout.php:290
 #@ car_share
 msgid "Booking details:"
 msgstr "Détails de la réservation"
 
-#: public/partials/shortcode/checkout.php:82
-#: public/partials/shortcode/checkout.php:234
+#: public/partials/shortcode/checkout.php:85
+#: public/partials/shortcode/checkout.php:313
+#: public/partials/shortcode/checkout.php:470
 #@ car_share
 msgid "EXTRAS INFO: "
 msgstr "Informations supplémentaires"
 
-#: public/partials/shortcode/checkout.php:210
+#: public/partials/shortcode/checkout.php:446
 #@ car_share
 msgid "Review your booking"
 msgstr "Voir votre réservation"
 
-#: public/partials/shortcode/checkout.php:112
-#: public/partials/shortcode/checkout.php:320
+#: public/partials/shortcode/checkout.php:117
+#: public/partials/shortcode/checkout.php:340
+#: public/partials/shortcode/checkout.php:554
 #@ car_share
 msgid "YOUNG DRIVER SURCHARGE : "
 msgstr "Surcoût pour jeune conducteur :"
 
-#: public/partials/shortcode/checkout.php:325
+#: public/partials/shortcode/checkout.php:559
 #, php-format
 #@ car_share
 msgid "I am under %d."
 msgstr "J'ai moins de %d."
 
-#: public/partials/shortcode/checkout.php:124
-#: public/partials/shortcode/checkout.php:348
+#: public/partials/shortcode/checkout.php:129
+#: public/partials/shortcode/checkout.php:352
+#: public/partials/shortcode/checkout.php:582
 #@ car_share
 msgid "Different location price:"
 msgstr "Surcoût pour dépôt dans une autre agence :"
 
-#: public/partials/shortcode/checkout.php:129
-#: public/partials/shortcode/checkout.php:364
+#: public/partials/shortcode/checkout.php:134
+#: public/partials/shortcode/checkout.php:357
+#: public/partials/shortcode/checkout.php:597
 #@ car_share
 msgid "TOTAL : "
 msgstr "Total :"
 
-#: public/partials/shortcode/checkout.php:133
-#: public/partials/shortcode/checkout.php:388
+#: public/partials/shortcode/checkout.php:138
+#: public/partials/shortcode/checkout.php:361
+#: public/partials/shortcode/checkout.php:619
 #@ car_share
 msgid "PAYABLE NOW : "
 msgstr "à payer maintenant :"
 
-#: public/partials/shortcode/checkout.php:435
+#: public/partials/shortcode/checkout.php:666
 #@ car_share
 msgid "Voucher : "
 msgstr "Coupon :"
 
-#: public/partials/shortcode/checkout.php:439
+#: public/partials/shortcode/checkout.php:670
 #@ car_share
 msgid "Apply voucher"
 msgstr "Appliquer un coupon"
 
-#: public/partials/shortcode/checkout.php:98
-#: public/partials/shortcode/checkout.php:451
+#: public/partials/shortcode/checkout.php:104
+#: public/partials/shortcode/checkout.php:327
+#: public/partials/shortcode/checkout.php:681
 #@ car_share
 msgid "Billing Information"
 msgstr "Informations de facturation"
 
-#: public/partials/shortcode/checkout.php:467
-#: public/partials/shortcode/checkout.php:480
-#: public/partials/shortcode/checkout.php:485
+#: public/partials/shortcode/checkout.php:695
+#: public/partials/shortcode/checkout.php:707
+#: public/partials/shortcode/checkout.php:712
 #@ car_share
 msgid "placeholder"
 msgstr "placeholder"
 
-#: public/partials/shortcode/checkout.php:494
+#: public/partials/shortcode/checkout.php:732
 #@ car_share
 msgid "Book car"
 msgstr "Réserver le véhicule"
 
-#: public/partials/shortcode/checkout.php:498
-#: public/partials/shortcode/checkout.php:501
+#: public/partials/shortcode/checkout.php:739
+#: public/partials/shortcode/checkout.php:742
 #@ car_share
 msgid "Please go back and chose a car."
 msgstr "Revenez en arrière et choisissez un véhicule"
 
 #: public/partials/shortcode/extras.php:59
-#: public/partials/shortcode/pick_car.php:83
+#: public/partials/shortcode/pick_car.php:115
 #@ car_share
 msgid "BACK"
 msgstr "Retour"
@@ -896,37 +882,37 @@ msgstr "Retour"
 msgid "CHECKOUT"
 msgstr "Poursuivre la commande"
 
-#: public/partials/shortcode/pick_car.php:38
+#: public/partials/shortcode/pick_car.php:57
 #@ car_share
 msgid "Price: "
 msgstr "Prix :"
 
-#: public/partials/shortcode/pick_car.php:45
+#: public/partials/shortcode/pick_car.php:74
 #@ car_share
 msgid "Seats"
 msgstr "Sièges"
 
-#: public/partials/shortcode/pick_car.php:51
+#: public/partials/shortcode/pick_car.php:83
 #@ car_share
 msgid "Doors"
 msgstr "Portes"
 
-#: public/partials/shortcode/pick_car.php:57
+#: public/partials/shortcode/pick_car.php:89
 #@ car_share
 msgid "Bags"
 msgstr "Valises"
 
-#: public/partials/shortcode/pick_car.php:63
+#: public/partials/shortcode/pick_car.php:95
 #@ car_share
 msgid "Transmission"
 msgstr "Transmission"
 
-#: public/partials/shortcode/pick_car.php:80
+#: public/partials/shortcode/pick_car.php:112
 #@ car_share
 msgid "Book a car"
 msgstr "Réserver le véhicule"
 
-#: public/partials/shortcode/pick_car.php:85
+#: public/partials/shortcode/pick_car.php:117
 #@ car_share
 msgid "Sorry, there is no car meeting your requirements."
 msgstr "Désolé, il n'y a pas de véhicule disponible répondant à vos critères."
@@ -976,34 +962,36 @@ msgstr "Détails du paiement"
 msgid "Payment Status"
 msgstr "Statut du paiement"
 
-#: admin/class-car_share-setting.php:132
+#: admin/class-car_share-setting.php:135
 #@ car_share
 msgid "Block car interval"
 msgstr "Durée d'indisponibilité du véhicule après un retour dans la même agence"
 
-#: admin/class-car_share-setting.php:141
+#: admin/class-car_share-setting.php:144
 #@ car_share
 msgid "Block car interval after return to another location"
 msgstr "Durée d'indisponibilité du véhicule après un retour dans une agence différente"
 
-#: admin/partials/car/details.php:52
-#: public/partials/shortcode/pick_car.php:75
+#: admin/partials/car/details.php:50
+#: public/partials/shortcode/pick_car.php:107
 #@ car_share
 msgid "Air condition"
 msgstr "Air conditionné"
 
-#: admin/partials/car/details.php:63
-#: public/partials/shortcode/pick_car.php:69
+#: admin/partials/car/details.php:61
+#: public/partials/shortcode/pick_car.php:101
 #@ car_share
 msgid "Fuel"
 msgstr "Carburant"
 
-#: public/partials/email_order.php:186
+#: public/partials/catalog_information_client_email.php:174
+#: public/partials/email_order.php:182
 #@ car_share
 msgid "New customer booking"
 msgstr "Nouvelle réservation client"
 
-#: public/partials/email_order.php:187
+#: public/partials/catalog_information_client_email.php:175
+#: public/partials/email_order.php:183
 #: public/partials/email_order_client.php:189
 #: public/partials/order_information_email.php:187
 #: public/partials/order_information_email_client.php:187
@@ -1011,108 +999,129 @@ msgstr "Nouvelle réservation client"
 msgid "Order: #"
 msgstr "Commande:#"
 
-#: public/partials/email_order.php:188
+#: public/partials/catalog_information_client_email.php:176
+#: public/partials/email_order.php:184
 #@ car_share
 msgid "You have received an order from. Their order is as follows: "
-msgstr "Vous avez reçu une commande. La commande est la suivante :"
+msgstr "Vous avez effectué une réservation sur notre site et nous vous en remercions."
 
-#: public/partials/email_order.php:212
+#: public/partials/catalog_information_client_email.php:200
+#: public/partials/catalog_information_email.php:209
+#: public/partials/email_order.php:208
 #: public/partials/email_order_client.php:214
 #: public/partials/order_information_email.php:212
 #: public/partials/order_information_email_client.php:212
 #@ car_share
 msgid "FROM:"
-msgstr "DE :"
+msgstr "DU :"
 
-#: public/partials/email_order.php:217
-#: public/partials/email_order_client.php:219
+#: public/partials/catalog_information_client_email.php:206
+#: public/partials/catalog_information_email.php:214
+#: public/partials/email_order.php:214
+#: public/partials/email_order_client.php:220
 #: public/partials/order_information_email.php:217
 #: public/partials/order_information_email_client.php:217
 #@ car_share
 msgid "TO:"
 msgstr "AU :"
 
-#: public/partials/email_order.php:267
-#: public/partials/email_order_client.php:269
-#: public/partials/order_information_email.php:267
-#: public/partials/order_information_email_client.php:267
+#: public/partials/catalog_information_client_email.php:255
+#: public/partials/catalog_information_email.php:267
+#: public/partials/email_order.php:265
+#: public/partials/email_order_client.php:271
+#: public/partials/order_information_email.php:268
+#: public/partials/order_information_email_client.php:268
 #@ car_share
 msgid "EXTRAS INFO:"
 msgstr "Infos extras"
 
-#: public/partials/email_order.php:318
-#: public/partials/email_order_client.php:324
-#: public/partials/order_information_email.php:322
-#: public/partials/order_information_email_client.php:322
+#: public/partials/catalog_information_client_email.php:306
+#: public/partials/catalog_information_email.php:323
+#: public/partials/email_order.php:317
+#: public/partials/email_order_client.php:327
+#: public/partials/order_information_email.php:330
+#: public/partials/order_information_email_client.php:325
 #@ car_share
 msgid "Young surcharge fee"
 msgstr "Surcoût jeune conducteur"
 
-#: public/partials/email_order.php:328
-#: public/partials/email_order_client.php:334
-#: public/partials/order_information_email.php:332
-#: public/partials/order_information_email_client.php:332
+#: public/partials/catalog_information_client_email.php:316
+#: public/partials/catalog_information_email.php:333
+#: public/partials/email_order.php:327
+#: public/partials/email_order_client.php:337
+#: public/partials/order_information_email.php:340
+#: public/partials/order_information_email_client.php:335
 #@ car_share
 msgid "Different location price: "
 msgstr "Prix pour dépôt agence différente"
 
-#: public/partials/email_order.php:338
-#: public/partials/email_order_client.php:344
-#: public/partials/order_information_email.php:342
-#: public/partials/order_information_email_client.php:342
+#: public/partials/catalog_information_client_email.php:326
+#: public/partials/catalog_information_email.php:343
+#: public/partials/email_order.php:337
+#: public/partials/email_order_client.php:347
+#: public/partials/order_information_email.php:350
+#: public/partials/order_information_email_client.php:345
 #@ car_share
 msgid "Voucher information: "
 msgstr "Détails du coupon"
 
 #: includes/functions.php:318
-#: public/partials/email_order.php:347
-#: public/partials/email_order_client.php:353
-#: public/partials/order_information_email.php:351
-#: public/partials/order_information_email_client.php:351
+#: public/partials/catalog_information_client_email.php:335
+#: public/partials/catalog_information_email.php:352
+#: public/partials/email_order.php:346
+#: public/partials/email_order_client.php:356
+#: public/partials/order_information_email.php:359
+#: public/partials/order_information_email_client.php:354
 #@ car_share
 msgid "Total Price"
 msgstr "Prix total"
 
 #: includes/functions.php:322
-#: public/partials/email_order.php:355
-#: public/partials/email_order_client.php:361
-#: public/partials/order_information_email.php:359
-#: public/partials/order_information_email_client.php:359
+#: public/partials/catalog_information_client_email.php:343
+#: public/partials/catalog_information_email.php:360
+#: public/partials/email_order.php:354
+#: public/partials/email_order_client.php:364
+#: public/partials/order_information_email.php:367
+#: public/partials/order_information_email_client.php:362
 #@ car_share
 msgid "Payable price"
 msgstr "Prix à payer"
 
-#: public/partials/email_order.php:384
-#: public/partials/email_order_client.php:391
-#: public/partials/order_information_email.php:389
-#: public/partials/order_information_email_client.php:389
+#: public/partials/catalog_information_client_email.php:370
+#: public/partials/catalog_information_email.php:390
+#: public/partials/email_order.php:383
+#: public/partials/email_order_client.php:394
+#: public/partials/order_information_email.php:397
+#: public/partials/order_information_email_client.php:392
 #@ car_share
 msgid "Customer details"
 msgstr "Détails client"
 
-#: public/partials/shortcode/checkout.php:48
+#: public/partials/shortcode/checkout.php:282
 #@ car_share
 msgid "<p>Thank your for your booking we will send our email booking confirmation to you</p>"
 msgstr "<p>Merci pour votre réservation, nous allons vous envoyer un email de confirmation</p>"
 
-#: public/partials/shortcode/checkout.php:50
+#: public/partials/shortcode/checkout.php:284
 #@ car_share
 msgid "<p>Thank you. Your booking is pending we will send our email booking information to you</p>"
 msgstr "<p>Merci, votre réservation est actuellement en attente. Nous allons vous envoyer les informations par email</p>"
 
-#: public/partials/shortcode/checkout.php:52
+#: public/partials/shortcode/checkout.php:286
 #@ car_share
 msgid "<p>Payment failed. Please try your payment again</p>"
 msgstr "<p>Le paiement a échoué. Merci d'essayer à nouveau</p>"
 
-#: public/partials/shortcode/checkout.php:107
-#: public/partials/shortcode/checkout.php:254
+#: public/partials/shortcode/checkout.php:112
+#: public/partials/shortcode/checkout.php:335
+#: public/partials/shortcode/checkout.php:490
 #@ car_share
 msgid "CAR PRICE : "
 msgstr "Prix de la réservation"
 
-#: public/partials/shortcode/checkout.php:118
-#: public/partials/shortcode/checkout.php:335
+#: public/partials/shortcode/checkout.php:123
+#: public/partials/shortcode/checkout.php:346
+#: public/partials/shortcode/checkout.php:569
 #@ car_share
 msgid "EXTRAS PRICE: "
 msgstr "Prix des extras"
@@ -1165,7 +1174,7 @@ msgstr "Code postal"
 msgid "Flight number"
 msgstr "Numéro de vol"
 
-#: public/class-car_share-public.php:368
+#: public/class-car_share-public.php:361
 #, php-format
 #@ car_share
 msgid "You have %s %% discount"
@@ -1268,18 +1277,1344 @@ msgstr "Email Paypal"
 msgid "Address 2"
 msgstr "Adresse 2"
 
-#: public/partials/shortcode/checkout.php:373
+#: public/partials/shortcode/checkout.php:605
 #@ car_share
 msgid "TOTAL WITH VOUCHER: "
 msgstr "Total incluant le coupon"
 
 #: admin/partials/service/price_box.php:6
+#: public/partials/shortcode/extras.php:39
 #@ car_share
 msgid "Per day"
 msgstr "Par jour"
 
 #: admin/partials/service/price_box.php:7
+#: public/partials/shortcode/extras.php:40
 #@ car_share
 msgid "Per rental"
 msgstr "Par location"
+
+#: admin/class-car_share-car-category.php:248
+#@ default
+msgid "Error, this season is already assigned.."
+msgstr ""
+
+#: admin/class-car_share-car-category.php:261
+#, php-format
+#@ default
+msgid "Error: date intervals of picked season are in conflict with date intervals in season %s:"
+msgstr ""
+
+#: admin/class-car_share-setting.php:352
+#@ car_share
+msgid "hours"
+msgstr ""
+
+#: admin/class-car_share-setting.php:353
+#@ car_share
+msgid "next day"
+msgstr ""
+
+#: admin/partials/car-category/content_assigned_season.php:44
+#: admin/partials/car-category/s2c_days_price_inputs.php:26
+#@ car_share
+msgid "Price in season:"
+msgstr ""
+
+#: admin/partials/car-category/content_assigned_season.php:57
+#@ car_share
+msgid "Price from days:"
+msgstr ""
+
+#: admin/partials/car-category/discount_upon_duration.php:49
+#@ car_share
+msgid "Error"
+msgstr ""
+
+#: admin/partials/car-category/discount_upon_duration_row.php:5
+#@ car_share
+msgid "from days:"
+msgstr ""
+
+#: class/car.php:37
+#@ car_share
+msgid "Manual"
+msgstr "Manuelle"
+
+#: class/car.php:38
+#@ car_share
+msgid "Automatic"
+msgstr "Automatique"
+
+#: class/car.php:47
+#@ car_share
+msgid "Petrol"
+msgstr "Essence"
+
+#: class/car.php:48
+#@ car_share
+msgid "Mixed"
+msgstr "Mixte"
+
+#: class/car.php:49
+#@ car_share
+msgid "Diesel"
+msgstr ""
+
+#: class/car.php:56
+#@ car_share
+msgid "yes"
+msgstr "oui"
+
+#: class/car.php:57
+#@ car_share
+msgid "no"
+msgstr "non"
+
+#: includes/functions.php:7
+#@ car_share
+msgid "Afghanistan"
+msgstr ""
+
+#: includes/functions.php:8
+#@ car_share
+msgid "Albania"
+msgstr ""
+
+#: includes/functions.php:9
+#@ car_share
+msgid "Algeria"
+msgstr ""
+
+#: includes/functions.php:10
+#@ car_share
+msgid "American Samoa"
+msgstr ""
+
+#: includes/functions.php:11
+#@ car_share
+msgid "Andorra"
+msgstr ""
+
+#: includes/functions.php:12
+#@ car_share
+msgid "Angola"
+msgstr ""
+
+#: includes/functions.php:13
+#@ car_share
+msgid "Anguilla"
+msgstr ""
+
+#: includes/functions.php:14
+#@ car_share
+msgid "Antarctica"
+msgstr ""
+
+#: includes/functions.php:15
+#@ car_share
+msgid "Antigua and Barbuda"
+msgstr ""
+
+#: includes/functions.php:16
+#@ car_share
+msgid "Argentina"
+msgstr ""
+
+#: includes/functions.php:17
+#@ car_share
+msgid "Armenia"
+msgstr ""
+
+#: includes/functions.php:18
+#@ car_share
+msgid "Aruba"
+msgstr ""
+
+#: includes/functions.php:19
+#@ car_share
+msgid "Australia"
+msgstr ""
+
+#: includes/functions.php:20
+#@ car_share
+msgid "Austria"
+msgstr ""
+
+#: includes/functions.php:21
+#@ car_share
+msgid "Azerbaijan"
+msgstr ""
+
+#: includes/functions.php:22
+#@ car_share
+msgid "Bahamas"
+msgstr ""
+
+#: includes/functions.php:23
+#@ car_share
+msgid "Bahrain"
+msgstr ""
+
+#: includes/functions.php:24
+#@ car_share
+msgid "Bangladesh"
+msgstr ""
+
+#: includes/functions.php:25
+#@ car_share
+msgid "Barbados"
+msgstr ""
+
+#: includes/functions.php:26
+#@ car_share
+msgid "Belarus"
+msgstr ""
+
+#: includes/functions.php:27
+#@ car_share
+msgid "Belgium"
+msgstr ""
+
+#: includes/functions.php:28
+#@ car_share
+msgid "Belize"
+msgstr ""
+
+#: includes/functions.php:29
+#@ car_share
+msgid "Benin"
+msgstr ""
+
+#: includes/functions.php:30
+#@ car_share
+msgid "Bermuda"
+msgstr ""
+
+#: includes/functions.php:31
+#@ car_share
+msgid "Bhutan"
+msgstr ""
+
+#: includes/functions.php:32
+#@ car_share
+msgid "Bolivia"
+msgstr ""
+
+#: includes/functions.php:33
+#@ car_share
+msgid "Bosnia and Herzegowina"
+msgstr ""
+
+#: includes/functions.php:34
+#@ car_share
+msgid "Botswana"
+msgstr ""
+
+#: includes/functions.php:35
+#@ car_share
+msgid "Bouvet Island"
+msgstr ""
+
+#: includes/functions.php:36
+#@ car_share
+msgid "Brazil"
+msgstr ""
+
+#: includes/functions.php:37
+#@ car_share
+msgid "British Indian Ocean Territory"
+msgstr ""
+
+#: includes/functions.php:38
+#@ car_share
+msgid "Brunei Darussalam"
+msgstr ""
+
+#: includes/functions.php:39
+#@ car_share
+msgid "Bulgaria"
+msgstr ""
+
+#: includes/functions.php:40
+#@ car_share
+msgid "Burkina Faso"
+msgstr ""
+
+#: includes/functions.php:41
+#@ car_share
+msgid "Burundi"
+msgstr ""
+
+#: includes/functions.php:42
+#@ car_share
+msgid "Cambodia"
+msgstr ""
+
+#: includes/functions.php:43
+#@ car_share
+msgid "Cameroon"
+msgstr ""
+
+#: includes/functions.php:44
+#@ car_share
+msgid "Canada"
+msgstr ""
+
+#: includes/functions.php:45
+#@ car_share
+msgid "Cape Verde"
+msgstr ""
+
+#: includes/functions.php:46
+#@ car_share
+msgid "Cayman Islands"
+msgstr ""
+
+#: includes/functions.php:47
+#@ car_share
+msgid "Central African Republic"
+msgstr ""
+
+#: includes/functions.php:48
+#@ car_share
+msgid "Chad"
+msgstr ""
+
+#: includes/functions.php:49
+#@ car_share
+msgid "Chile"
+msgstr ""
+
+#: includes/functions.php:50
+#@ car_share
+msgid "China"
+msgstr ""
+
+#: includes/functions.php:51
+#@ car_share
+msgid "Christmas Island"
+msgstr ""
+
+#: includes/functions.php:52
+#@ car_share
+msgid "Cocos (Keeling) Islands"
+msgstr ""
+
+#: includes/functions.php:53
+#@ car_share
+msgid "Colombia"
+msgstr ""
+
+#: includes/functions.php:54
+#@ car_share
+msgid "Comoros"
+msgstr ""
+
+#: includes/functions.php:55
+#@ car_share
+msgid "Congo"
+msgstr ""
+
+#: includes/functions.php:56
+#@ car_share
+msgid "Congo, the Democratic Republic of the"
+msgstr ""
+
+#: includes/functions.php:57
+#@ car_share
+msgid "Cook Islands"
+msgstr ""
+
+#: includes/functions.php:58
+#@ car_share
+msgid "Costa Rica"
+msgstr ""
+
+#: includes/functions.php:59
+#@ car_share
+msgid "Cote d'Ivoire"
+msgstr ""
+
+#: includes/functions.php:60
+#@ car_share
+msgid "Croatia (Hrvatska)"
+msgstr ""
+
+#: includes/functions.php:61
+#@ car_share
+msgid "Cuba"
+msgstr ""
+
+#: includes/functions.php:62
+#@ car_share
+msgid "Cyprus"
+msgstr ""
+
+#: includes/functions.php:63
+#@ car_share
+msgid "Czech Republic"
+msgstr ""
+
+#: includes/functions.php:64
+#@ car_share
+msgid "Denmark"
+msgstr ""
+
+#: includes/functions.php:65
+#@ car_share
+msgid "Djibouti"
+msgstr ""
+
+#: includes/functions.php:66
+#@ car_share
+msgid "Dominica"
+msgstr ""
+
+#: includes/functions.php:67
+#@ car_share
+msgid "Dominican Republic"
+msgstr ""
+
+#: includes/functions.php:68
+#@ car_share
+msgid "East Timor"
+msgstr ""
+
+#: includes/functions.php:69
+#@ car_share
+msgid "Ecuador"
+msgstr ""
+
+#: includes/functions.php:70
+#@ car_share
+msgid "Egypt"
+msgstr ""
+
+#: includes/functions.php:71
+#@ car_share
+msgid "El Salvador"
+msgstr ""
+
+#: includes/functions.php:72
+#@ car_share
+msgid "Equatorial Guinea"
+msgstr ""
+
+#: includes/functions.php:73
+#@ car_share
+msgid "Eritrea"
+msgstr ""
+
+#: includes/functions.php:74
+#@ car_share
+msgid "Estonia"
+msgstr ""
+
+#: includes/functions.php:75
+#@ car_share
+msgid "Ethiopia"
+msgstr ""
+
+#: includes/functions.php:76
+#@ car_share
+msgid "Falkland Islands (Malvinas)"
+msgstr ""
+
+#: includes/functions.php:77
+#@ car_share
+msgid "Faroe Islands"
+msgstr ""
+
+#: includes/functions.php:78
+#@ car_share
+msgid "Fiji"
+msgstr ""
+
+#: includes/functions.php:79
+#@ car_share
+msgid "Finland"
+msgstr ""
+
+#: includes/functions.php:80
+#@ car_share
+msgid "France"
+msgstr ""
+
+#: includes/functions.php:81
+#@ car_share
+msgid "France, Metropolitan"
+msgstr ""
+
+#: includes/functions.php:82
+#@ car_share
+msgid "French Guiana"
+msgstr ""
+
+#: includes/functions.php:83
+#@ car_share
+msgid "French Polynesia"
+msgstr ""
+
+#: includes/functions.php:84
+#@ car_share
+msgid "French Southern Territories"
+msgstr ""
+
+#: includes/functions.php:85
+#@ car_share
+msgid "Gabon"
+msgstr ""
+
+#: includes/functions.php:86
+#@ car_share
+msgid "Gambia"
+msgstr ""
+
+#: includes/functions.php:87
+#@ car_share
+msgid "Georgia"
+msgstr ""
+
+#: includes/functions.php:88
+#@ car_share
+msgid "Germany"
+msgstr ""
+
+#: includes/functions.php:89
+#@ car_share
+msgid "Ghana"
+msgstr ""
+
+#: includes/functions.php:90
+#@ car_share
+msgid "Gibraltar"
+msgstr ""
+
+#: includes/functions.php:91
+#@ car_share
+msgid "Greece"
+msgstr ""
+
+#: includes/functions.php:92
+#@ car_share
+msgid "Greenland"
+msgstr ""
+
+#: includes/functions.php:93
+#@ car_share
+msgid "Grenada"
+msgstr ""
+
+#: includes/functions.php:94
+#@ car_share
+msgid "Guadeloupe"
+msgstr ""
+
+#: includes/functions.php:95
+#@ car_share
+msgid "Guam"
+msgstr ""
+
+#: includes/functions.php:96
+#@ car_share
+msgid "Guatemala"
+msgstr ""
+
+#: includes/functions.php:97
+#@ car_share
+msgid "Guinea"
+msgstr ""
+
+#: includes/functions.php:98
+#@ car_share
+msgid "Guinea-Bissau"
+msgstr ""
+
+#: includes/functions.php:99
+#@ car_share
+msgid "Guyana"
+msgstr ""
+
+#: includes/functions.php:100
+#@ car_share
+msgid "Haiti"
+msgstr ""
+
+#: includes/functions.php:101
+#@ car_share
+msgid "Heard and Mc Donald Islands"
+msgstr ""
+
+#: includes/functions.php:102
+#@ car_share
+msgid "Holy See (Vatican City State)"
+msgstr ""
+
+#: includes/functions.php:103
+#@ car_share
+msgid "Honduras"
+msgstr ""
+
+#: includes/functions.php:104
+#@ car_share
+msgid "Hong Kong"
+msgstr ""
+
+#: includes/functions.php:105
+#@ car_share
+msgid "Hungary"
+msgstr ""
+
+#: includes/functions.php:106
+#@ car_share
+msgid "Iceland"
+msgstr ""
+
+#: includes/functions.php:107
+#@ car_share
+msgid "India"
+msgstr ""
+
+#: includes/functions.php:108
+#@ car_share
+msgid "Indonesia"
+msgstr ""
+
+#: includes/functions.php:109
+#@ car_share
+msgid "Iran (Islamic Republic of)"
+msgstr ""
+
+#: includes/functions.php:110
+#@ car_share
+msgid "Iraq"
+msgstr ""
+
+#: includes/functions.php:111
+#@ car_share
+msgid "Ireland"
+msgstr ""
+
+#: includes/functions.php:112
+#@ car_share
+msgid "Israel"
+msgstr ""
+
+#: includes/functions.php:113
+#@ car_share
+msgid "Italy"
+msgstr ""
+
+#: includes/functions.php:114
+#@ car_share
+msgid "Jamaica"
+msgstr ""
+
+#: includes/functions.php:115
+#@ car_share
+msgid "Japan"
+msgstr ""
+
+#: includes/functions.php:116
+#@ car_share
+msgid "Jordan"
+msgstr ""
+
+#: includes/functions.php:117
+#@ car_share
+msgid "Kazakhstan"
+msgstr ""
+
+#: includes/functions.php:118
+#@ car_share
+msgid "Kenya"
+msgstr ""
+
+#: includes/functions.php:119
+#@ car_share
+msgid "Kiribati"
+msgstr ""
+
+#: includes/functions.php:120
+#@ car_share
+msgid "Korea, Democratic People's Republic of"
+msgstr ""
+
+#: includes/functions.php:121
+#@ car_share
+msgid "Korea, Republic of"
+msgstr ""
+
+#: includes/functions.php:122
+#@ car_share
+msgid "Kuwait"
+msgstr ""
+
+#: includes/functions.php:123
+#@ car_share
+msgid "Kyrgyzstan"
+msgstr ""
+
+#: includes/functions.php:124
+#@ car_share
+msgid "Lao People's Democratic Republic"
+msgstr ""
+
+#: includes/functions.php:125
+#@ car_share
+msgid "Latvia"
+msgstr ""
+
+#: includes/functions.php:126
+#@ car_share
+msgid "Lebanon"
+msgstr ""
+
+#: includes/functions.php:127
+#@ car_share
+msgid "Lesotho"
+msgstr ""
+
+#: includes/functions.php:128
+#@ car_share
+msgid "Liberia"
+msgstr ""
+
+#: includes/functions.php:129
+#@ car_share
+msgid "Libyan Arab Jamahiriya"
+msgstr ""
+
+#: includes/functions.php:130
+#@ car_share
+msgid "Liechtenstein"
+msgstr ""
+
+#: includes/functions.php:131
+#@ car_share
+msgid "Lithuania"
+msgstr ""
+
+#: includes/functions.php:132
+#@ car_share
+msgid "Luxembourg"
+msgstr ""
+
+#: includes/functions.php:133
+#@ car_share
+msgid "Macau"
+msgstr ""
+
+#: includes/functions.php:134
+#@ car_share
+msgid "Macedonia, The Former Yugoslav Republic of"
+msgstr ""
+
+#: includes/functions.php:135
+#@ car_share
+msgid "Madagascar"
+msgstr ""
+
+#: includes/functions.php:136
+#@ car_share
+msgid "Malawi"
+msgstr ""
+
+#: includes/functions.php:137
+#@ car_share
+msgid "Malaysia"
+msgstr ""
+
+#: includes/functions.php:138
+#@ car_share
+msgid "Maldives"
+msgstr ""
+
+#: includes/functions.php:139
+#@ car_share
+msgid "Mali"
+msgstr ""
+
+#: includes/functions.php:140
+#@ car_share
+msgid "Malta"
+msgstr ""
+
+#: includes/functions.php:141
+#@ car_share
+msgid "Marshall Islands"
+msgstr ""
+
+#: includes/functions.php:142
+#@ car_share
+msgid "Martinique"
+msgstr ""
+
+#: includes/functions.php:143
+#@ car_share
+msgid "Mauritania"
+msgstr ""
+
+#: includes/functions.php:144
+#@ car_share
+msgid "Mauritius"
+msgstr ""
+
+#: includes/functions.php:145
+#@ car_share
+msgid "Mayotte"
+msgstr ""
+
+#: includes/functions.php:146
+#@ car_share
+msgid "Mexico"
+msgstr ""
+
+#: includes/functions.php:147
+#@ car_share
+msgid "Micronesia, Federated States of"
+msgstr ""
+
+#: includes/functions.php:148
+#@ car_share
+msgid "Moldova, Republic of"
+msgstr ""
+
+#: includes/functions.php:149
+#@ car_share
+msgid "Monaco"
+msgstr ""
+
+#: includes/functions.php:150
+#@ car_share
+msgid "Mongolia"
+msgstr ""
+
+#: includes/functions.php:151
+#@ car_share
+msgid "Montserrat"
+msgstr ""
+
+#: includes/functions.php:152
+#@ car_share
+msgid "Morocco"
+msgstr ""
+
+#: includes/functions.php:153
+#@ car_share
+msgid "Mozambique"
+msgstr ""
+
+#: includes/functions.php:154
+#@ car_share
+msgid "Myanmar"
+msgstr ""
+
+#: includes/functions.php:155
+#@ car_share
+msgid "Namibia"
+msgstr ""
+
+#: includes/functions.php:156
+#@ car_share
+msgid "Nauru"
+msgstr ""
+
+#: includes/functions.php:157
+#@ car_share
+msgid "Nepal"
+msgstr ""
+
+#: includes/functions.php:158
+#@ car_share
+msgid "Netherlands"
+msgstr ""
+
+#: includes/functions.php:159
+#@ car_share
+msgid "Netherlands Antilles"
+msgstr ""
+
+#: includes/functions.php:160
+#@ car_share
+msgid "New Caledonia"
+msgstr ""
+
+#: includes/functions.php:161
+#@ car_share
+msgid "New Zealand"
+msgstr ""
+
+#: includes/functions.php:162
+#@ car_share
+msgid "Nicaragua"
+msgstr ""
+
+#: includes/functions.php:163
+#@ car_share
+msgid "Niger"
+msgstr ""
+
+#: includes/functions.php:164
+#@ car_share
+msgid "Nigeria"
+msgstr ""
+
+#: includes/functions.php:165
+#@ car_share
+msgid "Niue"
+msgstr ""
+
+#: includes/functions.php:166
+#@ car_share
+msgid "Norfolk Island"
+msgstr ""
+
+#: includes/functions.php:167
+#@ car_share
+msgid "Northern Mariana Islands"
+msgstr ""
+
+#: includes/functions.php:168
+#@ car_share
+msgid "Norway"
+msgstr ""
+
+#: includes/functions.php:169
+#@ car_share
+msgid "Oman"
+msgstr ""
+
+#: includes/functions.php:170
+#@ car_share
+msgid "Pakistan"
+msgstr ""
+
+#: includes/functions.php:171
+#@ car_share
+msgid "Palau"
+msgstr ""
+
+#: includes/functions.php:172
+#@ car_share
+msgid "Panama"
+msgstr ""
+
+#: includes/functions.php:173
+#@ car_share
+msgid "Papua New Guinea"
+msgstr ""
+
+#: includes/functions.php:174
+#@ car_share
+msgid "Paraguay"
+msgstr ""
+
+#: includes/functions.php:175
+#@ car_share
+msgid "Peru"
+msgstr ""
+
+#: includes/functions.php:176
+#@ car_share
+msgid "Philippines"
+msgstr ""
+
+#: includes/functions.php:177
+#@ car_share
+msgid "Pitcairn"
+msgstr ""
+
+#: includes/functions.php:178
+#@ car_share
+msgid "Poland"
+msgstr ""
+
+#: includes/functions.php:179
+#@ car_share
+msgid "Portugal"
+msgstr ""
+
+#: includes/functions.php:180
+#@ car_share
+msgid "Puerto Rico"
+msgstr ""
+
+#: includes/functions.php:181
+#@ car_share
+msgid "Qatar"
+msgstr ""
+
+#: includes/functions.php:182
+#@ car_share
+msgid "Reunion"
+msgstr ""
+
+#: includes/functions.php:183
+#@ car_share
+msgid "Romania"
+msgstr ""
+
+#: includes/functions.php:184
+#@ car_share
+msgid "Russian Federation"
+msgstr ""
+
+#: includes/functions.php:185
+#@ car_share
+msgid "Rwanda"
+msgstr ""
+
+#: includes/functions.php:186
+#@ car_share
+msgid "Saint Kitts and Nevis"
+msgstr ""
+
+#: includes/functions.php:187
+#@ car_share
+msgid "Saint LUCIA"
+msgstr ""
+
+#: includes/functions.php:188
+#@ car_share
+msgid "Saint Vincent and the Grenadines"
+msgstr ""
+
+#: includes/functions.php:189
+#@ car_share
+msgid "Samoa"
+msgstr ""
+
+#: includes/functions.php:190
+#@ car_share
+msgid "San Marino"
+msgstr ""
+
+#: includes/functions.php:191
+#@ car_share
+msgid "Sao Tome and Principe"
+msgstr ""
+
+#: includes/functions.php:192
+#@ car_share
+msgid "Saudi Arabia"
+msgstr ""
+
+#: includes/functions.php:193
+#@ car_share
+msgid "Senegal"
+msgstr ""
+
+#: includes/functions.php:194
+#@ car_share
+msgid "Seychelles"
+msgstr ""
+
+#: includes/functions.php:195
+#@ car_share
+msgid "Sierra Leone"
+msgstr ""
+
+#: includes/functions.php:196
+#@ car_share
+msgid "Singapore"
+msgstr ""
+
+#: includes/functions.php:197
+#@ car_share
+msgid "Slovakia (Slovak Republic)"
+msgstr ""
+
+#: includes/functions.php:198
+#@ car_share
+msgid "Slovenia"
+msgstr ""
+
+#: includes/functions.php:199
+#@ car_share
+msgid "Solomon Islands"
+msgstr ""
+
+#: includes/functions.php:200
+#@ car_share
+msgid "Somalia"
+msgstr ""
+
+#: includes/functions.php:201
+#@ car_share
+msgid "South Africa"
+msgstr ""
+
+#: includes/functions.php:202
+#@ car_share
+msgid "South Georgia and the South Sandwich Islands"
+msgstr ""
+
+#: includes/functions.php:203
+#@ car_share
+msgid "Spain"
+msgstr ""
+
+#: includes/functions.php:204
+#@ car_share
+msgid "Sri Lanka"
+msgstr ""
+
+#: includes/functions.php:205
+#@ car_share
+msgid "St. Helena"
+msgstr ""
+
+#: includes/functions.php:206
+#@ car_share
+msgid "St. Pierre and Miquelon"
+msgstr ""
+
+#: includes/functions.php:207
+#@ car_share
+msgid "Sudan"
+msgstr ""
+
+#: includes/functions.php:208
+#@ car_share
+msgid "Suriname"
+msgstr ""
+
+#: includes/functions.php:209
+#@ car_share
+msgid "Svalbard and Jan Mayen Islands"
+msgstr ""
+
+#: includes/functions.php:210
+#@ car_share
+msgid "Swaziland"
+msgstr ""
+
+#: includes/functions.php:211
+#@ car_share
+msgid "Sweden"
+msgstr ""
+
+#: includes/functions.php:212
+#@ car_share
+msgid "Switzerland"
+msgstr ""
+
+#: includes/functions.php:213
+#@ car_share
+msgid "Syrian Arab Republic"
+msgstr ""
+
+#: includes/functions.php:214
+#@ car_share
+msgid "Taiwan, Province of China"
+msgstr ""
+
+#: includes/functions.php:215
+#@ car_share
+msgid "Tajikistan"
+msgstr ""
+
+#: includes/functions.php:216
+#@ car_share
+msgid "Tanzania, United Republic of"
+msgstr ""
+
+#: includes/functions.php:217
+#@ car_share
+msgid "Thailand"
+msgstr ""
+
+#: includes/functions.php:218
+#@ car_share
+msgid "Togo"
+msgstr ""
+
+#: includes/functions.php:219
+#@ car_share
+msgid "Tokelau"
+msgstr ""
+
+#: includes/functions.php:220
+#@ car_share
+msgid "Tonga"
+msgstr ""
+
+#: includes/functions.php:221
+#@ car_share
+msgid "Trinidad and Tobago"
+msgstr ""
+
+#: includes/functions.php:222
+#@ car_share
+msgid "Tunisia"
+msgstr ""
+
+#: includes/functions.php:223
+#@ car_share
+msgid "Turkey"
+msgstr ""
+
+#: includes/functions.php:224
+#@ car_share
+msgid "Turkmenistan"
+msgstr ""
+
+#: includes/functions.php:225
+#@ car_share
+msgid "Turks and Caicos Islands"
+msgstr ""
+
+#: includes/functions.php:226
+#@ car_share
+msgid "Tuvalu"
+msgstr ""
+
+#: includes/functions.php:227
+#@ car_share
+msgid "Uganda"
+msgstr ""
+
+#: includes/functions.php:228
+#@ car_share
+msgid "Ukraine"
+msgstr ""
+
+#: includes/functions.php:229
+#@ car_share
+msgid "United Arab Emirates"
+msgstr ""
+
+#: includes/functions.php:230
+#@ car_share
+msgid "United Kingdom"
+msgstr ""
+
+#: includes/functions.php:231
+#@ car_share
+msgid "United States"
+msgstr ""
+
+#: includes/functions.php:232
+#@ car_share
+msgid "United States Minor Outlying Islands"
+msgstr ""
+
+#: includes/functions.php:233
+#@ car_share
+msgid "Uruguay"
+msgstr ""
+
+#: includes/functions.php:234
+#@ car_share
+msgid "Uzbekistan"
+msgstr ""
+
+#: includes/functions.php:235
+#@ car_share
+msgid "Vanuatu"
+msgstr ""
+
+#: includes/functions.php:236
+#@ car_share
+msgid "Venezuela"
+msgstr ""
+
+#: includes/functions.php:237
+#@ car_share
+msgid "Viet Nam"
+msgstr ""
+
+#: includes/functions.php:238
+#@ car_share
+msgid "Virgin Islands (British)"
+msgstr ""
+
+#: includes/functions.php:239
+#@ car_share
+msgid "Virgin Islands (U.S.)"
+msgstr ""
+
+#: includes/functions.php:240
+#@ car_share
+msgid "Wallis and Futuna Islands"
+msgstr ""
+
+#: includes/functions.php:241
+#@ car_share
+msgid "Western Sahara"
+msgstr ""
+
+#: includes/functions.php:242
+#@ car_share
+msgid "Yemen"
+msgstr ""
+
+#: includes/functions.php:243
+#@ car_share
+msgid "Yugoslavia"
+msgstr ""
+
+#: includes/functions.php:244
+#@ car_share
+msgid "Zambia"
+msgstr ""
+
+#: includes/functions.php:245
+#@ car_share
+msgid "Zimbabwe"
+msgstr ""
+
+#: public/partials/catalog_information_email.php:184
+#@ car_share
+msgid "Order"
+msgstr ""
+
+#: public/partials/shortcode/checkout.php:728
+#@ car_share
+msgid "Reservation"
+msgstr ""
+
+#: admin/class-car_share-reservation.php:54
+#: admin/class-car_share-reservation.php:55
+#@ car_share
+msgid "Calendar"
+msgstr ""
+
+#: admin/class-car_share-reservation.php:94
+#@ car_share
+msgid "Prev"
+msgstr ""
+
+#: admin/class-car_share-reservation.php:95
+#@ car_share
+msgid "Next"
+msgstr ""
+
+#: admin/class-car_share-setting.php:164
+#@ car_share
+msgid "Name of the company:"
+msgstr ""
+
+#: admin/partials/season/date_interval.php:75
+#@ car_share
+msgid "Ajouter un nouvel intervalle de dates"
+msgstr ""
+
+#: public/class-car_share-shortcode.php:303
+#: public/partials/shortcode/checkout.php:196
+#@ car_share
+msgid "Booking email information"
+msgstr "Récapitulaitf de votre demande de réservation"
+
+#: public/partials/shortcode/pick_car.php:65
+#@ car_share
+msgid " - soit "
+msgstr ""
+
+#: public/partials/shortcode/pick_car.php:67
+#@ car_share
+msgid " par jour"
+msgstr ""
 

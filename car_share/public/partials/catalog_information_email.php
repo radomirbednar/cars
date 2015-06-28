@@ -161,23 +161,18 @@
                     </style>
                 <![endif]-->
                 </head>
-                <body bgcolor="#E1E1E1" leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
-
-
+                <body bgcolor="#E1E1E1" leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0"> 
                     <center style="background-color:#E1E1E1;">
                         <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="table-layout: fixed;max-width:100% !important;width: 100% !important;min-width: 100% !important;">
                             <tr>
-                                <td align="center" valign="top" id="bodyCell">
-
-                                    <table bgcolor="#FFFFFF"  border="0" cellpadding="0" cellspacing="0" width="650" id="emailBody">
-
+                                <td align="center" valign="top" id="bodyCell"> 
+                                    <table bgcolor="#FFFFFF"  border="0" cellpadding="0" cellspacing="0" width="650" id="emailBody"> 
                                         <tr>
                                             <td align="center" valign="top">
 
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="color:#FFFFFF;" bgcolor="#3498db">
                                                     <tr>
-                                                        <td align="center" valign="top">
-
+                                                        <td align="center" valign="top"> 
                                                             <table border="0" cellpadding="0" cellspacing="0" width="650" class="flexibleContainer">
                                                                 <tr>
                                                                     <td align="center" valign="top" width="650" class="flexibleContainerCell">
@@ -186,7 +181,7 @@
                                                                             <tr>
                                                                                 <td align="center" valign="top" class="textContent">
                                                                                     <h1 style="color:#FFFFFF;line-height:100%;font-family:Helvetica,Arial,sans-serif;font-size:35px;font-weight:normal;margin-bottom:5px;text-align:center;"><?php _e('Thank you for your booking', $this->car_share); ?></h1>
-                                                                                    <h2 style="text-align:center;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px;margin-bottom:10px;color:#205478;line-height:135%;"><?php _e('Order: #', $this->car_share); ?> <?php echo $post_insert_id; ?></h2>
+                                                                                    <h2 style="text-align:center;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px;margin-bottom:10px;color:#205478;line-height:135%;"><?php _e('Order', $this->car_share); ?></h2>
                                                                                     <div style="text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#FFFFFF;line-height:135%;">  <?php _e('Your booking has been received and is now being processed. Your order details are shown below for your reference: ', $this->car_share); ?> </div>
                                                                                 </td>
                                                                             </tr>
@@ -212,14 +207,13 @@
                                                                         <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php _e('FROM:', $this->car_share); ?></td>
-                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo $car_dfrom_string; ?></td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo get_the_title($pick_up_location); ?></td>
-                                                                               
+                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo $car_dfrom_string; ?></td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php _e('TO:', $this->car_share); ?></td>
-                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo $car_dto_string; ?></td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo get_the_title($drop_off_location); ?></td>
+                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo $car_dto_string; ?></td>
                                                                             </tr>
                                                                         </table>
                                                                     </td>
@@ -255,7 +249,9 @@
                                                 </table>
                                             </td>
                                         </tr>
+                                        
                                         <?php if (!empty($extras)): ?>
+                                        
                                         <tr>
                                             <td align="center" valign="top">
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -289,7 +285,7 @@
                                                     </tr>
                                                 </table>
                                             </td>
-                                        </tr>
+                                        </tr> 
                                         <?php endif; ?>
                                         <tr>
                                             <td align="center" valign="top">
@@ -396,16 +392,18 @@
 
                                                                             </tr>
 
-                                                                            <?php
-                                                                            $checkout_fields = get_enabled_checkout_fields();
- 
-                                                                            foreach ($checkout_fields as $input_key => $field) {
-                                                                            echo '<tr>';
-                                                                            echo '<td style="text-align:left;border:1px solid #eee; padding: 10px">' . $field['label'] . '</td>';
-                                                                            echo '<td style="text-align:left;border:1px solid #eee; padding: 10px">' . sanitize_text_field($_POST[$input_key]) . '</td>';
-                                                                            echo '</tr>';
-                                                                            }
-                                                                            ?>
+<?php
+$checkout_fields = get_enabled_checkout_fields();
+
+
+
+foreach ($checkout_fields as $input_key => $field) {
+    echo '<tr>';
+    echo '<td style="text-align:left;border:1px solid #eee; padding: 10px">' . $field['label'] . '</td>';
+    echo '<td style="text-align:left;border:1px solid #eee; padding: 10px">' . sanitize_text_field($_POST[$input_key]) . '</td>';
+    echo '</tr>';
+}
+?>
 
                                                                         </table>
                                                                     </td>
@@ -432,29 +430,21 @@
                                                                     <td align="center" valign="top" width="500" class="flexibleContainerCell">
                                                                         <table border="0" cellpadding="30" cellspacing="0" width="100%">
                                                                             <tr>
-                                                                                <td valign="top" bgcolor="#E1E1E1">
-
-                                                                                    <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;">
-
-                                                                                    </div>
-
+                                                                                <td valign="top" bgcolor="#E1E1E1"> 
+                                                                                    <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;"> 
+                                                                                    </div> 
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
                                                                     </td>
                                                                 </tr>
-                                                            </table>
-
+                                                            </table> 
                                                         </td>
                                                     </tr>
-                                                </table>
-
+                                                </table> 
                                             </td>
-                                        </tr>
-
-                                    </table>
-
-
+                                        </tr> 
+                                    </table> 
                                 </td>
                             </tr>
                         </table>

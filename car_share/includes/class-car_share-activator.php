@@ -22,21 +22,21 @@
  */
 class Car_share_Activator {
 
-	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
-	 */
-	public static function activate() {
-            
-            global $wpdb;
-            
-            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );   
-            
-            // define tables for plugin
-            $sql = "
+    /**
+     * Short Description. (use period)
+     *
+     * Long Description.
+     *
+     * @since    1.0.0
+     */
+    public static function activate() {
+
+        global $wpdb;
+
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+        // define tables for plugin
+        $sql = "
 
                 CREATE TABLE IF NOT EXISTS `day_prices` (
                   `car_category_id` bigint(20) NOT NULL,
@@ -47,10 +47,11 @@ class Car_share_Activator {
                   KEY `season_id` (`season_id`),
                   KEY `dayname` (`dayname`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8; ";
-            
-            dbDelta( $sql );
 
-            $sql = "
+        dbDelta($sql);
+        
+
+        $sql = "
                 CREATE TABLE IF NOT EXISTS `opening_hours` (
                   `location_id` bigint(20) unsigned NOT NULL,
                   `dayname` char(10) NOT NULL,
@@ -62,11 +63,11 @@ class Car_share_Activator {
                   KEY `open` (`open`),
                   KEY `dayindex` (`dayindex`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8; ";
-            
-            dbDelta( $sql );
+
+        dbDelta($sql);
 
 
-            $sql = "
+        $sql = "
                 CREATE TABLE IF NOT EXISTS `postmeta_date` (
                   `post_id` bigint(20) unsigned NOT NULL,
                   `meta_key` varchar(60) NOT NULL,
@@ -75,11 +76,11 @@ class Car_share_Activator {
                   KEY `meta_key` (`meta_key`),
                   KEY `meta_value` (`meta_value`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8; ";
-            
-            dbDelta( $sql );
-                
 
-            $sql = "
+        dbDelta($sql);
+
+
+        $sql = "
                 CREATE TABLE IF NOT EXISTS `sc_single_car` (
                   `single_car_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                   `parent` bigint(20) unsigned NOT NULL,
@@ -89,11 +90,11 @@ class Car_share_Activator {
                   KEY `parent` (`parent`),
                   KEY `spz` (`spz`)
                 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8; ";
-            
-            dbDelta( $sql );
-                
-            
-            $sql = "
+
+        dbDelta($sql);
+
+
+        $sql = "
                 CREATE TABLE IF NOT EXISTS `sc_single_car_location` (
                   `single_car_location_id` bigint(20) NOT NULL AUTO_INCREMENT,
                   `single_car_id` bigint(20) unsigned NOT NULL,
@@ -102,10 +103,11 @@ class Car_share_Activator {
                   PRIMARY KEY (`single_car_location_id`),
                   KEY `single_car_id` (`single_car_id`,`location_id`,`location_type`)
                 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
-            
-            dbDelta( $sql );
-                
-            $sql = "
+
+        dbDelta($sql);
+        
+
+        $sql = "
                 CREATE TABLE IF NOT EXISTS `sc_single_car_status` (
                   `single_car_status_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                   `single_car_id` bigint(20) unsigned NOT NULL,
@@ -118,11 +120,20 @@ class Car_share_Activator {
                   KEY `booking_id` (`booking_id`)
                 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
 
-            dbDelta( $sql );
-            
-            //reference to upgrade.php file
-               
-            
-	}
+        dbDelta($sql);
+        
 
+        $sql = "            
+                CREATE TABLE IF NOT EXISTS `sc_season_date` (
+                `id` int(10) NOT NULL AUTO_INCREMENT,
+                `post_id` bigint(20) NOT NULL,
+                `date_from` datetime NOT NULL,
+                `date_to` datetime NOT NULL,
+                PRIMARY KEY (`id`),
+                KEY `post_id` (`post_id`,`date_from`,`date_to`)
+                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;            
+            ";
+
+        dbDelta($sql);
+    }
 }

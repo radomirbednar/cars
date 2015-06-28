@@ -36,6 +36,9 @@ class Car_share_Season {
 
         add_filter('manage_sc-season_posts_columns', array($this, 'column_head'));
         add_action('manage_sc-season_posts_custom_column', array($this, 'column_content'), 10, 2);
+
+        add_action('wp_ajax_date_interval_row', array($this, 'date_interval_row'));
+        add_action('wp_ajax_date_interval_row', array($this, 'date_interval_row'));
     }
 
     public function column_head($defaults) {
@@ -46,17 +49,23 @@ class Car_share_Season {
 
     public function column_content($column_name, $post_id) {
 
+        $dates = sc_Season::date_to_column($post_id);
+
         switch ($column_name) {
             case 'date_from':
-                $from = get_date_meta($post_id, '_from');
-                if (!empty($from)) {
-                    echo $from->format(get_option('date_format'));
+                foreach ($dates as $date) {
+                    $from = DateTime::createFromFormat('Y-m-d H:i:s', $date->date_from);
+                    if (!empty($from)) {
+                        echo $from->format(get_option('date_format')) . '<br>';
+                    }
                 }
                 break;
             case 'date_to':
-                $to = get_date_meta($post_id, '_to');
-                if (!empty($to)) {
-                    echo $to->format(get_option('date_format'));
+                foreach ($dates as $date) {
+                    $to = DateTime::createFromFormat('Y-m-d H:i:s', $date->date_to);
+                    if (!empty($to)) {
+                        echo $to->format(get_option('date_format')) . '<br>';
+                    }
                 }
                 break;
         }
@@ -71,9 +80,6 @@ class Car_share_Season {
     public function date_box() {
         global $post;
         $session = new sc_Season($post);
-        $date_from = $session->from();
-        $date_to = $session->to();
-
         include 'partials/season/date_interval.php';
         wp_nonce_field(__FILE__, 'season_nonce');
     }
@@ -85,21 +91,44 @@ class Car_share_Season {
             global $post;
             global $wpdb;
 
-            $date_from = DateTime::createFromFormat('d.m.Y H:i:s', $_POST['_from'] . ' 00:00:00');
-            $date_to = DateTime::createFromFormat('d.m.Y H:i:s', $_POST['_to'] . ' 23:59:59');
+            $sql = "DELETE FROM sc_season_date WHERE post_id = '" . (int) $post->ID . "'";
+            $wpdb->query($sql);
 
-            if (!empty($date_from)) {
-                update_date_meta($post->ID, '_from', $date_from);
-            } else {
-                delete_date_meta($post->ID, '_from');
-            }
+            foreach ($_POST['_from'] as $key => $from) {
 
-            if (!empty($date_to)) {
-                update_date_meta($post->ID, '_to', $date_to);
-            } else {
-                delete_date_meta($post->ID, '_to');
+                $to = $_POST['_to'][$key];
+
+                $date_from = DateTime::createFromFormat('d.m.Y H:i:s', $from . ' 00:00:00');
+                $date_to = DateTime::createFromFormat('d.m.Y H:i:s', $to . ' 23:59:59');
+
+                if (!empty($date_from) && !empty($date_to)) {
+
+                    $sql = "
+                        INSERT INTO
+                            sc_season_date (post_id, date_from, date_to)
+                        VALUES (
+                           '" . $post->ID . "',
+                           '" . $date_from->format('Y-m-d H:i:s') . "',
+                           '" . $date_to->format('Y-m-d H:i:s') . "'
+                        )
+                    ";
+
+                    $wpdb->query($sql);
+                }
             }
         }
+    }
+
+    public function date_interval_row() {
+        echo Car_share_Season::date_row_static('', '', true);
+        exit();
+    }
+
+    public static function date_row_static($date_from, $date_to, $delete_button = false) {
+        ob_start();
+        include 'partials/season/date_row.php';
+        $content = ob_get_clean();
+        return $content;
     }
 
 }

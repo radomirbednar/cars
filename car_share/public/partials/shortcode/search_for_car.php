@@ -100,7 +100,7 @@
         </select>
     </div> 
     <?php $options = get_option('car_plugin_options_arraykey'); ?>
-    <?php if ($options['showcategory'] == 1) { ?>
+    <?php if (isset($options['showcategory']) && $options['showcategory'] == 1) { ?>
         <div class="form-group">
             <label for="car_category"><?php _e('Category:', $this->car_share); ?></label>
             <select class="form-control" name="car_category">

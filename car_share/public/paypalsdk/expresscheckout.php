@@ -9,6 +9,7 @@ class MyPayPal {
         $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
 
         $API_Endpoint = "https://api-3t" . $paypalmode . ".paypal.com/nvp";
+        
         $version = urlencode('109.0');
 
         // Set the curl parameters.

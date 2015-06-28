@@ -66,10 +66,29 @@ class Car_share_Admin {
         add_action('wp_ajax_delete_single_car', array($this, 'delete_single_car_ajax'));
         add_action('wp_ajax_create_single_car', array($this, 'create_single_car_ajax'));
 
-
         add_action('wp_ajax_calendar_single_car', array($this, 'calendar_single_car_ajax'));
 
         add_action('admin_init', array($this, 'admin_init'));
+
+        add_filter('manage_sc-car_posts_columns', array($this, 'column_head'));
+        add_action('manage_sc-car_posts_custom_column', array($this, 'column_content'), 10, 2);
+    }
+
+    public function column_head($defaults) {                
+        $date = $defaults['date'];        
+        unset($defaults['date']);
+        $defaults['acar_category'] = __('Car category', $this->car_share);        
+        $defaults['date'] = $date;
+        return $defaults;
+    }
+
+    public function column_content($column_name, $post_id) {
+        switch ($column_name) {
+            case 'acar_category':
+                $category_id = get_post_meta($post_id, '_car_category', true);
+                echo empty($category_id) ? '-' : get_the_title($category_id);
+                break;
+        }
     }
 
     public function admin_init() {
@@ -93,8 +112,6 @@ class Car_share_Admin {
             $lastm->modify('first day of last month');
             $stringlastm = $lastm->format("m-d-Y H:i:s");
             $today_string = $today->format('F Y');
-
-
         } else {
 
             //$timestamp = strtotime('now');
@@ -114,7 +131,7 @@ class Car_share_Admin {
         //$date = date("Y-m-d H:i:s");
         ?>
 
-            <div class="<?php echo $car_id; ?>">
+        <div class="<?php echo $car_id; ?>">
             <a href="#" data-car-prew="<?php echo $stringlastm; ?>" class="cal_prew" ><?php _e('<< Prew', $this->car_share) ?></a>
 
             <span id="calendar-date"><?php echo $today_string; ?></span>
@@ -122,12 +139,11 @@ class Car_share_Admin {
 
 
         <?php
-
         require_once('calendar_class.php');
         $calendar = new donatj\SimpleCalendar();
-         if (isset($_POST['calendar_id'])) {
+        if (isset($_POST['calendar_id'])) {
             $calendar = new donatj\SimpleCalendar($today_string);
-         }
+        }
 
         $calendar->setStartOfWeek('Monday');
 //get all date from this car id
@@ -137,7 +153,7 @@ class Car_share_Admin {
             global $wpdb;
             $sqlcalendar = "SELECT
                 *,
-                date(date_from) as ddate_from, 
+                date(date_from) as ddate_from,
                 date(date_to) as ddate_to
                 FROM
                 sc_single_car_status
@@ -175,11 +191,11 @@ class Car_share_Admin {
 
 
         <script>
-            (function($) {
+            (function ($) {
                 'use strict';
-                $(document).ready(function($) {
+                $(document).ready(function ($) {
                     //get calendar id
-                    $(".cal_prew").click(function(event) {
+                    $(".cal_prew").click(function (event) {
                         event.preventDefault();
                         var id = $(this).parent().attr("class");
                         var date_info = $(this).attr("data-car-prew");
@@ -190,13 +206,13 @@ class Car_share_Admin {
                                     // We pass php values differently!
                         };
                         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-                        $.post(ajaxurl, data, function(response) {
+                        $.post(ajaxurl, data, function (response) {
 
                             $('.' + id + '').replaceWith(response);
 
                         });
                     });
-                    $(".cal_next").click(function(event) {
+                    $(".cal_next").click(function (event) {
                         event.preventDefault();
                         var id = $(this).parent().attr("class");
                         var date_info = $(this).attr("data-car-next");
@@ -207,7 +223,7 @@ class Car_share_Admin {
                                     // We pass php values differently!
                         };
                         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-                        $.post(ajaxurl, data, function(response) {
+                        $.post(ajaxurl, data, function (response) {
 
                             $('.' + id + '').replaceWith(response);
 
@@ -253,7 +269,7 @@ class Car_share_Admin {
                     $date_from = DateTime::createFromFormat('d.m.Y H:i', $from_string);
 
                     $to_string = $val['to'] . ' ' . sprintf("%02s", $val['to_hour']) . ':' . sprintf("%02s", $val['to_min']);
-                    ;
+                    
                     $date_to = DateTime::createFromFormat('d.m.Y H:i', $to_string);
 
                     if (!empty($date_from)) {
@@ -456,7 +472,7 @@ class Car_share_Admin {
         $sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'sc-car-category' AND post_status IN ('publish', 'pending', 'draft', 'private') ORDER BY post_title DESC";
         $car_categories = $wpdb->get_results($sql);
         include 'partials/car/category.php';
-        
+
 
         wp_nonce_field(__FILE__, 'car_nonce');
     }
@@ -471,10 +487,10 @@ class Car_share_Admin {
         $number_of_seats = get_post_meta($post->ID, '_number_of_seats', true);
         $number_of_doors = get_post_meta($post->ID, '_number_of_doors', true);
         $number_of_suitcases = get_post_meta($post->ID, '_number_of_suitcases', true);
-        $transmission = get_post_meta($post->ID, '_transmission', true); 
+        $transmission = get_post_meta($post->ID, '_transmission', true);
         $aircondition = get_post_meta($post->ID, '_aircondition', true);
         $fuel = get_post_meta($post->ID, '_fuel', true);
-                            
+
         include 'partials/car/details.php';
     }
 
@@ -518,7 +534,7 @@ class Car_share_Admin {
                 '_number_of_suitcases',
                 '_transmission',
                 '_aircondition',
-                '_fuel', 
+                '_fuel',
                 '_car_category'
             );
 
@@ -680,8 +696,8 @@ class Car_share_Admin {
         //if(in_array($post->post_type, array('sc-booking', 'sc-season')) ){
         global $wpdb;
 
-        if(!empty($post_id)){
-            $sql = " DELETE FROM  sc_single_car_status WHERE status = '" . Car_share::STATUS_BOOKED . "' AND booking_id = '" . $post_id . "'";
+        if (!empty($post_id)) {
+            $sql = " DELETE FROM  sc_single_car_status WHERE status = '" . Car_share::STATUS_BOOKED . "' AND booking_id = '" . (int) $post_id . "'";
             $wpdb->query($sql);
         }
 

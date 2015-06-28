@@ -36,8 +36,8 @@ $currency = sc_Currency::get_instance();
             if (!empty($_per_service)) {  
                 
                    $values =  array(
-                     1  => "Per day",
-                     2  => "Per rental", 
+                     1  => __('Per day', $this->car_share),
+                     2  => __('Per rental', $this->car_share), 
                     ); 
                    echo $values[$_per_service]; 
             }

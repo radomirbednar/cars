@@ -102,23 +102,18 @@ class Car_share_Public {
          * The Car_share_Public_Loader will then create the relationship
          * between the defined hooks and the functions defined in this
          * class.
-         */
-
+         */ 
         /*
          * WE NEED DAPICKER
-         */
-
+         */ 
         wp_enqueue_script('jquery-ui-datepicker', array('jquery-ui-core'), $this->version, true);
         wp_enqueue_script($this->car_share, plugin_dir_url(__FILE__) . 'js/car_share-public.js', array('jquery'), $this->version, true);
     }
     /**
      */
-    public function register_custom_post() {
-        
-        
+    public function register_custom_post() { 
         // locations
-        $args = array(
-            
+        $args = array( 
             'menu_icon' => 'dashicons-location',
             'labels' => array(
                 'name' => __('Location', $this->car_share),
@@ -141,12 +136,10 @@ class Car_share_Public {
             //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 100
-        );
-
-        register_post_type('sc-location', $args);
-        
-         // season
+             'menu_position' => 80
+        ); 
+        register_post_type('sc-location', $args); 
+        // season
         $args = array(
             
             'menu_icon' => 'dashicons-calendar-alt',
@@ -172,7 +165,7 @@ class Car_share_Public {
             //'page-attributes'
             ),
             'hierarchical' => false,
-            'menu_position' => 100
+            'menu_position' => 81
         );
 
         register_post_type('sc-season', $args);
@@ -202,7 +195,7 @@ class Car_share_Public {
             //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 100
+             'menu_position' => 82
         );
 
         register_post_type('sc-car-category', $args);
@@ -231,7 +224,7 @@ class Car_share_Public {
                 //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 100
+             'menu_position' => 83
         );
 
         register_post_type('sc-car', $args);
@@ -262,7 +255,7 @@ class Car_share_Public {
             //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 100
+             'menu_position' => 84
         );
 
         register_post_type('sc-service', $args);
@@ -294,7 +287,7 @@ class Car_share_Public {
                 //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 100
+             'menu_position' => 85
         );
 
         register_post_type('sc-voucher', $args);
@@ -324,7 +317,7 @@ class Car_share_Public {
             //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 100
+             'menu_position' => 86
         );
 
         register_post_type('sc-booking', $args);

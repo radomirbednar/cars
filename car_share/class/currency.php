@@ -39,17 +39,18 @@ class sc_Currency {
         return sc_Currency::$instance;
     }
 
-    public function format($price, $currency = ''){        
+    public function format($price, $currency = ''){         
         
         if(empty($currency)){
             $symbol = $this->symbol;
         } else {
             $symbol = isset($this->currencies[$currency]["symbol"]) ? $this->currencies[$currency]["symbol"] : '';
+        }   
+       
+        $price = number_format($price, 2, ',', ' ');   
+        $price_formated = $price . ' ' . $symbol;          
+        return $price_formated; 
         }
-        
-        $price_formated = $price . ' ' . $symbol;        
-        return $price_formated;
-    }
 
     public function symbol(){
         return $this->symbol;
