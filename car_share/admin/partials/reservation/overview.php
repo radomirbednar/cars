@@ -46,13 +46,17 @@ $all_cars = $wpdb->get_results($sql);
 
     <div class="car-list car-col">
         <?php foreach ($all_cars as $car): ?>
-        <div class="car-label car-<?php echo esc_attr($car->single_car_id) ?>">
+            <div class="car-label car-<?php echo esc_attr($car->single_car_id) ?>">
                 <span class="car-category">
                     <?php echo get_the_title(get_post_meta($car->parent, '_car_category', true)) ?>
                 </span>
+                |
                 <span class="car-name">
-                    <?php echo get_the_title($car->parent) ?>
+                    <a href="<?php echo admin_url('post.php?post=' . $car->parent . '&action=edit') ?>">
+                        <?php echo get_the_title($car->parent) ?>
+                    </a>
                 </span>
+                |
                 <span class="spz">
                     <?php echo esc_attr($car->spz) ?>
                 </span>
