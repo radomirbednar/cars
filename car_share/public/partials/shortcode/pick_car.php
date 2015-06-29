@@ -9,7 +9,7 @@
     <?php foreach ($this->cars as $car): ?>
         <div class="col-md-12">
             <?php
-            $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail');
+            $post_thumbnail = get_the_post_thumbnail($car->ID, 'medium');
             //predefinovane informace k autu           
             $number_of_seats = get_post_meta($car->ID, '_number_of_seats', true);
             $number_of_doors = get_post_meta($car->ID, '_number_of_doors', true);

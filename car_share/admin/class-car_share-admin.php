@@ -245,7 +245,13 @@ class Car_share_Admin {
         </script>
 
         <?php
-        die();
+        
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+          die();  
+        }
+        
+        
+        
     }
 
     public function create_single_car_ajax() {
