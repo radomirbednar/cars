@@ -169,7 +169,7 @@ if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']
      * Vytvorim zaznam do objednavek..??
      * 
      */
-    
+    /*
     $booking_title = $ItemName . '(' . $car_ID . ')' . ' - ' . $car->spz;
     $post_information = array(
         'post_title' => $booking_title,
@@ -192,7 +192,7 @@ if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']
         //nezapomenout smazat na konci veskerou session !!!!!!!
         //$_SESSION['post_insert_id'] = $post_insert_id;
         sc_Car::insertStatus($car_ID, $car_dfrom, $car_dto, Car_share::STATUS_BOOKED, $post_insert_id);
-    }
+    }*/
     
     
     
