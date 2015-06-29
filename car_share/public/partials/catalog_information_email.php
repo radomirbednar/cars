@@ -454,6 +454,43 @@
                                         <!-- /footer text -->
 
 
+                                        <!-- logo -->
+                                        <?php if (!empty($options['logo_url'])): ?>
+                                            <tr>
+                                                <td align="center" valign="top">
+
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                        <tr>
+                                                            <td align="center" valign="top">
+
+                                                                <table border="0" cellpadding="30" cellspacing="0" width="650" class="flexibleContainer">
+                                                                    <tr>
+                                                                        <td valign="top" width="650" class="flexibleContainerCell">
+
+                                                                            <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
+
+                                                                                <tr>
+                                                                                    <td style="text-align:center; ">
+                                                                                        <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;">
+                                                                                            <img src="<?php echo $options['logo_url'] ?>" alt="logo" />
+                                                                                        </div>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>    
+                                        <?php endif; ?>
+                                        <!-- /logo -->                                             
+
+
                                     </table>
 
                                     <table bgcolor="#E1E1E1" border="0" cellpadding="0" cellspacing="0" width="500" id="emailFooter">
