@@ -1,4 +1,6 @@
 <?php
+$options = get_option('car_plugin_options_arraykey');
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -170,6 +172,44 @@
                                 <td align="center" valign="top" id="bodyCell">
 
                                     <table bgcolor="#FFFFFF"  border="0" cellpadding="0" cellspacing="0" width="650" id="emailBody">
+
+
+                                        <!-- logo -->
+                                        <?php if (!empty($options['logo_url'])): ?>
+                                            <tr>
+                                                <td align="center" valign="top">
+
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                        <tr>
+                                                            <td align="center" valign="top">
+
+                                                                <table border="0" cellpadding="30" cellspacing="0" width="650" class="flexibleContainer">
+                                                                    <tr>
+                                                                        <td valign="top" width="650" class="flexibleContainerCell">
+
+                                                                            <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
+
+                                                                                <tr>
+                                                                                    <td style="text-align:center; ">
+                                                                                        <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;">
+                                                                                            <a style="text-decoration: none;" href="<?php echo home_url() ?>"><img  style="margin:auto;" src="<?php echo Car_share_Public::data_uri($options['logo_url']) ?>" alt="logo" /></a>
+                                                                                        </div>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>    
+                                        <?php endif; ?>
+                                        <!-- /logo -->                                           
+
 
                                         <tr>
                                             <td align="center" valign="top">
@@ -436,7 +476,6 @@
                                                                                 <td style="text-align:center; ">
                                                                                     <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;">
                                                                                         <?php
-                                                                                        $options = get_option('car_plugin_options_arraykey');
                                                                                         echo isset($options['footer_text']) ? $options['footer_text'] : '';
                                                                                         ?>                                                                                       
                                                                                     </div>
@@ -448,41 +487,7 @@
                                                                     </td>
                                                                 </tr>
 
-                                                                <!-- logo -->
-                                                                <?php if (!empty($options['logo_url'])): ?>
-                                                                    <tr>
-                                                                        <td align="center" valign="top">
 
-                                                                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                                                <tr>
-                                                                                    <td align="center" valign="top">
-
-                                                                                        <table border="0" cellpadding="30" cellspacing="0" width="650" class="flexibleContainer">
-                                                                                            <tr>
-                                                                                                <td valign="top" width="650" class="flexibleContainerCell">
-
-                                                                                                    <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
-
-                                                                                                        <tr>
-                                                                                                            <td style="text-align:center; ">
-                                                                                                                <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;">
-                                                                                                                    <a style="text-decoration: none;" href="<?php echo home_url() ?>"><img  style="margin:auto;" src="<?php echo Car_share_Public::data_uri($options['logo_url']) ?>" alt="logo" /></a>
-                                                                                                                </div>
-                                                                                                            </td>
-
-                                                                                                        </tr>
-
-                                                                                                    </table>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        </table>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </table>
-                                                                        </td>
-                                                                    </tr>    
-                                                                <?php endif; ?>
-                                                                <!-- /logo -->                                                                     
 
                                                             </table>
                                                         </td>
