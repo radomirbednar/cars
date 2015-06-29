@@ -216,7 +216,10 @@ table.SimpleCalendar tbody td.today {
 .sc-reservation .sc-month-label, 
 .sc-reservation .car {
     height: 18px;
-    overflow: hidden;
+    /*overflow: hidden;*/
+}
+.sc-reservation .car {
+    position: relative;
 }
 .sc-reservation .car-label {
     padding-left: 5px; 
@@ -280,7 +283,22 @@ table.SimpleCalendar tbody td.today {
 .sc-reservation .day {
     font-size: 11px;
 }
+.sc-reservation-info {
+    display: none;
+    position: absolute;
+    padding: 5px;
+    left: 0;
+    top: 100%;
+    z-index: 2400;
+    width: 160px;
+    border: 1px solid black;
+    background: #d8e7f0;
+    
+}
 
+.car:hover .sc-reservation-info {
+    display: block;
+}
 
 
 /* ajax loader animation */
