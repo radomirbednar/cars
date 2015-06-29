@@ -157,13 +157,13 @@ table.SimpleCalendar tbody td.today {
 
 
 /* reservation styles */
-.reservation {
+.sc-reservation {
     margin-top: 35px;
     width: 1190px;
     position: relative;
 }
 
-.reservation .overview {
+.sc-reservation .overview {
     display: none;
     position: absolute;
     top: 0;
@@ -178,106 +178,106 @@ table.SimpleCalendar tbody td.today {
     -moz-border-radius: 2px;
     border-radius: 2px;    
 }
-.reservation .overview .loader {
+.sc-reservation .overview .loader {
     position: absolute;
     left: 50%;
     top: 50%;
 }
-.reservation .overview .loader {
+.sc-reservation .overview .loader {
     position: absolute;
     left: 50%;
     top: 50%;
 }
 
-.reservation .navigation {
+.sc-reservation .sc-navigation {
     position: relative;
     font-size: 35px;
     height: 35px;
 }
-.reservation .navigation a {
+.sc-reservation .sc-navigation a {
     text-decoration: none;
     position: absolute;
 }
-.reservation .navigation a.prev {
+.sc-reservation .sc-navigation a.sc-prev {
     right: 862px;
 }
-.reservation .navigation a.next {
+.sc-reservation .sc-navigation a.sc-next {
     right: 18px;
 }
 
-.reservation .months .month:first-child {
+.sc-reservation .sc-months .month:first-child {
     border-right: 4px solid black;
 }
 
-.reservation .day,
-.reservation .month-label,
-.reservation .car-label,
-.reservation .car-cell, 
-.reservation .month-label, 
-.reservation .car {
+.sc-reservation .day,
+.sc-reservation .month-label,
+.sc-reservation .car-label,
+.sc-reservation .car-cell, 
+.sc-reservation .month-label, 
+.sc-reservation .car {
     height: 18px;
     overflow: hidden;
 }
-.reservation .car-label {
+.sc-reservation .car-label {
     padding-left: 5px; 
     padding-right: 5px;
     width: 300px;
     background: white;
 }
-.reservation .car-label,
-.reservation .day-cell {
+.sc-reservation .car-label,
+.sc-reservation .day-cell {
     border-left: 1px solid black; 
     border-bottom: 1px solid black;    
 }
-.reservation .car-list {
+.sc-reservation .car-list {
     margin-top: 73px;
 }
-.reservation .car-list .car-label:first-child {
+.sc-reservation .car-list .car-label:first-child {
     border-top: 1px solid black;    
 }
 
-.reservation .day-cell {
+.sc-reservation .day-cell {
     width: 13px;
 }
 
 
-.reservation .car.rented {
+.sc-reservation .car.rented {
     background: #ff0000;
 }
-.reservation .car.booked {
+.sc-reservation .car.booked {
     background: #ffff00;
 }
-.reservation .car.unavailable {
+.sc-reservation .car.unavailable {
     background: #000000;
 }
-.reservation .car.free {
+.sc-reservation .car.free {
     background: #40e52a;
 }
-.reservation .month,
-.reservation .car-col {
+.sc-reservation .month,
+.sc-reservation .car-col {
     float: left;    
 }
-.reservation .month {
+.sc-reservation .month {
     border-right: 1px solid black;
     background: #f0ebd8;
 }
-.reservation .day {
+.sc-reservation .day {
     background: #d8e7f0;
 }
-.reservation .state-col {
+.sc-reservation .state-col {
     
 }
 
-.reservation .month-label {    
+.sc-reservation .month-label {    
     border-bottom: 1px solid black;
     border-top: 1px solid black;
     border-left: 1px solid black;
 }
-.reservation .month-label,
-.reservation .day {
+.sc-reservation .month-label,
+.sc-reservation .day {
     text-align: center;
 }
-.reservation .day {
+.sc-reservation .day {
     font-size: 11px;
 }
 

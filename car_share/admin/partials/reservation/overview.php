@@ -18,7 +18,7 @@ $all_cars = $wpdb->get_results($sql);
 ?>
 
 
-<div id="reservation" class="reservation">
+<div id="reservation" class="sc-reservation">
 
     <div class="overview">
         <div class="loader">
@@ -57,7 +57,7 @@ $all_cars = $wpdb->get_results($sql);
                     </a>
                 </span>
                 |
-                <span class="spz">
+                <span class="sc-spz">
                     <?php echo esc_attr($car->spz) ?>
                 </span>
             </div>    
@@ -65,7 +65,7 @@ $all_cars = $wpdb->get_results($sql);
     </div>    
 
 
-    <div id="months" class="months">
+    <div id="sc-months" class="sc-months">
 
     </div>
 
@@ -91,7 +91,7 @@ $all_cars = $wpdb->get_results($sql);
                     $('#reservation .overview').show();
                 }
             }).done(function (ret) {
-                $('#months').html(ret);
+                $('#sc-months').html(ret);
             }).fail(function (ret) {
 
             }).always(function () {
@@ -104,7 +104,7 @@ $now = new DateTime();
 ?>
         load_months(<?php echo $now->format('Y') ?>, <?php echo $now->format('n') ?>);
 
-        $(".reservation").on("click", "#navigation a", function (e) {
+        $(".reservation").on("click", "#sc-navigation a", function (e) {
             e.preventDefault();
             load_months($(this).data('year'), $(this).data('month'));
         });

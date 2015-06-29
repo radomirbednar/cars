@@ -9,7 +9,7 @@ $sql = "SELECT * FROM sc_single_car ORDER BY parent ASC";
 $all_cars = $wpdb->get_results($sql);
 ?>
 
-<div class="month">
+<div class="sc-month">
     <div class="month-label">
         <?php echo $date->format('F'); ?> <?php echo $date->format("Y"); ?>
     </div>    

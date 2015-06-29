@@ -90,9 +90,9 @@ class Car_share_Reservation {
         $next_month->modify( 'first day of next month' );   
         
         ?>
-        <div id="navigation" class="navigation">
-            <a href="#" data-month="<?php echo $prev_month->format('n') ?>" data-year="<?php echo $prev_month->format('Y') ?>" class="prev" title="<?php _e('Prev', 'car_share') ?>">&laquo;</a>
-            <a href="#" data-month="<?php echo $next_month->format('n') ?>" data-year="<?php echo $next_month->format('Y') ?>" class="next" title="<?php _e('Next', 'car_share') ?>">&raquo;</a>
+        <div id="navigation" class="sc-navigation">
+            <a href="#" data-month="<?php echo $prev_month->format('n') ?>" data-year="<?php echo $prev_month->format('Y') ?>" class="sc-prev" title="<?php _e('Prev', 'car_share') ?>">&laquo;</a>
+            <a href="#" data-month="<?php echo $next_month->format('n') ?>" data-year="<?php echo $next_month->format('Y') ?>" class="sc-next" title="<?php _e('Next', 'car_share') ?>">&raquo;</a>
         </div>
         <?php
                 
