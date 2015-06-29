@@ -205,15 +205,15 @@ table.SimpleCalendar tbody td.today {
     right: 18px;
 }
 
-.sc-reservation .sc-months .month:first-child {
+.sc-reservation .sc-months .sc-month:first-child {
     border-right: 4px solid black;
 }
 
 .sc-reservation .day,
-.sc-reservation .month-label,
+.sc-reservation .sc-month-label,
 .sc-reservation .car-label,
 .sc-reservation .car-cell, 
-.sc-reservation .month-label, 
+.sc-reservation .sc-month-label, 
 .sc-reservation .car {
     height: 18px;
     overflow: hidden;
@@ -253,11 +253,11 @@ table.SimpleCalendar tbody td.today {
 .sc-reservation .car.free {
     background: #40e52a;
 }
-.sc-reservation .month,
+.sc-reservation .sc-month,
 .sc-reservation .car-col {
     float: left;    
 }
-.sc-reservation .month {
+.sc-reservation .sc-month {
     border-right: 1px solid black;
     background: #f0ebd8;
 }
@@ -268,12 +268,12 @@ table.SimpleCalendar tbody td.today {
     
 }
 
-.sc-reservation .month-label {    
+.sc-reservation .sc-month-label {    
     border-bottom: 1px solid black;
     border-top: 1px solid black;
     border-left: 1px solid black;
 }
-.sc-reservation .month-label,
+.sc-reservation .sc-month-label,
 .sc-reservation .day {
     text-align: center;
 }

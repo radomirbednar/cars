@@ -10,7 +10,7 @@ $all_cars = $wpdb->get_results($sql);
 ?>
 
 <div class="sc-month">
-    <div class="month-label">
+    <div class="sc-month-label">
         <?php echo $date->format('F'); ?> <?php echo $date->format("Y"); ?>
     </div>    
     <?php

@@ -18,7 +18,7 @@ $all_cars = $wpdb->get_results($sql);
 ?>
 
 
-<div id="reservation" class="sc-reservation">
+<div id="sc-reservation" class="sc-reservation">
 
     <div class="overview">
         <div class="loader">
@@ -88,14 +88,14 @@ $all_cars = $wpdb->get_results($sql);
                 },
                 beforeSend: function () {
                     //self.prop("disabled", true);
-                    $('#reservation .overview').show();
+                    $('#sc-reservation .overview').show();
                 }
             }).done(function (ret) {
                 $('#sc-months').html(ret);
             }).fail(function (ret) {
 
             }).always(function () {
-                $('#reservation .overview').hide();
+                $('#sc-reservation .overview').hide();
             });
         }
 
@@ -104,7 +104,8 @@ $now = new DateTime();
 ?>
         load_months(<?php echo $now->format('Y') ?>, <?php echo $now->format('n') ?>);
 
-        $(".reservation").on("click", "#sc-navigation a", function (e) {
+        $("#sc-reservation").on("click", "#sc-navigation a", function (e) {
+            console.log('click');
             e.preventDefault();
             load_months($(this).data('year'), $(this).data('month'));
         });
