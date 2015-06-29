@@ -379,6 +379,9 @@
                                                                                 echo '</tr>';
                                                                             }
                                                                             ?>
+                                                                            
+                                                                             
+                                                                            
                                                                         </table>
                                                                     </td>
                                                                 </tr>
@@ -388,6 +391,9 @@
                                                 </table>
                                             </td>
                                         </tr>
+                                        
+                                      
+                                        
                                     </table>
                                     <table bgcolor="#E1E1E1" border="0" cellpadding="0" cellspacing="0" width="500" id="emailFooter">
                                         <tr>
@@ -405,7 +411,9 @@
                                                                                 <td valign="top" bgcolor="#E1E1E1">
 
                                                                                     <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;">
+                                                                                       
 
+                                                                                        
                                                                                     </div>
                                                                                 </td>
                                                                             </tr>

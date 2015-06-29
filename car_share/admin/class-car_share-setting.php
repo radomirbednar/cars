@@ -162,7 +162,15 @@ class Car_share_Setting {
         
         add_settings_field(
                 'name_of_company', __('Name of the company:', 'car_share'), array($this, 'create_input_name_of_company'), 'car-plugin-main-settings-section', 'main-settings-section'
-        );        
+        );    
+        
+        add_settings_field(
+                'sc_logo_url', __('Logo url:', 'car_share'), array($this, 'create_input_email_logo_url'), 'car-plugin-main-settings-section', 'main-settings-section'
+        );          
+        
+        add_settings_field(
+                'sc_footer_text', __('Email footer text:', 'car_share'), array($this, 'create_input_email_footer_text'), 'car-plugin-main-settings-section', 'main-settings-section'
+        );           
         
         add_settings_field(
                 'notemail', 'Notification Email:', array($this, 'create_input_some_setting'), 'car-plugin-main-settings-section', 'main-settings-section'
@@ -430,6 +438,20 @@ class Car_share_Setting {
         $options = get_option('car_plugin_options_arraykey');
         ?><input type="text" name="car_plugin_options_arraykey[name_of_company]" value="<?php echo isset($options['name_of_company']) ? $options['name_of_company'] : '' ?>" />
         <?php        
+    }
+    
+    function create_input_email_logo_url(){
+        $options = get_option('car_plugin_options_arraykey');
+        ?>
+        <input style="width: 600px;" type="text" name="car_plugin_options_arraykey[logo_url]" value="<?php echo isset($options['logo_url']) ? esc_url($options['logo_url']) : '' ?>">
+        <?php
+    }
+            
+    function create_input_email_footer_text(){
+        $options = get_option('car_plugin_options_arraykey');
+        ?>        
+        <textarea name="car_plugin_options_arraykey[footer_text]" rows="5" cols="60"><?php echo isset($options['footer_text']) ? esc_attr($options['footer_text']) : '' ?></textarea>
+        <?php
     }
 
     function create_input_some_setting() {

@@ -240,7 +240,8 @@ if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']
         $email_subject .= __('Booking email information', 'car_share');
 
         ob_start();
-        $email_customer_content = include_once($plugin_patch . 'catalog_information_client_email.php');
+        //$email_customer_content = include_once($plugin_patch . 'catalog_information_client_email.php');
+        $email_customer_content = include_once($plugin_patch . 'catalog_information_email.php');
         $option_notification_email = $plugin_option['notemail'];
         $email_customer_content = ob_get_contents();
         ob_end_clean();
@@ -252,7 +253,8 @@ if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']
         $sendmailcheck = wp_mail($to, $subject, $message, $headers);
 
         ob_start();
-        $email_store_content = include_once($plugin_patch . 'catalog_information_email.php');
+        //$email_store_content = include_once($plugin_patch . 'catalog_information_email.php');
+        $email_store_content = include_once($plugin_patch . 'catalog_information_client_email.php');
         $email_store_content = ob_get_contents();
         ob_end_clean();
 

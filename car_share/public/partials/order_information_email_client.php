@@ -433,6 +433,12 @@ foreach ($checkout_fields as $input_key => $field) {
                                                                             <tr>
                                                                                 <td valign="top" bgcolor="#E1E1E1"> 
                                                                                     <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;"> 
+                                                                                        
+                                                                                        <?php
+                                                                                        $options = get_option('car_plugin_options_arraykey');                                                                                        
+                                                                                        echo isset($options['footer_text']) ? $options['footer_text'] : '';                                                                                        
+                                                                                        ?>                                                                                        
+                                                                                        
                                                                                     </div> 
                                                                                 </td>
                                                                             </tr>
