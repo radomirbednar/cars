@@ -98,8 +98,8 @@ class Car_share_Season {
 
                 $to = $_POST['_to'][$key];
 
-                $date_from = DateTime::createFromFormat('d.m.Y H:i:s', $from . ' 00:00:00');
-                $date_to = DateTime::createFromFormat('d.m.Y H:i:s', $to . ' 23:59:59');
+                $date_from = DateTime::createFromFormat('d-m-Y H:i:s', $from . ' 00:00:00');
+                $date_to = DateTime::createFromFormat('d-m-Y H:i:s', $to . ' 23:59:59');
 
                 if (!empty($date_from) && !empty($date_to)) {
 

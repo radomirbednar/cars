@@ -177,6 +177,10 @@ if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']
         'post_status' => 'publish'
     );
     $post_insert_id = wp_insert_post($post_information);
+    
+    // pending status  na booking
+    update_post_meta($post_insert_id, 'car_r_order_status', 2);
+    
     $checkout_fields = get_enabled_checkout_fields();
     if ($post_insert_id) {
         // Update Custom Meta

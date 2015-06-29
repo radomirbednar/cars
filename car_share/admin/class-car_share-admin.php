@@ -108,14 +108,14 @@ class Car_share_Admin {
             $nextm = clone $today;
             $nextm->modify('first day of next month');
             
-            //$stringnextm = $nextm->format("m-d-Y H:i:s");
-            $stringnextm = date_i18n( SC_DATETIME_FORMAT, $nextm->getTimestamp());
+            $stringnextm = $nextm->format("m-d-Y H:i:s");
+            
             
             $lastm = clone $today;
             $lastm->modify('first day of last month');
             
-            //$stringlastm = $lastm->format("m-d-Y H:i:s");            
-            $stringlastm = date_i18n( SC_DATETIME_FORMAT, $lastm->getTimestamp());
+            $stringlastm = $lastm->format("m-d-Y H:i:s");            
+            
             
             $today_string = $today->format('F Y');
         } else {
@@ -126,14 +126,14 @@ class Car_share_Admin {
             $today = new DateTime();
             $nextm = clone $today;
             $nextm->modify('first day of next month');
-            //$stringnextm = $nextm->format("m-d-Y H:i:s");
-            $stringnextm = date_i18n( SC_DATETIME_FORMAT, $nextm->getTimestamp());
+            $stringnextm = $nextm->format("m-d-Y H:i:s");
+            
             
             $lastm = clone $today;
             $lastm->modify('first day of last month');
             
-            //$stringlastm = $lastm->format("m-d-Y H:i:s");
-            $stringlastm = date_i18n( SC_DATETIME_FORMAT, $lastm->getTimestamp());
+            $stringlastm = $lastm->format("m-d-Y H:i:s");
+            
             $today_string = $today->format('F Y');
         }
 
@@ -245,6 +245,7 @@ class Car_share_Admin {
         </script>
 
         <?php
+        die();
     }
 
     public function create_single_car_ajax() {
@@ -276,11 +277,11 @@ class Car_share_Admin {
                 foreach ($params['car'][$id]['status'] as $val) {
 
                     $from_string = $val['from'] . ' ' . sprintf("%02s", $val['from_hour']) . ':' . sprintf("%02s", $val['from_min']);
-                    $date_from = DateTime::createFromFormat('d.m.Y H:i', $from_string);
+                    $date_from = DateTime::createFromFormat('d-m-Y H:i', $from_string);
 
                     $to_string = $val['to'] . ' ' . sprintf("%02s", $val['to_hour']) . ':' . sprintf("%02s", $val['to_min']);
                     
-                    $date_to = DateTime::createFromFormat('d.m.Y H:i', $to_string);
+                    $date_to = DateTime::createFromFormat('d-m-Y H:i', $to_string);
 
                     if (!empty($date_from)) {
                         $val['date_from'] = $date_from->format('Y-m-d H:i:s');
@@ -585,10 +586,10 @@ class Car_share_Admin {
                             case 'status':
                                 foreach ($attribute as $car_status) {
                                     $date_from_string = $car_status['from'] . ' ' . sprintf("%02s", $car_status['from_hour']) . ' ' . sprintf("%02s", $car_status['from_min']);
-                                    $date_from = DateTime::createFromFormat('d.m.Y H i', $date_from_string);
+                                    $date_from = DateTime::createFromFormat('d-m-Y H i', $date_from_string);
 
                                     $date_to_string = $car_status['to'] . ' ' . sprintf("%02s", $car_status['to_hour']) . ' ' . sprintf("%02s", $car_status['to_min']);
-                                    $date_to = DateTime::createFromFormat('d.m.Y H i', $date_to_string);
+                                    $date_to = DateTime::createFromFormat('d-m-Y H i', $date_to_string);
 
                                     if (!empty($date_from) && !empty($date_to)) {
 

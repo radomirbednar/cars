@@ -79,7 +79,7 @@ if (!empty($statuses)):
                         '<?php echo empty($date_from) ? '' : $date_from->format(SC_DATE_FORMAT) ?>',
                         '<?php echo empty($date_from) ? '' : $date_from->format('H') ?>',
                         '<?php echo empty($date_from) ? '' : $date_from->format('i') ?>',
-                        '<?php echo empty($date_to) ? '' : $date_to->format('d.m.Y') ?>',
+                        '<?php echo empty($date_to) ? '' : $date_to->format('d-m-Y') ?>',
                         '<?php echo empty($date_to) ? '' : $date_to->format('H') ?>',
                         '<?php echo empty($date_to) ? '' : $date_to->format('i') ?>',
                         '<?php echo $status->status ?>'
