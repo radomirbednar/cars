@@ -2,6 +2,20 @@
  * All of the CSS for your dashboard-specific functionality should be
  * included in this file.
  */
+
+
+.sc-pull-left {
+    float: left;
+}
+
+.sc-row {
+    margin-bottom: 2px;
+}
+.sc-legend .day-cell  {
+    border: none !important;
+    margin-right: 6px;
+}
+
 .label-inline {
     margin-right: 10px;
 }

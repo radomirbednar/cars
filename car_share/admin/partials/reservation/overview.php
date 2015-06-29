@@ -18,6 +18,50 @@ $all_cars = $wpdb->get_results($sql);
 ?>
 
 
+<div class="sc-legend sc-reservation">
+    
+    <div class="sc-row">
+        <div class="day-cell car free sc-pull-left">                                        
+            <div class="car booked">   
+            </div>                    
+        </div>  
+        
+        <?php _e('Booked', 'car_share'); ?>
+        
+        <div class="clear"></div>
+    </div>
+    
+
+    <div class="sc-row">
+        <div class="day-cell car free sc-pull-left">
+            <div class="car rented">
+            </div>                    
+        </div>  
+        
+        <?php _e('Confirmed booking', 'car_share'); ?>
+        
+        <div class="clear"></div>
+    </div>
+
+    
+
+    <div class="sc-row">
+        <div class="day-cell car free sc-pull-left">
+            <div class="car unavailable">  
+            </div>
+        </div>     
+        
+        <?php _e('Unavailable', 'car_share'); ?>
+        
+        <div class="clear"></div>
+    </div>
+
+    
+
+
+
+</div>    
+
 <div id="sc-reservation" class="sc-reservation">
 
     <div class="overview">
