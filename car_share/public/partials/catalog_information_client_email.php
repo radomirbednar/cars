@@ -451,7 +451,7 @@
 
                                                                                 <tr>
                                                                                     <td style="text-align:center; ">
-                                                                                        <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;">
+                                                                                        <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;">
                                                                                             <img  style="margin:auto;" src="<?php echo Car_share_Public::data_uri($options['logo_url']) ?>" alt="logo" />
                                                                                         </div>
                                                                                     </td>
