@@ -202,7 +202,7 @@ class Car_share_Shortcode {
                 if (empty($_SESSION['post_insert_id'])) {
                      
                     //$booking_title = $ItemName . '-' . $car_ID;
-                    $booking_title = $ItemName . '(' . $car_ID . ')' . '-' . $car->spz;
+                    $booking_title = $ItemName . '(' . $car_ID . ')' . ' - ' . $car->spz;
                     $post_information = array(
                         'post_title' => $booking_title,
                         'post_type' => 'sc-booking',
@@ -248,7 +248,8 @@ class Car_share_Shortcode {
                     }
                     else
                     {
-                    $booking_title = $ItemName . '-' . $car_ID;
+                    //$booking_title = $ItemName . '-' . $car_ID;
+                    $booking_title = $ItemName . '(' . $car_ID . ')' . ' - ' . $car->spz;
                     $post_information = array(
                         'post_title' => $booking_title,
                         'post_type' => 'sc-booking',

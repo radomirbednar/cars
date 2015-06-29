@@ -1,6 +1,6 @@
 <tr class="item">
     <td>
-        <input type="text" value="<?php echo empty($date_from) ? '' : $date_from->format('d.m.Y') ?>" name="_from[]" class="date-from">
+        <input type="text" value="<?php echo empty($date_from) ? '' : $date_from->format(SC_DATE_FORMAT) ?>" name="_from[]" class="date-from">
         <?php
         /*
         <select name="from_hour[]">
@@ -17,7 +17,7 @@
         ?>
     </td>    
     <td>
-        <input type="text" value="<?php echo empty($date_to) ? '' : $date_to->format('d.m.Y') ?>" name="_to[]" class="date-to">
+        <input type="text" value="<?php echo empty($date_to) ? '' : $date_to->format(SC_DATE_FORMAT) ?>" name="_to[]" class="date-to">
         <?php
         /*
         <select name="to_hour[]">

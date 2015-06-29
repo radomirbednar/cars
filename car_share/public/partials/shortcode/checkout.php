@@ -17,9 +17,14 @@ if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']
     $drop_off_location = $Cars_cart_items['drop_off_location'];
     $car_dfrom = $Cars_cart_items['car_datefrom'];
     $car_dto = $Cars_cart_items['car_dateto'];
-    $car_category = $Cars_cart_items['car_category'];
-    $car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
-    $car_dto_string = $car_dto->format('Y-m-d H:i');
+    $car_category = $Cars_cart_items['car_category'];    
+    
+    //$car_dfrom_string = $car_dfrom->format('Y-m-d H:i');
+    $car_dfrom_string = date_i18n( SC_DATETIME_FORMAT,  $car_dfrom->getTimestamp());
+    
+    //$car_dto_string = $car_dto->format('Y-m-d H:i');
+    $car_dto_string = date_i18n( SC_DATETIME_FORMAT,  $car_dto->getTimestamp());
+    
     $car_result = $Cars_cart->get_ItembyID($car_ID);
 
     //get the item title
@@ -165,7 +170,7 @@ if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']
      * 
      */
     
-    $booking_title = $ItemName . '(' . $car_ID . ')' . '-' . $car->spz;
+    $booking_title = $ItemName . '(' . $car_ID . ')' . ' - ' . $car->spz;
     $post_information = array(
         'post_title' => $booking_title,
         'post_type' => 'sc-booking',
@@ -307,10 +312,16 @@ if (!empty($_SESSION['TOKENE'])) {
      * Format date - must be from admin
      */
     $car_dto_string = DateTime::createFromFormat('Y-m-d H:i:s', $car_dto_string);
-    $car_dto_string = $car_dto_string->format('d-m-Y H:i');
+    //$car_dto_string = $car_dto_string->format('d-m-Y H:i');
+    $car_dto_string = date_i18n( SC_DATETIME_FORMAT,  $car_dto_string->getTimestamp());
 
     $car_dfrom_string = DateTime::createFromFormat('Y-m-d H:i:s', $car_dfrom_string);
-    $car_dfrom_string = $car_dfrom_string->format('d-m-Y H:i');
+    
+    //$car_dfrom_string = $car_dfrom_string->format('d-m-Y H:i');
+    //$car_dfrom_string = $car_dfrom_string->format(SC_DATETIME_FORMAT);
+    
+    $car_dfrom_string = date_i18n( SC_DATETIME_FORMAT,  $car_dfrom_string->getTimestamp());
+    
 
 
     if ($car_order == '1') {
@@ -454,13 +465,17 @@ if (!empty($_SESSION['TOKENE'])) {
 
 
             $car_dfrom = $Cars_cart_items['car_datefrom'];
-            $car_dfrom_string = $car_dfrom->format('d-m-Y H:i');
+            //$car_dfrom_string = $car_dfrom->format('d-m-Y H:i');
+            $car_dfrom_string = date_i18n( SC_DATETIME_FORMAT, $car_dfrom->getTimestamp());
 
             $car_dto = $Cars_cart_items['car_dateto'];
             
-            //$car_dto_string = $car_dto->format('d-m-Y H:i');
-            $car_dto_string = date_i18n( get_option( 'date_format' ), $car_dto->getTimestamp());
-
+            //$car_dto_string = $car_dto->format('d-m-Y H:i');            
+            $car_dto_string = date_i18n( SC_DATETIME_FORMAT, $car_dto->getTimestamp());
+            
+            
+            
+            
             $car_price = $Cars_cart->get_car_price($car_ID, $car_dfrom, $car_dto);
             $extras_price = $Cars_cart->sc_get_extras_price($car_dfrom, $car_dto);
             $total_price = $car_price + $extras_price;

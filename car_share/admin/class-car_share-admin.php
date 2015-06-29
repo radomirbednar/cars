@@ -107,10 +107,16 @@ class Car_share_Admin {
             $today = DateTime::createFromFormat('m-d-Y H:i:s', $date_info);
             $nextm = clone $today;
             $nextm->modify('first day of next month');
-            $stringnextm = $nextm->format("m-d-Y H:i:s");
+            
+            //$stringnextm = $nextm->format("m-d-Y H:i:s");
+            $stringnextm = date_i18n( SC_DATETIME_FORMAT, $nextm->getTimestamp());
+            
             $lastm = clone $today;
             $lastm->modify('first day of last month');
-            $stringlastm = $lastm->format("m-d-Y H:i:s");
+            
+            //$stringlastm = $lastm->format("m-d-Y H:i:s");            
+            $stringlastm = date_i18n( SC_DATETIME_FORMAT, $lastm->getTimestamp());
+            
             $today_string = $today->format('F Y');
         } else {
 
@@ -120,10 +126,14 @@ class Car_share_Admin {
             $today = new DateTime();
             $nextm = clone $today;
             $nextm->modify('first day of next month');
-            $stringnextm = $nextm->format("m-d-Y H:i:s");
+            //$stringnextm = $nextm->format("m-d-Y H:i:s");
+            $stringnextm = date_i18n( SC_DATETIME_FORMAT, $nextm->getTimestamp());
+            
             $lastm = clone $today;
             $lastm->modify('first day of last month');
-            $stringlastm = $lastm->format("m-d-Y H:i:s");
+            
+            //$stringlastm = $lastm->format("m-d-Y H:i:s");
+            $stringlastm = date_i18n( SC_DATETIME_FORMAT, $lastm->getTimestamp());
             $today_string = $today->format('F Y');
         }
 

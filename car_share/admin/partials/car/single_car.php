@@ -76,7 +76,7 @@ if (!empty($statuses)):
                 var row = statusTableRow(
                         '<?php echo $car_id ?>',
                         '<?php echo $status_key ?>',
-                        '<?php echo empty($date_from) ? '' : $date_from->format('d.m.Y') ?>',
+                        '<?php echo empty($date_from) ? '' : $date_from->format(SC_DATE_FORMAT) ?>',
                         '<?php echo empty($date_from) ? '' : $date_from->format('H') ?>',
                         '<?php echo empty($date_from) ? '' : $date_from->format('i') ?>',
                         '<?php echo empty($date_to) ? '' : $date_to->format('d.m.Y') ?>',
