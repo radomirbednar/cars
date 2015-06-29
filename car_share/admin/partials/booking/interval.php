@@ -7,8 +7,8 @@
               $booking_from = $booking->from();
 
             if (!empty($booking_from)):
-                echo $booking_from->format(SC_DATE_FORMAT);
-                echo $booking_from->format(SC_DATE_FORMAT);
+                echo $booking_from->format(SC_DATETIME_FORMAT);
+                //echo $booking_from->format(SC_DATE_FORMAT);
             endif;
             ?>
         </td>
