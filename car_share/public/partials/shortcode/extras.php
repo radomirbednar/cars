@@ -19,12 +19,14 @@ $currency = sc_Currency::get_instance();
             $_service_quantity_box = get_post_meta(get_the_ID(), '_service_quantity_box', true);
             $service_id = get_the_ID(); 
             ?>
-            <h2><?php the_title() ?></h2> 
+            <h3><?php the_title() ?></h3> 
             <?php
             if (has_post_thumbnail()) { // check if the post has a Post Thumbnail assigned to it.
                 the_post_thumbnail('thumbnail');
             }
             ?>
+            
+            <div class="form-group"> 
             <?php
             // check if the custom field has a value
             if (!empty($service_fee)) {
@@ -42,6 +44,8 @@ $currency = sc_Currency::get_instance();
                    echo $values[$_per_service]; 
             }
             ?>
+            </div>    
+                 
             <div class="form-group"> 
             <select name="service[<?php echo $service_id; ?>]"> 
                 <?php  
