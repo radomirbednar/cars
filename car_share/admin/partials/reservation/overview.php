@@ -107,13 +107,13 @@ $all_cars = $wpdb->get_results($sql);
 
 
     <div class="car-list car-col">
-        
-           <div class="sc-car-sorting">
-               <?php _e('Sort category:', 'car_share') ?> 
-               <a id="sc-cat-up" class="asc" href="#"><span class="sorting-indicator"></span></a> 
-               <a id="sc-cat-down" class="desc" href="#"><span class="sorting-indicator"></span></a>
-            </div>         
-        
+
+        <div class="sc-car-sorting">
+            <?php _e('Sort category:', 'car_share') ?> 
+            <a id="sc-cat-up" class="asc" href="#"><span class="sorting-indicator"></span></a> 
+            <a id="sc-cat-down" class="desc" href="#"><span class="sorting-indicator"></span></a>
+        </div>         
+
         <?php foreach ($all_cars as $car): ?>
             <div class="car-label car-<?php echo esc_attr($car->single_car_id) ?>">
                 <span class="car-category">
@@ -155,7 +155,7 @@ $all_cars = $wpdb->get_results($sql);
                     'year': year,
                     'month': month,
                     'form': $('#spz-search').serialize(),
-                    'current_month':current_month
+                    'current_month': current_month
                 },
                 beforeSend: function () {
                     //self.prop("disabled", true);
@@ -173,12 +173,11 @@ $all_cars = $wpdb->get_results($sql);
 <?php
 $now = new DateTime();
 ?>
-        load_months(<?php echo $now->format('Y') ?>, <?php echo $now->format('n') ?>, false);
+        load_months(<?php echo $now->format('Y') ?>, <?php echo $now->format('n') ?>, 0);
 
         $("#sc-reservation").on("click", "#sc-navigation a", function (e) {
-            console.log('click');
             e.preventDefault();
-            load_months($(this).data('year'), $(this).data('month'), false);
+            load_months($(this).data('year'), $(this).data('month'), 0);
         });
 
     });
