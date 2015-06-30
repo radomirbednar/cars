@@ -180,6 +180,7 @@ if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']
         </table>
         <?php endif; ?>
     <?php 
+    
     /*
      *
      * Odešleme potřebný email
