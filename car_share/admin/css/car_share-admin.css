@@ -194,7 +194,7 @@ table.SimpleCalendar tbody td.today {
     font-size: 14px;
     display: inline;
 }
-.spz-search input[type=submit] {
+.spz-search .button {
     height: 28px !important;
     line-height: 26px !important;
 }

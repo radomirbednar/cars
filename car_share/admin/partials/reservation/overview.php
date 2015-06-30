@@ -93,9 +93,14 @@ $all_cars = $wpdb->get_results($sql);
     </div>
 
     <div class="form-wrap">
-        <form id="spz_search" class="spz-search" action="" method="post">
-            <label><?php _e('Vehicle registration plate:', 'car_share') ?> <input type="text" name="spz_search" value=""></label>
-            <input class="button button-primary button-large" type="submit" value="<?php _e('Search', 'car_share') ?>">
+        <form class="spz-search" action="" method="post">
+            <label>
+                <?php _e('Vehicle registration plate:', 'car_share') ?> 
+                <input id="sc_car_value" type="text" name="sc_car_value" value="">
+            </label>
+            <button id="sc_spz_search" type="button" class="button button-primary button-large"><?php _e('Search', 'car_share') ?></button>
+            <input id="sc-current-year" name="sc-current-year" type="hidden" value="<?php echo $date->format('Y'); ?>">
+            <input id="sc-current-month" name="sc-current-month" type="hidden" value="<?php echo $date->format('n'); ?>">
         </form>
         <div class="clear"></div>        
     </div>    
