@@ -18,7 +18,51 @@ $all_cars = $wpdb->get_results($sql);
 ?>
 
 
-<div id="reservation" class="reservation">
+<div class="sc-legend sc-reservation">
+    
+    <div class="sc-row">
+        <div class="day-cell car free sc-pull-left">                                        
+            <div class="car booked">   
+            </div>                    
+        </div>  
+        
+        <?php _e('Booked', 'car_share'); ?>
+        
+        <div class="clear"></div>
+    </div>
+    
+
+    <div class="sc-row">
+        <div class="day-cell car free sc-pull-left">
+            <div class="car rented">
+            </div>                    
+        </div>  
+        
+        <?php _e('Confirmed booking', 'car_share'); ?>
+        
+        <div class="clear"></div>
+    </div>
+
+    
+
+    <div class="sc-row">
+        <div class="day-cell car free sc-pull-left">
+            <div class="car unavailable">  
+            </div>
+        </div>     
+        
+        <?php _e('Unavailable', 'car_share'); ?>
+        
+        <div class="clear"></div>
+    </div>
+
+    
+
+
+
+</div>    
+
+<div id="sc-reservation" class="sc-reservation">
 
     <div class="overview">
         <div class="loader">
@@ -46,14 +90,18 @@ $all_cars = $wpdb->get_results($sql);
 
     <div class="car-list car-col">
         <?php foreach ($all_cars as $car): ?>
-        <div class="car-label car-<?php echo esc_attr($car->single_car_id) ?>">
+            <div class="car-label car-<?php echo esc_attr($car->single_car_id) ?>">
                 <span class="car-category">
                     <?php echo get_the_title(get_post_meta($car->parent, '_car_category', true)) ?>
                 </span>
+                |
                 <span class="car-name">
-                    <?php echo get_the_title($car->parent) ?>
+                    <a href="<?php echo admin_url('post.php?post=' . $car->parent . '&action=edit') ?>">
+                        <?php echo get_the_title($car->parent) ?>
+                    </a>
                 </span>
-                <span class="spz">
+                |
+                <span class="sc-spz">
                     <?php echo esc_attr($car->spz) ?>
                 </span>
             </div>    
@@ -61,7 +109,7 @@ $all_cars = $wpdb->get_results($sql);
     </div>    
 
 
-    <div id="months" class="months">
+    <div id="sc-months" class="sc-months">
 
     </div>
 
@@ -84,14 +132,14 @@ $all_cars = $wpdb->get_results($sql);
                 },
                 beforeSend: function () {
                     //self.prop("disabled", true);
-                    $('#reservation .overview').show();
+                    $('#sc-reservation .overview').show();
                 }
             }).done(function (ret) {
-                $('#months').html(ret);
+                $('#sc-months').html(ret);
             }).fail(function (ret) {
 
             }).always(function () {
-                $('#reservation .overview').hide();
+                $('#sc-reservation .overview').hide();
             });
         }
 
@@ -100,7 +148,8 @@ $now = new DateTime();
 ?>
         load_months(<?php echo $now->format('Y') ?>, <?php echo $now->format('n') ?>);
 
-        $(".reservation").on("click", "#navigation a", function (e) {
+        $("#sc-reservation").on("click", "#sc-navigation a", function (e) {
+            console.log('click');
             e.preventDefault();
             load_months($(this).data('year'), $(this).data('month'));
         });

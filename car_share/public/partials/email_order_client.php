@@ -1,4 +1,6 @@
 <?php
+$options = get_option('car_plugin_options_arraykey');
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -171,6 +173,44 @@
 
                                     <table bgcolor="#FFFFFF"  border="0" cellpadding="0" cellspacing="0" width="650" id="emailBody">
 
+
+                                        <!-- logo -->
+                                        <?php if (!empty($options['logo_url'])): ?>
+                                            <tr>
+                                                <td align="center" valign="top">
+
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                        <tr>
+                                                            <td align="center" valign="top">
+
+                                                                <table border="0" cellpadding="30" cellspacing="0" width="650" class="flexibleContainer">
+                                                                    <tr>
+                                                                        <td valign="top" width="650" class="flexibleContainerCell">
+
+                                                                            <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
+
+                                                                                <tr>
+                                                                                    <td style="text-align:center; ">
+                                                                                        <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;">
+                                                                                            <a style="text-decoration: none;" href="<?php echo home_url() ?>"><img  style="margin:auto;" src="<?php echo Car_share_Public::data_uri($options['logo_url']) ?>" alt="logo" /></a>
+                                                                                        </div>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>    
+                                        <?php endif; ?>
+                                        <!-- /logo -->                                           
+
+
                                         <tr>
                                             <td align="center" valign="top">
 
@@ -186,7 +226,7 @@
                                                                             <tr>
                                                                                 <td align="center" valign="top" class="textContent">
                                                                                     <h1 style="color:#FFFFFF;line-height:100%;font-family:Helvetica,Arial,sans-serif;font-size:35px;font-weight:normal;margin-bottom:5px;text-align:center;"><?php _e('Thank you for your booking', $this->car_share); ?></h1>
-                                                                                    <h2 style="text-align:center;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px;margin-bottom:10px;color:#205478;line-height:135%;"><?php _e('Order: #', $this->car_share); ?> <?php echo $post_insert_id; ?></h2>
+                                                                                    <h2 style="text-align:center;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px;margin-bottom:10px;color:#205478;line-height:135%;"><?php _e('Order:', $this->car_share); ?> <?php echo $post_insert_id; ?></h2>
                                                                                     <div style="text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#FFFFFF;line-height:135%;">  <?php _e('Your booking has been received and is now being processed. Your order details are shown below for your reference: ', $this->car_share); ?> </div>
                                                                                 </td>
                                                                             </tr>
@@ -214,7 +254,7 @@
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php _e('FROM:', $this->car_share); ?></td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo $car_dfrom_string; ?></td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php echo get_the_title($pick_up_location); ?></td>
-                                                                               
+
                                                                             </tr>
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php _e('TO:', $this->car_share); ?></td>
@@ -256,40 +296,40 @@
                                             </td>
                                         </tr>
                                         <?php if (!empty($extras)): ?>
-                                        <tr>
-                                            <td align="center" valign="top">
-                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                    <tr>
-                                                        <td align="center" valign="top">
+                                            <tr>
+                                                <td align="center" valign="top">
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                        <tr>
+                                                            <td align="center" valign="top">
 
-                                                            <table border="0" cellpadding="30" cellspacing="0" width="650" class="flexibleContainer">
-                                                                <tr>
-                                                                    <td valign="top" width="650" class="flexibleContainerCell">
+                                                                <table border="0" cellpadding="30" cellspacing="0" width="650" class="flexibleContainer">
+                                                                    <tr>
+                                                                        <td valign="top" width="650" class="flexibleContainerCell">
 
-                                                                        <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
-                                                                            <tr>
-                                                                                <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php _e('EXTRAS INFO:', $this->car_share); ?></td>
+                                                                            <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
+                                                                                <tr>
+                                                                                    <td style="text-align:left;border:1px solid #eee; padding: 10px"><?php _e('EXTRAS INFO:', $this->car_share); ?></td>
 
-                                                                                <td>
-                                                                                <?php
-                                                                                foreach ($extras as $key => $extras_id) {
-                                                                                    $service_fee = get_post_meta($key, '_service_fee', true);
-                                                                                    $_per_service = get_post_meta($key, '_per_service', true);
-                                                                                    $service_name = get_the_title($key);
-                                                                                    echo $extras_id . ' x ' . $service_name . ' ';
-                                                                                }
-                                                                                ?>
-                                                                                </td> 
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
+                                                                                    <td>
+                                                                                        <?php
+                                                                                        foreach ($extras as $key => $extras_id) {
+                                                                                            $service_fee = get_post_meta($key, '_service_fee', true);
+                                                                                            $_per_service = get_post_meta($key, '_per_service', true);
+                                                                                            $service_name = get_the_title($key);
+                                                                                            echo $extras_id . ' x ' . $service_name . ' ';
+                                                                                        }
+                                                                                        ?>
+                                                                                    </td> 
+                                                                                </tr>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
                                         <?php endif; ?>
                                         <tr>
                                             <td align="center" valign="top">
@@ -305,46 +345,46 @@
 
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
-<?php _e('Car', $this->car_share); ?>
+                                                                                    <?php _e('Car', $this->car_share); ?>
                                                                                 </td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
                                                                                     <?php echo $car_price . ' ' . $currencyforpeople; ?>
                                                                                 </td>
                                                                             </tr>
-                                                                                    <?php if ($extras_price > 0) { ?>
+                                                                            <?php if ($extras_price > 0) { ?>
                                                                                 <tr>
                                                                                     <td style="text-align:left;border:1px solid #eee; padding: 10px">
-                                                                                <?php _e('Extras', $this->car_share); ?>
+                                                                                        <?php _e('Extras', $this->car_share); ?>
                                                                                     </td>
                                                                                     <td style="text-align:left;border:1px solid #eee; padding: 10px">
                                                                                         <?php echo $extras_price . ' ' . $currencyforpeople; ?>
                                                                                     </td>
                                                                                 </tr>
-                                                                                    <?php } ?>
-<?php if ($yound_surcharge_fee > 0) { ?>
+                                                                            <?php } ?>
+                                                                            <?php if ($yound_surcharge_fee > 0) { ?>
                                                                                 <tr>
                                                                                     <td style="text-align:left;border:1px solid #eee; padding: 10px">
-                                                                                <?php _e('Young surcharge fee', $this->car_share); ?>
+                                                                                        <?php _e('Young surcharge fee', $this->car_share); ?>
                                                                                     </td>
                                                                                     <td style="text-align:left;border:1px solid #eee; padding: 10px">
                                                                                         <?php echo $yound_surcharge_fee . $currencyforpeople; ?>
                                                                                     </td>
                                                                                 </tr>
-                                                                                    <?php } ?>
-<?php if ($location_price > 0) { ?>
+                                                                            <?php } ?>
+                                                                            <?php if ($location_price > 0) { ?>
                                                                                 <tr>
                                                                                     <td style="text-align:left;border:1px solid #eee; padding: 10px">
-                                                                                <?php _e('Different location price: ', $this->car_share); ?>
+                                                                                        <?php _e('Different location price: ', $this->car_share); ?>
                                                                                     </td>
                                                                                     <td style="text-align:left;border:1px solid #eee; padding: 10px">
                                                                                         <?php echo $location_price . $currencyforpeople; ?>
                                                                                     </td>
                                                                                 </tr>
-                                                                                    <?php } ?>
+                                                                            <?php } ?>
 
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
-<?php _e('Voucher information: ', $this->car_share); ?>
+                                                                                    <?php _e('Voucher information: ', $this->car_share); ?>
                                                                                 </td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
                                                                                     <?php ?>
@@ -353,7 +393,7 @@
 
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
-<?php _e('Total Price', $this->car_share); ?>
+                                                                                    <?php _e('Total Price', $this->car_share); ?>
                                                                                 </td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
                                                                                     <?php echo $total_price . $currencyforpeople; ?>
@@ -361,7 +401,7 @@
                                                                             </tr>
                                                                             <tr>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
-<?php _e('Payable price', $this->car_share); ?>
+                                                                                    <?php _e('Payable price', $this->car_share); ?>
                                                                                 </td>
                                                                                 <td style="text-align:left;border:1px solid #eee; padding: 10px">
                                                                                     <?php echo $payable_price . $currencyforpeople; ?>
@@ -398,12 +438,12 @@
 
                                                                             <?php
                                                                             $checkout_fields = get_enabled_checkout_fields();
- 
+
                                                                             foreach ($checkout_fields as $input_key => $field) {
-                                                                            echo '<tr>';
-                                                                            echo '<td style="text-align:left;border:1px solid #eee; padding: 10px">' . $field['label'] . '</td>';
-                                                                            echo '<td style="text-align:left;border:1px solid #eee; padding: 10px">' . sanitize_text_field($_POST[$input_key]) . '</td>';
-                                                                            echo '</tr>';
+                                                                                echo '<tr>';
+                                                                                echo '<td style="text-align:left;border:1px solid #eee; padding: 10px">' . $field['label'] . '</td>';
+                                                                                echo '<td style="text-align:left;border:1px solid #eee; padding: 10px">' . sanitize_text_field($_POST[$input_key]) . '</td>';
+                                                                                echo '</tr>';
                                                                             }
                                                                             ?>
 
@@ -416,6 +456,47 @@
                                                 </table>
                                             </td>
                                         </tr>
+
+
+                                        <!-- footer text -->
+                                        <tr>
+                                            <td align="center" valign="top">
+
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <td align="center" valign="top">
+
+                                                            <table border="0" cellpadding="30" cellspacing="0" width="650" class="flexibleContainer">
+                                                                <tr>
+                                                                    <td valign="top" width="650" class="flexibleContainerCell">
+
+                                                                        <table border="0" cellpadding="0" cellspacing="0" width="650" style="max-width: 100%;">
+
+                                                                            <tr>
+                                                                                <td style="text-align:center; ">
+                                                                                    <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;">
+                                                                                        <?php
+                                                                                        echo isset($options['footer_text']) ? $options['footer_text'] : '';
+                                                                                        ?>                                                                                       
+                                                                                    </div>
+                                                                                </td>
+
+                                                                            </tr>
+
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+
+
+
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>    
+                                        <!-- /footer text -->                                        
+
                                     </table>
 
                                     <table bgcolor="#E1E1E1" border="0" cellpadding="0" cellspacing="0" width="500" id="emailFooter">
@@ -435,6 +516,9 @@
                                                                                 <td valign="top" bgcolor="#E1E1E1">
 
                                                                                     <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;">
+
+
+
 
                                                                                     </div>
 

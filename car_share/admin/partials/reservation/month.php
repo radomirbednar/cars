@@ -9,8 +9,8 @@ $sql = "SELECT * FROM sc_single_car ORDER BY parent ASC";
 $all_cars = $wpdb->get_results($sql);
 ?>
 
-<div class="month">
-    <div class="month-label">
+<div class="sc-month">
+    <div class="sc-month-label">
         <?php echo $date->format('F'); ?> <?php echo $date->format("Y"); ?>
     </div>    
     <?php
@@ -60,10 +60,18 @@ $all_cars = $wpdb->get_results($sql);
                                 $class = 'booked';
                                 break;                            
                         endswitch;
+                        
+                        
+                        $from = DateTime::createFromFormat('Y-m-d H:i:s', $shared_car->date_from);
+                        $to = DateTime::createFromFormat('Y-m-d H:i:s', $shared_car->date_to);
+                        
                         ?>
                     
                         <div class="car <?php echo $class ?>">
-
+                            <div class="sc-reservation-info">
+                                <div class="sc-from"><?php _e('from:', 'car_share') ?> <?php echo $from->format(SC_DATETIME_FORMAT); ?></div>
+                                <div class="sc-to"><?php _e('to:', 'car_share') ?> <?php echo $to->format(SC_DATETIME_FORMAT); ?></div>
+                            </div>    
                         </div>
                     
                     <?php endif; ?>

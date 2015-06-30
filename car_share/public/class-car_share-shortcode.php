@@ -201,7 +201,8 @@ class Car_share_Shortcode {
 
                 if (empty($_SESSION['post_insert_id'])) {
                      
-                    $booking_title = $ItemName . '-' . $car_ID;
+                    //$booking_title = $ItemName . '-' . $car_ID;
+                    $booking_title = $ItemName . '(' . $car_ID . ')' . ' - ' . $car->spz;
                     $post_information = array(
                         'post_title' => $booking_title,
                         'post_type' => 'sc-booking',
@@ -222,7 +223,8 @@ class Car_share_Shortcode {
                     }
                 } else {
                     $post_insert_id = $_SESSION['post_insert_id'];
-                    $booking_title = '#' . $post_insert_id . ' - ' . $ItemName . '-' . $car_ID;
+                    //$booking_title = '#' . $post_insert_id . ' - ' . $ItemName . '-' . $car_ID;
+                    $booking_title = '#' . $post_insert_id . ' - ' . $ItemName . '(' . $car_ID . ')' . '-' . $car->spz;
                     $post_information = array(
                         'ID' => $_SESSION['post_insert_id'],
                         'post_title' => $booking_title,
@@ -246,7 +248,8 @@ class Car_share_Shortcode {
                     }
                     else
                     {
-                    $booking_title = $ItemName . '-' . $car_ID;
+                    //$booking_title = $ItemName . '-' . $car_ID;
+                    $booking_title = $ItemName . '(' . $car_ID . ')' . ' - ' . $car->spz;
                     $post_information = array(
                         'post_title' => $booking_title,
                         'post_type' => 'sc-booking',
@@ -298,7 +301,9 @@ class Car_share_Shortcode {
                 // Example using the array form of $headers
                 // assumes $to, $subject, $message have already been defined earlier...
                 
-                $email_subject = empty($plugin_option['name_of_company']) ? __('Booking email information', 'car_share') : $plugin_option['name_of_company'];
+                //$email_subject = empty($plugin_option['name_of_company']) ? __('Booking email information', 'car_share') : $plugin_option['name_of_company'];
+                $email_subject = empty($plugin_option['name_of_company']) ? '' : $plugin_option['name_of_company'] . ' - ';
+                $email_subject .= __('Booking email information', 'car_share');                
            
                 ob_start();
                 include_once('partials/order_information_email_client.php');

@@ -86,14 +86,14 @@
             var date_to = element.find(".date-to");
 
             date_from.datepicker({
-                dateFormat: 'dd.mm.yy',
+                dateFormat: 'dd-mm-yy',
                 onSelect: function (selected_date) {
                     date_to.datepicker("option", "minDate", selected_date);
                 }
             });
 
             date_to.datepicker({
-                dateFormat: 'dd.mm.yy',
+                dateFormat: 'dd-mm-yy',
                 onSelect: function (selected_date) {
                     date_from.datepicker("option", "maxDate", selected_date);
                 }

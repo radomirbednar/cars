@@ -71,16 +71,22 @@ class Car_share_Booking {
         switch($column_name){
             case 'from':
                 if(!empty($booking_from)){
+                    /*
                     echo $booking_from->format(get_option('date_format'));
                     echo ' - ';
                     echo $booking_from->format(get_option('time_format'));
+                    */
+                    echo date_i18n( SC_DATETIME_FORMAT, $booking_from->getTimestamp());
                 }
                 break;
             case 'to':
                 if(!empty($booking_to)){
+                    /*
                     echo $booking_to->format(get_option('date_format'));
                     echo ' - ';
                     echo $booking_to->format(get_option('time_format'));
+                    */
+                    echo date_i18n( SC_DATETIME_FORMAT, $booking_to->getTimestamp());
                 }
                    break;
             case 'status': 
@@ -179,6 +185,7 @@ class Car_share_Booking {
             
         ?>    
         <select name="car_r_order_status">
+            <option value="">----</option>
         <?php
         
         $status_string = array(1=>'Completed', 2=>'Pending', 3=>'Failed');

@@ -30,6 +30,16 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+
+//define('SC_DATETIME_FORMAT', "F j, Y g:i a");
+define('SC_DATETIME_FORMAT', "d-m-Y H:i");
+define('SC_DATE_FORMAT', "d-m-Y");
+
+
+
+
+
+
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-car_share-activator.php

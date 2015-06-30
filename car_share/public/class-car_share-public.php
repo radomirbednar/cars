@@ -20,8 +20,6 @@
  * @subpackage Car_share/public
  * @author     My name <mail@example.com>
  */
-
-  
 class Car_share_Public {
 
     /**
@@ -61,7 +59,7 @@ class Car_share_Public {
         add_action('wp_ajax_apply_voucher', array($this, 'ajax_apply_voucher'));
 
         //shordcode for the page Search for a car
-        /* add_shortcode('searchforacar', array($this, 'car_share_searchforacar'));*/ 
+        /* add_shortcode('searchforacar', array($this, 'car_share_searchforacar')); */
     }
 
     /**
@@ -102,18 +100,19 @@ class Car_share_Public {
          * The Car_share_Public_Loader will then create the relationship
          * between the defined hooks and the functions defined in this
          * class.
-         */ 
+         */
         /*
          * WE NEED DAPICKER
-         */ 
+         */
         wp_enqueue_script('jquery-ui-datepicker', array('jquery-ui-core'), $this->version, true);
         wp_enqueue_script($this->car_share, plugin_dir_url(__FILE__) . 'js/car_share-public.js', array('jquery'), $this->version, true);
     }
+
     /**
      */
-    public function register_custom_post() { 
+    public function register_custom_post() {
         // locations
-        $args = array( 
+        $args = array(
             'menu_icon' => 'dashicons-location',
             'labels' => array(
                 'name' => __('Location', $this->car_share),
@@ -126,7 +125,7 @@ class Car_share_Public {
                 'view_item' => __('View location', $this->car_share),
                 'search_items' => __('Search locations', $this->car_share),
                 'menu_name' => __('Locations', $this->car_share)
-            ), 
+            ),
             'public' => true,
             'show_ui' => true,
             'supports' => array(
@@ -136,14 +135,12 @@ class Car_share_Public {
             //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 80
-        ); 
-        register_post_type('sc-location', $args); 
+            'menu_position' => 80
+        );
+        register_post_type('sc-location', $args);
         // season
         $args = array(
-            
             'menu_icon' => 'dashicons-calendar-alt',
-            
             'labels' => array(
                 'name' => __('Season', $this->car_share),
                 'singular_name' => __('Season', $this->car_share),
@@ -169,7 +166,7 @@ class Car_share_Public {
         );
 
         register_post_type('sc-season', $args);
-        
+
         // category
         $args = array(
             'menu_icon' => 'dashicons-category',
@@ -195,14 +192,14 @@ class Car_share_Public {
             //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 82
+            'menu_position' => 82
         );
 
         register_post_type('sc-car-category', $args);
 
         // cars
         $args = array(
-             'menu_icon' => 'dashicons-performance',
+            'menu_icon' => 'dashicons-performance',
             'labels' => array(
                 'name' => __('Cars', $this->car_share),
                 'singular_name' => __('Car', $this->car_share),
@@ -221,19 +218,19 @@ class Car_share_Public {
                 'thumbnail',
                 'title',
                 'editor',
-                //'page-attributes'
+            //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 83
+            'menu_position' => 83
         );
 
         register_post_type('sc-car', $args);
 
-        
+
 
         // service
         $args = array(
-             'menu_icon' => 'dashicons-smiley',
+            'menu_icon' => 'dashicons-smiley',
             'labels' => array(
                 'name' => __('Service', $this->car_share),
                 'singular_name' => __('Service', $this->car_share),
@@ -255,15 +252,14 @@ class Car_share_Public {
             //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 84
+            'menu_position' => 84
         );
 
         register_post_type('sc-service', $args);
 
-        
+
         // voucher
         $args = array(
-            
             'menu_icon' => 'dashicons-nametag',
             'labels' => array(
                 'name' => __('Voucher', $this->car_share),
@@ -283,16 +279,16 @@ class Car_share_Public {
             'supports' => array(
                 //'thumbnail',
                 'title',
-                //'editor',
-                //'page-attributes'
+            //'editor',
+            //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 85
+            'menu_position' => 85
         );
 
         register_post_type('sc-voucher', $args);
-        
-         // order
+
+        // order
         $args = array(
             'menu_icon' => 'dashicons-cart',
             'labels' => array(
@@ -317,59 +313,70 @@ class Car_share_Public {
             //'page-attributes'
             ),
             'hierarchical' => false,
-             'menu_position' => 86
+            'menu_position' => 86
         );
 
         register_post_type('sc-booking', $args);
     }
- 
-    function ajax_refresh_checkout_price(){
 
-        $Cars_cart = new Car_Cart('shopping_cart'); 
-        $apply_surcharge = $_POST['apply_surcharge']; 
+    function ajax_refresh_checkout_price() {
+
+        $Cars_cart = new Car_Cart('shopping_cart');
+        $apply_surcharge = $_POST['apply_surcharge'];
         $Cars_cart->applySurcharge($apply_surcharge);
-        $Cars_cart->save(); 
+        $Cars_cart->save();
         //$Cars_cart_items = $Cars_cart->getItemSearch(); 
         $total_price = $Cars_cart->getTotalPrice();
-        $paypable_now = round($Cars_cart->getPaypablePrice(), 2); 
-        $surcharge_price = $Cars_cart->getSurchargePrice(); 
-        
+        $paypable_now = round($Cars_cart->getPaypablePrice(), 2);
+        $surcharge_price = $Cars_cart->getSurchargePrice();
+
         $currency = sc_Currency::get_instance();
-        
+
         $surcharge_price = empty($surcharge_price) ? '' : $currency->format($surcharge_price);
-        
+
         $return = array(
             'total_price' => $currency->format($total_price),
             'paypable_now' => $currency->format($paypable_now),
             'driver_surcharge' => $surcharge_price
-        ); 
-        
+        );
+
         echo json_encode($return);
         die();
-    } 
+    }
+
     /**
      *
      */
-    function ajax_apply_voucher(){
+    function ajax_apply_voucher() {
 
         $Cars_cart = new Car_Cart('shopping_cart');
-        $voucher = trim($_POST['voucher']); 
+        $voucher = trim($_POST['voucher']);
         $voucher_result = $Cars_cart->applyVoucher($voucher);
         $total_price = $Cars_cart->getTotalPrice();
-        $paypable_now = round($Cars_cart->getPaypablePrice(), 2); 
-        $Cars_cart->save(); 
-        $message = $voucher_result ? sprintf(__('You have %s %% discount', $this->car_share), $Cars_cart->getVoucherDiscount()) : __('Invalid voucher', $this->car_share);  
-        $currency = sc_Currency::get_instance(); 
+        $paypable_now = round($Cars_cart->getPaypablePrice(), 2);
+        $Cars_cart->save();
+        $message = $voucher_result ? sprintf(__('You have %s %% discount', $this->car_share), $Cars_cart->getVoucherDiscount()) : __('Invalid voucher', $this->car_share);
+        $currency = sc_Currency::get_instance();
         $surcharge_price = empty($surcharge_price) ? '' : $currency->format($surcharge_price);
-        
+
         $return = array(
             'total_price' => $currency->format($total_price),
             'paypable_now' => $currency->format($paypable_now),
             'driver_surcharge' => $surcharge_price,
             'message' => $message,
-        ); 
+        );
         echo json_encode($return);
         die();
+    }
+
+    public static function data_uri($file) {
+
+        $finfo = wp_check_filetype($file);
+        $mime = $finfo['type'];
+
+        $contents = file_get_contents($file);
+        $base64 = base64_encode($contents);
+        return ('data:' . $mime . ';base64,' . $base64);
     }
 
 }

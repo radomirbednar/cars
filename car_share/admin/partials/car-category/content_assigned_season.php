@@ -18,7 +18,9 @@ foreach ($season2category_prices as $season_id => $season_price):
                 $from = DateTime::createFromFormat('Y-m-d H:i:s', $date->date_from);
                 $to = DateTime::createFromFormat('Y-m-d H:i:s', $date->date_to);
 
-                $str = $from->format(get_option('date_format')) . ' - ' . $to->format(get_option('date_format'));
+                //$str = $from->format(get_option('date_format')) . ' - ' . $to->format(get_option('date_format'));
+                $str = $from->format(SC_DATE_FORMAT) . ' - ' . $to->format(SC_DATE_FORMAT);                
+                
                 echo $str . '<br>';
             endforeach; ?>
         </td>

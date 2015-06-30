@@ -56,7 +56,7 @@ class Car_share_Season {
                 foreach ($dates as $date) {
                     $from = DateTime::createFromFormat('Y-m-d H:i:s', $date->date_from);
                     if (!empty($from)) {
-                        echo $from->format(get_option('date_format')) . '<br>';
+                        echo $from->format(SC_DATE_FORMAT) . '<br>';
                     }
                 }
                 break;
@@ -64,7 +64,7 @@ class Car_share_Season {
                 foreach ($dates as $date) {
                     $to = DateTime::createFromFormat('Y-m-d H:i:s', $date->date_to);
                     if (!empty($to)) {
-                        echo $to->format(get_option('date_format')) . '<br>';
+                        echo $to->format(SC_DATE_FORMAT) . '<br>';
                     }
                 }
                 break;
@@ -98,8 +98,8 @@ class Car_share_Season {
 
                 $to = $_POST['_to'][$key];
 
-                $date_from = DateTime::createFromFormat('d.m.Y H:i:s', $from . ' 00:00:00');
-                $date_to = DateTime::createFromFormat('d.m.Y H:i:s', $to . ' 23:59:59');
+                $date_from = DateTime::createFromFormat('d-m-Y H:i:s', $from . ' 00:00:00');
+                $date_to = DateTime::createFromFormat('d-m-Y H:i:s', $to . ' 23:59:59');
 
                 if (!empty($date_from) && !empty($date_to)) {
 
