@@ -66,7 +66,7 @@ class Car_share_Reservation {
         include 'partials/reservation/overview.php';
     }
     
-    public function month($year, $month){
+    public function month($year, $month, $form_data, $show_cars = false){
         include 'partials/reservation/month.php';
     }    
     
@@ -76,9 +76,16 @@ class Car_share_Reservation {
     }
     
     public function load_months(){
+
+        parse_str($_POST['form'], $form_data);
         
-        $month_number = $_POST['month'];
-        $year_number = $_POST['year'];
+        if(1 == $_POST['current_month']){
+            $month_number = $form_data['sc-current-month'];
+            $year_number = $form_data['sc-current-year'];            
+        } else {
+            $month_number = $_POST['month'];
+            $year_number = $_POST['year'];            
+        }
         
         $month = new DateTime();
         $month->setDate($year_number, $month_number, 1);
@@ -87,7 +94,9 @@ class Car_share_Reservation {
         $prev_month->modify('last day of last month');
         
         $next_month = clone $month;
-        $next_month->modify( 'first day of next month' );   
+        $next_month->modify( 'first day of next month' );  
+        
+        
         
         ?>
         <div id="sc-navigation" class="sc-navigation">            
@@ -96,8 +105,8 @@ class Car_share_Reservation {
         </div>
         <?php
                 
-        $this->month($month->format('Y'), $month->format('n'));;
-        $this->month($next_month->format('Y'), $next_month->format('n'));
+        $this->month($month->format('Y'), $month->format('n'), $form_data, true);
+        $this->month($next_month->format('Y'), $next_month->format('n'), $form_data);
         
         die();
     }
