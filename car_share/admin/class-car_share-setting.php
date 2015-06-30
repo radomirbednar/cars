@@ -173,13 +173,13 @@ class Car_share_Setting {
         );           
         
         add_settings_field(
-                'notemail', 'Notification Email:', array($this, 'create_input_some_setting'), 'car-plugin-main-settings-section', 'main-settings-section'
+                'notemail', __('Notification Email:', 'car_share'), array($this, 'create_input_some_setting'), 'car-plugin-main-settings-section', 'main-settings-section'
         );
         add_settings_field(
-                'showcategory', 'Show category:', array($this, 'create_input_some_show_cat'), 'car-plugin-main-settings-section', 'main-settings-section'
+                'showcategory', __('Show category:', 'car_share'), array($this, 'create_input_some_show_cat'), 'car-plugin-main-settings-section', 'main-settings-section'
         ); 
         add_settings_field(
-                'catalogoption', 'Catalog - order by email', array($this, 'create_input_some_show_catalog'), 'car-plugin-main-settings-section', 'main-settings-section'
+                'catalogoption', __('Catalog - order by email', 'car_share'), array($this, 'create_input_some_show_catalog'), 'car-plugin-main-settings-section', 'main-settings-section'
         );
         
         

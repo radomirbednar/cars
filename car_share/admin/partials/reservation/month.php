@@ -11,7 +11,13 @@ $all_cars = $wpdb->get_results($sql);
 
 <div class="sc-month">
     <div class="sc-month-label">
-        <?php echo $date->format('F'); ?> <?php echo $date->format("Y"); ?>
+        <?php 
+        //echo $date->format('F'); 
+        
+        echo date_i18n( "F", $date->getTimestamp());
+        
+        echo ' ' . $date->format("Y"); 
+        ?>
     </div>    
     <?php
     while ($month == $date->format('n')):
@@ -42,7 +48,7 @@ $all_cars = $wpdb->get_results($sql);
                 <?php echo $date->format("j"); ?> 
             </div>    
             <?php foreach ($all_cars as $car): ?>
-                <div class="day-cell car free  day-<?php echo $date->format("j"); ?>">
+                <a href="#" class="day-cell car free  day-<?php echo $date->format("j"); ?>">
                     <?php if (array_key_exists($car->single_car_id, $shared_cars)): 
                         
                         $shared_car = $shared_cars[$car->single_car_id];                        
@@ -75,7 +81,7 @@ $all_cars = $wpdb->get_results($sql);
                         </div>
                     
                     <?php endif; ?>
-                </div>
+                </a>
             <?php endforeach; ?>
         </div>
 

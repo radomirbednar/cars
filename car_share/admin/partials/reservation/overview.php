@@ -19,44 +19,49 @@ $all_cars = $wpdb->get_results($sql);
 
 
 <div class="sc-legend sc-reservation">
-    
+
     <div class="sc-row">
         <div class="day-cell car free sc-pull-left">                                        
             <div class="car booked">   
             </div>                    
-        </div>  
-        
-        <?php _e('Booked', 'car_share'); ?>
-        
+        </div> 
+        <?php _e('Booked', 'car_share'); ?>        
         <div class="clear"></div>
     </div>
-    
+
 
     <div class="sc-row">
         <div class="day-cell car free sc-pull-left">
             <div class="car rented">
             </div>                    
-        </div>  
-        
-        <?php _e('Confirmed booking', 'car_share'); ?>
-        
+        </div> 
+        <?php _e('Confirmed booking', 'car_share'); ?>        
         <div class="clear"></div>
     </div>
-
-    
 
     <div class="sc-row">
         <div class="day-cell car free sc-pull-left">
             <div class="car unavailable">  
             </div>
-        </div>     
-        
-        <?php _e('Unavailable', 'car_share'); ?>
-        
+        </div>             
+        <?php _e('Unavailable', 'car_share'); ?>        
         <div class="clear"></div>
-    </div>
+    </div>    
 
-    
+    <div class="sc-row">
+        <div class="day-cell car free sc-pull-left">
+            <div class="car">
+            </div>                    
+        </div>  
+        <?php _e('Available', 'car_share'); ?>        
+        <div class="clear"></div>
+    </div>    
+
+
+
+
+
+
 
 
 
@@ -87,8 +92,23 @@ $all_cars = $wpdb->get_results($sql);
         </div>
     </div>
 
+    <div class="form-wrap">
+        <form id="spz_search" class="spz-search" action="" method="post">
+            <label><?php _e('Vehicle registration plate:', 'car_share') ?> <input type="text" name="spz_search" value=""></label>
+            <input class="button button-primary button-large" type="submit" value="<?php _e('Search', 'car_share') ?>">
+        </form>
+        <div class="clear"></div>        
+    </div>    
+
 
     <div class="car-list car-col">
+        
+           <div class="sc-car-sorting">
+               <?php _e('Sort category:', 'car_share') ?> 
+               <a id="sc-cat-up" class="asc" href="#"><span class="sorting-indicator"></span></a> 
+               <a id="sc-cat-down" class="desc" href="#"><span class="sorting-indicator"></span></a>
+            </div>         
+        
         <?php foreach ($all_cars as $car): ?>
             <div class="car-label car-<?php echo esc_attr($car->single_car_id) ?>">
                 <span class="car-category">

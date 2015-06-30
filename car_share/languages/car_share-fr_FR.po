@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Car share v1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-06-29 11:56:34+0000\n"
+"PO-Revision-Date: 2015-06-30 11:34:33+0000\n"
 "Last-Translator: car-plugin <radovanmail@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -252,6 +252,7 @@ msgid "Delete failed"
 msgstr "Suppression : échec"
 
 #: admin/partials/car/single_car.php:2
+#: admin/partials/reservation/overview.php:97
 #@ car_share
 msgid "Vehicle registration plate:"
 msgstr "Plaque d'immatriculation du véhicule"
@@ -707,7 +708,7 @@ msgstr "Réservation"
 #: public/class-car_share-public.php:300
 #@ car_share
 msgid "Make a new booking"
-msgstr ""
+msgstr "Faire une nouvelle réservation"
 
 #: public/class-car_share-public.php:299
 #@ car_share
@@ -2562,18 +2563,12 @@ msgstr ""
 msgid "Reservation"
 msgstr ""
 
-#: admin/class-car_share-reservation.php:54
-#: admin/class-car_share-reservation.php:55
-#@ car_share
-msgid "Calendar"
-msgstr ""
-
-#: admin/class-car_share-reservation.php:94
+#: admin/class-car_share-reservation.php:97
 #@ car_share
 msgid "Prev"
 msgstr ""
 
-#: admin/class-car_share-reservation.php:95
+#: admin/class-car_share-reservation.php:98
 #@ car_share
 msgid "Next"
 msgstr ""
@@ -2624,28 +2619,64 @@ msgstr "Logo RUL:"
 msgid "Email footer text:"
 msgstr "Contenu du pied de page de l'email :"
 
-#: admin/partials/reservation/month.php:72
+#: admin/partials/reservation/month.php:78
 #@ car_share
 msgid "from:"
 msgstr ""
 
-#: admin/partials/reservation/month.php:73
+#: admin/partials/reservation/month.php:79
 #@ car_share
 msgid "to:"
 msgstr ""
 
-#: admin/partials/reservation/overview.php:29
+#: admin/partials/reservation/overview.php:28
 #@ car_share
 msgid "Booked"
-msgstr ""
+msgstr "Réservé"
 
-#: admin/partials/reservation/overview.php:41
+#: admin/partials/reservation/overview.php:38
 #@ car_share
 msgid "Confirmed booking"
-msgstr ""
+msgstr "Réservation confirmée"
 
-#: admin/partials/reservation/overview.php:54
+#: admin/partials/reservation/overview.php:47
 #@ car_share
 msgid "Unavailable"
+msgstr "Indisponible"
+
+#: admin/partials/reservation/overview.php:56
+#@ car_share
+msgid "Available"
+msgstr "Disponible"
+
+#: admin/partials/reservation/overview.php:98
+#@ car_share
+msgid "Search"
+msgstr ""
+
+#: admin/partials/reservation/overview.php:107
+#@ car_share
+msgid "Sort category:"
+msgstr "Trier catégorie:"
+
+#: admin/class-car_share-setting.php:176
+#@ car_share
+msgid "Notification Email:"
+msgstr "Email de notification:"
+
+#: admin/class-car_share-setting.php:179
+#@ car_share
+msgid "Show category:"
+msgstr "Afficher les catégories:"
+
+#: admin/class-car_share-setting.php:182
+#@ car_share
+msgid "Catalog - order by email"
+msgstr "Désactiver le paiement:"
+
+#: admin/class-car_share-reservation.php:54
+#: admin/class-car_share-reservation.php:55
+#@ car_share
+msgid "Planning"
 msgstr ""
 

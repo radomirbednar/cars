@@ -51,8 +51,8 @@ class Car_share_Reservation {
         );*/
         
         add_menu_page( 
-                __('Calendar', $this->car_share), 
-                __('Calendar', $this->car_share), 
+                __('Planning', $this->car_share), 
+                __('Planning', $this->car_share), 
                 'manage_options', 
                 'car_reservation', 
                 array($this, 'car_reservation'), 
@@ -91,6 +91,9 @@ class Car_share_Reservation {
         
         ?>
         <div id="sc-navigation" class="sc-navigation">
+            
+
+            
             <a href="#" data-month="<?php echo $prev_month->format('n') ?>" data-year="<?php echo $prev_month->format('Y') ?>" class="sc-prev" title="<?php _e('Prev', 'car_share') ?>">&laquo;</a>
             <a href="#" data-month="<?php echo $next_month->format('n') ?>" data-year="<?php echo $next_month->format('Y') ?>" class="sc-next" title="<?php _e('Next', 'car_share') ?>">&raquo;</a>
         </div>

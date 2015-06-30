@@ -171,12 +171,55 @@ table.SimpleCalendar tbody td.today {
 
 
 /* reservation styles */
+
+#spz_search {
+    /*left: 0;
+    top: 0;
+    */
+    /*position: absolute;*/
+    /*float: right;*/
+}
+.spz-search {
+    margin-bottom: 15px;
+    text-align: right;
+    padding-right: 20px;
+}
+.sc-car-sorting a {
+    text-decoration: none;
+}
+.sc-car-sorting {
+    border-bottom: 1px solid black;
+}
+.spz-search label {
+    font-size: 14px;
+    display: inline;
+}
+.spz-search input[type=submit] {
+    height: 28px !important;
+    line-height: 26px !important;
+}
 .sc-reservation {
     margin-top: 35px;
     width: 1190px;
     position: relative;
 }
-
+.sc-car-sorting {
+    padding: 6px 0;
+}
+.sc-reservation .sorting-indicator {
+    display: inline-block;  
+    width: 2px;
+}
+.sc-reservation .sorting-indicator::before {
+    top: 4px;
+}
+.sc-reservation .desc .sorting-indicator::before {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);      
+}
 .sc-reservation .overview {
     display: none;
     position: absolute;
@@ -240,6 +283,7 @@ table.SimpleCalendar tbody td.today {
     padding-right: 5px;
     width: 300px;
     background: white;
+    overflow: hidden;
 }
 .sc-reservation .car-label,
 .sc-reservation .day-cell {
@@ -247,7 +291,7 @@ table.SimpleCalendar tbody td.today {
     border-bottom: 1px solid black;    
 }
 .sc-reservation .car-list {
-    margin-top: 73px;
+    margin-top: 35px;
 }
 .sc-reservation .car-list .car-label:first-child {
     border-top: 1px solid black;    
@@ -309,8 +353,13 @@ table.SimpleCalendar tbody td.today {
     background: #d8e7f0;
     
 }
-
-.car:hover .sc-reservation-info {
+.sc-reservation .day-cell {
+    display: block;
+}
+.sc-reservation .car:hover {
+    cursor: pointer;
+}
+.sc-reservation .car:hover .sc-reservation-info {
     display: block;
 }
 
