@@ -93,7 +93,7 @@ $all_cars = $wpdb->get_results($sql);
     </div>
 
     <div class="form-wrap">
-        <form class="spz-search" action="" method="post">
+        <form id="spz-search" class="spz-search" action="" method="post">
             <label>
                 <?php _e('Vehicle registration plate:', 'car_share') ?> 
                 <input id="sc_car_value" type="text" name="sc_car_value" value="">
@@ -145,7 +145,7 @@ $all_cars = $wpdb->get_results($sql);
 <script>
     jQuery(document).ready(function ($) {
 
-        function load_months(year, month) {
+        function load_months(year, month, current_month) {
 
             $.ajax({
                 type: 'post',
@@ -153,7 +153,9 @@ $all_cars = $wpdb->get_results($sql);
                 data: {
                     'action': 'load_months',
                     'year': year,
-                    'month': month
+                    'month': month,
+                    'form': $('#spz-search').serialize(),
+                    'current_month':current_month
                 },
                 beforeSend: function () {
                     //self.prop("disabled", true);
@@ -171,12 +173,12 @@ $all_cars = $wpdb->get_results($sql);
 <?php
 $now = new DateTime();
 ?>
-        load_months(<?php echo $now->format('Y') ?>, <?php echo $now->format('n') ?>);
+        load_months(<?php echo $now->format('Y') ?>, <?php echo $now->format('n') ?>, false);
 
         $("#sc-reservation").on("click", "#sc-navigation a", function (e) {
             console.log('click');
             e.preventDefault();
-            load_months($(this).data('year'), $(this).data('month'));
+            load_months($(this).data('year'), $(this).data('month'), false);
         });
 
     });
