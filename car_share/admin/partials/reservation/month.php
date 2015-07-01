@@ -117,8 +117,20 @@ $all_cars = $wpdb->get_results($sql);
             <div class="day-cell day day-<?php echo $date->format("j"); ?>">
                 <?php echo $date->format("j"); ?>
             </div>
-            <?php foreach ($all_cars as $car): ?>
-                <a href="#" class="day-cell car free  day-<?php echo $date->format("j"); ?>">
+            <?php foreach ($all_cars as $car): 
+                
+                $shared_car_x = isset($shared_cars[$car->single_car_id]) ? $shared_cars[$car->single_car_id] : '';
+                
+                
+                ?>
+            
+                <?php if(!empty($shared_car_x) && !empty($shared_car_x->booking_id)): ?>
+                    <a href="<?php echo admin_url('post.php?post=' . $shared_car_x->booking_id . '&action=edit') ?>" class="day-cell car free  day-<?php echo $date->format("j"); ?>">
+                <?php else: ?>
+                    <div class="day-cell car free  day-<?php echo $date->format("j"); ?>">
+                <?php endif; ?>
+            
+                
                     <?php
                     if (array_key_exists($car->single_car_id, $shared_cars)):
 
@@ -151,7 +163,16 @@ $all_cars = $wpdb->get_results($sql);
                         </div>
 
                     <?php endif; ?>
-                </a>
+
+                        
+                <?php if(!empty($shared_car_x) && !empty($shared_car_x->booking_id)): ?>
+                    </a>
+                <?php else: ?>
+                    </div>
+                <?php endif; ?>                        
+            
+            
+            
             <?php endforeach; ?>
         </div>
 

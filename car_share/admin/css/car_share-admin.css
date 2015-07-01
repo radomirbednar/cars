@@ -365,7 +365,7 @@ table.SimpleCalendar tbody td.today {
     display: block;
 }
 .sc-reservation .car:hover {
-    cursor: pointer;
+    /*cursor: pointer;*/
 }
 .sc-reservation .car:hover .sc-reservation-info {
     display: block;
