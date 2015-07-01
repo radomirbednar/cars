@@ -76,7 +76,7 @@ class Car_share {
     public function __construct() {
 
         $this->car_share = 'car_share';
-        $this->version = '1.0.0';
+        $this->version = '2.0.0';
 
         $this->load_dependencies();
         

@@ -62,6 +62,9 @@
 <div class="clear"></div>
 <script>
     jQuery(document).ready(function($) {
+        
+        status_key[<?php echo $car_id ?>] = 0;
+        
 <?php
 if (!empty($statuses)):
     $status_key = 0;
@@ -94,7 +97,7 @@ if (!empty($statuses)):
         $status_key++;
     endforeach;
     ?>
-            status_key = <?php echo $status_key ?>;
+            status_key[<?php echo $car_id ?>] = <?php echo $status_key ?>;
 <?php endif; ?>
     });
 </script>

@@ -1,6 +1,6 @@
 <script>
 
-    var status_key = 0;
+    var status_key = new Array();
     var new_car_key = 1;
 
     function statusTableRow(car_id, key, from_date, from_hour, from_min, to_date, to_hour, to_min, selected_status) {
@@ -16,7 +16,7 @@
         ?>
         var str = '<tr class="item">' +
                 '<td>' +
-                '<select name="car[' + car_id + '][status][' + status_key + '][status]">';
+                '<select name="car[' + car_id + '][status][' + status_key[car_id] + '][status]">';
     
                 <?php foreach($statuses as $key => $label): ?>
                     
@@ -29,8 +29,8 @@
         str +='</select>' +
                 '</td>' +
                 '<td>' +
-                '<input id="date-from-' + car_id + '_'+ status_key +'" class="date-from" type="text" name="car[' + car_id + '][status][' + status_key + '][from]" value="' + from_date + '">' +
-                '<select  name="car[' + car_id + '][status][' + status_key + '][from_hour]">';
+                '<input id="date-from-' + car_id + '_'+ status_key[car_id] +'" class="date-from" type="text" name="car[' + car_id + '][status][' + status_key[car_id] + '][from]" value="' + from_date + '">' +
+                '<select  name="car[' + car_id + '][status][' + status_key[car_id] + '][from_hour]">';
 
                 <?php for($i = 0; $i < 24; $i++): ?>
                     str += '<option value="<?php echo $i ?>"'
@@ -39,7 +39,7 @@
                 <?php endfor; ?>
 
         str += '</select> : ' +
-                '<select name="car[' + car_id + '][status][' + status_key + '][from_min]">';
+                '<select name="car[' + car_id + '][status][' + status_key[car_id] + '][from_min]">';
 
                 <?php for($i = 0; $i < 60; $i++): ?>
                     str += '<option value="<?php echo $i ?>"';
@@ -50,8 +50,8 @@
         str +=  '</select>' +
                 '</td>' +
                 '<td>' +
-                '<input id="date-to-' + car_id + '_'+ status_key +'" class="date-to" type="text" name="car[' + car_id + '][status][' + status_key + '][to]" value="' + to_date + '">' +
-                '<select  name="car[' + car_id + '][status][' + status_key + '][to_hour]">';
+                '<input id="date-to-' + car_id + '_'+ status_key[car_id] +'" class="date-to" type="text" name="car[' + car_id + '][status][' + status_key[car_id] + '][to]" value="' + to_date + '">' +
+                '<select  name="car[' + car_id + '][status][' + status_key[car_id] + '][to_hour]">';
 
                 <?php for($i = 0; $i < 24; $i++): ?>
                     str += '<option value="<?php echo $i ?>"';
@@ -61,7 +61,7 @@
 
         str +=  '</select>';
 
-        str += '<select name="car[' + car_id + '][status][' + status_key + '][to_min]">';;
+        str += '<select name="car[' + car_id + '][status][' + status_key[car_id] + '][to_min]">';;
 
                 <?php for($i = 0; $i < 60; $i++): ?>
                     str += '<option value="<?php echo $i ?>"';
@@ -76,7 +76,7 @@
                 '</td>' +
                 '</tr>';
 
-        status_key++;
+        status_key[car_id]++;
         return str;
     }
 
