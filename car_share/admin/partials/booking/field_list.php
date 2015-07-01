@@ -13,13 +13,19 @@
                             echo $currency->format($field['value'], $currency_iso);
                             break;                            
                         case 'text':
-                            echo esc_attr($field['value']);
+                            echo isset($field['value']) ? esc_attr($field['value']) : '';
+                            ?>
+                            <!--<input type="text" name="<?php echo esc_attr($key) ?>" value="<?php echo isset($field['value']) ? esc_attr($field['value']) : '' ?>">-->
+                            <?php
                             break;
                         case 'percentage':
                             echo esc_attr($field['value']) . ' %';
                             break;                        
                         case 'email':
-                            echo esc_attr($field['value']);
+                            echo isset($field['value']) ? esc_attr($field['value']) : '';
+                            ?>
+                            <!--<input type="email" name="<?php echo esc_attr($key) ?>" value="<?php echo isset($field['value']) ? esc_attr($field['value']) : '' ?>">-->
+                            <?php
                             break;
                         case 'country':
                             $countries = sc_get_countries();
