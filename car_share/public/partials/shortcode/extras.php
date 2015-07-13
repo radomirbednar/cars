@@ -1,3 +1,4 @@
+<div class="car-share-w4a extras">
 <?php
 $sc_options = get_option('sc-pages');
 $extras_car_url = isset($sc_options['checkout']) ? get_page_link($sc_options['checkout']) : ''; 
@@ -19,6 +20,7 @@ $currency = sc_Currency::get_instance();
             $_service_quantity_box = get_post_meta(get_the_ID(), '_service_quantity_box', true);
             $service_id = get_the_ID(); 
             ?>
+            <div class="extras-row">
             <h3><?php the_title() ?></h3> 
             <?php
             if (has_post_thumbnail()) { // check if the post has a Post Thumbnail assigned to it.
@@ -55,11 +57,13 @@ $currency = sc_Currency::get_instance();
                 ?> 
             </select> 
             </div>  
+            </div>
             <?php
         endwhile;
         wp_reset_postdata();
     endif;
     ?>  
-   <a href="#" type="submit" class="btn btn-default"><?php _e('BACK', $this->car_share); ?></a>           
+   <a href="#" type="submit" class="btn btn-secondary"><?php _e('BACK', $this->car_share); ?></a>           
    <button type="submit" class="btn btn-default"><?php _e('CHECKOUT', $this->car_share); ?></button>                 
 </form> 
+</div> 

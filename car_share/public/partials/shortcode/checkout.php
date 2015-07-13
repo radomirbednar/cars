@@ -1,3 +1,4 @@
+<div class="car-share-w4a checkout">
 <?php
 $Cars_cart = new Car_Cart('shopping_cart');
 $Cars_cart_items = $Cars_cart->getItemSearch();
@@ -33,7 +34,7 @@ if (isset($_POST['sc-reservation-checkout']) && isset($_POST['post_nonce_field']
             $carID = $car->ID;
 
             $ItemName = get_the_title($carID);
-            $post_thumbnail = get_the_post_thumbnail($carID, 'thumbnail');
+            $post_thumbnail = get_the_post_thumbnail($carID, 'medium');
         }
     }
 
@@ -353,7 +354,7 @@ if (!empty($_SESSION['TOKENE'])) {
         </tr>
     </table>
     <table>
-    <?php $post_thumbnail = get_the_post_thumbnail($car_ID, 'thumbnail'); ?>
+    <?php $post_thumbnail = get_the_post_thumbnail($car_ID, 'medium'); ?>
         <tr>
             <td>
     <?php echo $post_thumbnail; ?>
@@ -500,7 +501,7 @@ if (!empty($_SESSION['TOKENE'])) {
     ?>
     <?php if (!empty($car_result)) { ?>
         <?php foreach ($car_result as $car): ?>
-            <?php $post_thumbnail = get_the_post_thumbnail($car->ID, 'thumbnail'); ?>
+            <?php $post_thumbnail = get_the_post_thumbnail($car->ID, 'medium'); ?>
             <strong><?php _e('Review your booking', $this->car_share); ?></strong>
             <table>
                 <tr>
@@ -802,3 +803,4 @@ if (!empty($_SESSION['TOKENE'])) {
     _e('Please go back and chose a car.', $this->car_share);
 }
 ?>
+</div>

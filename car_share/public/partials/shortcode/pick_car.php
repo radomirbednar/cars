@@ -1,3 +1,4 @@
+<div class="car-share-w4a pick-car">
 <?php if (!empty($this->cars)): ?>
     <?php
     if (get_option('permalink_structure')) {
@@ -7,7 +8,7 @@
     }
     ?>
     <?php foreach ($this->cars as $car): ?>
-        <div class="col-md-12">
+        <div class="col-md-12 car-block">
             <?php
             $post_thumbnail = get_the_post_thumbnail($car->ID, 'medium');
             //predefinovane informace k autu           
@@ -38,7 +39,7 @@
             <table class="category-<?php echo $category_id ?>">
                 <tr>
                     <td>
-                        <h3><?php echo get_the_title($car->ID) ?></h3> 
+                        <h2 class="car-title"><?php echo get_the_title($car->ID) ?></h2> 
                     </td> 
                 </tr>
             </table>
@@ -54,7 +55,7 @@
                       $price_per_day_raw = $price/$days;  
                       $price_per_day_format = $currency->format($price_per_day_raw);        
                 ?>  
-                <h3><?php _e('Price: ', $this->car_share); ?>  
+                <h3 class="car-price"><?php _e('Price: ', $this->car_share); ?>  
                 <?php  
                     if(!empty($price)){ 
                     echo $currency->format($price); 
@@ -73,8 +74,9 @@
                     <tr>
                         <th><?php _e('Seats', $this->car_share); ?></th>
                         <td><?php echo $number_of_seats; ?></td> 
-                        <td rowspan="6">
+                        <td class="img-holder" rowspan="6">
                             <?php echo $post_thumbnail; ?> 
+                             <a class="continue btn btn-default" href="<?php echo $this->extras_car_url; ?><?php echo $sc_pr; ?>chcar=<?php echo $car->single_car_id; ?>"><?php _e('Book a car', $this->car_share); ?></a>
                         </td> 
                     </tr>
                 <?php }; ?>
@@ -109,10 +111,11 @@
                     </tr> 
                 <?php }; ?>
             </table>
-            <a class="continue btn btn-default" href="<?php echo $this->extras_car_url; ?><?php echo $sc_pr; ?>chcar=<?php echo $car->single_car_id; ?>"><?php _e('Book a car', $this->car_share); ?></a>
+            
         </div>
     <?php endforeach; ?>
-    <a href="#" type="submit" class="btn btn-default"><?php _e('BACK', $this->car_share); ?></a>
+    <a href="#" type="submit" class="btn btn-secondary"><?php _e('BACK', $this->car_share); ?></a>
 <?php else: ?>
     <p><?php _e('Sorry, there is no car meeting your requirements.', $this->car_share); ?></p>
 <?php endif; ?>
+</div>

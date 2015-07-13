@@ -104,13 +104,176 @@ margin: 0 auto;
 {
   display: none;   
 }
-.hidden
+.car-share-w4a .hidden
 {
     display:none; 
 }
 
-.btn{ 
+
+/* ////////////////////////// CAR-PLUGIN CUSTOM STYLES ///////////////////// */
+
+
+.car-share-w4a .car-block {
+	margin-bottom: 2em;
 }
 
-.btn-default{ 
+.car-share-w4a table {
+	margin: 0;
+}
+
+.car-share-w4a tr, .car-share-w4a th, .car-share-w4a td {
+	vertical-align: middle;
+}
+
+.car-share-w4a td.img-holder {
+	text-align: center;
+	position: relative;
+}
+
+.car-share-w4a .car-title {
+	text-align: center;
+	margin: 0.5em 0;
+}
+
+.car-share-w4a .car-price {
+	margin: 0;
+	text-align: center;
+	padding: 0.5em;
+	background: #666;
+	color: #fff;
+}
+
+.car-share-w4a .btn, .car-share-w4a button {
+	text-transform: uppercase;
+	font-size: 0.9em;
+	padding: 0.8em 1.6em;	
+	border: none;
+	float: left;
+	margin-right: 0.4em;
+	line-height: 1.2em;
+	display: inline-block;
+	font-family: sans-serif;
+	font-weight: bold;
+}
+
+.car-share-w4a .btn{ 
+	
+	background: #222;
+	color: #fff;
+	
+}
+
+.car-share-w4a .btn:hover {
+	background: #666;
+	color: #fff;
+}
+
+.car-share-w4a .btn.continue {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+}
+
+.car-share-w4a .btn-secondary{ 
+	color: #000;
+	background: #eee;
+}
+
+.car-share-w4a .btn-secondary:hover {
+	color: #000;
+	background: #ddd;
+}
+
+/* FORMS */
+
+.car-share-w4a label {
+	display: block;
+}
+
+.car-share-w4a table, .car-share-w4a th, .car-share-w4a td {
+	border-color: #ddd;
+}
+
+.car-share-w4a input[type="text"],
+.car-share-w4a	input.hasdatepicker,
+.car-share-w4a	input[type="email"],
+.car-share-w4a	input[type="url"],
+.car-share-w4a	input[type="password"],
+.car-share-w4a	input[type="search"],
+.car-share-w4a	textarea {
+	padding: 0.45em;
+	margin: 0;
+		
+	}
+
+.car-share-w4a	select {
+	padding: 0.4em;
+	margin: 0;
+	border: 1px solid #ddd;
+	box-sizing: border-box;
+	}
+
+.car-share-w4a .form-group,  .car-share-w4a .control-group{
+	margin-bottom: 0.5em;
+}
+
+ .car-share-w4a .control-group .help-block {
+ 	display: none;
+ }
+
+.car-share-w4a .search-for-car .form-group:last-of-type {
+	margin-bottom: 1em;
+}
+
+
+.car-share-w4a .extras-row {
+	display: table;
+	border: 1px solid #ddd;
+	width: 100%;
+	padding: 20px;
+	margin-top: -1px;
+}
+
+.car-share-w4a .extras-row:last-of-type {
+	margin-bottom: 30px;
+}
+
+.car-share-w4a .extras-row h3 {
+	margin: 0;
+	display: table-cell;
+	vertical-align: middle;
+	
+}
+
+.car-share-w4a .extras-row .form-group {
+
+	display: table-cell;
+
+}
+
+
+.car-share-w4a .extras-row .form-group:first-child {
+	font-style: italic;
+}
+
+.car-share-w4a .extras-row .form-group:last-child {
+	text-align: right;
+}
+
+.car-share-w4a.checkout label {
+	display: none;
+}
+
+.car-share-w4a.checkout strong {
+	display: block;
+	margin: 20px 0;
+}
+
+.car-share-w4a.checkout .btn:last-of-type {
+	margin-top: 10px;
+}
+
+.car-share-w4a.checkout table {
+	margin-top: ;
 }

@@ -1,4 +1,5 @@
-<?php echo $this->warning; ?>
+<div class="car-share-w4a search-for-car">
+<?php echo $this->warning; ?> 
 <form name="car_share_search_form" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">  
     <?php $count_posts = wp_count_posts( 'sc-location' )->publish; ?>    
     <?php if($count_posts > 1){ ?> 
@@ -125,4 +126,5 @@
     <?php } ?>
     <!-- Standard button -->
     <button type="submit" class="btn btn-default"><?php _e('SEARCH', $this->car_share); ?></button>
-</form> 
+</form>
+</div> 
