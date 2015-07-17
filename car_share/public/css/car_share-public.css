@@ -113,9 +113,144 @@ margin: 0 auto;
 /* ////////////////////////// CAR-PLUGIN CUSTOM STYLES ///////////////////// */
 
 
-.car-share-w4a .car-block {
+
+.car-share-w4a .btn, .car-share-w4a button {
+    border-radius: 0;
+    margin:0;
+}
+
+
+
+/* ------- SEARCH FOR CAR ------- */
+
+.search-for-car .form-group {
+    display: table;
+    float: none;
+}
+
+.search-for-car .form-group label {
+    display: block;
+    width: 100%;
+    float: none;
+}
+
+.search-for-car .form-group input, .search-for-car .form-group select {
+    display: table-cell;
+    float: none;
+    height:50px;
+
+    border: 1px solid #ddd;
+    border-radius: 0;
+
+}
+
+.search-for-car .form-group input {
+    padding: 0 15px;
+}
+
+.search-for-car .form-group select {
+    margin-left: -1px;
+}
+
+.search-for-car .btn {
+    margin-top: 30px;
+}
+
+
+/* ------- PICK CAR ------- */
+
+.pick-car .car-block {
 	margin-bottom: 2em;
 }
+
+.pick-car .car-block > table {
+    width: 100%;
+}
+
+.pick-car .car-block > table:nth-child(3) th, .pick-car .car-block > table:nth-child(3) td {
+    width: 33.333%;
+}
+
+
+
+/* ---------- EXTRAS --------- */
+
+
+.extras .extras-row {
+    display: table;
+    border: 1px solid #ddd;
+    width: 100%;
+    margin-top: -1px;
+}
+
+.extras .extras-row > h3, .extras .extras-row > div {
+    padding: 15px;
+    display: table-cell;
+    vertical-align: middle;
+    margin: 0;
+
+}
+
+.extras .extras-row:last-of-type {
+    margin-bottom: 30px;
+}
+
+.extras .extras-row .form-group {
+    text-align: right;
+}
+
+
+/* ------------ CHECKOUT ----------- */
+
+
+
+.car-share-w4a.checkout table {
+    margin-top: -1px;
+    width: 100%;
+
+}
+
+
+.checkout label {
+    display: none;
+}
+
+.checkout strong {
+    display: block;
+    margin: 20px 0;
+}
+
+.checkout .btn:last-of-type {
+    margin-top: 10px;
+}
+
+
+.checkout input[type="text"],
+.checkout input[type="email"],
+.checkout input[type="url"],
+.checkout input[type="password"],
+.checkout input[type="search"],
+.checkout textarea,
+.checkout select{
+    padding: 0.45em;
+    margin: 0;
+    float: none;
+    display: block;
+    width: 100%;
+    border: 1px solid #ddd;
+
+}
+
+.checkout p.help-block {
+    display: none;
+}
+
+.checkout .control-group {
+    margin-bottom: 15px;
+    }
+
+/*  --------------------------------------------------------------------- */
+
 
 .car-share-w4a table {
 	margin: 0;
@@ -146,7 +281,7 @@ margin: 0 auto;
 .car-share-w4a .btn, .car-share-w4a button {
 	text-transform: uppercase;
 	font-size: 0.9em;
-	padding: 0.8em 1.6em;	
+	padding: 0.8em 1.6em;
 	border: none;
 	float: left;
 	margin-right: 0.4em;
@@ -183,9 +318,9 @@ margin: 0 auto;
 .car-share-w4a .btn-secondary:hover {
 	color: #000;
 	background: #ddd;
+
 }
 
-/* FORMS */
 
 .car-share-w4a label {
 	display: block;
@@ -195,17 +330,6 @@ margin: 0 auto;
 	border-color: #ddd;
 }
 
-.car-share-w4a input[type="text"],
-.car-share-w4a	input.hasdatepicker,
-.car-share-w4a	input[type="email"],
-.car-share-w4a	input[type="url"],
-.car-share-w4a	input[type="password"],
-.car-share-w4a	input[type="search"],
-.car-share-w4a	textarea {
-	padding: 0.45em;
-	margin: 0;
-		
-	}
 
 .car-share-w4a	select {
 	padding: 0.4em;
@@ -226,54 +350,3 @@ margin: 0 auto;
 	margin-bottom: 1em;
 }
 
-
-.car-share-w4a .extras-row {
-	display: table;
-	border: 1px solid #ddd;
-	width: 100%;
-	padding: 20px;
-	margin-top: -1px;
-}
-
-.car-share-w4a .extras-row:last-of-type {
-	margin-bottom: 30px;
-}
-
-.car-share-w4a .extras-row h3 {
-	margin: 0;
-	display: table-cell;
-	vertical-align: middle;
-	
-}
-
-.car-share-w4a .extras-row .form-group {
-
-	display: table-cell;
-
-}
-
-
-.car-share-w4a .extras-row .form-group:first-child {
-	font-style: italic;
-}
-
-.car-share-w4a .extras-row .form-group:last-child {
-	text-align: right;
-}
-
-.car-share-w4a.checkout label {
-	display: none;
-}
-
-.car-share-w4a.checkout strong {
-	display: block;
-	margin: 20px 0;
-}
-
-.car-share-w4a.checkout .btn:last-of-type {
-	margin-top: 10px;
-}
-
-.car-share-w4a.checkout table {
-	margin-top: ;
-}

@@ -594,8 +594,7 @@ class Car_share_Shortcode {
         }
     }
 
-    public function pick_car_form() {
-
+    public function pick_car_form() { 
         $sc_options = get_option('sc-pages');
         $this->extras_car_url = isset($sc_options['extras']) ? get_page_link($sc_options['extras']) : '';
  
@@ -604,8 +603,9 @@ class Car_share_Shortcode {
          
         $pick_up_location = $Cars_cart_items['pick_up_location'];   
         $drop_off_location = $Cars_cart_items['drop_off_location']; 
+        
         $car_dfrom = $Cars_cart_items['car_datefrom']; 
-        $car_dto = $Cars_cart_items['car_dateto']; 
+        $car_dto = $Cars_cart_items['car_dateto'];  
         $car_category = $Cars_cart_items['car_category'];
          
         $car_dfrom_string = $car_dfrom->format('Y-m-d H:i:s');          
@@ -613,17 +613,14 @@ class Car_share_Shortcode {
 
         /*
          * get me all cars from one category
-         */
-
-        global $wpdb;
+         */ 
+        global $wpdb; 
         if ($car_category != '') {
             $category_and = "AND $wpdb->postmeta.meta_value = '$car_category'";
         } else {
             $category_and = '';
-        }
-
-        $sc_setting = get_option('sc_setting');
- 
+        } 
+        $sc_setting = get_option('sc_setting'); 
         // base block, just allow select car from last return time..
         $booking_block_sql = "
                         OR
@@ -634,8 +631,7 @@ class Car_share_Shortcode {
                                 AND
                                     status = '" . car_share::STATUS_BOOKED . "'
                             )
-                ";
-
+                "; 
         // find out, if is set up block type
         $block_type = '';
 
